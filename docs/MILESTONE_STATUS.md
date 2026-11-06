@@ -19,7 +19,15 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** M0-01 and M0-02 closed. No active development loop.
+**Status:** M0-01 and M0-02 closed. M0-03 is active.
+
+**M0-03 Test Card.** The previous hosted matrix passed with a Node.js 20 warning.
+The assumption is that changing the three Action references to releases that declare
+Node.js 24 clears that warning while all four jobs and artifact uploads still pass.
+The smallest proof is one push-triggered matrix and a search of all four job logs.
+The budget is one matrix with the existing 15-minute job caps and one focused
+30-minute development session. A failed job or a repeated warning fails the check.
+Risk screen: routine CI maintenance. FTA not triggered.
 
 ```text
 Loop ID: M0-01
