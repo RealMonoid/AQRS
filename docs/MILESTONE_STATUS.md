@@ -1,12 +1,12 @@
 # AQRS — Milestone status and acceptance evidence
 
-**Current status:** M0/v0.1 passed the local acceptance matrix on native Windows 11 and independent headless Ubuntu 24.04, each with Python 3.11 and 3.12.
+**Current status:** M0/v0.1 passed local and GitHub Actions acceptance on Windows and Ubuntu with Python 3.11 and 3.12.
 
 Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`. `ACCEPTED` is permitted only after satisfying the relevant `MILESTONE_DOD.md` tests and referencing auditable evidence here. Existing documents are not proof of completion.
 
 | Milestone | Deliverable | Status | Evidence / run IDs | Blockers / unresolved deviations |
 |---|---|---|---|---|
-| M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Four verified environments and paired runs below | Remote GitHub Actions execution pending |
+| M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Local paired runs and [four successful GitHub Actions jobs](https://github.com/RealMonoid/AQRS/actions/runs/42274092987) | — |
 | M1 / v0.2 | Real data and market feasibility | NOT_STARTED | — | Real market/provider not selected |
 | M2 / v0.3 | Discovery and matched controls | NOT_STARTED | — | — |
 | M3 / v0.4 | Adaptive research management | NOT_STARTED | — | — |
@@ -122,7 +122,31 @@ around worker status files is a plausible cause. The watchdog now records the fa
 operation and bounds Windows status-file rereads within the existing deadline. The
 next full suite and both default campaigns passed. Track the site if the issue recurs.
 
-**Learning:** `SUPPORTED / PERSEVERE` on the tested matrix. The next release check is the configured workflow on a shared GitHub revision. M1 remains outside the current authorization.
+**Learning:** `SUPPORTED / PERSEVERE` on the tested matrix. M1 remains outside the current authorization.
+
+### GitHub Actions acceptance, 2026-11-06
+
+The [AQRS M0 acceptance workflow](https://github.com/RealMonoid/AQRS/actions/runs/42274092987)
+completed successfully at 18:50:47 UTC on commit `f881eb233e4de9c964eaebf136c5ce28da36a92a`.
+The Windows jobs used the `windows-2025-vs2026` image (build 26100, AMD64).
+The Ubuntu jobs used `ubuntu-24.04` (kernel 7.0.0-1017-azure, x86_64).
+
+| Runner label | Python | GitHub job | pytest | AQRS campaign ID |
+|---|---|---|---:|---|
+| `windows-latest` | 3.11.9 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42274092987/job/128085821935) | 17 passed | `172b526229a84e47a4082fc2ec295d9f` |
+| `windows-latest` | 3.12.10 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42274092987/job/128085821877) | 17 passed | `11f737c0d773478887c9db4bc3a0fd4b` |
+| `ubuntu-24.04` | 3.11.18 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42274092987/job/128085821871) | 17 passed | `fb0c868d2e244e9a90ad7f861a0737ee` |
+| `ubuntu-24.04` | 3.12.16 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42274092987/job/128085821457) | 17 passed | `d2d63163941c40629950b5bb42ba1277` |
+
+Editable installation, CLI plan and run, pytest, Ruff, the language self-test and
+audit, and artifact upload succeeded in all four jobs. Each campaign completed two
+trials and seven fits including the pilot. The downloaded reports matched the local
+acceptance source fingerprint, and all four SQLite integrity checks returned `ok`.
+The logs, plans, reports, datasets and journals are preserved locally under
+`artifacts/github-actions/42274092987/`.
+
+GitHub reported a Node.js 20 deprecation warning for checkout, setup-python and
+upload-artifact. The runner executed these actions on Node.js 24 and all jobs passed.
 
 Previous substantive changes belong in the sole root `CHANGELOG.md` and version control; detailed loop evidence may live in GitHub issues or run artifacts. This is a **development** record, distinct from the financial research journal and scientific candidate approvals.
 

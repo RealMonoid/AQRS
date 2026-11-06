@@ -2,6 +2,16 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-06 — Record GitHub Actions acceptance for M0
+
+Record the successful Windows and Ubuntu matrix on Python 3.11 and 3.12, with job
+links, campaign IDs and verified artifact evidence.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
 ## 2026-11-06 — Implement the M0 synthetic walking skeleton
 
 Add the installable offline CLI, causal synthetic research folds, two Ridge candidates,
