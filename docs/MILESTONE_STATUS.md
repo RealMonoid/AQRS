@@ -6,7 +6,7 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 | Milestone | Deliverable | Status | Evidence / run IDs | Blockers / unresolved deviations |
 |---|---|---|---|---|
-| M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Local paired runs and [four successful GitHub Actions jobs](https://github.com/RealMonoid/AQRS/actions/runs/42274092987) | — |
+| M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Local paired runs and [four successful GitHub Actions jobs](https://github.com/RealMonoid/AQRS/actions/runs/42275704043) | — |
 | M1 / v0.2 | Real data and market feasibility | NOT_STARTED | — | Real market/provider not selected |
 | M2 / v0.3 | Discovery and matched controls | NOT_STARTED | — | — |
 | M3 / v0.4 | Adaptive research management | NOT_STARTED | — | — |
@@ -19,7 +19,7 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** M0-01 and M0-02 closed. M0-03 is active.
+**Status:** M0-01 through M0-03 closed. No active development loop.
 
 **M0-03 Test Card.** The previous hosted matrix passed with a Node.js 20 warning.
 The assumption is that changing the three Action references to releases that declare
@@ -153,8 +153,29 @@ acceptance source fingerprint, and all four SQLite integrity checks returned `ok
 The logs, plans, reports, datasets and journals are preserved locally under
 `artifacts/github-actions/42274092987/`.
 
-GitHub reported a Node.js 20 deprecation warning for checkout, setup-python and
+This initial run reported a Node.js 20 deprecation warning for checkout, setup-python and
 upload-artifact. The runner executed these actions on Node.js 24 and all jobs passed.
+
+### M0-03 learning record, 2026-11-06
+
+The workflow now uses `checkout@v5`, `setup-python@v6` and `upload-artifact@v6`.
+The [rerun](https://github.com/RealMonoid/AQRS/actions/runs/42275704043) passed at
+19:01:55 UTC on commit `5b29d1d5110bd35dca2782bf38bbbece9cc27cab`.
+
+| Runner label | Python | GitHub job | pytest |
+|---|---|---|---:|
+| `windows-latest` | 3.11.9 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42275704043/job/128091379983) | 17 passed |
+| `windows-latest` | 3.12.10 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42275704043/job/128091380233) | 17 passed |
+| `ubuntu-24.04` | 3.11.18 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42275704043/job/128091380062) | 17 passed |
+| `ubuntu-24.04` | 3.12.16 | [Passed](https://github.com/RealMonoid/AQRS/actions/runs/42275704043/job/128091379669) | 17 passed |
+
+The Node.js 20 warning appeared once per job in the initial run and zero times in
+the rerun logs. All four rerun job annotation lists were empty. Every artifact upload
+succeeded. The reports retained the accepted source fingerprint and all four SQLite
+integrity checks returned `ok`. The logs and artifacts are available locally under
+`artifacts/github-actions/42275704043/`.
+
+**Learning:** `SUPPORTED / PERSEVERE`. Keep the three upgraded Action references.
 
 Previous substantive changes belong in the sole root `CHANGELOG.md` and version control; detailed loop evidence may live in GitHub issues or run artifacts. This is a **development** record, distinct from the financial research journal and scientific candidate approvals.
 

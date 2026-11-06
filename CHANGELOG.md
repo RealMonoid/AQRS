@@ -5,7 +5,7 @@ The **only** changelog in this repository. Entries are in English, newest first,
 ## 2026-11-06 — Upgrade the M0 workflow actions to Node.js 24
 
 Update checkout, Python setup and artifact upload to releases that declare
-Node.js 24. Track the hosted matrix and warning check in the milestone record.
+Node.js 24. All four hosted jobs passed and the Node.js 20 warning cleared.
 
 **Paths**
 
