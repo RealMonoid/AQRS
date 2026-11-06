@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+artifacts/
+outputs/
+*.db
+*.sqlite
+*.sqlite3
+.env
+.ipynb_checkpoints/

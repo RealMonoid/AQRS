@@ -1,0 +1,42 @@
+# Open questions and safe defaults
+
+**Milestone boundary:** v0.1 uses explicitly documented technical defaults. Only from M1/v0.2 onward must a real instrument/data-source contract be selected. Codex is **not** authorized to invent these choices for v1.0. See [`PRODUCT_VISION.md`](PRODUCT_VISION.md) and [`MILESTONE_DOD.md`](MILESTONE_DOD.md).
+
+These issues were **intentionally left undecided**. Implement v0.1 using the labeled defaults; do not block on questions irrelevant to the walking skeleton.
+
+| Question | v0.1 default | Later decision |
+|---|---|---|
+| Which real asset and venue? | `SYNTH_BTC_LIKE`, artificial dataset only | Venue, spot/perpetual/equity/future, liquidity, data quality |
+| Which bar frequency and holding period? | Illustrative five-minute bars, three-bar horizon | Select horizons based on data and net trading economics |
+| Which data source? | Seeded offline simulation | Licensed high-quality historical bars/trades/order books |
+| Which execution? | `open[t+1]` reference with taker-like cost approximation | Market/limit/partial fills, latency, slippage, depth and impact |
+| Which costs? | Configurable illustrative bps, never represented as actual exchange rates | Venue-, volatility-, size- and time-dependent estimates |
+| Are long and short available? | `allow_short=true` for **synthetic simulation only**, no broker | Spot/perpetual/borrow/margin/funding/liquidation risk |
+| Which risk budget? | Simulated unit notional, no leverage | Capital, drawdown, exposure and pause/stop rules |
+| Which models? | Ridge/simple scikit-learn models | LightGBM and Isolation Forest as distinct M2 discovery pilots; explicit HDBSCAN/autoencoder/other evaluation gates; adoption depends on data and incremental value |
+| Which compute budget? | Two small candidates, few folds; hard YAML Governor defaults | Hardware-benchmarked trial/family budgets, explicit approvals |
+| How is research prioritized? | Transparent deterministic round-robin plus feasibility checks | Empirically evaluated adaptive prioritization/bandits |
+| What qualifies as real strategy success? | **No** real profit claim at v0.1 | Net edge, risk metrics, independent episodes, capacity, OOS stability |
+| Must data begin in 2003? | No | Only if market mechanism/instrument/research question justify it |
+| Which operating system? | **Decided:** native Windows 10/11 x86_64 is the primary local development/run environment; Ubuntu 24.04 LTS x86_64 headless/non-root is a required separate M0 acceptance target | Other Linux distributions/architectures and providers are added only after actual verification; no cloud vendor selected |
+| Which internal language? | **English**, no exceptions for new repository artifacts | External user-facing localization is a separate feature, not required by v1.0 |
+
+A future strict memory mode requires a separate enforcement and portability test. M0 uses
+the configured observed-RSS policy and rejects strict requests. After an abrupt orchestrator
+death, SQLite retains the last committed campaign and attempt states. Automatic reconciliation
+of interrupted rows is outside the current restart contract.
+
+## Avoid over-specification
+
+- The defaults are sufficient to start, not an assertion that every future choice has been resolved.
+- Codex should document conservative defaults rather than repeatedly requesting irrelevant decisions.
+- Without explicit authorization for brokerage and live capital, never integrate live order submission.
+- Market selection later must have an economic rationale, not rely on supposed universal winning recipes.
+
+## Prerequisites for later model families
+
+Before DeepLOB: are legally usable L2/L3 order-book and realistic fill data available? Before FinBERT/LLM: are text rights, publication times and weight licenses understood? Before HDBSCAN/autoencoders: is compute available for causal out-of-sample anomaly testing? Before RL: is there a credible interactive simulation and a classical policy worth beating? See [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md).
+
+## Compute and platform rules are not open-ended blockers
+
+The v0.1 limits in `configs/research.yaml` are **technical starting budgets** Codex must implement and test. Later they may be consciously adjusted from real hardware benchmarks. Without a valid bounded configuration or required OS enforcement, expensive trials must not start; fail closed. See [`RESOURCE_GOVERNOR.md`](RESOURCE_GOVERNOR.md) and [`PLATFORM_COMPATIBILITY.md`](PLATFORM_COMPATIBILITY.md).

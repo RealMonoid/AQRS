@@ -1,0 +1,46 @@
+name: AQRS M0 acceptance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  acceptance:
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-24.04]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Record platform
+        run: python -c "import os, platform; print(platform.platform(), platform.machine(), platform.python_version()); assert not hasattr(os, 'geteuid') or os.geteuid() != 0"
+      - name: Install AQRS
+        run: python -m pip install -e ".[dev]"
+      - name: Plan the synthetic campaign
+        run: python -m aqrs research plan --config configs/research.yaml
+      - name: Run the synthetic campaign
+        run: python -m aqrs research run --config configs/research.yaml
+      - name: Run behavioral tests
+        run: python -m pytest -q
+      - name: Run lint
+        run: python -m ruff check .
+      - name: Run policy-checker self-test
+        run: python scripts/check_language_policy.py --self-test
+      - name: Run language audit
+        run: python scripts/check_language_policy.py
+      - name: Preserve synthetic campaign evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aqrs-${{ matrix.os }}-py${{ matrix.python }}
+          path: artifacts/
+          if-no-files-found: ignore
+          retention-days: 7

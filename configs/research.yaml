@@ -1,0 +1,70 @@
+# Default configuration for the v0.1 synthetic research campaign.
+project:
+  name: AQRS
+  seed: 42
+  path_base: ..  # Relative to this configuration file.
+  artifact_dir: artifacts
+
+market:
+  source: synthetic
+  symbol: SYNTH_BTC_LIKE
+  scenario: "null"  # "null" | planted_weak_signal (optional)
+  bar_minutes: 5
+  n_bars: 12000
+  timezone: UTC
+
+research:
+  horizon_bars: 3
+  train_bars: 4000
+  validation_bars: 1000
+  walk_forward_folds: 3
+  final_holdout_fraction: 0.20
+  candidates:
+    - id: C_LAG
+      model: ridge
+      features: [past_return]
+    - id: C_LAG_VOL
+      model: ridge
+      features: [past_return, relative_volume, rolling_volatility]
+
+# CENTRAL COMPUTE LIMITS for the local v0.1 walking skeleton.
+# These are technical defaults, not guaranteed performance on every machine.
+# Preflight is mandatory before each run; no silent automatic budget increase.
+resource_governor:
+  enabled: true
+  fail_closed_on_unenforceable_limits: true
+  max_research_trials_per_campaign: 2
+  max_model_fits_per_campaign: 12
+  max_seeds: 1
+  max_parallel_trials: 1
+  max_wall_seconds_per_trial: 120
+  max_wall_seconds_per_campaign: 300
+  memory_mode: observed_rss  # Watchdog stop on sampled RSS; strict requests fail closed.
+  max_peak_rss_mb_per_trial: 4096
+  auto_retry_count: 0
+  preflight:
+    enabled: true
+    require_explicit_fit_count: true
+    measure_representative_pilot: true
+    runtime_estimate_safety_factor: 2.0
+    reject_if_estimated_over_budget: true
+
+execution_simulation:
+  price_reference: next_bar_open
+  exit_after_horizon_bars: true
+  allow_short: true # SYNTHETIC simulation only; never live-trading authorization
+  max_open_positions: 1
+  notional_per_trade: 1.0 # abstract units, not real capital
+
+costs:
+  # These numbers are ILLUSTRATIVE, not verified exchange/venue costs.
+  fee_bps_per_side: 4.0
+  quoted_spread_bps: 3.0
+  slippage_bps_per_side: 2.0
+  decision_buffer_bps: 2.0
+
+journal:
+  sqlite_path: artifacts/research.sqlite3
+reporting:
+  write_json: true
+  write_markdown: true

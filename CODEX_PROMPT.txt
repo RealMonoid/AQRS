@@ -1,0 +1,31 @@
+Take over this repository as **AQRS — Adaptive Quant Research System** and implement **only M0/v0.1** now.
+
+**English-only repository policy (permanent):** All existing and future AQRS documentation, Codex revisions/additions, code comments, configuration descriptions, reports and research artifacts MUST remain in English. Read `docs/LANGUAGE_POLICY.md` before editing. Do not weaken this policy without explicit owner authorization. Run `python scripts/check_language_policy.py --self-test` and `python scripts/check_language_policy.py` before completion, and manually review modified prose.
+
+**Documentation discipline (permanent):** Edit canonical documents in place; no duplicated, dated or version-suffixed documentation files. Keep one readable root `CHANGELOG.md` and add a dated English entry covering every modified, added, moved or deleted path. Dates/old versions are historical metadata only, never a reason to break current behavior, paths or schemas. New documentation files require a distinct need and a logged justification. Verify the changelog against the actual file diff before completion.
+
+**First read:** `AGENTS.md`, `CODEX_START.md`, `CHANGELOG.md`, `docs/PRODUCT_VISION.md`, `docs/MILESTONE_DOD.md`, `docs/PLATFORM_COMPATIBILITY.md`, `docs/MODEL_TOOL_CATALOG.md`, `docs/MODEL_EVALUATION_PROTOCOL.md`, `docs/RESOURCE_GOVERNOR.md`, `docs/RISK_REGISTER.md`, `configs/model_tool_registry.json`, `docs/ROADMAP.md`, `docs/MILESTONE_STATUS.md`, and the research/data contracts referenced by `CODEX_START.md`. Future v1.0 requirements guide interfaces but are **not** permission to implement v0.2–v1.0 now.
+
+**Internal language:** English is mandatory for code, comments, docs, CLI, logs, reports and experiment metadata. **Portability:** develop and run on **native Windows first**, also support real headless Linux (initial Ubuntu 24.04 LTS x86_64, Python 3.11/3.12); keep cloud-provider-neutral boundaries for future Hetzner/other hosting. No WSL, Docker, GUI, admin/root or cloud account prerequisite for the core CLI. Run the same functional tests on native Windows **and** Linux, and record evidence; do not equate WSL with native Windows.
+
+**Mandatory Lean product-development workflow:** Read `docs/DEVELOPMENT_PROCESS.md` in full. **Plan backward from observable acceptance and failure criteria, then implement/test forward in the smallest vertical slice.** Apply risk-triggered qualitative Fault Tree Analysis (FTA) to critical failures (leakage, false-alpha admission, cost/fill correctness, resource runaway, journal corruption and Windows/Linux safeguards), and derive regression tests. After serious or repeated incidents, write a concise evidence-based postmortem with verifiable prevention; record consequential rejected ideas, rationale and reconsideration criteria in the existing `docs/DECISIONS.md`. Do not create postmortem/idea files per incident. Use Build–Measure–Learn for **Codex's own software construction**, separately from AQRS's internal alpha-research process. Before each meaningful increment, state one riskiest falsifiable assumption, the cheapest discriminating test, baseline, pass/fail criteria, development timebox and research compute budget. WIP=1. Build one small executable vertical slice; measure actual results; record a compact Learning Card and `PERSEVERE`/`PIVOT`/`STOP`/`DEFER` decision in the existing `docs/MILESTONE_STATUS.md` or an issue. No per-loop Markdown files, no toolchain expansion without need, no endless retesting or autonomous budget escalation. A refuted assumption is acceptable evidence. See the complete instructions in `docs/DEVELOPMENT_PROCESS.md`.
+
+**Current deliverable:** a small, installable, fully offline, CPU-compatible Python walking skeleton: synthetic deterministic OHLCV → causal features → at least two registered research candidates → early cost/plausibility gate → chronologically separated, overlap-safe walk-forward folds → predictive and trading baselines → explicit long/short/flat policy with next-bar fills → persistent SQLite Research Journal retaining failures/nulls → JSON and Markdown report. Final holdout stays outside the research feedback loop.
+
+**Mandatory safety control:** implement a real Resource Governor in v0.1, not just a settings file. Preflight counts planned fits/trials/folds/seeds, extrapolates a bounded pilot, rejects oversized workloads, enforces isolated worker and campaign wall time and observable/enforceable RAM policy, journals stop reasons, and never auto-retries or silently increases budgets. Test rejection of a 75,000-fit / multi-year hypothetical plan **without executing it**, actual worker timeout, and fail-closed behavior when a required resource guarantee cannot be implemented. See G01–G07 and `docs/RISK_REGISTER.md`.
+
+**Required commands:**
+```
+python -m pip install -e '.[dev]'
+python -m aqrs research plan --config configs/research.yaml
+python -m aqrs research run --config configs/research.yaml
+python -m pytest -q
+python -m ruff check .
+```
+Implement and really execute the commands. Record results, run IDs, artifacts and known failures.
+
+**Long-term catalog:** do not silently delete discussed model/tool families. The registry's `CORE`, `EVALUATE`, `CONDITIONAL`, `DEFERRED` statuses require later comparisons at the specified gates, not wholesale installation in v0.1.
+
+**Out of scope:** RL, transformers, mandatory Dave Mabe optimizer, brokers, live orders, cloud/GPU dependencies, expensive sweeps or architecture overengineering. Profitability is **not** a software DoD requirement. A well-documented negative result is acceptable.
+
+**Acceptance:** follow the detailed M0 tests in `docs/DEFINITION_OF_DONE.md` and the full-product gates in `docs/MILESTONE_DOD.md`. Only mark gates passed in `docs/MILESTONE_STATUS.md` after demonstrable verification. Provide an implementation summary in English, with actually run commands and native Windows/Linux results. **Build the system, not another proposal.**

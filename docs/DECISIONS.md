@@ -1,0 +1,73 @@
+# Architecture decisions and open trade-offs
+
+This file is **normative**. Add each new architectural decision as a numbered ADR with status, rationale, consequences and reversal condition. A market-feasibility decision must be revisitable when data/costs change.
+
+| ID | Status | Decision | Rationale and consequence |
+|---|---|---|---|
+| ADR-001 | Accepted | **Walking Skeleton** over full upfront platform | Build one genuine end-to-end run first, then add vertical increments. |
+| ADR-002 | Accepted | **Research, not autonomous live trading** | No broker connection, live orders or discretionary agent authority in v0.1. |
+| ADR-003 | Accepted | **Short-horizon quant trading** as research focus | Do not conflate with long-term investment. BTC/five-minute bars were illustrative, not selected. |
+| ADR-004 | Accepted | **Predictive structure before anomaly rarity** | Isolation Forest/autoencoder optional; a rare event is not sufficient. Data-driven hypotheses are valid. |
+| ADR-005 | Accepted | **Economic feasibility early** | Review data feasibility, spread, fees, slippage and applicable funding; no fixed 0.05%-spread or 15-minute ban. |
+| ADR-006 | Accepted | **Separate research, validation and holdout** | OOS research folds, purging/gaps, isolated final holdout, versioned trials to limit overfitting. |
+| ADR-007 | Accepted | **Costs, baselines and matched controls** | Filters may rediscover ordinary trends; compare incremental signal contribution with ablations/placebos. |
+| ADR-008 | Accepted | **Forecasting separate from decision policy** | Long/short/flat under net costs, risk, uncertainty, current state and no-trade alternative; RL not mandatory. |
+| ADR-009 | Accepted | **Adaptive, revisitable research management** | Prioritize families without permanently prohibiting uncertain classes; balance exploitation and exploration. |
+| ADR-010 | Accepted | **Deterministic Research Manager for v0.1** | Consider bandits/Bayesian Optimization only after meaningful evaluation. |
+| ADR-011 | Accepted | **Persistent journal of all attempts** | Capture failures, variants, datasets, model configs and costs; enable later multiple-testing controls. |
+| ADR-012 | Accepted | **CPU-first, offline and local** | Small open-source Python stack; no GPU/cloud requirements. |
+| ADR-013 | Accepted | **Synthetic data for the walking skeleton** | v0.1 demonstrates technical correctness, not real-market profit. |
+| ADR-014 | Accepted | **Separate future Alpha Monitoring loop** | Investigate decay vs randomness, costs and regimes; no real-time monitoring in v0.1. |
+| ADR-015 | Deferred | **Dave Mabe Columns/Optimizer not compulsory** | Potential later interpretable threshold/filter search benchmarked against standard trees/LightGBM; no proven intrinsic superiority. |
+| ADR-016 | Deferred | **RL, transformers, DeepLOB, FinBERT and similar** | Adopt only for suitable data/problems and demonstrated incremental value; no guaranteed RL superiority. |
+| ADR-017 | Accepted | **No assumed 99% failure rate** | Throughput alone is not utility; independent research value per budget matters. |
+| ADR-018 | Accepted | **Old historical data are not today's alpha** | Useful for mechanism/regime studies; current OOS evidence matters for short horizons. |
+| ADR-019 | Accepted | **Transparent reports and uncertainty** | Null/negative result can complete the pipeline; no “alpha found” claim on synthetic data. |
+| ADR-020 | Accepted | **Hypothesis-driven and exploratory research** | Data can generate hypotheses, but independent data must later test them. |
+| ADR-021 | Accepted | **v1.0 is a local alpha-research laboratory, not a live trading bot** | Real data, discovery, research allocation, candidate freeze, scientific testing, decision simulation, shadow/paper monitoring; no real orders. |
+| ADR-022 | Accepted | **Evidence-based DoD for every milestone through v1.0** | `MILESTONE_DOD.md` binds M0–M9; `DEFINITION_OF_DONE.md` details M0; existing files are not a passing test. |
+| ADR-023 | Accepted | **Software acceptance ≠ alpha success** | Valid null results can accompany software releases; economic alpha requires separate research evidence. |
+| ADR-024 | Accepted | **Codex implements only currently authorized milestone** | v1.0 vision informs interfaces, not a big-bang build; record acceptance evidence in milestone status. |
+| ADR-025 | Accepted | **Complete model/tool catalog** | Record all discussed methods/tools with roles, dependencies, gates and status; never silently delete entries. |
+| ADR-026 | Accepted | **Evaluate before integration** | `CORE` must work; `EVALUATE` needs a fair comparison or verifiable blocker; `CONDITIONAL` depends on fit; `DEFERRED` needs authorization. |
+| ADR-027 | Accepted | **Demonstrate supervised and unsupervised discovery** | LightGBM and Isolation Forest baseline pilots at v0.3, assess HDBSCAN/autoencoders; by v1.0 at least one working example of each family without profitability requirement. |
+| ADR-028 | Accepted | **Method, license and budget gates for model adoption** | Data quality, fair baselines, train-only fits, incremental net value, CPU budget and separate code/weight/data rights. |
+| ADR-029 | Accepted | **Resource Governor from v0.1** | Fit/trial/seed/fold preflight, bounded pilot, enforced wall/memory/campaign limits and worker termination; reject multi-year plans before full execution. |
+| ADR-030 | Accepted | **Budget stop ≠ scientific falsification** | Journal execution separately; skipped/timed-out trials provide no negative alpha evidence. No auto-retries or silent increases. |
+| ADR-031 | Accepted | **Budget validation and recalibration explicitly** | Nested CV, bootstrap, permutations and stress tests are not free; no Cartesian validation explosion or infinite retry loop. |
+| ADR-032 | Accepted | **Release-relevant risk register** | `RISK_REGISTER.md` records three scientific/economic risks, three compute/process risks and cross-platform portability with early indicators, stop rules and gates. |
+| ADR-033 | Accepted | **English is the canonical research language** | Code, docs, comments, CLI, journals, reports, config descriptions and Codex handoffs in English; external user conversations may use another language. |
+| ADR-034 | Accepted | **Native Windows-first, Linux-supported and provider-neutral** | The owner develops/runs AQRS on Windows; M0 must pass both native Windows and headless Linux x86_64/CPU acceptance. No mandatory WSL, Docker, cloud API, admin/root or GPU. Preserve portability via `pathlib`, UTC, virtualenv, configurations and isolated OS-specific resource-guard adapters. Later deployment to Hetzner or another Linux VM must not require rewriting the research engine. Other platforms/providers are not guaranteed without verification. |
+| ADR-035 | Accepted | **Permanent English-only repository policy, including every future Codex edit** | All AQRS-authored documentation, source explanations, research artifacts, Codex additions and revisions must remain in English across all milestones. `docs/LANGUAGE_POLICY.md` is normative; run the language checker and manual review, without silent exemptions or weakening. |
+| ADR-036 | Accepted | **Lean documentation; a single changelog** | Edit the canonical file in place. Create only necessary new documents, not dated/versioned duplicates. Keep exactly one root `CHANGELOG.md` recording date, intent and all changed paths, including additions, removals and moves. Preserve old dates/version information only as non-disruptive history or required compatible contracts. Keep active docs concise and accurate. |
+
+| ADR-037 | Accepted | **Lean Build–Measure–Learn governs Codex's software development** | Work one risk-first, preregistered, timeboxed experiment at a time; use minimal Test/Learning Cards in existing milestone status/issues, targeted tests, small vertical slices, evidence-based decisions and lightweight innovation accounting. Keep this separate from scientific market research, avoid unnecessary Lean SaaS/frameworks, and retain mandatory Windows/Linux, resource and scientific release gates. |
+
+| ADR-038 | Accepted | **Backward Development → Forward Execution for Codex** | Derive smallest acceptance evidence and dependencies backward before coding; execute and validate forward in bounded, measurable vertical increments. Both stages are part of Lean Build–Measure–Learn. |
+| ADR-039 | Accepted | **Risk-triggered Fault Tree Analysis** | Analyze critical undesirable top events and credible AND/OR causes qualitatively; map them to preventive/detection tests in the existing risk register. No exhaustive FTA for routine fixes and no invented probabilities. |
+| ADR-040 | Accepted | **Blameless postmortems and durable rejected-idea memory** | Material or repeating incidents must produce evidence-based, verifiable preventive actions in the existing milestone record/issue. Consequential failed engineering ideas remain in the decisions ledger; no new per-incident files. |
+| ADR-041 | Accepted | **Bounded Ridge skeleton** | Use NumPy for deterministic data, scikit-learn Ridge and training-only scaling, and standard-library SQLite. The fixed candidate order is the only M0 priority input. Workers receive a research-only prefix. |
+| ADR-042 | Accepted | **Observed RSS policy and explicit strict rejection** | The default uses native tree termination with sampled memory. Unavailable strict memory containment blocks preflight. Repeated manual runs carry prior-attempt links and a separate duplicate-evidence link. |
+
+## Rejected and deferred engineering ideas (durable decision memory)
+
+Log only **consequential** alternatives that were actually considered. Each entry must distinguish tested evidence from untested reasoning and name conditions that justify reconsideration. Failed **market alpha** candidates belong in the scientific Research Journal once implemented, not here.
+
+| Idea ID | Status and date (UTC) | Approach | Evidence and reason | Safer alternative and revisit condition |
+|---|---|---|---|---|
+| IDEA-001 | Rejected as default, 2026-11-06 | Unbounded multi-model parameter sweeps and recursive recalibration | No AQRS benchmark exists yet. Owner reported an earlier unrelated framework predicting eight years of calibration; this is a risk example, **not a measured AQRS runtime**. | Resource Governor preflight and staged bounded pilots. Reconsider a larger budget only with measured marginal evidence and explicit owner approval. |
+| IDEA-002 | Rejected as default, 2026-11-06 | Exhaustive fault tree for every code or documentation edit | Conceptual process-cost objection, **not an empirical comparison**: routine changes do not justify intensive safety analysis. | Risk-triggered qualitative FTA for critical boundaries; revisit if recurring unanalysed failures show this is insufficient. |
+| IDEA-003 | Rejected as default, 2026-11-06 | Standalone postmortem file for every failed unit test | Untested process-cost concern; trivial failures are already captured by tests and the active learning loop. | Concise postmortem after *material or repeated* incidents in existing milestone record/issue. Revisit if recurring issues cannot be tracked there. |
+
+## Revision procedure
+
+- Each new method begins with a **baseline** and explicit **acceptance criterion**.
+- Exclude a research branch only based on **documented, evidence-backed, temporally revisitable** feasibility arguments.
+- Reconsider priorities if data, market structures, costs or evidence change; record version and date.
+- A failed final holdout does **not** authorize endlessly optimizing on the same final holdout.
+- A native Windows **or** Linux compatibility failure is an open release blocker, not a documentation detail; WSL success alone cannot fulfill the Windows gate.
+- When changing a machine contract, preserve identifiers when possible and version any migrations.
+
+## Decisions not made in the conversation
+
+No real starting market, venue, asset class (spot/perpetual/equities/futures), firm risk budget, data provider, binding real costs, desired live execution platform or preferred GPU was selected. Codex must not invent them. See `OPEN_QUESTIONS.md` and v0.1 synthetic defaults.
