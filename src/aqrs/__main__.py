@@ -10,7 +10,7 @@ from aqrs.research import run
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        prog="aqrs", description="Offline synthetic research."
+        prog="aqrs", description="Offline market research."
     )
     group = parser.add_subparsers(dest="group", required=True)
     research = group.add_parser(

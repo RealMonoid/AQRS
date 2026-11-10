@@ -1,8 +1,8 @@
-# Codex implementation brief: Build AQRS v0.1
+# Codex start: AQRS project handoff
 
 **English-only repository policy (permanent):** All documentation and all future Codex additions and revisions MUST be in English, without milestone or version exceptions. Read `docs/LANGUAGE_POLICY.md` first. Before reporting completion, execute `python scripts/check_language_policy.py --self-test` and `python scripts/check_language_policy.py`. Never weaken this rule without explicit owner authorization.
 
-Continue implementing and verifying **M0/v0.1** of the *Adaptive Quant Research System* (AQRS). Use [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for the implementation and acceptance evidence.
+Start with [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for current acceptance evidence, experiment priority and start conditions. The M0 walking-skeleton brief below remains a reference for the implemented baseline.
 
 ## Documentation and change control (mandatory)
 
@@ -25,20 +25,20 @@ Continue implementing and verifying **M0/v0.1** of the *Adaptive Quant Research 
 9. `docs/RESEARCH_PROTOCOL.md`, `docs/CONTRACTS.md`
 10. `docs/RESOURCE_GOVERNOR.md`, `docs/RISK_REGISTER.md`
 11. **`docs/PLATFORM_COMPATIBILITY.md`** — English, native Windows, Linux and cloud-neutral policies
-12. `docs/DEFINITION_OF_DONE.md` — detailed current milestone DoD
+12. `docs/DEFINITION_OF_DONE.md` — detailed M0 acceptance baseline
 13. `docs/OPEN_QUESTIONS.md`
 
 Treat these as **product and research-method constraints**, not an order to write more speculative design documents. Record justified deviations in `docs/DECISIONS.md`.
 
-**Scope restriction:** Implement **only M0/v0.1 now**. Future milestones and the entire model catalog inform extension points but must not be implemented prematurely. `EVALUATE` means an evidence-backed evaluation at a later gate, not installation now.
+**Scope restriction:** Implement only the next increment authorized by the owner. Use the milestone status and queue to identify the proposed scope. `EVALUATE` requires evidence at its assigned gate.
 
 ## Mandatory product-development feedback loop
 
 For **each meaningful vertical increment**, use **Backward Development → Forward Execution** and follow [`docs/DEVELOPMENT_PROCESS.md`](docs/DEVELOPMENT_PROCESS.md): identify the riskiest assumption, record a compact **Test Card** before coding (hypothesis, baseline, evidence threshold, time/compute budget and stop rule), **BUILD** the smallest executable increment, **MEASURE** with targeted tests, and record a **Learning Card** with the actual outcome and explicit `PERSEVERE` / `PIVOT` / `STOP` / `DEFER` decision. **WIP limit: one active development experiment.** Use the current-loop section of `docs/MILESTONE_STATUS.md` or a single GitHub issue; do not create per-loop documentation files. Run broad tests at milestone gates, not after every inconsequential edit. A failed assumption can be a successful learning loop. For critical scientific correctness or protection boundaries, perform a **small Fault Tree Analysis before implementation** and derive preventive/detection tests; see `docs/RISK_REGISTER.md`. For material incidents or repeated failures, produce a concise, blameless **postmortem with a verified prevention action** in the existing milestone record/issue. Log consequential rejected or ill-conceived approaches in `docs/DECISIONS.md` with why they failed and conditions for reconsideration. Ordinary test failures do not require separate postmortems or documents.
 
-Do not confuse these engineering loops with AQRS's internal alpha-discovery loop or the separately enforced research Resource Governor. Update the existing single changelog for every substantive set of changed files. **Only M0/v0.1 is authorized now.**
+The engineering loop, the internal alpha-discovery loop and the research Resource Governor have separate contracts. Update the single changelog for every substantive change.
 
-## Concrete tasks
+## M0 baseline tasks
 
 1. Set up a lightweight, installable Python package `aqrs` (Python 3.11+, CPU-only, native Windows and headless Linux compatible, no runtime network requirements). A normal Windows account must run it without WSL/admin privileges; a clean Linux virtual environment must run it without root or GUI.
 2. Generate deterministic synthetic 5-minute OHLCV bars and test data quality, timestamp semantics and stable dataset fingerprints. Synthetic BTC-like data are a demo, **not** a chosen production market.
@@ -55,7 +55,7 @@ Do not confuse these engineering loops with AQRS's internal alpha-discovery loop
 
 ## Required working commands
 
-Implement and **actually run** these common commands on **native Windows and native Linux** (a Windows + Ubuntu CI matrix is suitable). Use each OS's correct virtual-environment setup, not a POSIX-only activation script:
+The M0 baseline uses these commands on **native Windows and native Linux**. Use each OS's documented virtual-environment setup:
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -83,6 +83,6 @@ Keep the vertical slice **complete and honest** rather than broad and hollow. In
 
 ## Definition of Done
 
-Use `docs/DEFINITION_OF_DONE.md` for the current M0 tests and `docs/MILESTONE_DOD.md` for the whole product acceptance contract. Update `docs/MILESTONE_STATUS.md` only for gates proven with actual commands, exit codes, run IDs and artifacts. A successfully executed **negative/null finding** is a valid software result. An interrupted/budgeted run is an execution event, not negative alpha evidence.
+Use `docs/DEFINITION_OF_DONE.md` for the M0 tests and `docs/MILESTONE_DOD.md` for the whole product acceptance contract. Mark a milestone `ACCEPTED` in `docs/MILESTONE_STATUS.md` only after its gate is proven with actual commands, exit codes, run IDs and artifacts. Record Test Cards before implementation in the existing current-loop section or issue. A successfully executed **negative/null finding** is a valid software result. An interrupted or budgeted run is an execution event.
 
-End by reporting exactly what exists, which **native Windows and Linux** checks passed, platform-specific resource enforcement modes, any remaining blockers and the next smallest vertical increment. **Implement now; do not stop after writing a plan.**
+After an authorized increment, report what exists, which **native Windows and Linux** checks passed, the resource enforcement modes, any remaining blockers and the next smallest vertical increment.

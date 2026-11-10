@@ -2,8 +2,11 @@ import json
 import sqlite3
 import subprocess
 import sys
+from hashlib import sha256
 from pathlib import Path
+from zipfile import ZipFile
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +44,172 @@ def read_report(result):
     assert (path / "dataset.csv").exists()
     assert "No real-world alpha" in (path / "report.md").read_text(encoding="utf-8")
     return json.loads((path / "report.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("variant", ["evaluated", "foreign_day", "screened_out"])
+def test_binance_campaign_isolates_day_and_preserves_spot_policy(tmp_path, variant):
+    foreign_day = variant == "foreign_day"
+    path = config_at(tmp_path)
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["market"].update(
+        source="binance_vision_spot",
+        symbol="BTCUSDT",
+        scenario="historical",
+        bar_minutes=1,
+        n_bars=1440,
+        archive_dir=".",
+        day="2026-01-05",
+        retrieved_on="2026-11-08",
+    )
+    del config["research"]["final_holdout_fraction"]
+    config["research"].update(horizon_bars=15, train_bars=720, validation_bars=360)
+    config["research"]["candidates"] = config["research"]["candidates"][:1]
+    config["execution_simulation"]["allow_short"] = False
+    config["costs"].update(fee_bps_per_side=10, quoted_spread_bps=1)
+    config["resource_governor"]["preflight"]["measure_representative_pilot"] = (
+        foreign_day
+    )
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    stem = "BTCUSDT-1m-2026-01-05"
+    archive = tmp_path / f"{stem}.zip"
+    first_open = 1_767_571_200_000_000 + (86_400_000_000 if foreign_day else 0)
+    rows = []
+    for index in range(1440):
+        opened = first_open + index * 60_000_000
+        price = 100 + (index % 40) * (0.001 if variant == "screened_out" else 0.5)
+        rows.append(
+            f"{opened},{price},{price},{price},{price},1,{opened + 59_999_999},0,0,0,0,0\n"
+        )
+    with ZipFile(archive, "w") as zipped:
+        zipped.writestr(f"{stem}.csv", "".join(rows))
+    digest = sha256(archive.read_bytes()).hexdigest()
+    archive.with_suffix(".zip.CHECKSUM").write_text(
+        f"{digest}  {archive.name}\n", encoding="ascii"
+    )
+
+    result = cli("run", path)
+    assert result.returncode == (2 if foreign_day else 0), (
+        result.stderr or result.stdout
+    )
+    summary = json.loads(result.stdout)
+    output = Path(summary["output_dir"])
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    assert report["holdout"]["start_at"] == "2026-01-06T00:00:00+00:00"
+    assert report["holdout"]["authorized_reads"] == 0
+    if foreign_day:
+        assert report["plan"]["completed_fits"] == report["plan"]["started_trials"] == 0
+        assert "Invalid UTC minute cadence" in report["plan"]["stop_reason"]
+        assert not (output / "dataset.csv").exists()
+        return
+    if variant == "screened_out":
+        assert summary["execution_status"] == "COMPLETED"
+        assert (
+            summary["evaluation_status"]
+            == report["evaluation_status"]
+            == "SCREENED_OUT"
+        )
+        assert report["plan"]["completed_fits"] == 0
+        assert "simulation were skipped" in (output / "report.md").read_text(
+            encoding="utf-8"
+        )
+        return
+    assert summary["evaluation_status"] == report["evaluation_status"] == "COMPLETED"
+    assert report["data_manifest"]["archive_sha256"] == digest
+    assert report["stage_wall_seconds"]["import"] >= 0
+    metrics = report["trials"][0]["metrics"]
+    assert metrics["stage_wall_seconds"]["features"] >= 0
+    assert metrics["stage_wall_seconds"]["simulation"] >= 0
+    trades = metrics["trading"]["momentum"]["trades"]
+    assert trades
+    for trade in trades:
+        assert trade["decision"] == "long"
+        assert trade["entry_index"] == trade["signal_index"] + 1
+        assert trade["exit_index"] == trade["signal_index"] + 16
+        assert trade["exit_index"] < (1080 if trade["signal_index"] < 1080 else 1440)
+        assert trade["fees"] == pytest.approx(0.0020)
+        assert trade["spread"] == pytest.approx(0.0001)
+        assert trade["slippage"] == pytest.approx(0.0004)
+        assert trade["gross_pnl"] - trade["net_pnl"] == pytest.approx(0.0025)
+
+
+def test_reserved_spot_day_is_rejected_before_io(tmp_path):
+    from datetime import date
+
+    from aqrs.binance_spot_pilot import import_day
+
+    config = yaml.safe_load((ROOT / "configs/m1-e04.yaml").read_text(encoding="utf-8"))
+    config["market"]["day"] = "2026-01-06"
+    config["project"].update(path_base=".", artifact_dir="output")
+    config["journal"]["sqlite_path"] = "output/journal.sqlite3"
+    path = tmp_path / "config.yaml"
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    result = cli("run", path)
+    assert result.returncode == 2
+    assert "2026-01-05" in result.stderr
+    assert not (tmp_path / "output").exists()
+
+    with pytest.raises(ValueError, match="reserved"):
+        import_day(
+            tmp_path / "missing.zip", tmp_path / "missing.checksum", date(2026, 1, 6)
+        )
+    with pytest.raises(ValueError, match="reserved"):
+        import_day(
+            tmp_path / "BTCUSDT-1m-2026-01-06.zip",
+            tmp_path / "missing.checksum",
+            date(2026, 1, 5),
+        )
+
+
+def test_supervised_pilot_receipt_binds_recoverable_source(tmp_path, monkeypatch):
+    import runpy
+    from importlib.metadata import version
+
+    from aqrs import journal
+
+    pilot = ROOT / "scripts/m2_supervised_pilot.py"
+    main = runpy.run_path(str(pilot))["main"]
+    monkeypatch.setitem(main.__globals__, "compare", lambda *args: "REJECTED_PREFLIGHT")
+    output = tmp_path / "receipt"
+    assert main(output) == 2
+
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    provenance = report["provenance"]
+    files = provenance["files"]
+    assert files["source/pilot.py"] == sha256(pilot.read_bytes()).hexdigest()
+    assert (
+        files["source/aqrs/journal.py"]
+        == sha256(Path(journal.__file__).read_bytes()).hexdigest()
+    )
+    assert all(
+        sha256((output / name).read_bytes()).hexdigest() == digest
+        for name, digest in files.items()
+    )
+    assert provenance["dependencies"]["scikit-learn"] == version("scikit-learn")
+    with sqlite3.connect(output / "research.sqlite3") as db:
+        (manifest,) = db.execute("SELECT manifest_json FROM campaigns").fetchone()
+    assert json.loads(manifest)["provenance"] == provenance
+
+    monkeypatch.setenv("PYTHONSAFEPATH", "1")
+    worker = tmp_path / "worker"
+    worker.mkdir()
+    restored = subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "-E",
+            str(output / "source/pilot.py"),
+            "--worker",
+            str(worker),
+        ],
+        cwd=tmp_path,
+        input="",
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert restored.returncode == 0, restored.stderr
+    assert (worker / "ready.json").is_file()
+    assert not (worker / "result.json").exists()
 
 
 def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypatch):

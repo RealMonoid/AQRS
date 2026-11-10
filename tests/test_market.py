@@ -1,8 +1,14 @@
+import csv
+import io
 from dataclasses import replace
+from datetime import date
+from hashlib import sha256
+from zipfile import ZipFile
 
 import numpy as np
 import pytest
 
+from aqrs.binance_spot_pilot import import_day
 from aqrs.market import build_folds, features, generate, targets, validate
 
 
@@ -45,3 +51,46 @@ def test_horizon_and_purged_research_prefix():
         assert np.isfinite(y[val]).all()
     with pytest.raises(ValueError):
         build_folds(80, 3, 40, 20, 3)
+
+
+@pytest.mark.parametrize(
+    ("damage", "error"),
+    [
+        ("none", None),
+        ("missing", "Invalid UTC minute cadence"),
+        ("close", "Invalid inclusive close"),
+        ("checksum", "Archive SHA-256"),
+    ],
+)
+def test_binance_spot_pilot_requires_intact_utc_day(tmp_path, damage, error):
+    day = date(2026, 1, 5)
+    stem = f"BTCUSDT-1m-{day}"
+    archive = tmp_path / f"{stem}.zip"
+    checksum = tmp_path / f"{stem}.zip.CHECKSUM"
+    rows = []
+    for index in range(1440):
+        open_us = 1_767_571_200_000_000 + index * 60_000_000
+        rows.append([open_us, 10, 12, 9, 11, 4, open_us + 59_999_999, 0, 0, 0, 0, 0])
+    if damage == "missing":
+        del rows[1]
+    if damage == "close":
+        rows[0][6] += 1
+    content = io.StringIO()
+    csv.writer(content).writerows(rows)
+    with ZipFile(archive, "w") as zipped:
+        zipped.writestr(f"{stem}.csv", content.getvalue())
+    digest = (
+        "0" * 64 if damage == "checksum" else sha256(archive.read_bytes()).hexdigest()
+    )
+    checksum.write_text(f"{digest}  {archive.name}\n", encoding="ascii")
+
+    if error:
+        with pytest.raises(ValueError, match=error):
+            import_day(archive, checksum, day)
+        return
+    bars, actual_digest = import_day(archive, checksum, day)
+    assert actual_digest == digest
+    assert len(bars.values) == 1440
+    assert bars.time(0) == "2026-01-05T00:00:00+00:00"
+    assert bars.time(0, close=True) == "2026-01-05T00:01:00+00:00"
+    assert bars.time(-1, close=True) == "2026-01-06T00:00:00+00:00"

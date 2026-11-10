@@ -89,6 +89,14 @@ The manager writes a research-only bar prefix for evaluation workers. The comple
 dataset is an audit artifact. Journal reservations precede worker authorization. A repeated
 manual run links to prior attempts and retains its own execution outcome.
 
+## Implemented M1 real-data path
+
+The Binance Spot adapter validates a local daily archive and checksum before producing the same
+`Bars` input used by the synthetic workflow. The existing research runner uses the shared
+features, folds, evaluator, Governor and journal. For the accepted BTCUSDT scope, the next UTC
+day is a reserved interval in the manifest. Evaluation workers receive only the research day.
+See the [M1 acceptance evidence](MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
+
 ## Time semantics — binding contract
 
 For v0.1, bars have UTC `bar_open_time` and `bar_close_time` and feature vector `X_t` becomes available **only after bar `t` closes**.

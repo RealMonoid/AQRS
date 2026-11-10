@@ -11,6 +11,21 @@ A discovery on a given dataset is **not** its independent confirmation. Rarity o
 
 Before extensive validation, every candidate has a registered, versioned definition: asset/venue context or synthetic scenario, data range, features, target/horizon, expected effect, comparison hypothesis, execution assumptions and cost model.
 
+### Define new signals around the event under study
+
+From M2, define each new signal by the observable market event or decision
+condition the hypothesis concerns. Register the trigger, required inputs,
+observation cadence, earliest time the trigger is knowable, and forecast horizon.
+Use a market boundary such as a session open when the hypothesis depends on it.
+
+For example, if the hypothesis concerns a sharp five-minute price drop, evaluate
+the trailing five-minute return when each completed one-minute observation
+becomes available. The event starts when the return first crosses the registered
+threshold. The usual validation applies, including chronological research folds,
+matched controls, and a simulated entry no earlier than the next eligible
+execution point. Research campaigns have no recurring shifted-grid backtest
+requirement.
+
 ## 2. Early economic screening
 
 Early screening checks data availability, trading access, plausible liquidity, transaction costs and possible break-even edge size. It happens **before** expensive optimization, though a cheap initial effect estimate may inform it.
@@ -21,6 +36,49 @@ Early screening checks data availability, trading access, plausible liquidity, t
 - Perpetual funding is not charged on every arbitrary 15-minute trade; the contract and actual settlement events govern it.
 - Use `REJECTED` only when a credible rejection basis exists; otherwise `DEFERRED` / `INCONCLUSIVE` with reasons.
 - Costs for synthetic runs are **illustrative settings**, not statements about actual BTC/equity commissions.
+
+### Lean research funnel
+
+Start with one bounded screen on research data. Advance a candidate to a later
+research window only when the screen leaves a specific question whose answer
+could change the decision. Reserve independent assessment for a frozen candidate
+under the later admission gate. The Resource Governor's existing limits apply
+at each stage. Count the candidate, controls, and any resampling work in
+preflight. Defer work that exceeds the approved budget. Record every variant
+that informed selection in the Research Journal.
+
+Base the screen on coverage, incremental value against a simple control, and
+estimated costs at the times when the hypothesis calls for a decision. Use
+global correlation only as a descriptive measure. For a feature added to an
+existing event rule, compare the rule with and without the feature at the same
+eligible event timestamps.
+
+For the price-drop signal, register one instrument, one short chronological
+research window, one drop threshold, and one holding period before the screen.
+For example, hold for 15 minutes from the simulated entry after the first
+threshold crossing.
+Set minimum event coverage and minimum net and incremental effects before
+reviewing results. Detect crossings from completed minute observations with
+continuous coverage for the lookback. Use the next eligible execution point.
+Compare with entries without a trigger from the same session time bands and
+similar prior volatility. Match on information available at entry and use the
+same fill, holding, sizing, and cost rules.
+Use the flat policy as the zero-return reference. This rule and its controls
+require zero model fits. Report the event count, the number of non-overlapping
+holding periods, gross and net return, and the net difference versus the matched
+control across the observed time blocks. Account for remaining dependence when
+interpreting coverage.
+
+- **Advance** when coverage meets the registered minimum and the estimated net
+  return and net advantage over the control clear their thresholds under
+  plausible costs. Evaluate the unchanged rule and controls once on a later
+  research window to check whether the effect persists.
+- **Defer** when sparse events, uncertain costs, or mixed results leave the
+  decision open. Name the missing evidence. Schedule a follow-up only if that
+  evidence could change the decision and the work fits the approved budget.
+- **Stop** when a credible feasibility check rules out the setup, or sufficient
+  evidence places its plausible net or incremental effect below the registered
+  minimum. Record the reason. A resource stop leaves the evidence unresolved.
 
 ## 3. Information availability and event time
 
@@ -37,6 +95,7 @@ Early screening checks data availability, trading access, plausible liquidity, t
 - Prevent labels from overlapping training/validation cutoffs using purging or temporal gaps. Account for overlapping trades and serial dependence when estimating effective independent sample size.
 - Research fold results may guide research selection; they are **not** final proof.
 - The final holdout is later in time, explicitly reserved and inaccessible to Research Manager metrics/reward signals.
+- **Confirmation budget.** Before starting any protected campaign, record and independently approve a fixed number of confirmation slots, the permitted data scopes (snapshots, instruments and time windows), and the prespecified test family and error-control rule. Block protected execution if this plan is incomplete, the request falls outside it, or the slot budget is exhausted. Apply the existing [slot and exposure rules](ADAPTIVE_QUANT_RESEARCH_PROPOSAL.md#1012-holdout-access-feedback-and-repetition) across campaigns.
 - Do not endlessly retest a failed final holdout. Freeze the result and version, revise the hypothesis if necessary, and await genuinely new untouched data for another independent confirmation.
 - Store sufficient model/data provenance for reproduction.
 
@@ -96,9 +155,21 @@ Adaptive scheduling may use research-validation reports but not final-holdout va
 Reports must clearly distinguish:
 
 - Data type: `synthetic` versus `real`, always `synthetic` in v0.1.
-- Research execution success (`pipeline_completed`) versus scientific signal evidence (`evidence_status`).
+- Process execution (`execution_status`), candidate evaluation within the campaign (`evaluation_status`), and scientific evidence for each candidate (`evidence_status`). See the [reporting contract](CONTRACTS.md#g-reporting-contract).
 - Positive net performance versus statistical significance; significance versus economic relevance.
 - `INSUFFICIENT_EVIDENCE` as a legitimate, often rational outcome.
 - A hypothesis being **false** versus a software test failing.
 
+For technical stops, functional failures, missed benefit criteria and inconclusive results, apply the [short diagnosis template](DEVELOPMENT_PROCESS.md#diagnosis-in-existing-records) in the Research Journal attempt record or its linked evidence. Preserve the existing execution and evidence statuses separately. Link functional failures to the development Learning Card or incident review and exclude affected evidence from research decisions. Reassess it only after the correction and the evidence have both been verified.
+
 Use English in reports, schemas, experiment metadata and CLI output. Results must be reproducible on the accepted Linux baseline.
+
+### Research evidence handoff
+
+When an experiment requires new software, Quant Research records the required capability, authorized data scope, fixed scientific constraints, and observable technical acceptance checks in the existing [Test Card](DEVELOPMENT_PROCESS.md#1-write-a-compact-test-card-before-implementation). Engineering selects the technical design within the approved scope. A specific technology is binding when a confirmed requirement or the registered comparison specifies it.
+
+If an implementation constraint would change a predeclared scientific condition or invalidate the comparison, return the issue to Quant Research before dependent work proceeds. Quant Research proposes a revision and retains the original plan and any attempts under the [variant recording rules](#6-multiple-testing-and-research-selection). Route changes to confirmed requirements through [Requirements Engineering](requirements/AGENTS.md). Material changes follow the [existing approval rules](DEVELOPMENT_PROCESS.md#4-learn-and-decide).
+
+Use **quant research mode** to plan or interpret an authorized experiment. Before a run, fix the research question, data scope, baseline and controls, costs, and decision rule in the existing experiment record. After the run, take the technical disposition and evidence references from Engineering or Verification, including the run IDs and any failed checks or limitations. Exclude evidence affected by a technical or functional failure until it has been verified after correction.
+
+Assess the eligible evidence against the predeclared rule. Record the execution status, scientific finding and its uncertainty, and follow-up decision separately in the existing Research Journal attempt or its linked evidence. A replay of the same inputs can support technical reproducibility. The scientific claim still depends on the data, comparison and independence of the evidence. Send defects to Engineering and keep any new run or scope change subject to the applicable authorization and preflight. The [protected evaluation and confirmation rules](#4-out-of-sample-research-validation) continue to govern access and use.

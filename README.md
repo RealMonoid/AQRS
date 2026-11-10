@@ -2,7 +2,7 @@
 
 **English-only repository policy (permanent):** All AQRS documentation and future Codex additions or revisions must be written in English. See [`docs/LANGUAGE_POLICY.md`](docs/LANGUAGE_POLICY.md).
 
-**Current status:** The M0/v0.1 synthetic research CLI is implemented. Platform evidence and release status are recorded in [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md).
+**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
 
 AQRS is designed as a local, CPU-friendly research platform for **short-horizon systematic trading**. Its goal is not impressive backtest graphics. It must discover potential *incremental predictive information* in market data, translate such information into plausible net-of-cost simulated decisions, and challenge apparent discoveries using independent controls. “No defensible tradable edge found” is a valid research result.
 
@@ -29,6 +29,21 @@ Read [`AGENTS.md`](AGENTS.md), [`CODEX_START.md`](CODEX_START.md) and the curren
 [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md). The original handoff archive and its
 checksum manifest are historical inputs. The checked-out source and the current project documents
 govern development.
+
+## Repository map
+
+| Find | Location |
+|---|---|
+| Agent instructions and onboarding | [AGENTS.md](AGENTS.md) and [CODEX_START.md](CODEX_START.md) |
+| Requirements engineering and confirmed requirements | [Requirements Engineer](docs/requirements/AGENTS.md) and [requirements register](docs/requirements/REQUIREMENTS.md) |
+| Current milestone, experiment queue, and development evidence | [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md) |
+| Milestone acceptance criteria | [MILESTONE_DOD.md](docs/MILESTONE_DOD.md) |
+| Decisions, open questions, and file changes | [DECISIONS.md](docs/DECISIONS.md), [OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md), and [CHANGELOG.md](CHANGELOG.md) |
+| Development process and research rules | [DEVELOPMENT_PROCESS.md](docs/DEVELOPMENT_PROCESS.md) and [RESEARCH_PROTOCOL.md](docs/RESEARCH_PROTOCOL.md) |
+| Python code and component responsibilities | [src/aqrs/](src/aqrs/) and [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Run settings and model registry | [configs/](configs/) |
+| Tests, maintenance checks, and CI | [tests/](tests/), [scripts/](scripts/), and [.github/workflows/](.github/workflows/) |
+| Local run inputs and evidence | The run configuration sets the paths. Defaults use `artifacts/` for reports and the SQLite Research Journal. Git ignores these outputs. Find evidence for a specific experiment from its entry in [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md). |
 
 ## Documentation maintenance
 
@@ -67,6 +82,39 @@ python scripts/check_language_policy.py
 ```
 
 Use Python 3.11 or 3.12 in a clean virtual environment. Run the commands in **both native Windows and real Linux** for milestone acceptance. Native Windows PowerShell and a Windows/Ubuntu CI matrix are valid options; WSL does not substitute for the native Windows run. Manual verification must report the actual OS and Python environment. No API key, runtime network access, display server, broker, WSL, Docker or privileged runtime is required.
+
+## M1 pilot: import one Binance BTCUSDT spot day
+
+Use a local Binance Vision daily one-minute ZIP and its matching `.CHECKSUM` file.
+For the archived pilot, use [January 5, 2026](docs/MILESTONE_STATUS.md#m1-e02-learning-card-binance-btcusdt-spot-2026-11-08).
+With the dependencies above installed, run the offline importer into a new directory
+under an existing parent:
+
+```bash
+python -m aqrs.binance_spot_pilot --day 2026-01-05 --archive BTCUSDT-1m-2026-01-05.zip --checksum BTCUSDT-1m-2026-01-05.zip.CHECKSUM --output btcusdt-import
+```
+
+The importer validates the checksum and all 1,440 UTC minute intervals before writing
+`dataset.csv` and `import_report.json`. Keep the source and output local for this
+non-commercial technical pilot.
+
+## M1 pilot: run the BTCUSDT spot campaign
+
+Place the verified January 5 archive and its checksum in `artifacts/m1-e02/`.
+Run the original M1-E04 15-minute economic screen from the project root with a fresh output location or pilot journal:
+
+```bash
+python -m aqrs research run --config configs/m1-e04.yaml
+```
+
+The offline campaign validates the source before any fit and reuses the synthetic
+workflow's analysis and watchdog. The M1 campaign admits only January 5. The January 6 reservation is fixed, and the spot importer rejects that date before opening an archive.
+The run writes `data_manifest.json`, `plan.json`, `report.json`, `report.md` and,
+when admitted, `dataset.csv` under its run ID in `artifacts/m1-e04/`. Attempts
+are stored in the pilot's SQLite journal. Use the run command alone for this
+budget because `research plan` performs a separate synthetic preflight fit.
+See the [M1-E04 Test Card](docs/MILESTONE_STATUS.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
+for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
 ## Compute Budget First: avoid multi-year calibrations
 

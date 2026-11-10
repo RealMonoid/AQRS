@@ -2,6 +2,7 @@ import os
 import sqlite3
 from contextlib import closing
 from dataclasses import replace
+from datetime import date, timedelta
 from importlib.metadata import version
 from pathlib import Path
 from time import monotonic
@@ -10,16 +11,37 @@ from uuid import uuid4
 import numpy as np
 
 from aqrs import __version__, journal
+from aqrs.binance_spot_pilot import (
+    IMPORT_ERRORS,
+    M1_HOLDOUT_DAY,
+    import_day,
+    import_manifest,
+    require_m1_development_day,
+)
 from aqrs.governor import supervise
 from aqrs.market import generate, validate, write_dataset
 from aqrs.planning import preflight
 from aqrs.storage import fingerprint, write_json, write_text
 
 
+def spot_holdout(market: dict) -> dict:
+    require_m1_development_day(market["day"])
+    return {
+        "purpose": "final_holdout_reserved",
+        "start_at": f"{M1_HOLDOUT_DAY}T00:00:00+00:00",
+        "end_at": f"{M1_HOLDOUT_DAY + timedelta(days=1)}T00:00:00+00:00",
+        "authorized_reads": 0,
+        "evaluated": False,
+    }
+
+
 def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
     started = monotonic()
     run_id = uuid4().hex
     output = base / config["project"]["artifact_dir"] / run_id
+    market = config["market"]
+    real_spot = market["source"] == "binance_vision_spot"
+    holdout = spot_holdout(market) if real_spot else None
     output.mkdir(parents=True, exist_ok=False)
     config_hash = fingerprint(config)
     if plan_only:
@@ -27,13 +49,15 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
         plan.update(
             run_id=run_id, config_fingerprint=config_hash, output_dir=str(output)
         )
+        if real_spot:
+            plan.update(holdout=holdout, source_data_validated=False)
         write_json(output / "plan.json", plan)
         return plan, 0 if plan["preflight_status"] == "ADMITTED" else 2
 
     database = base / config["journal"]["sqlite_path"]
     report = {
         "run_id": run_id,
-        "dataset_type": "synthetic",
+        "dataset_type": "real" if real_spot else "synthetic",
         "config_fingerprint": config_hash,
         "configuration": config,
         "code_version": __version__,
@@ -52,7 +76,8 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
         "horizon_bars": config["research"]["horizon_bars"],
         "dataset_fingerprint": None,
         "execution_status": "RUNNING",
-        "holdout": None,
+        "evaluation_status": "NOT_COMPLETED",
+        "holdout": holdout,
         "trials": [],
         "journal_path": os.path.relpath(database, output)
         if database.anchor == output.anchor
@@ -63,15 +88,19 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
             else str(output)
         ),
         "limitations": [
-            "No real-world alpha has been demonstrated. This is a synthetic engineering exercise.",
+            "No real-world alpha has been demonstrated. This is a one-day engineering pilot."
+            if real_spot
+            else "No real-world alpha has been demonstrated. This is a synthetic engineering exercise.",
             "Observations and forward targets can overlap. No statistical significance is inferred.",
             "Next-bar opens and constant illustrative costs approximate fills.",
         ],
     }
+    if real_spot:
+        report["cost_assumption_status"] = "estimated"
     with closing(journal.connect(database)) as db:
         journal.begin(db, run_id, config_hash, config, report)
         try:
-            execute(config, db, output, report, started)
+            execute(config, db, output, report, started, base=base)
             write_reports(output, report)
         except (OSError, ValueError, sqlite3.Error, KeyboardInterrupt) as error:
             status = "CANCELLED" if isinstance(error, KeyboardInterrupt) else "FAILED"
@@ -93,21 +122,59 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
     return {
         "run_id": run_id,
         "execution_status": status,
+        "evaluation_status": report["evaluation_status"],
         "output_dir": str(output),
         "stop_reason": report["plan"]["stop_reason"],
     }, {"COMPLETED": 0, "REJECTED_PREFLIGHT": 2, "CANCELLED": 130}.get(status, 1)
 
 
-def execute(config, db, output: Path, report: dict, started: float) -> None:
+def execute(
+    config, db, output: Path, report: dict, started: float, *, base: Path
+) -> None:
     run_id = report["run_id"]
-    plan, folds = preflight(config, output, started)
+    market = config["market"]
+    real_spot = market["source"] == "binance_vision_spot"
+    bars = None
+    input_error = None
+    if real_spot:
+        day = date.fromisoformat(market["day"])
+        archive = base / market["archive_dir"] / f"{market['symbol']}-1m-{day}.zip"
+        import_started = monotonic()
+        try:
+            bars, digest = import_day(
+                archive, archive.with_suffix(".zip.CHECKSUM"), day
+            )
+        except IMPORT_ERRORS as error:
+            detail = type(error).__name__ if isinstance(error, OSError) else str(error)
+            input_error = f"Binance archive rejected: {detail}"
+        report["stage_wall_seconds"] = {"import": monotonic() - import_started}
+        if bars is not None:
+            manifest = import_manifest(bars, digest, day) | {
+                "retrieved_on": market["retrieved_on"],
+                "venue": "Binance",
+                "market_type": "spot",
+                "source_timestamp_unit": "microseconds",
+                "session": "continuous UTC days",
+                "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+                "quality_checks_passed": [
+                    "published checksum",
+                    "complete ordered unique UTC minute cadence",
+                    "exact source close boundary",
+                    "valid OHLC and volume",
+                ],
+                "holdout": report["holdout"],
+            }
+            report["data_manifest"] = manifest
+            write_json(output / "data_manifest.json", manifest)
+    plan, folds = preflight(config, output, started, input_error=input_error)
     plan.update(run_id=run_id, config_fingerprint=report["config_fingerprint"])
+    if real_spot:
+        plan.update(holdout=report["holdout"], source_data_validated=bars is not None)
     report["plan"] = plan
     write_json(output / "plan.json", plan)
     limits = plan["limits"]
     deadline = started + limits["max_wall_seconds_per_campaign"]
     research = config["research"]
-    market = config["market"]
     horizon = research["horizon_bars"]
     admitted = plan["preflight_status"] == "ADMITTED"
     request = {}
@@ -115,27 +182,29 @@ def execute(config, db, output: Path, report: dict, started: float) -> None:
     prefix_path = output / "research-prefix.npy"
 
     if admitted:
-        bars = generate(
-            report["seed"], market["n_bars"], market["bar_minutes"], market["symbol"]
-        )
-        validate(bars)
+        if bars is None:
+            bars = generate(
+                report["seed"],
+                market["n_bars"],
+                market["bar_minutes"],
+                market["symbol"],
+            )
+            validate(bars)
         holdout_start = plan["holdout_start"]
         prefix = replace(bars, values=bars.values[:holdout_start])
         np.save(prefix_path, prefix.values, allow_pickle=False)
         write_dataset(bars, output / "dataset.csv.tmp")
         (output / "dataset.csv.tmp").replace(output / "dataset.csv")
-        report.update(
-            dataset_fingerprint=bars.fingerprint,
-            dataset_path="dataset.csv",
-            holdout={
+        report.update(dataset_fingerprint=bars.fingerprint, dataset_path="dataset.csv")
+        if not real_spot:
+            report["holdout"] = {
                 "purpose": "final_holdout_reserved",
                 "start_index": holdout_start,
                 "start_at": bars.time(holdout_start),
                 "end_at": bars.time(-1, close=True),
                 "observations": len(bars.values) - holdout_start,
                 "evaluated": False,
-            },
-        )
+            }
         intervals = [
             {
                 "train": [bars.time(train.start), bars.time(train.stop)],
@@ -156,6 +225,8 @@ def execute(config, db, output: Path, report: dict, started: float) -> None:
                 [train.start, train.stop, val.start, val.stop] for train, val in folds
             ],
         }
+        if real_spot:
+            request["real_spot"] = True
         research_id = fingerprint(
             {
                 "prefix_fingerprint": prefix.fingerprint,
@@ -204,6 +275,13 @@ def execute(config, db, output: Path, report: dict, started: float) -> None:
         plan["stop_reason"] = next(
             trial["stop_reason"] for trial in trials if trial["stop_reason"]
         )
+    if report["execution_status"] == "COMPLETED":
+        screened_out = all(
+            trial.get("metrics", {}).get("feasibility", {}).get("status")
+            == "SCREENED_OUT"
+            for trial in trials
+        )
+        report["evaluation_status"] = "SCREENED_OUT" if screened_out else "COMPLETED"
     if len(trials) == 2 and all(
         "prediction" in trial.get("metrics", {}) for trial in trials
     ):
@@ -244,7 +322,8 @@ def run_candidate(
         "folds": report.get("research_intervals", []),
         "cost_model": report["configuration"]["costs"],
         "artifacts": ["plan.json", "report.json", "report.md"]
-        + (["dataset.csv"] if research_id else []),
+        + (["dataset.csv"] if research_id else [])
+        + (["data_manifest.json"] if "data_manifest" in report else []),
         "evidence_key": fingerprint(
             [research_id, candidate["model"], candidate["features"]]
         )
@@ -300,9 +379,10 @@ def write_reports(output: Path, report: dict) -> None:
     write_json(output / "report.json", report)
     plan = report["plan"]
     lines = [
-        "# AQRS synthetic research report",
+        f"# AQRS {report['dataset_type']} research report",
         "",
         f"Run **{report['run_id']}** ended with **{report['execution_status']}**.",
+        f"Candidate evaluation **{report['evaluation_status']}**.",
         "",
         *report["limitations"],
         "",
@@ -315,9 +395,17 @@ def write_reports(output: Path, report: dict) -> None:
         f"- Memory mode {plan['memory_mode']}, sampled peak {plan['peak_rss_mb']} MiB.",
         f"- Sampled worker CPU time across pilot and trials was {plan['sampled_cpu_seconds']:.3f} seconds.",
     ]
+    if report["evaluation_status"] == "SCREENED_OUT":
+        lines.append(
+            "- The economic screen completed. Candidate fits and simulation were skipped."
+        )
     if report["holdout"]:
         lines.append(
             f"- Reserved holdout begins at {report['holdout']['start_at']} and was not evaluated."
+        )
+    if report.get("stage_wall_seconds"):
+        lines.append(
+            f"- Archive import took {report['stage_wall_seconds']['import']:.6f} seconds."
         )
     if plan["stop_reason"]:
         lines.append(f"- Stop reason: {plan['stop_reason']}")
@@ -337,6 +425,17 @@ def write_reports(output: Path, report: dict) -> None:
         if not metrics:
             continue
         lines += ["", metrics["rationale"]]
+        if metrics.get("stage_wall_seconds"):
+            timings = metrics["stage_wall_seconds"]
+            lines.append(
+                f"- Feature calculation took {timings['features']:.6f} seconds."
+            )
+            seconds = timings["simulation"]
+            lines.append(
+                "- Execution simulation was skipped."
+                if seconds is None
+                else f"- Execution simulation took {seconds:.6f} seconds."
+            )
         if "prediction" not in metrics:
             continue
         prediction = metrics["prediction"]

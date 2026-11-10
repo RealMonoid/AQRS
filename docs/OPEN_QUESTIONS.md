@@ -8,7 +8,7 @@ These issues were **intentionally left undecided**. Implement v0.1 using the lab
 |---|---|---|
 | Which real asset and venue? | `SYNTH_BTC_LIKE`, artificial dataset only | Venue, spot/perpetual/equity/future, liquidity, data quality |
 | Which bar frequency and holding period? | Illustrative five-minute bars, three-bar horizon | Select horizons based on data and net trading economics |
-| Which data source? | Seeded offline simulation | Licensed high-quality historical bars/trades/order books |
+| Which data source? | Seeded offline simulation | Binance BTCUSDT spot is [accepted for the bounded M1 research scope](MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09). Broader coverage and economic suitability remain open. The [Syncster/NQ screen](MILESTONE_STATUS.md#m1-e01-learning-card-syncsternq-2026-11-08) left coverage, bar timestamps and rollover unresolved. The [alternative NQ screen](MILESTONE_STATUS.md#m1-e03-learning-card-alternative-no-cost-nq-source-2026-11-08) found a free individual-contract sample with an unconfirmed bar boundary. |
 | Which execution? | `open[t+1]` reference with taker-like cost approximation | Market/limit/partial fills, latency, slippage, depth and impact |
 | Which costs? | Configurable illustrative bps, never represented as actual exchange rates | Venue-, volatility-, size- and time-dependent estimates |
 | Are long and short available? | `allow_short=true` for **synthetic simulation only**, no broker | Spot/perpetual/borrow/margin/funding/liquidation risk |
@@ -25,6 +25,12 @@ A future strict memory mode requires a separate enforcement and portability test
 the configured observed-RSS policy and rejects strict requests. After an abrupt orchestrator
 death, SQLite retains the last committed campaign and attempt states. Automatic reconciliation
 of interrupted rows is outside the current restart contract.
+
+## Protected evaluation design
+
+The [adaptive research design](DECISIONS.md#adaptive-research-integration) leaves the deployment-specific threat model, runtime identities, eligible submission formats and release authority open. Resolve them before authorizing a real protected evaluation. Keep initial tests on synthetic data with planted secrets. The first bounded probe would inventory actual read, write and deployment rights, show that development data remain accessible, and attempt a direct protected read from the real research identity. Budget this as one development session on an already available test environment with zero trials, fits or real protected data. Infrastructure setup and ongoing costs require a separate estimate.
+
+An initial denied read is limited evidence. The [protected evaluation gate](MILESTONE_DOD.md#m4--v05-rigorous-statistics-and-independent-candidate-admission) requires the full security matrix, including a successful frozen replay and authorized release. Refine [FTA-M4-A](RISK_REGISTER.md#mandatory-fault-tree-analysis-fta-for-critical-development-changes) against the actual authority available to the researcher and generated code before implementation.
 
 ## Avoid over-specification
 

@@ -85,13 +85,15 @@ def simulate(
     }
 
 
-def evaluate(request: dict, directory: Path) -> dict:
+def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
+    if model_factory is None:
+        model_factory = model
     if "pilot_rows" in request:
         rng = np.random.default_rng(0)
         x = rng.normal(size=(request["pilot_rows"], request["pilot_columns"]))
         y = rng.normal(size=len(x))
         started = monotonic()
-        model().fit(x, y)
+        model_factory().fit(x, y)
         elapsed = monotonic() - started
         write_json(directory / "fits.json", 1)
         return {"fit_wall_seconds": elapsed, "rows": len(x), "columns": x.shape[1]}
@@ -102,7 +104,10 @@ def evaluate(request: dict, directory: Path) -> dict:
         request["bar_minutes"],
     )
     horizon = request["horizon"]
+    real_spot = request.get("real_spot", False)
+    started = monotonic()
     all_features = features(bars)
+    timings = {"features": monotonic() - started, "simulation": None}
     x = all_features[:, [FEATURE_NAMES.index(name) for name in request["features"]]]
     y = targets(bars, horizon)
     costs = request["costs"]
@@ -116,10 +121,13 @@ def evaluate(request: dict, directory: Path) -> dict:
         "required_net_margin_threshold": threshold,
     }
     if move <= threshold:
-        return {
+        screened = {
             "feasibility": feasibility | {"status": "SCREENED_OUT"},
             "rationale": "Training move scale does not clear illustrative costs and buffer.",
         }
+        if real_spot:
+            screened["stage_wall_seconds"] = timings
+        return screened
 
     folds = []
     all_predictions = []
@@ -129,9 +137,12 @@ def evaluate(request: dict, directory: Path) -> dict:
     ):
         train = slice(train_start, train_stop)
         val = slice(val_start, val_stop)
-        fitted = model().fit(x[train], y[train])
+        x_train = x[train]
+        fitted = model_factory().fit(x_train, y[train])
         write_json(directory / "fits.json", fit_count)
         prediction = fitted.predict(x[val])
+        scaler = getattr(fitted, "named_steps", {}).get("standardscaler")
+        training_means = scaler.mean_ if scaler is not None else x_train.mean(axis=0)
         all_predictions.append(prediction)
         all_indices.extend(range(val_start, val_stop))
         folds.append(
@@ -141,14 +152,13 @@ def evaluate(request: dict, directory: Path) -> dict:
                 "val_start": val_start,
                 "val_stop_exclusive": val_stop,
                 "label_last_required_at": bars.time(train_stop - 1 + horizon + 1),
-                "training_feature_means": fitted.named_steps[
-                    "standardscaler"
-                ].mean_.tolist(),
+                "training_feature_means": training_means.tolist(),
                 "prediction": prediction_metrics(y[val], prediction),
             }
         )
     indices = np.array(all_indices)
     prediction = np.concatenate(all_predictions)
+    started = monotonic()
     trading = {
         name: simulate(
             bars,
@@ -166,9 +176,12 @@ def evaluate(request: dict, directory: Path) -> dict:
             "no_trade": np.zeros(len(indices)),
         }.items()
     }
-    return {
+    timings["simulation"] = monotonic() - started
+    result = {
         "feasibility": feasibility | {"status": "PASSED"},
-        "rationale": "Synthetic research folds are insufficient evidence of real-world alpha.",
+        "rationale": "One day of research folds is insufficient evidence of real-world alpha."
+        if real_spot
+        else "Synthetic research folds are insufficient evidence of real-world alpha.",
         "folds": folds,
         "prediction": prediction_metrics(y[indices], prediction),
         "trading": trading,
@@ -176,6 +189,9 @@ def evaluate(request: dict, directory: Path) -> dict:
             trading["candidate"]["net_pnl"] - trading["momentum"]["net_pnl"]
         ),
     }
+    if real_spot:
+        result["stage_wall_seconds"] = timings
+    return result
 
 
 def prediction_metrics(actual: np.ndarray, prediction: np.ndarray) -> dict:

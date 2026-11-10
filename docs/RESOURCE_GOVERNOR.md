@@ -8,6 +8,26 @@ The **Research Manager** decides *what research is scientifically worth doing*. 
 
 **Rule:** No hyperparameter sweep, large walk-forward campaign, calibration, bootstrap/permutation campaign or automatic retraining without a reviewed resource estimate, explicit limits and defined termination state.
 
+### Resource assessment for every feature proposal
+
+Include a **Resource Governor assessment** in every new AQRS feature proposal,
+including proposals in discussion. Codex prepares it using the active limits in
+`configs/research.yaml` before the owner decides and before implementation.
+
+- Estimate one-time development effort separately from additional research work.
+  Say when the work recurs, such as per candidate, instrument, or campaign.
+- Where relevant, report added trials, fits, folds, seeds, resamples, expected
+  wall time and peak memory. Include material storage or concurrency changes.
+  State the assumptions and identify values that still need measurement.
+- Give a budget verdict in plain language. The proposal fits the existing budget
+  on the stated evidence, exceeds it, or needs a measurement before we can tell.
+  If it exceeds the budget or the estimate is uncertain, name the smallest useful
+  scope reduction or bounded measurement. A proposal with zero additional
+  research work needs only a short explanation of that result.
+
+The assessment informs feature selection. Execution still requires the applicable
+run preflight and existing limits.
+
 ## 2. Preflight before each campaign
 
 1. **Count the explicit plan:** markets × datasets × candidates × parameter configurations × seeds × folds × other repeats; count baselines and extra fits. Dynamically generated searches also need a **hard maximum**. In v0.1 count at least `candidate_count × seeds × folds` plus disclosed baseline fits.

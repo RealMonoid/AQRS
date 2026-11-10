@@ -160,10 +160,13 @@ Machine-readable `report.json` and readable `report.md` include:
 
 - `run_id`, `dataset_type=synthetic`, `scenario`, `timeframe`, `horizon`, `seed` and config/data fingerprints;
 - candidate list with execution and evidence statuses;
+- campaign `evaluation_status` distinguishes `SCREENED_OUT`, `COMPLETED`, and `NOT_COMPLETED` independently of the process outcome. A completed economic screen can exit successfully while skipping candidate fits and simulation;
 - training/validation folds and reserved final holdout;
 - predictive baselines versus candidate metrics, with definitions;
 - trading baselines versus candidate **gross/net** results, fees/spread/slippage, trade count, turnover and drawdown;
 - explicit rationale for promising, unsuitable or inconclusive decisions;
 - uncertainty, sample size, limitations and the statement **no real-world alpha has been demonstrated**.
+
+Keep the supervised pilot's source snapshot and report together. The report and campaign journal bind the snapshot by file digests and list the installed dependency versions. The source identity identifies an execution and leaves the scientific variant lineage intact.
 
 Core numerical results must reproduce with the same seed. Run IDs, timestamps and measured durations may vary. Define every metric's units and favorable direction.

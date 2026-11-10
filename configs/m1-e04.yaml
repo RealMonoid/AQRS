@@ -1,0 +1,66 @@
+# Frozen scope for the first local, non-commercial BTCUSDT spot campaign.
+project:
+  name: AQRS
+  seed: 42
+  path_base: ..
+  artifact_dir: artifacts/m1-e04
+
+market:
+  source: binance_vision_spot
+  symbol: BTCUSDT
+  scenario: historical
+  bar_minutes: 1
+  n_bars: 1440
+  timezone: UTC
+  archive_dir: artifacts/m1-e02
+  day: "2026-01-05"
+  retrieved_on: "2026-11-08"
+
+research:
+  horizon_bars: 15
+  train_bars: 720
+  validation_bars: 360
+  walk_forward_folds: 2
+  candidates:
+    - id: C_LAG
+      model: ridge
+      features: [past_return]
+
+resource_governor:
+  enabled: true
+  fail_closed_on_unenforceable_limits: true
+  max_research_trials_per_campaign: 1
+  max_model_fits_per_campaign: 3
+  max_seeds: 1
+  max_parallel_trials: 1
+  max_wall_seconds_per_trial: 120
+  max_wall_seconds_per_campaign: 300
+  memory_mode: observed_rss
+  max_peak_rss_mb_per_trial: 4096
+  auto_retry_count: 0
+  preflight:
+    enabled: true
+    require_explicit_fit_count: true
+    measure_representative_pilot: true
+    runtime_estimate_safety_factor: 2.0
+    reject_if_estimated_over_budget: true
+
+execution_simulation:
+  price_reference: next_bar_open
+  exit_after_horizon_bars: true
+  allow_short: false
+  max_open_positions: 1
+  notional_per_trade: 1.0
+
+costs:
+  # Reference fee, assumed spread and slippage, and separate decision buffer.
+  fee_bps_per_side: 10.0
+  quoted_spread_bps: 1.0
+  slippage_bps_per_side: 2.0
+  decision_buffer_bps: 2.0
+
+journal:
+  sqlite_path: artifacts/m1-e04/research.sqlite3
+reporting:
+  write_json: true
+  write_markdown: true

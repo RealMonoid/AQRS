@@ -44,12 +44,16 @@ def make_plan(
     }
 
 
-def preflight(config: dict, directory: Path, started: float) -> tuple[dict, list]:
+def preflight(
+    config: dict, directory: Path, started: float, *, input_error: str | None = None
+) -> tuple[dict, list]:
     limits = config["resource_governor"]
     settings = limits["preflight"]
     research = config["research"]
     market = config["market"]
-    holdout_start = int(market["n_bars"] * (1 - research["final_holdout_fraction"]))
+    holdout_start = int(
+        market["n_bars"] * (1 - research.get("final_holdout_fraction", 0))
+    )
     trial_limit = limits["max_wall_seconds_per_trial"]
     campaign_limit = limits["max_wall_seconds_per_campaign"]
     memory_limit = limits["max_peak_rss_mb_per_trial"]
@@ -101,6 +105,8 @@ def preflight(config: dict, directory: Path, started: float) -> tuple[dict, list
         python=platform.python_version(),
     )
     reasons = plan["rejection_reasons"]
+    if input_error:
+        reasons.append(input_error)
     folds = []
     guard_issue = capability(limits["memory_mode"])
     if guard_issue:

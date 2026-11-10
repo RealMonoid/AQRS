@@ -1,6 +1,6 @@
 # AQRS development process: Lean Build–Measure–Learn with backward planning and fault learning
 
-**Status:** Binding for Codex across every milestone. **Backward Development → Forward Execution, risk-triggered Fault Tree Analysis and incident-triggered postmortems are mandatory parts of this workflow.** This governs **how AQRS software is developed**, not how market alpha is scientifically validated. Never substitute a product-development check for out-of-sample financial evidence. The current authorized scope is M0/v0.1; later milestones remain gated by `MILESTONE_DOD.md`.
+**Status:** Binding for Codex across every milestone. **Backward Development → Forward Execution, risk-triggered Fault Tree Analysis and incident-triggered postmortems are mandatory parts of this workflow.** This governs **AQRS development and founding decisions**. Market alpha has its own research protocol. Never substitute a product-development check for out-of-sample financial evidence. Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue), its start conditions, and recorded owner authorization to determine the current scope. Acceptance follows the applicable [milestone DoD](MILESTONE_DOD.md).
 
 ## Objective
 
@@ -24,6 +24,14 @@ Maximize **credible uncertainty reduced per unit of development time and compute
 | **DORA metrics** | **CONDITIONAL** | Track lead time and rework once there are repeatable releases/operations; deployment frequency is not a meaningful M0 target. |
 | **Lean Canvas, business funnels, paid SaaS platforms** | **NOT NEEDED** | AQRS is currently a single-researcher engineering product, not a customer-acquisition venture. |
 | **A/B tests, feature flags, complex project-management systems** | **DEFERRED** | Add only when a concrete product/user hypothesis makes them necessary. |
+
+## Feature and venture experiments
+
+- **Discover needs and opportunities.** A problem, wish, unmet need or foreseeable change can start the inquiry. Use a recent case or a plausible future scenario. If the owner cannot identify one, inspect existing workflows, reports and decisions, then offer interpretations and ask focused questions where the answers would change priorities. Clarify what the researcher wants to achieve and why it matters. Separate observed facts, assumptions, preferences, binding constraints and proposed solutions. Agree on the intended outcome and observable evidence before proposing implementation. Check what the existing workflow or a manual step can already provide. Carry the agreed outcome into the existing Test Card for substantive work.
+- **Explore architecture concerns.** Describe a concrete condition and the response AQRS would need to show. For example, a new data source should be usable without rewriting the evaluation logic. Explain how the concern affects the workflow, which qualities or constraints are in tension, and what evidence would distinguish viable choices. Consider credible future risks even when the current workflow succeeds. Rank them by consequence, likelihood and cost of acting early. Record agreed architecture decisions in [DECISIONS.md](DECISIONS.md).
+- **Feature adoption.** Plan freely within milestone scope. Before integration, use the existing Test Card to state the hypothesis, baseline, success and failure criteria, budget, and stop or rollback rule. A pilot is provisional. After evaluation, record an explicit decision to adopt, revise, remove, or defer in the Learning Card. Adoption requires observed benefit over the baseline, acceptable recurring costs, and applicable quality and release gates.
+- **Founding decisions.** Before a material spending or scope commitment, work backward from the decision to the least-supported assumption that could change it. Check value in a real workflow and include relevant data rights, recurring operating costs, and maintenance effort. Compare against the current manual workflow or simplest viable approach. If considering an external offering, test the problem with prospective users and look for concrete pilot commitment or repeat use before investing in delivery. Use the same timeboxed cards and record actual time, spend, compute, and the resulting decision.
+- **Test the process itself.** Use measured time, spend and compute to compare how much effort it takes to reach comparable decisions with traceable evidence. Keep estimates of avoided work separate from observed savings. Keep engineering, venture and alpha conclusions separate. The existing risk-based FTA and scientific gates apply at their respective boundaries.
 
 ## Mandatory planning order: backward design, forward execution
 
@@ -96,6 +104,13 @@ Linked risk, code, milestone and/or experiment ID:
 
 Choose the next **smallest decision-changing uncertainty**, not the most exciting algorithm. Prioritize severity of being wrong, lack of evidence, cost of testing and dependency on the current working path. Do not invent a complicated numerical score to justify a subjective priority.
 
+### Experiment queue
+
+Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonical list of planned tests. Give each planned experiment a stable ID and its original addition date in YYYY-MM-DD format. Record the decision, minimum test or card link, start conditions, and any parent ID. Project-level market research plans may link to the Research Journal for trial details.
+
+1. **Order and start.** Resume the single `ACTIVE` experiment if its start conditions and authorization still hold. If they no longer hold, move it to `WAITING` and record why. When no experiment is active, work from the top and mark the first eligible `READY` row `ACTIVE` before starting it. Eligibility requires satisfied prerequisites and scope authorization. Order rows by the expected value of better evidence for the next decision, weighed against effort, waiting time, and work displaced. A long or costly test can rank first when the expected decision improvement justifies that cost and delay. Check prerequisites before downstream work. Mark a row `READY` only when its Test Card and start conditions are complete. Keep unmet conditions in `WAITING`. If nothing is eligible, report the first unresolved start condition.
+2. **Update after learning.** Record the result, evidence link, and next decision in the row or its linked Learning Card. Close evaluated tests. Add a follow-up with a new ID, addition date, and parent ID only when it can change a remaining decision within budget. Reorder the queue after each result. For a deferral, record the missing evidence and revisit condition. A deferred test that has not run stays `WAITING`. After an evaluated test, keep its result closed and use a separate row for any justified follow-up. Mark obsolete or superseded tests `CANCELLED` with a reason or replacement ID. Keep closed and cancelled entries or links to their records below the pending rows.
+
 ### 1. Write a compact Test Card **before implementation**
 
 Use a GitHub issue if available; otherwise update the **current-loop section of `docs/MILESTONE_STATUS.md`**. Do **not** create a file for each card.
@@ -103,6 +118,7 @@ Use a GitHub issue if available; otherwise update the **current-loop section of 
 ```text
 Loop ID / milestone:
 Assumption (falsifiable):
+Expected mechanism and observation that would favor a plausible alternative:
 Why this is the riskiest next uncertainty:
 Minimum test / vertical slice:
 Backward-derived release outcome and proof:
@@ -111,9 +127,14 @@ Prior similar rejected ideas checked:
 Baseline or existing behavior:
 Predetermined success and failure criteria:
 Evidence to capture (commands, artifacts, measurements):
+Expected decision value versus effort, waiting time, and work displaced:
 Development timebox and research compute budget:
 Stop/rollback condition:
 ```
+
+For material or hard-to-reverse development and founding decisions, briefly explain why the proposed action should work and identify an observation that would distinguish it from a plausible alternative. If the evidence cannot distinguish the explanations, record the mechanism as unresolved in the Learning Card.
+
+For a long or costly test, record the best decision with current evidence, what result could change it, and why a cheaper test would leave material uncertainty. Use brief estimates or ranges. Where useful, set checkpoints in advance and continue only when the expected value of the remaining evidence justifies the remaining effort and delay. Keep the agreed evidence criteria and scientific safeguards.
 
 Examples of acceptable questions: *Can Windows and Linux each reject a 75,000-fit plan before training?*; *Do causal feature tests fail if a future bar leaks in?*; *Can an existing CLI command produce a reproducible journal entry?* Avoid *Build an intelligent Research Manager* as a single loop: it has no finite test.
 
@@ -122,7 +143,7 @@ Examples of acceptable questions: *Can Windows and Linux each reject a 75,000-fi
 - Preserve existing contracts and the last working end-to-end path.
 - Prefer **one coherent vertical slice**, one active task, minimal modified files and no speculative abstractions.
 - Implement a cheaper test/probe/prototype first when it can answer the question without a full feature.
-- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. This is a *development-workflow target*, not a replacement for the **enforced research runtime limits** in `docs/RESOURCE_GOVERNOR.md`.
+- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. For longer experiments, state the budget before starting and apply the [standing approval rule](../AGENTS.md#working-method). The **enforced research runtime limits** are defined in `docs/RESOURCE_GOVERNOR.md`.
 - Do not launch new model sweeps, large recalibrations or repeat tests autonomously when the original plan exceeds budget. Escalating budgets/scope requires owner approval.
 
 ### 3. MEASURE: evidence versus preregistered criteria
@@ -136,19 +157,41 @@ Run the **narrowest relevant automated tests first**; run the broader regression
 
 A test's passing status proves only the **defined engineering claim**, not that real-market alpha exists. Save commands, exit statuses, relevant artifacts and the measured baseline. Never manufacture results or quietly change the threshold after observing them.
 
+#### Independent verification
+
+Before closing a [critical contract change](#risk-grading-and-fault-tree-analysis-gate) or marking a milestone `ACCEPTED`, assign a separate read-only verification task to a reviewer who did not implement the change. Ask for **verification mode** and provide the exact revision or working-tree snapshot, the predeclared Test Card or applicable [milestone DoD](MILESTONE_DOD.md), and links to the evidence and any applicable FTA.
+
+The reviewer derives checks from the criteria and governing contracts. For each applicable criterion, report whether it is met, failed, or lacks evidence, with a reference to the check or the gap. Reuse valid evidence and keep any additional checks within the authorized scope and budget. Return implementation or evidence gaps to Engineering. The change owner records or links the review in the existing Learning Card or acceptance record. The affected gate stays open while required evidence is missing or a criterion fails. Criteria changes and release approvals follow the existing authorization rules.
+
 ### 4. LEARN and DECIDE
 
 Record one short Learning Card in the same issue or current-loop section:
 
 ```text
-Observed evidence (actual versus expected):
+Experiment or incident ID, date, and actual elapsed working time:
+One-line outcome and its effect on the decision:
+Execution outcome and benefit finding, recorded separately:
+Expected versus observed, baseline or criterion, and evidence reference:
+Established cause, plausible explanations, open questions, and safeguards if applicable:
 Postmortem trigger: YES | NO (if YES, link evidence/action):
 Consequential approach rejection recorded in DECISIONS.md: ID | NOT_APPLICABLE
 Conclusion: SUPPORTED | REFUTED | INCONCLUSIVE | BLOCKED
 Action: PERSEVERE | PIVOT | STOP | DEFER
-What changed / remaining uncertainty:
-Next smallest experiment:
+Which assumption changed or remains unresolved, and which queued tests are now unnecessary?
+Recommended next action, estimated effort, and how to verify it:
 ```
+
+#### Diagnosis in existing records
+
+Use the short diagnosis fields above in the existing Learning Card for development work and in the Research Journal attempt record or its linked evidence for research runs. Keep these outcomes distinct:
+
+- **Technical or infrastructure stop.** Record where the run stopped, the environment, the exit status or log, any partial outputs, and whether safeguards worked. State what must be restored or checked before a safe retry. Mark the benefit as unevaluated when the stop prevented its measurement.
+- **Functional failure.** Record the violated requirement, a minimal reproduction with expected and observed behavior, and which runs, outputs, or decisions are affected. This applies even when the run reports success. Exclude affected evidence from decisions pending correction and verification. Record the fix and a regression check that fails before the fix and passes after it. If the scope is uncertain, record that uncertainty. Use the existing incident review when its trigger applies.
+
+- **Expected benefit not observed.** For a valid test, record the baseline, result, and missed criterion. Mark the hypothesis refuted only when the evidence rules out the declared benefit within the tested scope.
+- **Inconclusive.** Record what evidence is missing and what could resolve it. Use this outcome when a valid result falls short but the evidence cannot rule out the declared benefit.
+
+If a run both stops and violates a requirement, record both diagnoses under the same attempt or link the two records.
 
 - **SUPPORTED:** continue only if current release gates or the next riskiest uncertainty warrant it.
 - **REFUTED:** abandon or change the approach; preserve the evidence, do not optimize until it looks successful.
@@ -210,6 +253,11 @@ Do not install Lean Canvas software, paid Strategyzer subscriptions, workflow-ma
 
 ## References (methodology, not runtime dependencies)
 
+- Eric Ries, Lean Startup principles: https://theleanstartup.com/principles?level=1
+- Rita McGrath and Ian MacMillan, Discovery-Driven Planning (1995): https://hbr.org/1995/07/discovery-driven-planning
+- NSF I-Corps, customer discovery: https://www.nsf.gov/funding/opportunities/nsf-national-innovation-corps-teams-nsf-national-i-corps-tm/solicitation
+- Steve Blank, Hypotheses, Experiments, Tests, Insights (2015): https://steveblank.com/2015/05/06/build-measure-learn-throw-things-against-the-wall-and-see-if-they-work/
+- Camuffo et al., A scientific approach to entrepreneurial decision-making (2024), sections 4 and 7: https://doi.org/10.1002/smj.3580
 - INCOSE systems engineering process and verification: https://incose.github.io/process-model/
 - NASA software fault tree analysis and top-down hazard investigation: https://swehb.nasa.gov/spaces/SWEHBVC/pages/140640490/8.7%2B-%2BSoftware%2BFault%2BTree%2BAnalysis
 - Google SRE blameless postmortems and actionable prevention: https://sre.google/workbook/postmortem-culture/

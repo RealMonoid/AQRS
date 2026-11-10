@@ -328,9 +328,9 @@
       "library": "Optuna",
       "earliest_gate": "M3/v0.4",
       "status": "CONDITIONAL",
-      "research_role": "Budgeted hyperparameter tuning within research folds only",
-      "baseline": "Small predefined grid or defaults",
-      "prerequisites": "Complete trial journal and nested evaluation where necessary",
+      "research_role": "Tune hyperparameters within one model family on research folds when a fixed search is limiting",
+      "baseline": "Small predefined grid or defaults under the same budget",
+      "prerequisites": "Complete trial journal, enforced fit and trial limits, protected holdout exclusion, and nested evaluation where necessary",
       "source": "https://github.com/optuna/optuna"
     },
     {
@@ -486,6 +486,60 @@
       "source": "https://github.com/unit8co/darts"
     },
     {
+      "id": "statsforecast",
+      "family": "Model SDK",
+      "name": "StatsForecast",
+      "earliest_gate": "M2/v0.3",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit when volume or realized-volatility forecasts across series could change a decision. Compare with a simple seasonal baseline.",
+      "source": "https://github.com/Nixtla/statsforecast"
+    },
+    {
+      "id": "mlforecast",
+      "family": "Model SDK",
+      "name": "MLForecast",
+      "earliest_gate": "M2/v0.3",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit when feature generation across instruments becomes a bottleneck. Compare with the existing AQRS features and verify availability times and fold boundaries.",
+      "source": "https://github.com/Nixtla/mlforecast"
+    },
+    {
+      "id": "ruptures",
+      "family": "Model SDK",
+      "name": "ruptures",
+      "earliest_gate": "M2/v0.3",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit when regime changes warrant retrospective diagnosis. For decision-time use, compare detection delay and false alarms with a rolling volatility threshold using only data available at the time.",
+      "source": "https://github.com/deepcharles/ruptures"
+    },
+    {
+      "id": "tigramite",
+      "family": "Model SDK",
+      "name": "Tigramite",
+      "earliest_gate": "M2/v0.3",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit for a specific lagged hypothesis with qualified, synchronized series. Compare with a simple lagged model and account for tested links and unobserved common drivers.",
+      "source": "https://github.com/jakobrunge/tigramite"
+    },
+    {
+      "id": "statsmodels",
+      "family": "Statistical Tool",
+      "name": "Statsmodels",
+      "earliest_gate": "M4/v0.5",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit when a specified effect needs dependence-aware inference. Assess HAC for regularly spaced observations and justify a separate method for irregular matched events.",
+      "source": "https://github.com/statsmodels/statsmodels"
+    },
+    {
+      "id": "dowhy",
+      "family": "Statistical Tool",
+      "name": "DoWhy",
+      "earliest_gate": "M4/v0.5",
+      "status": "CONDITIONAL",
+      "research_role": "Revisit for a defined intervention with credible comparison data and explicit identification assumptions. Examine sensitivity to unmeasured confounding.",
+      "source": "https://github.com/py-why/dowhy"
+    },
+    {
       "id": "pytorch_forecasting",
       "family": "Model SDK",
       "name": "PyTorch Forecasting",
@@ -560,7 +614,7 @@
     {
       "id": "custom_runner",
       "family": "Research",
-      "name": "Eigene reproduzierbare Python-Runner/Backtestlogik",
+      "name": "Reproducible Python runner and backtester",
       "earliest_gate": "M0/v0.1",
       "status": "CORE",
       "research_role": "Reproducible Python runner/backtester with causal event/fill semantics",

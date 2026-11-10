@@ -2,6 +2,856 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-10 — Record five M2 model assessments
+
+Use the existing evidence to record four scoped deferrals and the cross-series PCA data blocker. Define the evidence and fair comparison needed to reopen each decision.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_TOOL_CATALOG.md`
+
+## 2026-11-10 — Count earlier development coverage for M2-E12
+
+Count matched price-drop pairs on seven approved development days with the existing rule. Keep the outcome study deferred because the combined coverage misses one UTC band.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e12/run_coverage.py`
+- `artifacts/m2-e12/coverage.json`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-25.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-25.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-26.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-26.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-27.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-27.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-28.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-28.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-29.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-29.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-30.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-30.zip.CHECKSUM`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-31.zip`
+- `artifacts/m2-e12/BTCUSDT-1m-2025-12-31.zip.CHECKSUM`
+
+## 2026-11-09 — Review M2 acceptance evidence after the two model pilots
+
+Trace the remaining criteria, reuse the existing controls, and queue a bounded count-only development-window proposal for the deferred rule-based study.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Execute the bounded M2-E10 Isolation Forest pilot
+
+Apply the Research to Engineering handoff to the frozen anomaly-alert comparison. Record the guarded Windows campaign, matching headless Ubuntu replay, and deferred research follow-up.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `scripts/m2_isolation_forest_pilot.py`
+- `scripts/m2_supervised_pilot.py`
+- `tests/test_isolation_pilot.py`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e10/comparison.json`
+- `artifacts/m2-e10/ubuntu.log`
+- `artifacts/m2-e10/windows/development.npy`
+- `artifacts/m2-e10/windows/report.json`
+- `artifacts/m2-e10/windows/research.sqlite3`
+- `artifacts/m2-e10/windows/source/aqrs/__init__.py`
+- `artifacts/m2-e10/windows/source/aqrs/__main__.py`
+- `artifacts/m2-e10/windows/source/aqrs/binance_spot_pilot.py`
+- `artifacts/m2-e10/windows/source/aqrs/config.py`
+- `artifacts/m2-e10/windows/source/aqrs/evaluation.py`
+- `artifacts/m2-e10/windows/source/aqrs/governor.py`
+- `artifacts/m2-e10/windows/source/aqrs/journal.py`
+- `artifacts/m2-e10/windows/source/aqrs/market.py`
+- `artifacts/m2-e10/windows/source/aqrs/planning.py`
+- `artifacts/m2-e10/windows/source/aqrs/platform_guard.py`
+- `artifacts/m2-e10/windows/source/aqrs/research.py`
+- `artifacts/m2-e10/windows/source/aqrs/storage.py`
+- `artifacts/m2-e10/windows/source/aqrs/worker.py`
+- `artifacts/m2-e10/windows/source/m2_supervised_pilot.py`
+- `artifacts/m2-e10/windows/source/pilot.py`
+- `artifacts/m2-e10/windows/source/research.yaml`
+- `artifacts/m2-e10/ubuntu/development.npy`
+- `artifacts/m2-e10/ubuntu/report.json`
+- `artifacts/m2-e10/ubuntu/research.sqlite3`
+- `artifacts/m2-e10/ubuntu/source/aqrs/__init__.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/__main__.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/binance_spot_pilot.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/config.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/evaluation.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/governor.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/journal.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/market.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/planning.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/platform_guard.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/research.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/storage.py`
+- `artifacts/m2-e10/ubuntu/source/aqrs/worker.py`
+- `artifacts/m2-e10/ubuntu/source/m2_supervised_pilot.py`
+- `artifacts/m2-e10/ubuntu/source/pilot.py`
+- `artifacts/m2-e10/ubuntu/source/research.yaml`
+
+## 2026-11-09 — Clarify the Research to Engineering handoff
+
+Assign capability and scientific constraints to Quant Research, technical design to Engineering, and changes to the existing approval path. Apply the distinction to the M2-E10 Test Card.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-09 — Align research interpretation with the reporting fields
+
+Replace the obsolete execution field reference with the existing process, evaluation, and evidence fields. Point to the reporting contract for their semantics.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-09 — Correct the four Structure and Governance Audit findings
+
+Bind the M1 campaign and spot importer to the documented development and reserved dates, make the economic screen outcome visible, retain recoverable source and dependency references in new supervised pilot receipts, and align onboarding with the current queue and Test Card rules. The pilot now has a repository entry point for versioning and retains its historical artifact as evidence.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/CONTRACTS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/ROADMAP.md`
+- `scripts/m2_supervised_pilot.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/config.py`
+- `src/aqrs/research.py`
+- `tests/test_cli.py`
+
+## 2026-11-09 — Plan the bounded M2-E10 Isolation Forest pilot
+
+Register the unsupervised model card, fixed volatility-only control, follow-up rule, technical proof, and resource budget in the milestone record. Queue the pilot behind explicit implementation and execution authorization.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Define technical verification and research evidence handoff
+
+Require a separate read-only review for critical contract changes and milestone acceptance, define the scientific handoff in the Research Protocol, and refer current development scope to the experiment queue and recorded owner authorization.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-09 — Align three root instructions with their governing documents
+
+Separate Test Card timing from milestone acceptance, link M2 pilots to the binding acceptance criteria, and require Resource Governor preflight before every research campaign.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Define explicit requirements mode
+
+Route explicit requirements requests to the scoped role and keep its requirements artifacts in `docs/requirements/`. Restore proactive discovery of wishes, unmet needs, and future concerns, with beginner-friendly explanations and a bounded proposal for owner approval. The local question and decision records give the role writable destinations and refer back to the existing project records for prior items.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/requirements/AGENTS.md`
+- `docs/requirements/DECISIONS.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+- `docs/requirements/REQUIREMENTS.md`
+
+## 2026-11-09 — Separate the Requirements Engineer role
+
+Move role-specific guidance into scoped instructions and add a register for confirmed requirements. Reuse the existing open-question and decision records to keep one authoritative location for each. One new file defines the role and the other records confirmed requirements with their sources.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/requirements/AGENTS.md`
+- `docs/requirements/REQUIREMENTS.md`
+
+## 2026-11-09 — Record the completed M2-E09 platform replays
+
+Record the matching Windows and Ubuntu supervised results, the six-fit charge on each platform and the deferred LightGBM follow-up.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e09/comparison.json`
+- `artifacts/m2-e09/ubuntu.log`
+- `artifacts/m2-e09/verify_replay.py`
+- `artifacts/m2-e09/ubuntu/development.npy`
+- `artifacts/m2-e09/ubuntu/report.json`
+- `artifacts/m2-e09/ubuntu/research.sqlite3`
+- `artifacts/m2-e09/windows/development.npy`
+- `artifacts/m2-e09/windows/report.json`
+- `artifacts/m2-e09/windows/research.sqlite3`
+
+## 2026-11-09 — Record the M2-E08 pilot stop and correct estimator reporting
+
+Add the bounded supervised pilot and retain the failed comparison receipt. Correct fold reporting for an estimator without a scaler and verify the correction without another campaign.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/evaluation.py`
+- `tests/test_evaluation.py`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e08/pilot.py`
+- `artifacts/m2-e08/windows/development.npy`
+- `artifacts/m2-e08/windows/report.json`
+- `artifacts/m2-e08/windows/research.sqlite3`
+
+## 2026-11-09 — Continue through routine checkpoints
+
+Treat small steps as checkpoints, continue through recoverable issues within existing limits, and report blockers without pausing independent work. Elapsed time to the documentation update was about 20 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-09 — Select the M2-E07 supervised pilot development window
+
+Record the four-day selection, the verified chronological fold boundaries and the remaining pilot prerequisites. The metadata review used no archive payloads or model fits.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Verify M2-E06 fitted candidate causality
+
+Add a synthetic Ridge evaluator regression showing that a future-bar perturbation leaves earlier candidate scores and decisions intact. Verify that the test catches a planted one-bar look-ahead.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `tests/test_evaluation.py`
+
+## 2026-11-09 — Distinguish technical stops from functional failures
+
+Require separate diagnostic evidence for execution stops and violated system requirements. Keep affected research evidence out of decisions until verified.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-09 — Carry authorized step sequences through completion
+
+Allow a related sequence in completion guidance, apply the time rule to the whole plan, and require prompt notice when dependent work is blocked. Elapsed time to the documentation update was about 23 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-09 — Recommend the next step in every completion message
+
+Require a concrete recommendation, the next decision if blocked, or an explicit completion statement. Elapsed time to the documentation update was about 18 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-09 — Add a repository map to the README
+
+Point readers to the existing locations for project decisions, code, tests and local evidence. Elapsed time to the documentation update was about 32 seconds.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+
+## 2026-11-09 — Standardize short AQRS diagnoses
+
+Require a shared diagnosis format in existing Learning Cards and the Research Journal. Separate technical stops, missed benefit criteria and inconclusive findings.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-09 — Verify the M2-E05 decision-time causal boundary
+
+Add a synthetic regression test showing that future prices can change execution results while the earlier momentum decision stays fixed. Verify that the test catches a planted look-ahead.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `tests/test_evaluation.py`
+
+## 2026-11-09 — Close the M2-E04 synthetic interaction comparison
+
+Record the four-fit comparison and retain the fixed XOR and null results as a technical reference. Both predeclared error criteria passed.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e04/compare_interaction.py`
+- `artifacts/m2-e04/interaction.json`
+
+## 2026-11-09 — Record optional research libraries
+
+Add six conditional tool entries with revisit criteria and refine the existing equal-budget Optuna comparison. Translate the runner's display name in both planning records. The documentation review and update took less than five minutes and used zero research runs.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `configs/model_tool_registry.json`
+- `docs/MODEL_TOOL_CATALOG.md`
+
+## 2026-11-09 — Queue the M2-E04 synthetic interaction comparison
+
+Record the fixed XOR and null comparison, error thresholds and resource limits for the next proposed M2 probe. Leave the price-drop outcome exercise deferred.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Close the M2-E03 extended development coverage check
+
+Record the acquisition scope guard and the authorized counts for January 1 through 4, 2026 UTC. The five-day window supplied two pairs on one date, so the outcome exercise remains deferred.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e03/run_coverage.py`
+- `artifacts/m2-e03/coverage.json`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-01.zip`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-01.zip.CHECKSUM`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-02.zip`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-02.zip.CHECKSUM`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-03.zip`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-03.zip.CHECKSUM`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-04.zip`
+- `artifacts/m2-e03/BTCUSDT-1m-2026-01-04.zip.CHECKSUM`
+
+## 2026-11-09 — Queue the M2-E03 extended development coverage check
+
+Define the fixed earlier development window, coverage criterion and acquisition limits. Keep M2-E03 waiting for authorization to use the four additional archives.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Close the M2-E02 development data coverage check
+
+Record the single authorized coverage count on January 5, 2026 UTC. The fixed rule found zero triggers and pairs, so the outcome exercise is deferred.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m2-e02/count_pairs.py`
+- `artifacts/m2-e02/coverage.json`
+
+## 2026-11-09 — Queue the M2-E02 development data coverage check
+
+Specify a count of eligible event and control pairs on the existing development day as the next decision after M2-E01. Keep the probe waiting for authorization.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Record the M2-E01 synthetic decision probe
+
+Freeze the authorized synthetic inputs and advancement rule, then record why the matched screen deferred the event follow-up. Close the probe and leave the M2 acceptance criteria open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Grant standing approval for AQRS work under eight hours
+
+Remove the separate start signal for bounded work under eight hours within existing scope and limits. Elapsed time to the documentation update was about 49 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+
+## 2026-11-09 — Accept the bounded M1 BTCUSDT research workflow
+
+Record the matching replay from the isolated Windows installation and reuse the archived fresh Ubuntu run. Close the M1 technical gate within the documented data and use scope and align the handoff and project status. M2 awaits separate authorization.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e11/` contains the frozen configuration, lineage, log, run, journal and comparison.
+
+## 2026-11-09 — Review M1 and record the fresh Windows preflight stop
+
+Record the M1 criterion-by-criterion review, fresh offline Windows installation, bounded pilot timeout and import diagnostics. Queue one further Windows replay for separate approval and keep M1 open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e08/` and `artifacts/m1-e09/` contain the setup logs.
+- `artifacts/m1-e10/` contains the verified wheel manifest, configuration, run, journal and import diagnostics.
+
+## 2026-11-09 — Queue the M1 acceptance evidence review
+
+Record the acceptance question, evidence review scope, budget and stop rule. Leave M1-E07 waiting for owner approval.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-09 — Reproduce the complete BTCUSDT research campaign
+
+Close M1-E06 after matching the 30-minute campaign through training, prediction and simulation on Windows and Ubuntu. Record the holdout separation, costs, resource evidence and Windows stage timing limitation. Leave formal M1 acceptance open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e06/` contains the frozen configuration, lineage, both platform logs, both runs and journals, and the comparison script and result.
+
+## 2026-11-08 — Queue one complete real-data campaign check
+
+Record the fixed 30-minute M1-E06 variant, its scope, technical acceptance criteria and stop rule. Leave it waiting for owner approval.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Start requirements discussions without assumed prior knowledge
+
+Require Codex to explain the relevant basics and practical consequences so the owner can decide without needing technical expertise. The timed review before editing took about 16 seconds. No research runs or fits were required.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Make broad requirements discovery explicit in AGENTS.md
+
+Assign Codex responsibility for investigating wishes, unmet needs and architecture concerns, including when the owner cannot yet identify the need. Link the existing development guidance. The timed review before editing took about 18 seconds. No research runs or fits were required.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Include needs and architecture in requirements discovery
+
+Clarify how Codex investigates wishes, unmet needs and credible future architecture scenarios, including when the current workflow succeeds. The timed source and repository review took about 24 seconds. This documentation change required no research runs or fits.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+
+## 2026-11-08 — Start requirements engineering with problem discovery
+
+Make concrete workflow evidence and an agreed problem the starting point for the existing Lean Test Card. Define how Codex investigates when the owner cannot yet name a problem. The timed source and repository review took about 58 seconds. This documentation change required no research runs or fits.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+
+## 2026-11-08 — Verify a fixed BTCUSDT execution case on Windows and Ubuntu
+
+Record the independent fill and cost comparison, holdout boundary check, measured resources and closed M1-E05 result. Full M1 acceptance remains open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e05/` contains the runnable check, platform logs and comparison reports.
+
+## 2026-11-08 — Queue a real-data execution check
+
+Record a bounded M1-E05 proposal for a fixed simulated trade on the verified BTCUSDT day. Queue it ahead of M2-E01 and leave it waiting for owner approval.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Assign requirements engineering to Codex
+
+Record Codex's responsibility for deriving and explaining bounded, testable proposals. Keep owner approval and routine technical autonomy in the existing working method.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Start chat titles with the recorded work ID
+
+Use the recorded experiment or work item ID as the title prefix when available. Elapsed time to the documentation update was about 26 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Reproduce the first BTCUSDT cost screen on Windows and Ubuntu
+
+Connect the verified daily Binance archive to the supervised research CLI. Persist the source manifest, isolated holdout reservation and stage timings. Both approved campaigns completed at the same training-only cost screen, before a real-data model fit or simulation. Record the evidence and leave full M1 acceptance open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/m1-e04.yaml`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/__main__.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/config.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/planning.py`
+- `src/aqrs/research.py`
+- `tests/test_cli.py`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e04/` contains the Windows reports and journal, both platform logs, and the comparison record.
+- `artifacts/m1-e04/ubuntu/` contains the Ubuntu reports and journal.
+
+## 2026-11-08 — Queue the first bounded real-data campaign proposal
+
+Record the proposed BTCUSDT spot campaign, its reserved holdout, cost assumptions, platform evidence and resource plan. Leave M1-E04 waiting for owner authorization.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Recommend new chats at clear handoff points
+
+Define when Codex should recommend a new chat and what the handoff must contain. Elapsed time to the documentation update was about 31 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Suggest descriptive AQRS chat titles
+
+Add a chat title suggestion to the completion workflow. Elapsed time to the documentation update was about 26 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Define the owner-guided build workflow
+
+Specify when Codex proposes work, starts, asks for input, reports completion, and records the date and elapsed time. Elapsed time to the documentation update was about 39 seconds.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Verify a one-day Binance BTCUSDT spot import
+
+Add a bounded offline pilot using the existing AQRS bar interface and verify deterministic output and rejection of damaged input. Record the UTC mapping risk and leave full M1 acceptance open.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/binance_spot_pilot.py`
+- `tests/test_market.py`
+
+**Local ignored evidence**
+
+- `artifacts/m1-e02/BTCUSDT-1m-2026-01-05.zip`
+- `artifacts/m1-e02/BTCUSDT-1m-2026-01-05.zip.CHECKSUM`
+- `artifacts/m1-e02/import/dataset.csv`
+- `artifacts/m1-e02/import/import_report.json`
+- `artifacts/m1-e02/verification.json`
+
+## 2026-11-08 — Record the alternative no-cost NQ source screen
+
+Record the individual-contract sample, its timestamp evidence gap, and a proposed spot source for a separately scoped import test. Keep the NQ import pilot waiting.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+
+## 2026-11-08 — Narrow the Syncster preliminary review
+
+Limit Syncster follow-up to public material, record the owner clarification on local-use questions, and confirm the futures timestamp encoding from schema metadata.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+
+## 2026-11-08 — Record the Syncster NQ source screen
+
+Record the evidence for free access and the unresolved rights, coverage, timestamp, and rollover details. Close the screen as inconclusive and keep the import pilot waiting.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+
+## 2026-11-08 — Restrict market data selection to no-cost sources
+
+Record the owner's no-cost data policy and apply it to the M1 source screen. Require evidence of need and value plus owner approval before reconsidering paid data.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Guide the owner through the AQRS build
+
+Require plain-language guidance on the next step, the planned action and its result.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Clarify the role of the adaptive research design
+
+Link the adopted design to the binding Lean research rules and its AQRS integration mapping. Restore Holm's procedure as the source example for multiple testing.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/ADAPTIVE_QUANT_RESEARCH_PROPOSAL.md`
+
+## 2026-11-08 — Fix the confirmation budget before protected campaigns
+
+Require advance approval of confirmation slots, data scopes, and the test family. Link the admission rule to the M4 acceptance and fault tree.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RISK_REGISTER.md`
+
+## 2026-11-08 — Define binding Lean research rules for Codex
+
+Separate minimal infrastructure from mandatory research hygiene and complete journaling of tested variants.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-08 — Specify the first Lean research increment
+
+Record the supervised research workflow as the baseline for integrating the adaptive design. Require an observed bottleneck and a bounded test before automating a step.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+
+## 2026-11-08 — Adopt the adaptive research target design
+
+Translate and rename the owner-supplied v1.1 design so the methodology and security test matrix remain available as one reference. Compare the supplied v1.0 copy and retain v1.1 as the integration reference. Record the owner decision and milestone mapping, add the protected evaluation gate and its fault tree, and queue a bounded synthetic decision test.
+
+**Paths**
+
+- `CHANGELOG.md`
+- Renamed `docs/QUANT_RESEARCH_CODEX_HANDOFF.md` to `docs/ADAPTIVE_QUANT_RESEARCH_PROPOSAL.md` and translated it into English.
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+
+## 2026-11-08 — Apply decision value to queue reviews
+
+Require priority reviews when the queue or its assumptions change. Record why the M1 source screen precedes the conditional import pilot.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Prioritize experiments by decision value
+
+Weigh expected decision improvement against effort, delay, and displaced work in the Test Card and queue. Keep the existing approval, budget, and scientific gates.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Record mechanisms and competing explanations
+
+Add two prompts to the existing experiment cards. Tie the expected effect to a testable mechanism for material decisions and use the result to retire unnecessary tests.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Keep an ordered experiment queue
+
+Track dated experiments in the milestone status file. Define dispatch, prerequisites, follow-ups and cancellations. Register the M1 source screen and its conditional import pilot.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-08 — Require evidence before feature adoption and founding commitments
+
+Apply the Lean policy in AQRS discussions. Define provisional feature integration, backward planning for founding decisions, and a timeboxed M1 data-source screen.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-07 — Require a resource assessment for every feature proposal
+
+Make the Resource Governor assessment visible at proposal time. Separate
+development effort from recurring research compute and compare proposals with
+the existing limits before approval or implementation.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESOURCE_GOVERNOR.md`
+
+## 2026-11-07 — Define the lean research funnel and real-data timing checks
+
+Specify the bounded price-drop screen, its comparison at decision times, and
+when its evidence warrants another test. Record stage timings in the first M1
+real-data run. Apply the existing Resource Governor limits at every stage.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
+## 2026-11-07 — Define new M2 signals around observable events
+
+Record the event definition requirement in the research protocol and M2 gate.
+Document the decision against a recurring shifted-grid backtest.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
 ## 2026-11-06 — Upgrade the M0 workflow actions to Node.js 24
 
 Update checkout, Python setup and artifact upload to releases that declare

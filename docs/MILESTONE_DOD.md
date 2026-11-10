@@ -2,7 +2,7 @@
 
 **Status:** Binding target and acceptance specification for Codex. **No milestone has been implemented or accepted solely because this file exists.**
 
-**Implement now:** **v0.1 only**, as specified by `CODEX_START.md` and `DEFINITION_OF_DONE.md`. In later work, implement only the smallest next vertical increment with its own tests and evidence gate. This document preserves the **direction**, not a big-bang construction order.
+**Current scope:** Use `MILESTONE_STATUS.md` for accepted gates and the experiment queue. Implement only the smallest owner-authorized vertical increment with its own tests and evidence gate.
 
 ## 0. Three different meanings of “done”
 
@@ -43,7 +43,7 @@
 
 ---
 
-## M0 — v0.1: Walking Skeleton (**CURRENT ASSIGNMENT**)
+## M0 — v0.1: Walking Skeleton
 
 **Goal:** demonstrate on an ordinary CPU computer a complete, fully offline, reproducible research path, without asserting genuine market alpha.
 
@@ -74,6 +74,7 @@
 - [ ] Real-market costs/fill assumptions are labeled *estimated*, *measured* or *unknown* rather than treated as guaranteed.
 - [ ] Inadequate coverage or unsuitable horizons are surfaced as research risks, not silently interpolated away.
 - [ ] At least one end-to-end run on **real historical data** is archived. Negative findings are accepted.
+- [ ] The first archived real-data run records separate elapsed times for import, feature calculation, and execution simulation within its approved budget. If measurements identify repeated feature calculation as a bottleneck, evaluate computing shared causal features once per run. Verify equivalent outputs, preserved fold and holdout boundaries, and lower elapsed time before adopting reuse.
 - [ ] Before DeepLOB/FinBERT/GNN or other input-specific pilots, a catalog prereq audit documents whether order-book/text/multi-asset data, licenses and correct timestamps exist. Missing input leads to `BLOCKED_DATA`, not invented observations.
 - [ ] Clean native Windows and headless Linux runs persist the real-data artifacts and respects ordinary CPU/memory budgets.
 
@@ -93,6 +94,8 @@
 - [ ] **LightGBM supervised challenger** and **Isolation Forest unsupervised hypothesis generator** each have a reproducible bounded pilot compared with a simple baseline; anomaly score is not alpha. A genuine blocker keeps the gate `BLOCKED`, never fakes a pass.
 - [ ] **XGBoost, HDBSCAN, PCA, autoencoders and Random Forest** have model cards and either a fair bounded pilot or an explicit `BLOCKED_*`/`DEFERRED`/`REJECTED` decision with objective rationale/revisit trigger. CatBoost, GMM, K-Means, HMM and other `CONDITIONAL` entries stay registered without compulsory adoption.
 - [ ] Each candidate records whether its hypothesis was preregistered or discovered from data, as well as horizon, inputs and their availability timestamps.
+- [ ] Each new signal records the observable event or decision condition, its detection rule and its observation cadence under the [research protocol](RESEARCH_PROTOCOL.md#define-new-signals-around-the-event-under-study).
+- [ ] The rule-based event study demonstrates a [bounded screen](RESEARCH_PROTOCOL.md#lean-research-funnel) with matched controls, early cost estimates, and a recorded advance, defer, or stop decision.
 - [ ] Forecast value is compared with a trivial predictor and suitable simple model baseline on the same chronological research folds.
 - [ ] A candidate→decision control demonstrates that apparent value is not simply a known market filter; e.g. volume+downtrend against downtrend alone.
 - [ ] At least one negative control (e.g. time/block-preserving placebo or condition-matched random entry) can identify a deliberately misleading correlation.
@@ -142,6 +145,8 @@
 
 - [ ] A candidate can be frozen into an **immutable version**. Features, model, policy, costs and selection criterion are locked **before** final evaluation.
 - [ ] Final testing is isolated from the normal scheduler. Holdout access is tracked **across candidates and campaigns**, because evaluating many different finalists on one set consumes independence. Repeated access cannot count as new evidence or feed later optimization.
+- [ ] Each protected campaign has an approved [confirmation budget](RESEARCH_PROTOCOL.md#4-out-of-sample-research-validation) before it starts. Demonstrate rejection of incomplete plans, out-of-plan requests and exhausted slot budgets before protected data access.
+- [ ] Before any real protected evaluation, pass the M1-S security acceptance in the [adopted adaptive research design](ADAPTIVE_QUANT_RESEARCH_PROPOSAL.md#m1-s-technical-isolation-and-sealed-evaluation). Use synthetic secrets in the actual isolated test environment. Verify the external authority boundary, time-limited inputs to candidate code, controlled result release and exposure tracking with SEC01–SEC24. Without verified isolation, keep protected evaluation synthetic and report `ISOLATION_NOT_VERIFIED`. M1 source and import feasibility work can use authorized development data.
 - [ ] Adversarial tests show purging/embargo and train-only fit prevent target overlap, preprocessing or feature knowledge leaking into OOS periods.
 - [ ] Uncertainty handles serial dependence; effective independent sample size, blocks or market episodes are documented.
 - [ ] Registry/trial count includes attempted LightGBM, XGBoost, autoencoder, HDBSCAN and other variants, not just winners.
@@ -295,7 +300,7 @@ AQRS can be v1.0 even when all alpha candidates fail. That is intentional. Each 
 
 ## 11. Project governance and change control
 
-- **Now:** implement M0/v0.1 only. M1–M9 guide extension points and intentionally deferred decisions.
+- **Authorization:** Use the milestone status for completed gates and experiment start conditions. Future gates guide extension points and deferred decisions.
 - **After every gate:** choose the next smallest complete vertical increment. No obligation to deploy all cataloged models if simpler methods achieve the same scientifically supported function.
 - **Changes:** substantive alternatives require a recorded ADR with rationale, risks, baseline and revised acceptance test. Never secretly move the goalposts to pass tests.
 - **Blockers:** dataset licenses, real venue rules and execution contracts cannot be invented. Real-data gates stay `BLOCKED` if real inputs are missing; synthetic examples prove technical plumbing but not those gates.

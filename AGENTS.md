@@ -27,44 +27,66 @@ Build and evolve AQRS as a **reproducible, cost-aware, scientifically auditable*
 ## Lean Build–Measure–Learn development policy (permanent)
 
 - **Use the binding [`docs/DEVELOPMENT_PROCESS.md`](docs/DEVELOPMENT_PROCESS.md) for every substantive Codex development increment.** This is a process for building AQRS, separate from the internal market-research feedback loop and research journal.
+- **Apply this policy in owner conversations about AQRS improvements**, including chats opened outside the repository. Read these instructions and the relevant canonical document before advising or planning. Distinguish proposals from owner decisions and record agreed durable changes in the existing canonical documents in the same task.
+- **Treat every new feature integration as an experiment.** Before integration, define the hypothesis, baseline, measurable success criteria, budget and stop or rollback rule. Decide on permanent adoption only after reviewing the evidence. Apply the same backward planning to material founding commitments using the [venture experiment rules](docs/DEVELOPMENT_PROCESS.md#feature-and-venture-experiments).
 - **Mandatory Backward Development → Forward Execution:** plan from the current milestone's acceptance evidence backwards to the minimum proof and implementation; then build and test forward through the smallest vertical slice. Define the test and stop condition before writing code.
 - **Risk-triggered Fault Tree Analysis:** before modifying critical data-causality, costs, decision/execution, final-holdout, journal-integrity, compute-guard or cross-platform process/memory safety contracts, identify undesirable top event(s), credible AND/OR failure paths, safeguards, and negative tests in `docs/RISK_REGISTER.md`. Routine changes do not require a full fault tree; document the risk-screen decision.
 - **Mandatory incident postmortems:** for material failures or recurring defects, record a blameless timeline, causal hypotheses, missed guards, corrective actions and verification evidence in existing `docs/MILESTONE_STATUS.md` or linked issue. No invented incidents, separate postmortem document or unbounded forensic investigation.
 - **Remember rejected ideas:** record consequential failed or abandoned engineering methods with evidence, replacement, and specific revisit criteria in `docs/DECISIONS.md` (`IDEA-###`). Check prior entries before reattempting a similar method; failed financial research variants belong in the Research Journal, not the developer decision log.
 - **One active development hypothesis (WIP=1).** Before coding, state the riskiest assumption, smallest decision-changing test, baseline, pass/fail criteria, estimated development effort and compute budget. Choose what evidence is needed **before** choosing what to build.
 - Build one bounded, runnable vertical slice; measure actual outcomes with targeted tests; decide `PERSEVERE`, `PIVOT`, `STOP`, or `DEFER` and report `SUPPORTED`, `REFUTED`, `INCONCLUSIVE`, or `BLOCKED`. Falsification is valid progress.
+- **Maintain the dated [experiment queue](docs/MILESTONE_STATUS.md#experiment-queue)** when planning experiments in chat or in the repository. Rank pending entries by expected decision value against effort, waiting time, and displaced work. Reassess pending priorities when adding an experiment, after each result, and when evidence, costs, waiting time, or start conditions materially change. Update the order as needed and follow the existing start conditions.
 - Record the current Test/Learning Card in the existing `docs/MILESTONE_STATUS.md` or an existing GitHub issue. **Never create a document per experiment**. No auto-escalation of development scope, testing or compute budgets; refocus or ask for owner approval.
 - Keep product-development evidence separate from scientific alpha evidence. Research runtime limits in `docs/RESOURCE_GOVERNOR.md` remain mandatory; development timeboxes do not override them.
 
 ## Working method
 
+Codex leads requirements engineering for AQRS. When the owner explicitly requests "requirements mode", "requirements engineer", or equivalent, follow the [Requirements Engineer instructions](docs/requirements/AGENTS.md) and work only in that role.
+
+**Guide the owner through the build in plain German.** In every completion message and whenever the owner asks what comes next, recommend one concrete step or a short sequence of related steps based on the experiment queue and current evidence. If no step can start, name the next decision or missing prerequisite. If the objective is complete and nothing remains, say so. Explain why, what Codex plans to do, and how the owner will know it is complete. Apply the standing approval rule below to the full plan. Carry the authorized sequence through completion in one continuous work session where possible. Treat small steps and routine checks as checkpoints and continue after them. Resolve routine issues within scope, existing limits, and retry rules. Share meaningful progress without waiting for a reply. If a step fails or a prerequisite changes and blocks the sequence, promptly explain what happened, what is affected, and the recommended way forward. Pause only dependent work until the blocker is resolved. Stop when the approved stop condition applies or progress requires owner input, expanded scope, or a higher budget.
+
+**Standing approval for work under eight hours.** Proceed without asking for a start signal when the entire proposed work item or sequence is expected to take less than eight hours and fits the authorized project scope and existing resource limits. Keep work in small, verifiable increments. If the whole item or sequence is expected to take eight hours or more, or the estimate rises to that level, ask before starting or continuing. The time rule does not expand milestone scope, change spending or compute limits, or replace required data-access and release approvals.
+
+If a material owner decision or missing input blocks progress, explain the problem in plain language, recommend a way forward, and describe any viable alternatives and their trade-offs. Assume no specialist background in mathematics, quantitative research, or software engineering. Explain essential technical terms.
+
+When the agreed step is complete, tell the owner what was done, what was verified, and what remains open. Suggest a short German chat title that identifies the main work or decision so the owner can find the chat later. Start the title with the recorded experiment or work item ID when one exists (for example, M1-E04), followed by a short description. Use AQRS as the prefix when there is no ID. Record the work briefly with the date and actual elapsed working time in the relevant existing document or Research Journal. Use the milestone record for development evidence and the changelog for substantive repository changes.
+
+Recommend a new chat in the same AQRS project when the next objective is distinct or the current chat makes scope and evidence hard to recover. Prefer a completed step as the handoff point. Explain the reason and give the owner a short, copyable German handoff with the verified state, open decisions, next proposed step, and applicable authorization limits.
+
 1. Before changing anything, read `AGENTS.md`, `docs/LANGUAGE_POLICY.md`, `README.md`, `CODEX_START.md`, `CHANGELOG.md`, `docs/DECISIONS.md` and the current milestone acceptance criteria. Read the additional architecture, contracts, model catalog, Resource Governor and scientific protocols **relevant to the specific change**. For initial repository takeover, follow the full reading order in `CODEX_START.md`; avoid rereading every specification for small, unrelated edits.
 2. Inspect existing files before modifying them. Do not overwrite blindly or break existing functionality without tests.
 3. Work **vertical slice first**, under the predeclared Build–Measure–Learn Test Card: deliver the smallest end-to-end proof before generic frameworks, plug-in infrastructure or a UI.
 4. Never claim to have run tests you have not actually executed. Record commands, exits and results.
-5. Record architecture decisions in `docs/DECISIONS.md`, unresolved issues in `docs/OPEN_QUESTIONS.md`, changed user-facing behavior in `README.md`, and all changed file paths in the sole root `CHANGELOG.md` (date + concise purpose). Update existing documents instead of creating duplicates.
+5. Record architecture decisions in `docs/DECISIONS.md`, project-wide unresolved issues in `docs/OPEN_QUESTIONS.md`, changed user-facing behavior in `README.md`, and all changed file paths in the sole root `CHANGELOG.md` (date + concise purpose). Update existing documents instead of creating duplicates.
 6. Never silently alter research rules, cost assumptions, data partitions or benchmarks to improve reported performance.
 7. Negative and failed experiments are **first-class research records**.
-8. The target product is **v1.0 as defined in `docs/PRODUCT_VISION.md`**. Implement only the milestone authorized by `CODEX_START.md` (currently **M0/v0.1**). Later acceptance gates guide design; they are not permission to implement every feature now.
-9. File existence does not prove a milestone is complete. Update `docs/MILESTONE_STATUS.md` only after actual tests and auditable evidence; incomplete gates remain open.
+8. The target product is **v1.0 as defined in `docs/PRODUCT_VISION.md`**. Follow `CODEX_START.md` for takeover and implement only the milestone scope authorized by the owner. Later acceptance gates guide design and require separate scope authorization.
+9. Record the Test Card before implementation under the [development process](docs/DEVELOPMENT_PROCESS.md#1-write-a-compact-test-card-before-implementation). Mark a milestone `ACCEPTED` in `docs/MILESTONE_STATUS.md` only after its acceptance tests pass and auditable evidence is recorded. Incomplete gates remain open.
 10. Keep **software DoD**, **scientifically supported candidate**, and **economically viable candidate** distinct. A profitable strategy is not a prerequisite for a software milestone.
 
 ## Model and technology governance
 
 - The model/tool registry and catalog are long-term **planning documents**, not an instruction to install every library in v0.1.
 - `CORE`: working capability required by the specified gate. `EVALUATE`: fair comparison or documented reproducible no-go/blocker at that gate. `CONDITIONAL`: assess only if data and use case warrant it. `DEFERRED`: requires explicit later scope authorization.
-- By v0.3 execute at least one **supervised** and one **unsupervised** discovery pilot, normally LightGBM and Isolation Forest, once suitable data exist. An anomaly score alone is never alpha.
+- Follow the [M2 Definition of Done](docs/MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls) for the required supervised and unsupervised discovery pilots. An anomaly score alone is never alpha.
 - Do not silently drop HDBSCAN, autoencoders or any other cataloged model. Record decisions as `ADOPTED`, `REJECTED`, `DEFERRED`, or `BLOCKED_*` with evidence and the relevant gate.
 - Distinguish predictive ML, anomaly/regime detection, feature/model selection, research scheduling, decision policy and execution. Every tuning attempt counts toward multiple-testing exposure.
 - Check software, model-weight and dataset licenses **separately**. FinBERT weights are not automatically licensed for commercial use.
 
 ## Compute Budget First — mandatory from M0
 
-- **Before every expensive research run**, compute planned trial/fit/seed/fold counts, estimated wall time, memory usage and limits from `configs/research.yaml`. Do not run hidden Cartesian-product searches. Normative specification: [`docs/RESOURCE_GOVERNOR.md`](docs/RESOURCE_GOVERNOR.md).
+- **Every new AQRS feature proposal must include a visible Resource Governor assessment when proposed**, including proposals made in discussion. Present the assessment before approval or implementation. State the impact on the existing budget and follow the [feature proposal review](docs/RESOURCE_GOVERNOR.md#resource-assessment-for-every-feature-proposal).
+- **Run the [Resource Governor preflight](docs/RESOURCE_GOVERNOR.md#2-preflight-before-each-campaign) before every research campaign.** Use the limits in `configs/research.yaml` and account for the full planned search.
 - Implement a **real enforcement mechanism** in v0.1: isolated trial execution, external wall-time watchdog, observed RAM/OS-enforced memory guard as supported, fit/trial/campaign/concurrency budgets, persistent stop reasons. If a required safety guarantee is unavailable on the current platform, fail closed rather than silently proceeding.
 - Large calibrations and validations require a bounded pilot and conservative documented extrapolation. A predicted multi-year calibration must be rejected at preflight, before the full run begins.
 - `REJECTED_PREFLIGHT`, `TIMED_OUT`, `MEMORY_LIMIT`, `BUDGET_EXHAUSTED` describe **execution/resource outcomes**, not negative alpha evidence. No automatic retries, retuning spirals or silent budget escalation.
 - Every long-running operation must have an explicit stop path. A bounded, accurately reported partial experiment beats an eight-year calibration. See [`docs/RISK_REGISTER.md`](docs/RISK_REGISTER.md).
+
+## Lean research rules (binding)
+
+- **Lean infrastructure.** Build only the smallest end-to-end workflow that can answer the current research question with adequate evidence.
+- **Research hygiene from the first data-based trial.** Use point-in-time inputs. Document execution costs whenever assessing trading outcomes and apply the same cost assumptions to candidates and controls. Reserve the final holdout before exploration and keep it separate until authorized evaluation of a frozen candidate. Follow the [research protocol](docs/RESEARCH_PROTOCOL.md).
+- **Fast, counted exploration.** Iterate on development data and record every tested variant in the Research Journal with an ID and reproducible configuration. Include manual screens, null results, failures, and aborted attempts. Log reruns as separate attempts of the same variant.
 
 ## Non-negotiable research invariants
 
@@ -75,7 +97,6 @@ Build and evolve AQRS as a **reproducible, cost-aware, scientifically auditable*
 - Report prediction accuracy, net economic value and incremental signal value separately.
 - Fees, spread and slippage are distinct costs. No free fill at the signal bar close. Apply funding only to relevant instruments at actual funding events.
 - Comparable policies and control groups must share execution, position-sizing and cost assumptions.
-- Every trial/variant has a journal ID and reproducible configuration. Never omit failures.
 - The final holdout must never feed the adaptive research priority loop. Repeated feedback consumes holdout independence.
 - Never claim genuine alpha from synthetic data or a small cluster of correlated trades.
 

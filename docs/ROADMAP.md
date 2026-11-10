@@ -8,7 +8,7 @@ All milestones are delivered through small, **risk-first Build–Measure–Learn
 
 ## Principle
 
-Use **Lean Startup / Walking Skeleton**. Every milestone extends an end-to-end working research path. No big-bang implementation, promised completion times or feature expansion without scientific or engineering benefit. **Implement M0/v0.1 only now**; M1–M9 are product guidance, not concurrent assignments. The permanent English-only policy in `docs/LANGUAGE_POLICY.md` binds every future Codex addition/revision and every release. Native Windows and Linux are tested platforms at each release. The language check and manual review are required at every milestone gate.
+Use **Lean Startup / Walking Skeleton**. Every milestone extends an end-to-end working research path. No big-bang implementation, promised completion times or feature expansion without scientific or engineering benefit. Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) and recorded owner authorization to select the next eligible increment. The permanent English-only policy in `docs/LANGUAGE_POLICY.md` binds every future Codex addition/revision and every release. Native Windows and Linux are tested platforms at each release. The language check and manual review are required at every milestone gate.
 
 | Gate | Version | New capability | Core acceptance |
 |---|---|---|---|
