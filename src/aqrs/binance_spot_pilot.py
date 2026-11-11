@@ -59,6 +59,7 @@ def load_spot_day(
     *,
     symbol: str,
     expected_digest: str | None = None,
+    expected_checksum_digest: str | None = None,
 ) -> SpotDay:
     """Validate one complete Spot day and retain bar-close activity fields."""
     require_spot_identity(symbol, day)
@@ -72,6 +73,7 @@ def load_spot_day(
         symbol,
         retain_activity=True,
         expected_digest=expected_digest,
+        expected_checksum_digest=expected_checksum_digest,
     )
 
 
@@ -103,6 +105,7 @@ def _read_day(
     *,
     retain_activity: bool,
     expected_digest: str | None = None,
+    expected_checksum_digest: str | None = None,
 ) -> SpotDay:
     require_spot_identity(symbol, day)
     stem = f"{symbol}-1m-{day.isoformat()}"
@@ -112,6 +115,11 @@ def _read_day(
         published = source.read(4097)
     if len(payload) > INPUT_LIMIT or len(published) > 4096:
         raise ValueError("Archive or checksum exceeds the pilot size limit.")
+    if (
+        expected_checksum_digest is not None
+        and sha256(published).hexdigest() != expected_checksum_digest
+    ):
+        raise ValueError("Observed checksum bytes differ from the D01 receipt.")
     digest = sha256(payload).hexdigest()
     if expected_digest is not None and digest != expected_digest:
         raise ValueError("Observed Spot digest differs from the historical receipt.")

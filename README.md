@@ -210,6 +210,11 @@ BTCUSDT Spot days. An Ubuntu market replay also requires the valid Windows
 report bound by digest. See the [Test Card](docs/MILESTONE_STATUS.md#m2-e14-guarded-campaign-entry-test-card)
 for eligibility, the shared Governor plan and the descriptive claim.
 
+Select `--campaign M2-E18` to exercise the same entry with the fixed
+December 1–10, 2025 AQRS-D01 scope. Its market preparation also verifies
+the D01 archive and checksum digests and the M2-E17 training-prefix
+fingerprint. See the [M2-E18 Test Card](docs/MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+
 ## Compute Budget First: avoid multi-year calibrations
 
 AQRS treats compute budgets as **hard safety controls**, beginning with M0/v0.1. The Research Manager proposes what to investigate; a separate **Resource Governor** decides whether and for how long it may run. The default plan allows at most two research trials, 12 model fits, one seed and one parallel trial, with a 120-second trial timeout, 300-second campaign timeout and a 4-GiB sampled tree RSS stop threshold (see YAML; hardware-dependent defaults, not performance guarantees).

@@ -124,6 +124,21 @@ Independent full-path review remains a campaign admission condition. The
 matched event comparison is observational. Non-overlap controls the holding
 windows, with serial dependence and trigger contamination still possible.
 
+### FTA-M2-E18: scope-bound reuse
+
+Apply [FTA-M2-E14](#fta-m2-e14-pre-outcome-implementation-plan) to the
+registered December 1–10 BTCUSDT scope. The additional top event is an
+apparently valid result attributed to the wrong campaign or training set.
+Credible paths are an earlier definition, receipt or variant identifier
+being reused across scopes, or a correct calendar with different archive
+bytes or a different first training prefix. Bind the new variants, exact
+D01 archive and checksum digests, and the M2-E17 training dataset ID to
+the published scope. Test rejection of cross-scope input and receipts,
+altered digests, a mismatched training fingerprint and missing diagnostics.
+Preserve the previous scope's CLI and attempt identities. Independent review
+and a frozen-revision platform comparison are required before closing the
+[Test Card](MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.

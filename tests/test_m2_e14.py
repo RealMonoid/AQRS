@@ -128,8 +128,9 @@ def test_matched_costs_and_all_opportunity_denominator(effect):
     assert COSTS["decision_buffer_bps"] == 2 and HORIZON == 30
 
 
+@pytest.mark.parametrize("campaign", ["M2-E14", "M2-E18"])
 def test_market_entry_rejects_missing_authorization_before_any_work(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, campaign
 ):
     def forbidden(*args, **kwargs):
         pytest.fail("Admission reached work or the archive loader.")
@@ -138,7 +139,10 @@ def test_market_entry_rejects_missing_authorization_before_any_work(
     monkeypatch.setattr(m2_e14, "load_spot_day", forbidden)
     with pytest.raises(ValueError, match="authorization"):
         m2_e14.run_campaign(
-            tmp_path / "out", ROOT / "configs/research.yaml", market_root=tmp_path
+            tmp_path / "out",
+            ROOT / "configs/research.yaml",
+            market_root=tmp_path,
+            campaign=m2_e14.CAMPAIGNS[campaign],
         )
     assert not (tmp_path / "out").exists()
 
@@ -257,7 +261,7 @@ def test_market_binding_rejects_changed_definition_or_missing_review(
         m2_e14.require_admission(receipt, definition, archives, config, ROOT)[0]
         == record
     )
-    assert verified == [(ROOT, revision)]
+    assert verified == [(ROOT, revision, m2_e14.E14)]
 
 
 @pytest.mark.parametrize("variant", m2_e14.CANDIDATES)
@@ -327,13 +331,58 @@ def test_ubuntu_replay_requires_exact_complete_windows_report(tmp_path, monkeypa
         m2_e14.require_windows_result(path, receipt)
     receipt["windows_report_sha256"] = sha256(path.read_bytes()).hexdigest()
     assert m2_e14.require_windows_result(path, receipt) == report
+    with pytest.raises(ValueError, match="does not qualify"):
+        m2_e14.require_windows_result(path, receipt, m2_e14.E18)
+    training_id = "f" * 64
+    scoped = report | {
+        "dataset_scope": list(m2_e14.E18.days),
+        "configuration": report["configuration"]
+        | {"campaign_id": "M2-E18", "variant": "M2-E18"},
+        "stages": {"prepare": {"result": {"training_dataset_id": training_id}}},
+        "trials": {
+            name: {"result": {"evaluation_status": "COMPLETED"}}
+            for name in m2_e14.E18.variants
+        },
+    }
+    scoped_admission = receipt | {"training_dataset_id": training_id}
+    for altered, accepts in (
+        (scoped, True),
+        (
+            scoped
+            | {"stages": {"prepare": {"result": {"training_dataset_id": "0" * 64}}}},
+            False,
+        ),
+        (
+            scoped
+            | {"configuration": scoped["configuration"] | {"campaign_id": "M2-E14"}},
+            False,
+        ),
+    ):
+        m2_e14.write_json(path, altered)
+        scoped_admission["windows_report_sha256"] = sha256(
+            path.read_bytes()
+        ).hexdigest()
+        if accepts:
+            assert (
+                m2_e14.require_windows_result(path, scoped_admission, m2_e14.E18)
+                == altered
+            )
+        else:
+            with pytest.raises(ValueError, match="campaign or training identity"):
+                m2_e14.require_windows_result(path, scoped_admission, m2_e14.E18)
     m2_e14.write_json(path, report | {"plan": {}})
     receipt["windows_report_sha256"] = sha256(path.read_bytes()).hexdigest()
     with pytest.raises(ValueError, match="does not qualify"):
         m2_e14.require_windows_result(path, receipt)
 
 
-def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
+@pytest.mark.parametrize("campaign", ["M2-E14", "M2-E18"])
+def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path, campaign):
+    volume_id, ridge_id = (
+        m2_e14.CANDIDATES
+        if campaign == "M2-E14"
+        else ("VOL_CONFIRM_E18_V1", "RIDGE_INCREMENT_E18_V1")
+    )
     output = tmp_path / "artifacts/open"
     completed = subprocess.run(
         [
@@ -341,6 +390,7 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
             "-B",
             "-m",
             "aqrs.m2_e14",
+            *(["--campaign", campaign] if campaign == "M2-E18" else []),
             "--synthetic",
             "--output",
             str(output),
@@ -357,13 +407,12 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
     assert completed.returncode == 0, completed.stdout + completed.stderr
     report = json.loads((output / "report.json").read_text(encoding="utf-8"))
     assert report["execution_status"] == "COMPLETED"
+    assert report["configuration"]["campaign_id"] == campaign
     assert report["plan"]["planned_fits"] == 7
     assert report["plan"]["started_fits"] == report["plan"]["completed_fits"] == 7
     assert report["dataset_scope"] == ["synthetic"]
-    assert (
-        report["trials"]["VOL_CONFIRM_V1"]["result"]["evaluation_status"] == "COMPLETED"
-    )
-    ridge = report["trials"]["RIDGE_INCREMENT_V1"]["result"]
+    assert report["trials"][volume_id]["result"]["evaluation_status"] == "COMPLETED"
+    ridge = report["trials"][ridge_id]["result"]
     assert ridge["comparison"]["aggregate"]["eligible_count"] == 8578
     views = [v for v in ridge["diagnostic_exposure"] if v["kind"] == "forecast_metric"]
     assert len(views) == 30
@@ -371,9 +420,7 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
         "three_feature_ridge",
         "one_feature_ridge",
     }
-    assert {view["attempt_id"] for view in views} == {
-        f"{report['run_id']}:RIDGE_INCREMENT_V1"
-    }
+    assert {view["attempt_id"] for view in views} == {f"{report['run_id']}:{ridge_id}"}
     assert {view["source_id"] for view in views} == {report["provenance"]["source_id"]}
     with sqlite3.connect(output / "research.sqlite3") as db:
         assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
@@ -382,8 +429,8 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
             "FROM experiments ORDER BY candidate_id"
         ).fetchall()
     assert [row[:3] for row in rows] == [
-        ("RIDGE_INCREMENT_V1", "COMPLETED", "INSUFFICIENT_EVIDENCE"),
-        ("VOL_CONFIRM_V1", "COMPLETED", "INSUFFICIENT_EVIDENCE"),
+        (ridge_id, "COMPLETED", "INSUFFICIENT_EVIDENCE"),
+        (volume_id, "COMPLETED", "INSUFFICIENT_EVIDENCE"),
     ]
     assert json.loads(rows[0][3])["diagnostic_exposure"] == ridge["diagnostic_exposure"]
     build_archive = runpy.run_path(str(ROOT / "scripts/evidence_archive.py"))["build"]
@@ -392,9 +439,73 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(tmp_path):
         (tmp_path / "evidence/exposure.json").read_text(encoding="utf-8")
     )
     recorded = next(
-        a for a in consolidated["attempts"] if a["candidate_id"] == "RIDGE_INCREMENT_V1"
+        a for a in consolidated["attempts"] if a["candidate_id"] == ridge_id
     )
     assert recorded["kind"] == "synthetic_engineering"
     assert recorded["diagnostic_exposure"] == ridge["diagnostic_exposure"]
     assert recorded["source_binding"]["attempt_id"] == views[0]["attempt_id"]
     assert recorded["source_binding"]["source_id"] == views[0]["source_id"]
+    if campaign == "M2-E18":
+        with sqlite3.connect(output / "research.sqlite3") as db:
+            db.execute(
+                "UPDATE experiments SET candidate_id = ? WHERE candidate_id = ?",
+                ("VOL_CONFIRM_V1", volume_id),
+            )
+        with pytest.raises(ValueError, match="scope or candidate registration"):
+            build_archive(tmp_path)
+
+
+def test_e18_pins_the_d01_dates_and_registered_training_prefix():
+    previous = m2_e14.read_json(ROOT / "evidence/m2-e14-verification.json")
+    assert m2_e14.frozen_definition(ROOT)[0] == previous["definition_id"]
+    campaign = m2_e14.CAMPAIGNS["M2-E18"]
+    definition, archives = m2_e14.frozen_definition(ROOT, campaign)
+    assert definition != previous["definition_id"]
+    assert [record["day"] for record in archives] == [
+        f"2025-12-{i:02d}" for i in range(1, 11)
+    ]
+    assert all(
+        record["name"] == f"BTCUSDT-1m-{record['day']}.zip" for record in archives
+    )
+    assert all(len(record["checksum_sha256"]) == 64 for record in archives)
+    expected = m2_e14.read_json(ROOT / "evidence/m2-e17-verification.json")
+    assert m2_e14.e17_training_id(expected, archives) == (
+        "84b5179bc227facbfab46cf5c786f7c7a432c412f7d9186295787cf2bad470c9"
+    )
+    altered = [archives[0] | {"sha256": "0" * 64}, *archives[1:]]
+    with pytest.raises(ValueError, match="training receipt"):
+        m2_e14.e17_training_id(expected, altered)
+
+
+def test_e18_rejects_cross_scope_before_archive_open(tmp_path, monkeypatch):
+    _, previous = m2_e14.frozen_definition(ROOT)
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("The E18 loader reached archive qualification for E14 dates.")
+
+    monkeypatch.setattr(m2_e14, "read_archive_directory", forbidden)
+    with pytest.raises(ValueError, match="allowlist"):
+        m2_e14.read_window(tmp_path, previous, campaign=m2_e14.CAMPAIGNS["M2-E18"])
+
+
+def test_e18_verifies_the_actual_training_prefix():
+    bars = generate(42, 14_400, 1, "BTCUSDT")
+    expected = Bars(bars.values[:5760], bars.symbol, 1).fingerprint
+    assert m2_e14.verify_training_prefix(bars, expected) == expected
+    with pytest.raises(ValueError, match="training fingerprint"):
+        m2_e14.verify_training_prefix(bars, "0" * 64)
+
+
+def test_e18_rejects_changed_sidecar_before_decoding(tmp_path, monkeypatch):
+    campaign = m2_e14.CAMPAIGNS["M2-E18"]
+    _, archives = m2_e14.frozen_definition(ROOT, campaign)
+    first = tmp_path / archives[0]["name"]
+    first.write_bytes(b"unused archive")
+    first.with_suffix(".zip.CHECKSUM").write_bytes(b"changed sidecar")
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Changed sidecar reached ZIP decoding.")
+
+    monkeypatch.setattr(binance_spot_pilot, "ZipFile", forbidden)
+    with pytest.raises(ValueError, match="checksum bytes"):
+        m2_e14.read_window(tmp_path, archives, campaign=campaign)

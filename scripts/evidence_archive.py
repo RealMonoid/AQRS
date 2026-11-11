@@ -199,8 +199,28 @@ def build(root):
                         "lightgbm_parameters", config.get("isolation_forest")
                     ),
                 }
-                market_e14 = config.get("campaign_id") == "M2-E14" and config.get("variant") == "M2-E14"
-                variant_id = cid if market_e14 else (
+                market = config.get("market", {})
+                scope = config.get("days") or (
+                    [market["day"]] if "day" in market else ["synthetic"]
+                )
+                campaign_id = config.get("campaign_id")
+                discovery = campaign_id in {"M2-E14", "M2-E18"}
+                registered_market = discovery and config.get("variant") == campaign_id
+                if discovery:
+                    from aqrs.m2_e14 import CAMPAIGNS
+
+                    campaign = CAMPAIGNS[campaign_id]
+                    expected_scope = list(campaign.days) if registered_market else ["synthetic"]
+                    expected_variant = campaign_id if registered_market else f"{campaign_id}-SYNTHETIC"
+                    candidate_ids = [row["id"] for row in config["research"]["candidates"]]
+                    if (
+                        candidate_ids != list(campaign.variants)
+                        or cid not in campaign.variants
+                        or scope != expected_scope
+                        or config.get("variant") != expected_variant
+                    ):
+                        raise ValueError("Discovery campaign scope or candidate registration differs.")
+                variant_id = cid if registered_market else (
                     "historical-"
                     + digest(json.dumps(signature, sort_keys=True).encode())[:16]
                 )
@@ -210,14 +230,10 @@ def build(root):
                         "variant_id": variant_id,
                         "definition": signature,
                         "registration": "prospective_market_definition"
-                        if market_e14 else "retrospective_reconstruction",
+                        if registered_market else "retrospective_reconstruction",
                         "attempt_ids": [],
                     },
                 )["attempt_ids"].append(eid)
-                market = config.get("market", {})
-                scope = config.get("days") or (
-                    [market["day"]] if "day" in market else ["synthetic"]
-                )
                 attempts.append(
                     {
                         "experiment_id": eid,
@@ -244,13 +260,13 @@ def build(root):
                 diagnostics = metrics_record.get("diagnostic_exposure")
                 if diagnostics is not None:
                     attempts[-1]["diagnostic_exposure"] = diagnostics
-                if config.get("campaign_id") == "M2-E14":
+                if discovery:
                     if (
                         execution == "COMPLETED"
                         and metrics_record.get("result", {}).get("evaluation_status") == "COMPLETED"
                         and not diagnostics
                     ):
-                        raise ValueError("Completed M2-E14 comparison lacks diagnostic receipts.")
+                        raise ValueError("Completed discovery comparison lacks diagnostic receipts.")
                     binding = {
                         "attempt_id": eid,
                         "prospective_variant_id": cid,
@@ -264,7 +280,7 @@ def build(root):
                         any(view.get(key) != value for key, value in binding.items())
                         for view in diagnostics or []
                     ):
-                        raise ValueError("M2-E14 diagnostic attempt binding differs from its campaign.")
+                        raise ValueError("Discovery diagnostic attempt binding differs from its campaign.")
                     attempts[-1]["source_binding"] = binding
     if len({a["experiment_id"] for a in attempts}) != len(attempts):
         raise ValueError(

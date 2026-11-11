@@ -1,4 +1,4 @@
-"""Guarded entry for the fixed BTCUSDT discovery comparison."""
+"""Guarded entry for the fixed BTCUSDT discovery comparisons."""
 
 import argparse
 import json
@@ -7,7 +7,8 @@ import re
 import subprocess
 import sys
 from contextlib import closing
-from datetime import date, timedelta
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -40,14 +41,45 @@ from aqrs.storage import fingerprint, write_json, write_text
 from aqrs.worker import run as run_worker
 
 ROOT = Path(__file__).resolve().parents[2]
-BRANCH = "codex/m2-e14"
 SYMBOL = "BTCUSDT"
-DAYS = tuple((date(2025, 12, 25) + timedelta(days=i)).isoformat() for i in range(10))
-DEFINITION_FILES = (
-    "docs/MILESTONE_STATUS.md",
-    "evidence/exposure.json",
-    "evidence/manifest.json",
+STATUS_PATH = "docs/MILESTONE_STATUS.md"
+EXPOSURE_PATH = "evidence/exposure.json"
+D01_PATH = "evidence/aqrs-d01-verification.json"
+E17_PATH = "evidence/m2-e17-verification.json"
+MANIFEST_PATH = "evidence/manifest.json"
+
+
+@dataclass(frozen=True)
+class Campaign:
+    name: str
+    first_day: date
+    variants: tuple[str, str]
+    evidence_files: tuple[str, ...]
+
+    @property
+    def days(self):
+        return tuple(
+            (self.first_day + timedelta(days=i)).isoformat() for i in range(10)
+        )
+
+    @property
+    def definition_files(self):
+        return (STATUS_PATH, EXPOSURE_PATH, *self.evidence_files)
+
+    @property
+    def branch(self):
+        return f"codex/{self.name.lower()}"
+
+
+E14 = Campaign("M2-E14", date(2025, 12, 25), CANDIDATES, (MANIFEST_PATH,))
+E18 = Campaign(
+    "M2-E18",
+    date(2025, 12, 1),
+    ("VOL_CONFIRM_E18_V1", "RIDGE_INCREMENT_E18_V1"),
+    (D01_PATH, E17_PATH),
 )
+CAMPAIGNS = {campaign.name: campaign for campaign in (E14, E18)}
+DAYS = E14.days
 STAGES = {"timing": 5, "prepare": 20, CANDIDATES[0]: 25, CANDIDATES[1]: 30}
 FIT_LIMITS = {"timing": 1, "prepare": 0, CANDIDATES[0]: 2, CANDIDATES[1]: 4}
 POLICY_METRICS = [
@@ -90,25 +122,85 @@ def archive_rows(manifest: dict):
     return rows
 
 
-def frozen_definition(root: Path):
-    registrations = read_json(root / DEFINITION_FILES[1])["future_registrations"]
-    entries = [record for record in registrations if record["variant_id"] in CANDIDATES]
+def d01_archive_rows(receipt: dict):
+    (manifest,) = [
+        worker["result"]["manifest"]
+        for worker in receipt["acquisition"]["workers"]
+        if worker["result"]["manifest"]["symbol"] == SYMBOL
+    ]
+    if manifest["qualified"] is not True or manifest["bar_minutes"] != 1:
+        raise ValueError("The D01 BTCUSDT manifest is not qualified.")
+    rows = []
+    for day in E18.days:
+        (item,) = [record for record in manifest["archives"] if record["day"] == day]
+        if item["name"] != f"{SYMBOL}-1m-{day}.zip" or item["symbol"] != SYMBOL:
+            raise ValueError(
+                "The D01 archive identity differs from the registered scope."
+            )
+        row = {key: item[key] for key in ("name", "day", "sha256", "checksum_sha256")}
+        if not all(
+            re.fullmatch("[0-9a-f]{64}", row[key])
+            for key in ("sha256", "checksum_sha256")
+        ):
+            raise ValueError("Invalid qualified D01 archive or checksum digest.")
+        rows.append(row)
+    return rows
+
+
+def e17_training_id(receipt: dict, archives: list):
+    definition = receipt["registered_definition"]["definition"]
+    outcome = receipt["execution_receipt"]["outcome"]
+    result = outcome["result"]
+    if (
+        receipt["work_item"] != "M2-E17"
+        or outcome["execution_status"] != "COMPLETED"
+        or definition["prospective_window"] != list(E18.days)
+        or definition["input_archives"] != archives[:4]
+        or result["qualified_training_days"] != list(E18.days[:4])
+        or result["input_rows"] != 5760
+        or result["threshold_bps"] != 27
+        or result["clears_hurdle"] is not True
+        or not re.fullmatch("[0-9a-f]{64}", result["training_dataset_id"])
+    ):
+        raise ValueError(
+            "The M2-E17 training receipt differs from the registered prefix."
+        )
+    return result["training_dataset_id"]
+
+
+def verify_training_prefix(bars: Bars, expected: str):
+    training = Bars(bars.values[:5760], bars.symbol, bars.bar_minutes)
+    if training.fingerprint != expected:
+        raise ValueError("The qualified training fingerprint differs from M2-E17.")
+    return expected
+
+
+def frozen_definition(root: Path, campaign=E14):
+    registrations = read_json(root / EXPOSURE_PATH)["future_registrations"]
+    entries = [
+        record for record in registrations if record["variant_id"] in campaign.variants
+    ]
     intervals = {
         f"fold_{i}": [v.start, v.stop] for i, (_, v) in enumerate(folds_for_window(), 1)
     }
-    if len(entries) != 2 or {r["variant_id"] for r in entries} != set(CANDIDATES):
-        raise ValueError("Missing or duplicate M2-E14 registrations.")
+    if len(entries) != 2 or {r["variant_id"] for r in entries} != set(
+        campaign.variants
+    ):
+        raise ValueError(f"Missing or duplicate {campaign.name} registrations.")
     for record in entries:
         plan = record.get("diagnostic_plan", {})
         if (
             record.get("status") != "PLANNED_NOT_RUN"
-            or record.get("data_scope") != list(DAYS)
+            or record.get("work_item") != campaign.name
+            or record.get("data_scope") != list(campaign.days)
             or plan.get("validation_intervals") != intervals
             or plan.get("horizon_bars") != HORIZON
             or plan.get("status") != "PLANNED_NOT_RUN"
         ):
-            raise ValueError("M2-E14 scope or diagnostic registration differs.")
-        if record["variant_id"] == CANDIDATES[0]:
+            raise ValueError(
+                f"{campaign.name} scope or diagnostic registration differs."
+            )
+        if record["variant_id"] == campaign.variants[0]:
             if (
                 plan.get("views") != list(GROUP_VIEWS)
                 or plan.get("tables") != VOLUME_TABLES
@@ -143,11 +235,19 @@ def frozen_definition(root: Path):
                 ]
             ):
                 raise ValueError("Missing or changed Ridge diagnostic registration.")
-    card = (root / DEFINITION_FILES[0]).read_text(encoding="utf-8")
-    if "### M2-E14 guarded campaign entry Test Card" not in card:
-        raise ValueError("The M2-E14 implementation Test Card is missing.")
-    archives = archive_rows(read_json(root / DEFINITION_FILES[2]))
-    definition_id = fingerprint([entries, archives, COSTS, intervals])
+    card = (root / STATUS_PATH).read_text(encoding="utf-8")
+    if f"### {campaign.name} guarded campaign entry Test Card" not in card:
+        raise ValueError(f"The {campaign.name} implementation Test Card is missing.")
+    if campaign == E18:
+        archives = d01_archive_rows(read_json(root / D01_PATH))
+        prefix = e17_training_id(read_json(root / E17_PATH), archives)
+    else:
+        archives = archive_rows(read_json(root / MANIFEST_PATH))
+        prefix = None
+    identity = [entries, archives, COSTS, intervals]
+    if prefix:
+        identity.append(prefix)
+    definition_id = fingerprint(identity)
     return definition_id, archives
 
 
@@ -157,11 +257,11 @@ def git_bytes(root: Path, *arguments: str):
     ).stdout
 
 
-def verify_publication(root: Path, revision: str):
+def verify_publication(root: Path, revision: str, campaign=E14):
     if not re.fullmatch("[0-9a-f]{40}", revision):
         raise ValueError("An exact publication revision is required.")
     remote = git_bytes(
-        root, "ls-remote", "--exit-code", "origin", f"refs/heads/{BRANCH}"
+        root, "ls-remote", "--exit-code", "origin", f"refs/heads/{campaign.branch}"
     )
     if remote.split()[0].decode("ascii") != revision:
         raise ValueError("The publication revision is not the remote branch head.")
@@ -169,7 +269,7 @@ def verify_publication(root: Path, revision: str):
         raise ValueError("Run from the exact published checkout.")
     source = root / "src/aqrs"
     paths = [
-        *DEFINITION_FILES,
+        *campaign.definition_files,
         *(p.relative_to(root).as_posix() for p in sorted(source.glob("*.py"))),
     ]
     hashes = {}
@@ -188,12 +288,12 @@ def verify_publication(root: Path, revision: str):
     return hashes
 
 
-def require_admission(path, definition_id, archives, config, root):
+def require_admission(path, definition_id, archives, config, root, campaign=E14):
     if path is None:
         raise ValueError("Owner authorization is required before market input access.")
     receipt = read_json(path)
     if not isinstance(receipt, dict):
-        raise ValueError("Expected an M2-E14 authorization object.")
+        raise ValueError(f"Expected a {campaign.name} authorization object.")
     revision = receipt.get("published_revision", "")
     if (
         receipt.get("owner_approved") is not True
@@ -207,12 +307,20 @@ def require_admission(path, definition_id, archives, config, root):
         or not receipt["ci_run_url"].startswith("https://github.com/")
     ):
         raise ValueError(
-            "Incomplete or mismatched M2-E14 authorization or verification record."
+            f"Incomplete or mismatched {campaign.name} authorization or verification record."
         )
-    return receipt, verify_publication(root, revision)
+    if campaign == E18 and (
+        receipt.get("campaign_id") != campaign.name
+        or receipt.get("training_dataset_id")
+        != e17_training_id(read_json(root / E17_PATH), archives)
+    ):
+        raise ValueError(
+            "Mismatched E18 campaign or training identity in authorization."
+        )
+    return receipt, verify_publication(root, revision, campaign)
 
 
-def require_windows_result(path, receipt):
+def require_windows_result(path, receipt, campaign=E14):
     if os.geteuid() == 0 or path is None:
         raise ValueError(
             "Ubuntu market replay requires a non-root user and valid Windows receipt."
@@ -223,13 +331,14 @@ def require_windows_result(path, receipt):
     report = json.loads(payload)
     source = report.get("provenance", {})
     plan = report.get("plan", {})
+    config = report.get("configuration", {})
     if (
         report.get("platform") != "win32"
         or not re.fullmatch("[0-9a-f]{32}", str(report.get("run_id")))
         or not re.fullmatch("[0-9a-f]{64}", str(report.get("dataset_id")))
         or report.get("execution_status") != "COMPLETED"
         or report.get("journal_integrity") != "ok"
-        or report.get("dataset_scope") != list(DAYS)
+        or report.get("dataset_scope") != list(campaign.days)
         or not source.get("files")
         or source.get("source_id") != fingerprint(source["files"])
         or any(
@@ -237,32 +346,46 @@ def require_windows_result(path, receipt):
             for key in ("planned_fits", "started_fits", "completed_fits")
         )
         or report.get("admission", {}).get("governor_id") != receipt["governor_id"]
-        or report.get("configuration", {}).get("published_revision")
-        != receipt["published_revision"]
-        or report.get("configuration", {}).get("definition_id")
-        != receipt["definition_id"]
+        or config.get("published_revision") != receipt["published_revision"]
+        or config.get("definition_id") != receipt["definition_id"]
         or any(
             report.get("trials", {})
             .get(name, {})
             .get("result", {})
             .get("evaluation_status")
             != "COMPLETED"
-            for name in CANDIDATES
+            for name in campaign.variants
         )
     ):
         raise ValueError(
             "The Windows result does not qualify this Ubuntu market replay."
         )
+    if campaign == E18:
+        training_id = (
+            report.get("stages", {})
+            .get("prepare", {})
+            .get("result", {})
+            .get("training_dataset_id")
+        )
+        if (
+            config.get("campaign_id") != campaign.name
+            or config.get("variant") != campaign.name
+            or not training_id
+            or training_id != receipt.get("training_dataset_id")
+        ):
+            raise ValueError(
+                "The Windows campaign or training identity differs from E18."
+            )
     return report
 
 
-def claim_market_attempt(root, archives, run_id):
+def claim_market_attempt(root, archives, run_id, campaign=E14):
     common_dir = Path(
         git_bytes(root, "rev-parse", "--path-format=absolute", "--git-common-dir")
         .decode("utf-8")
         .strip()
     )
-    ledger = common_dir / "aqrs-m2-e14"
+    ledger = common_dir / f"aqrs-{campaign.name.lower()}"
     ledger.mkdir(exist_ok=True)
     marker = ledger / f"{fingerprint(archives)}.{sys.platform}.used"
     with marker.open("x", encoding="utf-8") as stream:
@@ -307,12 +430,38 @@ def make_campaign_plan(config: dict):
     }
 
 
-def read_window(market_root: Path, archives: list, *, scratch: Path | None = None):
+def read_window(
+    market_root: Path,
+    archives: list,
+    *,
+    scratch: Path | None = None,
+    campaign=E14,
+):
     # Validate the full scope before calling the importer on the first file.
     try:
-        expected = archive_rows(
-            {"files": {f"artifacts/{row['name']}": row for row in archives}}
-        )
+        if campaign == E18:
+            by_name = {row["name"]: row for row in archives}
+            expected = []
+            for day in campaign.days:
+                name = f"{SYMBOL}-1m-{day}.zip"
+                row = by_name[name]
+                if not all(
+                    re.fullmatch("[0-9a-f]{64}", row[key])
+                    for key in ("sha256", "checksum_sha256")
+                ):
+                    raise ValueError("Invalid D01 archive or checksum digest.")
+                expected.append(
+                    {
+                        "day": day,
+                        "name": name,
+                        "sha256": row["sha256"],
+                        "checksum_sha256": row["checksum_sha256"],
+                    }
+                )
+        else:
+            expected = archive_rows(
+                {"files": {f"artifacts/{row['name']}": row for row in archives}}
+            )
     except (KeyError, TypeError) as error:
         raise ValueError("Archive allowlist is incomplete.") from error
     if archives != expected:
@@ -322,7 +471,7 @@ def read_window(market_root: Path, archives: list, *, scratch: Path | None = Non
             raise ValueError(
                 "Expected the preserved acceptance bundle or archive directory."
             )
-        with TemporaryDirectory(prefix="e14-spot-", dir=scratch) as temporary:
+        with TemporaryDirectory(prefix="discovery-spot-", dir=scratch) as temporary:
             root = Path(temporary).resolve()
             # Stage only the admitted archives and checksums, under the
             # qualification deadline. Never unpack the whole bundle.
@@ -365,6 +514,7 @@ def read_archive_directory(root: Path, archives: list):
             date.fromisoformat(row["day"]),
             symbol=SYMBOL,
             expected_digest=row["sha256"],
+            expected_checksum_digest=row.get("checksum_sha256"),
         )
         if spot.digest != row["sha256"]:
             raise ValueError(
@@ -379,10 +529,25 @@ def worker(request: dict, directory: Path):
     if stage == "timing":
         return evaluate(request, directory)
     if stage == "prepare":
+        training_id = None
         try:
+            campaign = CAMPAIGNS[request.get("campaign", E14.name)]
+            if campaign == E18 and request["market_root"] is not None:
+                source = Path(__file__).resolve().parent
+                archives = d01_archive_rows(read_json(source / Path(D01_PATH).name))
+                if request["archives"] != archives:
+                    raise ValueError(
+                        "The request differs from the archived D01 allowlist."
+                    )
+                training_id = e17_training_id(
+                    read_json(source / Path(E17_PATH).name), archives
+                )
             bars = (
                 read_window(
-                    Path(request["market_root"]), request["archives"], scratch=directory
+                    Path(request["market_root"]),
+                    request["archives"],
+                    scratch=directory,
+                    campaign=campaign,
                 )
                 if request["market_root"] is not None
                 else generate(42, ROWS, 1, "SYNTH")
@@ -390,10 +555,15 @@ def worker(request: dict, directory: Path):
             validate(bars)
             if len(bars.values) != ROWS:
                 raise ValueError("Expected the complete ten-day input.")
-        except (ValueError, OSError, BadZipFile) as error:
+            if training_id is not None:
+                verify_training_prefix(bars, training_id)
+        except (ValueError, OSError, KeyError, BadZipFile) as error:
             return {"qualification_error": str(error)}
         np.save(request["bars_path"], bars.values, allow_pickle=False)
-        return {"dataset_id": bars.fingerprint, "symbol": bars.symbol}
+        identity = {"dataset_id": bars.fingerprint, "symbol": bars.symbol}
+        if training_id is not None:
+            identity["training_dataset_id"] = training_id
+        return identity
     bars = Bars(np.load(request["bars_path"], allow_pickle=False), request["symbol"], 1)
     if bars.fingerprint != request["dataset_id"]:
         raise ValueError("The staged input changed before evaluation.")
@@ -409,6 +579,7 @@ def run_campaign(
     admission=None,
     windows_report=None,
     root=ROOT,
+    campaign=E14,
 ):
     started = monotonic()
     if market_root is not None and admission is None:
@@ -416,15 +587,15 @@ def run_campaign(
     config, _ = load(config_path)
     plan = make_campaign_plan(config)
     deadline = started + plan["max_wall_seconds_per_campaign"]
-    definition_id, archives = frozen_definition(root)
+    definition_id, archives = frozen_definition(root, campaign)
     receipt, published_hashes = (
-        require_admission(admission, definition_id, archives, config, root)
+        require_admission(admission, definition_id, archives, config, root, campaign)
         if market_root is not None
         else (None, {})
     )
     revision = receipt["published_revision"] if receipt else None
     windows = (
-        require_windows_result(windows_report, receipt)
+        require_windows_result(windows_report, receipt, campaign)
         if receipt and sys.platform == "linux"
         else None
     )
@@ -433,7 +604,7 @@ def run_campaign(
     provenance = snapshot(
         output,
         Path(__file__),
-        support=(config_path, *(root / p for p in DEFINITION_FILES)),
+        support=(config_path, *(root / p for p in campaign.definition_files)),
     )
     for path, expected in published_hashes.items():
         normalized = (output / path).read_bytes().replace(b"\r\n", b"\n")
@@ -444,10 +615,10 @@ def run_campaign(
     if windows and windows["provenance"]["source_id"] != provenance["source_id"]:
         raise ValueError("The Ubuntu execution source differs from the Windows result.")
     run_id = uuid4().hex
-    scope = list(DAYS) if receipt else ["synthetic"]
+    scope = list(campaign.days) if receipt else ["synthetic"]
     configuration = {
-        "campaign_id": "M2-E14",
-        "variant": "M2-E14" if receipt else "M2-E14-SYNTHETIC",
+        "campaign_id": campaign.name,
+        "variant": campaign.name if receipt else f"{campaign.name}-SYNTHETIC",
         "days": scope,
         "market": {
             "source": "binance_vision_spot" if receipt else "synthetic",
@@ -458,12 +629,15 @@ def run_campaign(
         "costs": COSTS,
         "horizon": HORIZON,
         "seed": 42,
-        "research": {"candidates": [{"id": name} for name in CANDIDATES]},
+        "research": {"candidates": [{"id": name} for name in campaign.variants]},
         "published_revision": revision,
     }
     report = {
         "run_id": run_id,
         "platform": sys.platform,
+        "local_utc_offset_minutes": int(
+            datetime.now().astimezone().utcoffset().total_seconds() // 60
+        ),
         "dataset_scope": scope,
         "provenance": provenance,
         "configuration": configuration,
@@ -498,7 +672,7 @@ def run_campaign(
             if monotonic() >= deadline:
                 raise ValueError("Campaign deadline expired before preflight.")
             if receipt:
-                claim_market_attempt(root, archives, run_id)
+                claim_market_attempt(root, archives, run_id, campaign)
             timing = stage("timing", pilot_rows=10_037, pilot_columns=3)
             report["stages"]["timing"] = timing
             if (
@@ -524,6 +698,7 @@ def run_campaign(
                 "prepare",
                 bars_path=str(bars_path),
                 archives=archives,
+                campaign=campaign.name,
                 market_root=str(market_root.resolve()) if receipt else None,
             )
             report["stages"]["prepare"] = prepared
@@ -541,7 +716,7 @@ def run_campaign(
                 )
             if status == "COMPLETED":
                 report["dataset_id"] = prepared["result"]["dataset_id"]
-                for name in CANDIDATES:
+                for role, name in zip(CANDIDATES, campaign.variants, strict=True):
                     attempt = f"{run_id}:{name}"
                     binding = {
                         "attempt_id": attempt,
@@ -559,13 +734,13 @@ def run_campaign(
                     }
                     journal.start_experiment(db, run_id, name, metadata)
                     outcome = stage(
-                        name, bars_path=str(bars_path), **prepared["result"]
+                        role, bars_path=str(bars_path), **prepared["result"]
                     )
                     status = outcome["execution_status"]
                     result = outcome.get("result", {})
                     if (
                         result.get("evaluation_status") == "COMPLETED"
-                        and outcome["completed_fits"] != FIT_LIMITS[name]
+                        and outcome["completed_fits"] != FIT_LIMITS[role]
                     ):
                         status = "FAILED"
                         outcome.update(
@@ -577,7 +752,7 @@ def run_campaign(
                         for view in result.get("diagnostic_exposure", [])
                     ]
                     if result.get("evaluation_status") == "COMPLETED" and (
-                        len(diagnostics) != DIAGNOSTIC_COUNTS[name]
+                        len(diagnostics) != DIAGNOSTIC_COUNTS[role]
                         or len({fingerprint(view) for view in diagnostics})
                         != len(diagnostics)
                     ):
@@ -632,13 +807,13 @@ def run_campaign(
         journal.finish_campaign(db, run_id, status, report)
         write_json(output / "report.json", report)
         lines = [
-            "# M2-E14 discovery comparison",
+            f"# {campaign.name} discovery comparison",
             "",
             f"Execution: {status}. Dataset scope: {', '.join(scope)}.",
             "Claim scope: descriptive development results with illustrative costs.",
             f"Reserved fit and calibration charges: {plan['started_fits']}/{plan['planned_fits']}.",
         ]
-        for name in CANDIDATES:
+        for name in campaign.variants:
             result = report["trials"].get(name, {}).get("result", {})
             lines.extend(
                 ["", f"## {name}", "", result.get("evaluation_status", "NOT_EVALUATED")]
@@ -655,6 +830,7 @@ def run_campaign(
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--campaign", choices=CAMPAIGNS, default=E14.name)
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--synthetic", action="store_true")
     source.add_argument(
@@ -674,6 +850,7 @@ def main():
             market_root=args.market_root,
             admission=args.admission,
             windows_report=args.windows_report,
+            campaign=CAMPAIGNS[args.campaign],
         )
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
         parser.exit(2, f"REJECTED_PREFLIGHT: {error}\n")

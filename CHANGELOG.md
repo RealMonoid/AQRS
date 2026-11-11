@@ -2,6 +2,25 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Freeze the M2-E18 comparison and admission contract
+
+Register the authorized AQRS-D01 window and two scope-bound candidate
+variants. Reuse the guarded discovery entry and verify the archive,
+training prefix, outcome and replay bindings. Keep earlier E14 records
+and the scientific advancement thresholds.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/m2_e14.py`
+- `tests/test_m2_e14.py`
+
 ## 2026-11-11 — Record M2-E17 training feasibility and M2 evidence review
 
 Record the 61.51 bps training-only result, reconcile the M2 acceptance

@@ -49,7 +49,7 @@ remain deferred.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E18 | 2026-11-11 | WAITING | [Complete the fixed two-family market comparison.](#m2-e18-campaign-proposal) | Follow-up to M2-E17. Requires separate campaign authorization, a verified bounded entry for the new scope, and published registration and source binding before outcomes. |
+| M2-E18 | 2026-11-11 | ACTIVE | [Complete the fixed two-family market comparison.](#m2-e18-campaign-proposal) | Owner approved on 2026-11-12. The verified bounded entry, exact-revision review and CI, published registration/source binding and live preflight precede market outcomes. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M2-E17 | 2026-11-11 | CLOSED | [Reviewed M2 evidence and cleared the training movement screen at 61.51 bps.](#m2-e17-learning-card-training-window-feasibility) | One owner-approved training-only data check. Follow-up to M2-E14. |
@@ -1530,6 +1530,44 @@ the existing economic screens reject both candidates.
   preflight. Zero downloads, resamples, retries or protected reads. If either
   market path is unavailable, close the attempt truthfully and stop the
   conditional replay.
+
+### M2-E18 guarded campaign entry Test Card
+
+**2026-11-12, before implementation.** The owner approved the fixed
+campaign proposal. Baseline is `eb8ed5c`, including M2-E17's 61.51 bps
+training-only result and the preserved M2-E14 records. ADR-043/044/048/049
+and IDEA-001/004 favor one fixed scope and reuse of the verified comparator.
+
+- **Hypothesis.** The already qualified ten-day scope can run both
+  comparisons through the same supervised engine with exact variant,
+  input and attempt binding. The main failure path is reusing an earlier
+  scope or outcome identity when admitting or persisting the new one.
+  Follow [FTA-M2-E18](RISK_REGISTER.md#fta-m2-e18-scope-bound-reuse).
+- **Smallest proof.** Select one of two fixed profiles through the existing
+  entry. Keep the prior M2-E14 CLI and calculations usable. Pin the ten
+  qualified D01 archive and checksum hashes. On market preparation verify
+  that the first 5,760 bars reproduce the M2-E17 training dataset ID.
+  Register two distinct E18 variants and all known diagnostics. Verify
+  altered dates, hashes, training identity, missing admission, old result
+  reuse and tighter Governor limits fail at the appropriate boundary.
+  Use existing known-answer and causal fixtures and a synthetic E18
+  CLI exercise through the actual worker, journal and consolidation.
+- **Release evidence.** Run focused red/green and existing regressions,
+  independent review, exact-revision Windows and non-root Ubuntu CI, and
+  publish the bound card and source before outcomes. Capture both local
+  timezones and the fixture's UTC timing where applicable. One valid
+  Windows result permits one non-root Ubuntu replay. Check exact input,
+  source, discrete fills, gates and exposure counts, and numeric values
+  with absolute tolerance `1e-10` and relative tolerance `1e-9`.
+- **Resource Governor and stop.** Up to three hours of development and
+  verification. Two sequential trials and seven charge reservations per
+  platform (four forecast fits, one timing fit, two cutoff calibrations).
+  Reuse the existing 80-second total of worker stage bounds within the
+  120/300-second trial/campaign ceilings, 4,096 MiB sampled RSS ceiling
+  and 10 MiB evidence target. No data acquisition, resampling, retries,
+  parameter search, protected access or spend. Stop on a digest, timing,
+  source, execution, budget or replay failure. The development screen can
+  defer both candidates while the two-family workflow passes.
 
 ## AQRS-SC01 Test Card: Sierra Chart and ACSIL round trip, 2026-11-10
 
