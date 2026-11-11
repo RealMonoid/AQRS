@@ -10,7 +10,13 @@ and prepares a guarded open rehearsal. No external data, market or protected
 day is searched. The proposed 24-trial exception awaits owner approval; base
 Governor limits and the existing queue remain unchanged. New focused modules,
 configuration, tests and a compact evidence receipt serve this runnable boundary;
-no separate experiment documentation is introduced.
+no separate experiment documentation is introduced. Independent review closed
+dataset/attempt authorization, execution-source and accounting gaps before the
+one actual open rehearsal. That rehearsal completed after remote publication
+verification; final Windows checks passed 201 tests. Linux for this new entry
+remains unverified under the no-download restriction. The compact receipt lists
+all runtime artifact hashes without claiming those ignored artifacts are backed
+up remotely. Preparation is complete; the external run remains WAITING.
 
 **Paths**
 

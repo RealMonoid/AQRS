@@ -27,7 +27,7 @@ start conditions are unchanged. No automatic dispatch follows this task.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| AQRS-B01 | 2026-11-11 | ACTIVE | Freeze the input/search/registration contracts and complete one open synthetic rehearsal. | Preparation only is authorized. Blind execution remains WAITING for delivered data, explicit budget and start approval; no downloads, market or protected-day access. |
+| AQRS-B01 | 2026-11-11 | WAITING | [Preparation complete on verified Windows; one open rehearsal and independent evidence review passed.](#aqrs-b01-learning-card-ready-for-owner-data-and-start) | Wait for delivered data, explicit dataset-scoped 24-trial budget exception and start approval. No automatic search or queue dispatch; no downloads, market or protected-day access. |
 
 **AQRS-G01 owner-directed policy correction, 2026-11-11.** ADR-051 removes mandatory data-rights and license reviews from current source/model prerequisites and milestone gates. Historical cards below retain the checks performed at the time; they do not reinstate the removed requirements. This is a deterministic documentation/configuration correction, not a new development hypothesis or market experiment. Technical access controls, causal timing, provenance, quality, free-data scope and resource limits remain in force. Verification passed: language self-test/check, current-requirement review, unchanged registry IDs/statuses/non-prose fields, all 17 owned paths in the changelog and `git diff --check`. Checkpoint 07:12:23 UTC; 11 minutes 8 seconds elapsed since the combined source/policy work started at 07:01:15 UTC. No critical contract changed; FTA not triggered. Zero market reads, fits, new dependencies or platform-runtime changes. The separately authorized free Spot data expansion follows the completed A08 integration checkpoint as AQRS-D01.
 
@@ -86,7 +86,7 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** AQRS-B01 is the sole active preparation loop. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
+**Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
 
 ### AQRS-B01 Test Card: external synthetic blind-search preparation
 
@@ -167,6 +167,74 @@ last corrections; it is not represented as a final-source suite. The canonical
 OPEN run, publication proof and final whole-suite/policy checks remain pending.
 No incident with real or blind data occurred; these were bounded review findings,
 not an invented production incident. Linux remains unverified for this entry.
+
+### AQRS-B01 Learning Card: ready for owner data and start
+
+**2026-11-11. `SUPPORTED / PERSEVERE` for preparation on native Windows only.**
+The authorized preparation ends here. External search remains `WAITING`; it
+does not dispatch another queue item. Numerical criteria and the six-feature,
+24-rule search are frozen at published revision
+`211fd6e3bd9154d9573c7d96367784b45ffbd0c1`; plan fingerprint
+`fb12e165f06875347db05465b0b6ad6e3915c6fc19cb3e328c3fb35a081e8d7b`.
+The first handoff delivered the exact input contract before this completion.
+The [verification receipt](../evidence/aqrs-b01-verification.json) records actual
+commands, results, boundaries and hashes of all 29 canonical rehearsal artifacts.
+Monitoring interval: 07:41:00–08:18:41 UTC, **37 minutes 41 seconds** through this
+decision; initial orientation and subsequent final documentation/publication
+are outside that measured interval. Total effort remains below the declared
+2–4-hour estimate. No research budget was increased.
+
+**One actual OPEN run.** `register-open` performed six charged quantile
+calibrations in a supervised preparation worker (0.750 s). Both empty-result
+candidate entries were committed/pushed at the revision above. `execute
+--published-revision 211fd6e3bd9154d9573c7d96367784b45ffbd0c1` verified the real
+remote head, registrations and bound source before releasing workers. It
+completed once with two trials, six calibration fits, zero predictive model
+fits/resamples and 3.765 s combined preparation/execution wall time. Observed
+worker peak including preparation was 104.43 MiB; this is sampled RSS, not a
+strict memory cap. Publication and final persistence remain outside the worker
+deadline. No campaign retry occurred.
+
+S08 (relative volume >= 1.1981162106814187) claimed a positive conditional
+contrast of **80.605644 bps**, simultaneous interval **[77.000311, 84.210978]**,
+with 2,528 events among 12,959 evaluation opportunities and 18 two-day blocks.
+The fixture plants a 100-bps effect above a raw-volume threshold; S08 recovers
+a related condition, not proven exact generator equivalence. P02 selected the
+same events and failed its second parent control, which was empty; report
+`NO_INCREMENTAL_EVIDENCE`, not proof of a causal explanation. Both journal
+evidence statuses remain `INSUFFICIENT_EVIDENCE` for real-world alpha. The known
+null and sub-cost positive fixtures pass their separate engineering checks.
+
+**Verification.** The final native Windows Python 3.12.12 suite passed **201
+tests in 74.16 s**; all 24 blind-entry tests passed in 12.44 s. Ruff, language
+self-test/check and `git diff --check` passed. The unauthorized external
+registration command exited 1 before input access as required. Independent
+verification closed every code finding and then checked exact local publication,
+source/snapshot/data/result hashes, SQLite integrity, every saved opportunity's
+timing/cost/control fields and the effect interval reconstructed independently
+from event CSVs. No extra campaign was run. Linux is **UNVERIFIED for this new
+entry**; no suitable AQRS offline runner was used and no packages or CI runtime
+were downloaded. No M2 or cross-platform milestone acceptance is claimed.
+
+**Resources and remaining decisions.** Proposed external allowance per dataset:
+24 trials, six calibrations (within 12 fits), one worker, 8 s per candidate,
+60 s preparation, 252 s conservative worker-bound sum within the existing
+300 s campaign ceiling, and at most 4096 MiB observed RSS. Estimated local
+storage is below 128 MiB per maximal dataset including input, staged arrays,
+opportunity CSVs, journal and source copy; this is not an enforced disk cap.
+The base Governor file is unchanged and still rejects 24 without an explicit
+scoped owner exception. Approve the total dataset count/time separately; no
+automatic batch or retry. Hidden-effect precision and two-day independence are
+unknown; this fixed search cannot represent every possible planted effect.
+
+**Recommendations awaiting owner decision:** score exact or mechanically
+equivalent rule/event recovery as primary, report useful related conditions
+separately; approve 24 candidates and at most 300 s per dataset; use this frozen
+plan rather than free adaptive search for the first blind diagnostic. Following
+delivery and explicit start, qualify only the approved dataset, publish its
+24 empty-result entries and then run. Freeze blind results before any separately
+authorized reveal/oracle comparison. The next objective is that named blind
+run, not M2-E14. The completion message supplies the owner-facing chat title.
 
 ### AQRS-D01 Test Card: free Spot data expansion
 
