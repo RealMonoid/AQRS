@@ -34,6 +34,14 @@ Assign an ID, owner, observable trigger, budget/stop rule, proposed test and aff
 
 Residual risks are the narrow holiday/weekend sample, observational confounding, uncertain independent sample size, sparse trades, illustrative costs and a weak raw one-bar momentum reference. Do not infer a structural inability to trade, change costs to manufacture activity, or require interactions from the synthetic XOR result. Stop dependent outcome work until its applicable design gate is met; synthetic implementation and platform checks remain permitted.
 
+**Implementation verification, 2026-11-11.** AQRS-A07's strict control-window and
+complete-opportunity guards passed independent review and four Windows/Linux
+CI jobs at `a7c11bf`; see the [Learning Card](MILESTONE_STATUS.md#aqrs-a07-learning-card-research-comparison-and-precision-boundaries).
+The reviewer found and verified correction of the initial equality boundary
+using an actual close/open price jump. Q1's V1 outcome restriction remains;
+Q3's scientific design admission remains open. Verified software and new
+diagnostics do not resolve those remaining research prerequisites.
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.

@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "work_item": "AQRS-A07",
+  "verified_code_commit": "a7c11bfdbe8b48df4e7d4de117e2e90cd43fe7ee",
+  "baseline_commit": "c36f4eedbe71abebd62a7265ad5876c4a2c547e9",
+  "local_verification": {
+    "command": "python -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a07-final-suite tests",
+    "platform": "Native Windows, Python 3.12.12",
+    "exit_code": 0,
+    "passed": 121,
+    "seconds": 73.93,
+    "other_checks": [
+      "ruff check . --no-cache",
+      "scripts/check_language_policy.py --self-test",
+      "scripts/check_language_policy.py",
+      "git diff --check",
+      "historical-byte and exposure-definition preservation"
+    ]
+  },
+  "independent_review": {
+    "result": "READY for the scoped code correction; exact-revision CI separately required",
+    "reviewed_commit": "a7c11bfdbe8b48df4e7d4de117e2e90cd43fe7ee",
+    "passed": 69,
+    "seconds": 2.14,
+    "command": "python -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a07-review-final tests/test_research_logic.py",
+    "resolved_finding": "At b1f7218, equality admitted a next-open gap into the control return; strict < excludes it. Root and reviewer independently reproduced the 50-bps contamination before correction."
+  },
+  "red_checks": {
+    "baseline_failed": 60,
+    "baseline_passed": 1,
+    "baseline_seconds": 3.59,
+    "cli_baseline": "Failed: precision command absent",
+    "strict_gap_regression": "Failed on b1f7218; passed after correction"
+  },
+  "synthetic_example": {
+    "scope": "synthetic and scalar planning only",
+    "precision": {
+      "planning_only": true,
+      "method": "one_sided_normal_mean_known_sd_approximation",
+      "sd_bps": 20.0,
+      "effect_bps": 2.0,
+      "assumed_independent_units": 18,
+      "alpha": 0.05,
+      "power": 0.8,
+      "standard_error_bps": 4.714045207910317,
+      "detectable_mean_bps": 11.721354900844462,
+      "required_independent_units": 619,
+      "target_within_assumed_capacity": false,
+      "supports_economic_claim": false,
+      "limitations": [
+        "Independence and dispersion are assumptions, not estimated evidence.",
+        "Overlapping trades, few days and estimated dispersion need separate treatment.",
+        "This does not calibrate a joint gate or correct multiple testing.",
+        "A capacity check does not authorize a campaign or establish alpha."
+      ],
+      "additional_fits": 0,
+      "resamples": 0
+    },
+    "variant_id": "PRICE_DROP_V2",
+    "synthetic_count": [
+      {
+        "block_start_minute_utc": 0,
+        "trigger_count": 1,
+        "eligible_trigger_count": 1,
+        "pair": {
+          "event_entry_minute_utc": 90,
+          "control_entry_minute_utc": 69
+        }
+      },
+      {
+        "block_start_minute_utc": 480,
+        "trigger_count": 0,
+        "eligible_trigger_count": 0,
+        "pair": null
+      },
+      {
+        "block_start_minute_utc": 960,
+        "trigger_count": 0,
+        "eligible_trigger_count": 0,
+        "pair": null
+      }
+    ],
+    "boundary": "control_entry + 15 < event_entry - 5"
+  },
+  "historical_preservation": {
+    "bundle_sha256": "775c7c30f8e447dbda47a01155b0c83214b8d0db8b316002fc8d710bedc0e6ec",
+    "files_verified": 295,
+    "original_scripts_configs_and_manifest": "Byte-identical to the AQRS-A07 baseline",
+    "historical_exposure_and_E14_definition": "Preserved; new planned variant and admission amendment added separately"
+  },
+  "boundaries": [
+    "No V2 market coverage or forward outcomes evaluated.",
+    "No new market campaign, protected access or changed research cost threshold.",
+    "Control gap excludes the demonstrated mechanical bias, not all observational confounding.",
+    "Precision assumes dispersion and independent units; it calibrates neither a joint decision gate nor multiple testing.",
+    "M2-E14 remains WAITING for claim/control-population design and separate run admission.",
+    "Historical provenance and preregistration gaps remain unresolved."
+  ],
+  "ci": {
+    "run_id": 42969833368,
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/42969833368",
+    "verified_commit": "a7c11bfdbe8b48df4e7d4de117e2e90cd43fe7ee",
+    "jobs": [
+      {
+        "id": 130355456526,
+        "name": "acceptance (ubuntu-24.04, 3.11)",
+        "conclusion": "success",
+        "platform_log": "2026-11-11T06:04:16.4234897Z Linux-7.0.0-1014-aws-x86_64-with-glibc2.39 x86_64 3.11.18 ('EST', 'EDT')",
+        "test_log": "2026-11-11T06:05:01.7680233Z 121 passed in 26.97s",
+        "successful_steps": [
+          "Set up job",
+          "Check out source",
+          "Set up Python",
+          "Record platform",
+          "Install AQRS",
+          "Plan the synthetic campaign",
+          "Run the synthetic campaign",
+          "Verify preserved acceptance evidence",
+          "Run behavioral tests",
+          "Run lint",
+          "Run policy-checker self-test",
+          "Run language audit",
+          "Preserve synthetic campaign evidence",
+          "Post Set up Python",
+          "Post Check out source",
+          "Complete job"
+        ],
+        "non_root_assertion": "Passed Record platform step"
+      },
+      {
+        "id": 130355456671,
+        "name": "acceptance (windows-latest, 3.11)",
+        "conclusion": "success",
+        "platform_log": "2026-11-11T06:04:19.9034064Z Windows-10-10.0.26100-SP0 AMD64 3.11.9 ('Coordinated Universal Time', 'Coordinated Universal Time')",
+        "test_log": "2026-11-11T06:05:56.0735970Z 121 passed in 46.71s",
+        "successful_steps": [
+          "Set up job",
+          "Check out source",
+          "Set up Python",
+          "Record platform",
+          "Install AQRS",
+          "Plan the synthetic campaign",
+          "Run the synthetic campaign",
+          "Verify preserved acceptance evidence",
+          "Run behavioral tests",
+          "Run lint",
+          "Run policy-checker self-test",
+          "Run language audit",
+          "Preserve synthetic campaign evidence",
+          "Post Set up Python",
+          "Post Check out source",
+          "Complete job"
+        ],
+        "non_root_assertion": "Not applicable"
+      },
+      {
+        "id": 130355456809,
+        "name": "acceptance (windows-latest, 3.12)",
+        "conclusion": "success",
+        "platform_log": "2026-11-11T06:04:17.4197245Z Windows-2025Server-10.0.26100-SP0 AMD64 3.12.10 ('Coordinated Universal Time', 'Coordinated Universal Time')",
+        "test_log": "2026-11-11T06:05:42.5696757Z 121 passed in 40.69s",
+        "successful_steps": [
+          "Set up job",
+          "Check out source",
+          "Set up Python",
+          "Record platform",
+          "Install AQRS",
+          "Plan the synthetic campaign",
+          "Run the synthetic campaign",
+          "Verify preserved acceptance evidence",
+          "Run behavioral tests",
+          "Run lint",
+          "Run policy-checker self-test",
+          "Run language audit",
+          "Preserve synthetic campaign evidence",
+          "Post Set up Python",
+          "Post Check out source",
+          "Complete job"
+        ],
+        "non_root_assertion": "Not applicable"
+      },
+      {
+        "id": 130355456845,
+        "name": "acceptance (ubuntu-24.04, 3.12)",
+        "conclusion": "success",
+        "platform_log": "2026-11-11T06:04:13.7360659Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 x86_64 3.12.16 ('EST', 'EDT')",
+        "test_log": "2026-11-11T06:05:18.6939187Z 121 passed in 39.56s",
+        "successful_steps": [
+          "Set up job",
+          "Check out source",
+          "Set up Python",
+          "Record platform",
+          "Install AQRS",
+          "Plan the synthetic campaign",
+          "Run the synthetic campaign",
+          "Verify preserved acceptance evidence",
+          "Run behavioral tests",
+          "Run lint",
+          "Run policy-checker self-test",
+          "Run language audit",
+          "Preserve synthetic campaign evidence",
+          "Post Set up Python",
+          "Post Check out source",
+          "Complete job"
+        ],
+        "non_root_assertion": "Passed Record platform step"
+      }
+    ]
+  },
+  "recorded_at": "2026-11-11T06:07:30.847762+00:00",
+  "elapsed_measurement": {
+    "from": "2026-11-11T05:40:00.260274+00:00",
+    "through": "2026-11-11T06:07:30.847762+00:00",
+    "seconds": 1651,
+    "scope": "From saved baseline through final-code review and CI evidence capture; earlier orientation and later documentation/publication are outside this interval."
+  }
+}

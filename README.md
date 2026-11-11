@@ -174,6 +174,8 @@ a significance test or an estimate of actual market dependence. See the
 The corrected count-only API is `aqrs.events.scan(validated_minute_closes)`
 under `PRICE_DROP_V2`; historical V1 counts must not qualify an outcome study.
 There is no new real-data count runner in this increment.
+The [AQRS-A07 verification record](evidence/aqrs-a07-verification.json) retains
+the synthetic example, regression results, independent review and CI evidence.
 
 The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
 
