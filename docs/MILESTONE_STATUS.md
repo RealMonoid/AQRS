@@ -33,14 +33,13 @@ start conditions are unchanged. No automatic dispatch follows this task.
 
 Use this table for planned development, founding, and project-level research experiments. Row order is the current priority. The [dispatch and update rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution.
 
-**Priority review, 2026-11-11.** [M2-E14](#m2-e14-windows-campaign-learning-card)
-closed the named Windows attempt. Both research follow-ups defer, and the
-Ridge movement screen leaves the two-family market comparison criterion open.
-Review that criterion when qualifying a new development scope. A subsequent
-campaign needs a decision-changing design and its own authorization.
-M2-E15 still needs a concrete entry rule where persistence could matter.
-The price-drop outcome exercise and previous pilot follow-ups remain
-deferred. Revisit AQRS-SC01 when the owner reprioritizes it.
+**Priority review, 2026-11-11.** [M2-E17](#m2-e17-learning-card-training-window-feasibility)
+cleared the early movement screen on a fixed AQRS-D01 training prefix.
+Prioritize the proposed M2-E18 comparison because it can exercise both
+families in one market campaign. The M2-E09 source binding remains a
+separate acceptance question. M2-E15 still needs a concrete entry rule where
+persistence could matter. AQRS-B01, AQRS-SC01 and the prior outcome follow-ups
+remain deferred.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -50,9 +49,10 @@ deferred. Revisit AQRS-SC01 when the owner reprioritizes it.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E17 | 2026-11-11 | ACTIVE | [Review remaining M2 evidence and run one training-only movement screen.](#m2-e17-test-card-training-window-feasibility) | Owner approved the evidence review and one data check. Follow-up to M2-E14. Use the fixed AQRS-D01 BTCUSDT slice and Governor preflight. |
+| M2-E18 | 2026-11-11 | WAITING | [Complete the fixed two-family market comparison.](#m2-e18-campaign-proposal) | Follow-up to M2-E17. Requires separate campaign authorization, a verified bounded entry for the new scope, and published registration and source binding before outcomes. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| M2-E17 | 2026-11-11 | CLOSED | [Reviewed M2 evidence and cleared the training movement screen at 61.51 bps.](#m2-e17-learning-card-training-window-feasibility) | One owner-approved training-only data check. Follow-up to M2-E14. |
 | M2-E14 | 2026-11-10 | CLOSED | [Windows campaign completed. Volume gates missed and Ridge screened before fitting.](#m2-e14-windows-campaign-learning-card) | Owner-approved fixed development attempt. The missing Ridge comparison makes the conditional Ubuntu market replay ineligible. The two-family market milestone criterion stays open. |
 | AQRS-D01 | 2026-11-11 | CLOSED | [Qualified 48 free Spot archives and 69,120 minute bars with retained activity fields.](#aqrs-d01-learning-card-qualified-free-spot-development-data) | SUPPORTED / PERSEVERE for data preparation after independent review and four Windows/Linux CI jobs. M2-E14 outcome admission remains separate. |
 | AQRS-A08 | 2026-11-11 | CLOSED | [Descriptive diagnostics and additional-view accounting verified.](#aqrs-a08-learning-card-descriptive-signal-diagnostics) | SUPPORTED / PERSEVERE for the scoped engineering slice. M2-E14 still requires justified precision, its independent full-design review and a verified admission entry before outcomes. |
@@ -1464,6 +1464,72 @@ binding gap and the completed M2-E13 model dispositions.
   verified contracts with a fixed read allowlist. No critical runtime contract
   changes and no new FTA. Register this training-only diagnostic as an
   additional look at the AQRS-D01 development data.
+
+### M2-E17 Learning Card: training window feasibility
+
+**2026-11-11.** `SUPPORTED / PERSEVERE` for the bounded feasibility
+question. Native Windows qualified the four registered BTCUSDT daily ZIPs
+and their checksum files against AQRS-D01. Over 5,717 purged training labels,
+the 90th percentile was **61.51 bps** against **27 bps**. The last exit was
+December 4 at 23:59 UTC. The independent calculation over the same labels
+agreed. The calculation shows training movement scale. Prediction and
+economic evidence remain unevaluated.
+
+The inline `python -B -` preflight admitted one data worker. A supervised
+synthetic fixture and the real training check both completed. The real
+worker used 1.58 seconds and 128.66 MiB sampled RSS, with zero fits, candidate
+trials, validation or protected reads, downloads or spend. An initial
+launcher quoting error exited 1 before any worker or market file read. The corrected
+launcher exited 0 and dispatched exactly one market input check. See the
+[verification receipt](../evidence/m2-e17-verification.json) for the
+registration revision, digest bindings, setup evidence and result.
+Elapsed time from the 22:37:33 UTC checkpoint was 4 minutes 24 seconds through
+the result and about seven minutes through evidence verification. The focused
+`python -B -m pytest -q` selection passed three tests on purge timing, the
+zero-fit movement screen and digest rejection. The policy self-test and
+language audit, `git diff --check`, and exact changelog and evidence checks
+passed. This one-off check ran on Windows. No new Linux or milestone
+acceptance verification was claimed.
+
+**M2 evidence review.** Update the [prior evidence map](#m2-e11-learning-card-m2-evidence-review-2026-11-09)
+with the following scoped findings:
+
+| Criterion | Evidence and current implication |
+|---|---|
+| Cost-aware matched rule-based outcome | M2-E14 provides an evaluated volume rule, matched outcomes, 25 bps modeled costs, turnover, opportunity counts, diagnostic exposure and a recorded deferral. This closes the scoped rule-based evidence gap for that rule. |
+| Two completed market comparisons in one campaign | Open. M2-E14's Ridge path screened before fitting. M2-E17 clears the training feasibility hurdle on a new fixed prefix. Its reserved validation dates and both candidate outcomes remain unmeasured. |
+| Model assessment dispositions | M2-E13 records the five required cards and revisit triggers. Four models are deferred and cross-series PCA remains `BLOCKED_DATA`. No model run is needed to record these dispositions. |
+| Supervised pilot source binding | Open. Existing M2-E09 outcome parity stands. Reopen the source search only if run-linked source is found. A bounded replay with recoverable source requires separate authorization. |
+
+### M2-E18 campaign proposal
+
+**Decision.** Reuse the M2-E14 volume and Ridge definitions with new
+scope-bound variant records. Seek two complete, source-bound comparisons
+in the same campaign. The volume research follow-up on M2-E14 remains
+deferred. The new campaign can supply both technical records even when
+the existing economic screens reject both candidates.
+
+- **Scope and acceptance.** BTCUSDT Spot minute archives for December 1–10,
+  2025 UTC. Train through December 4 and validate December 5–7, then
+  train through December 7 and validate December 8–10. Carry forward the
+  31-row purge, 30-minute horizon, 25 bps round-trip assumption, 2 bps
+  Ridge buffer, matched controls, complete opportunity counts and original
+  advancement thresholds. Require both full evaluation records, report
+  the prespecified screens separately, and match the Windows and Ubuntu
+  results under the existing tolerance. The six validation dates support a
+  descriptive screen. Effective independent units remain unknown.
+- **Resources and prerequisites.** Propose up to three hours of one-time
+  engineering and verification. Reuse the E14 entry and its shared helpers.
+  Allow at most one native Windows run and a conditional non-root Ubuntu
+  replay. Per platform plan two sequential trials, four forecast fits, one
+  timing fit and two cutoff calibrations, with the existing 120-second
+  trial and 300-second campaign deadlines and 4,096 MiB sampled RSS cap.
+  Start only with separate owner approval, named digest allowlist, synthetic
+  tests of the revised admission, independent review, exact-revision
+  Windows/Ubuntu verification, published card/source and successful live
+  preflight. Zero downloads, resamples, retries or protected reads. If either
+  market path is unavailable, close the attempt truthfully and stop the
+  conditional replay.
 
 ## AQRS-SC01 Test Card: Sierra Chart and ACSIL round trip, 2026-11-10
 

@@ -3260,9 +3260,16 @@
       },
       "execution_authorization": "Owner approved one training-only check on 2026-11-11.",
       "kind": "training_only_feasibility",
+      "observed_attempt": {
+        "attempt_id": "M2-E17:7b5b57cf3954cc98",
+        "independent_confirmation": false,
+        "receipt": "evidence/m2-e17-verification.json",
+        "registered_revision": "f9094b420784ab9a034d7b1dd82aa30eef6d2aa3",
+        "status": "HURDLE_CLEARED"
+      },
       "origin": "Calendar-selected first ten qualified AQRS-D01 BTCUSDT days, prior to inspecting the training movement statistic.",
       "parent": "M2-E14",
-      "status": "PLANNED_NOT_RUN",
+      "status": "COMPLETED_TRAINING_ONLY",
       "test_card": "docs/MILESTONE_STATUS.md#m2-e17-test-card-training-window-feasibility",
       "variant_id": "M2-E17-TRAIN-MOVE-P90-V1",
       "work_item": "M2-E17"

@@ -2,6 +2,19 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Record M2-E17 training feasibility and M2 evidence review
+
+Record the 61.51 bps training-only result, reconcile the M2 acceptance
+evidence and queue the proposed M2-E18 campaign under its own authorization.
+Add a compact machine-readable receipt with the executed training probe.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e17-verification.json`
+
 ## 2026-11-11 — Register the fixed M2-E17 training-only screen
 
 Record the owner-approved M2 evidence review and the calendar-selected
