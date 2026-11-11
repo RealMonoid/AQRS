@@ -1,7 +1,6 @@
 """Finite blind-search diagnostic with a publication barrier and no acquisition path."""
 
 import argparse
-import csv
 import json
 import math
 import re
@@ -14,9 +13,16 @@ from pathlib import Path
 import numpy as np
 
 from aqrs import journal
+from aqrs.blind_evidence import (
+    check_storage,
+    file_record,
+    prediction_status,
+    write_csv,
+    write_features,
+)
 from aqrs.blind_input import (
     ACTIVITY_COLUMNS,
-    qualify,
+    qualify_input,
     safe_under,
     utc_stamp,
     write_open_fixture,
@@ -30,7 +36,7 @@ from aqrs.worker import reserve_fit, run
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_PATHS = [f"src/aqrs/{path.name}" for path in sorted(Path(__file__).parent.glob("*.py"))] + [
-    "configs/blind_search.json", "pyproject.toml",
+    ".gitattributes", "configs/blind_search.json", "pyproject.toml",
     "configs/research.yaml", "docs/CONTRACTS.md", "docs/RESEARCH_PROTOCOL.md",
 ]
 
@@ -97,7 +103,8 @@ def features(bars: np.ndarray) -> np.ndarray:
     return result
 
 
-def prepare_arrays(bars: np.ndarray, plan: dict, directory: Path | None = None) -> dict:
+def prepare_arrays(bars: np.ndarray, plan: dict, directory: Path | None = None,
+                   feature_path: Path | None = None) -> dict:
     end = int((len(bars) // 1440) * plan["train_fraction"]) * 1440
     values = features(bars)
     activity = available_activity(bars)
@@ -109,9 +116,12 @@ def prepare_arrays(bars: np.ndarray, plan: dict, directory: Path | None = None) 
         cutoffs[column] = np.quantile(values[20:end, column], plan["quantiles"]).tolist()
         if directory is not None:
             write_json(directory / "fits.json", fit)
-    return {"cutoffs": cutoffs, "evaluation_start": end, "evaluation_end": len(bars),
-            "train_start": 20, "train_end": end, "calibration_fits": len(active_indices),
-            "activity_columns": activity}
+    prepared = {"cutoffs": cutoffs, "evaluation_start": end, "evaluation_end": len(bars),
+                "train_start": 20, "train_end": end, "calibration_fits": len(active_indices),
+                "activity_columns": activity}
+    if feature_path is not None:
+        prepared["feature_table"] = write_features(feature_path, bars, values, plan, end)
+    return prepared
 
 
 def forward_bps(bars: np.ndarray, indices: np.ndarray) -> np.ndarray:
@@ -239,16 +249,22 @@ def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_
         for name, value in contrasts.items() if name != "complement"
     }
     if detail is not None:
-        with detail.open("x", encoding="utf-8", newline="") as stream:
-            writer = csv.writer(stream, lineterminator="\n")
-            writer.writerow(["signal_index", "available_at", "entry_at", "exit_at", "event",
-                             *controls, "gross_long_bps", "candidate_net_bps"])
+        matched = {name: {(row["day"], row["band"]) for row in summary["strata"] if row["matched"]}
+                   for name, summary in contrasts.items()}
+
+        def rows():
             for row, index in enumerate(indices):
-                writer.writerow([int(index), utc_stamp(bars[index, 0] + 60), utc_stamp(bars[index + 1, 0]),
-                                 utc_stamp(bars[index + 4, 0]), int(event[row]),
-                                 *[int(mask[row]) for mask in controls.values()], outcomes[row], net[row]])
-        result["opportunity_file"] = detail.name
-        result["opportunity_sha256"] = sha256(detail.read_bytes()).hexdigest()
+                group = (int(days[row]), int(bands[row]))
+                yield [int(index), utc_stamp(bars[index, 0] + 60), utc_stamp(bars[index + 1, 0]),
+                       utc_stamp(bars[index + 4, 0]), int(event[row]),
+                       *[int(mask[row]) for mask in controls.values()], outcomes[row], net[row],
+                       *group, *[int(group in matched[name]) for name in controls]]
+
+        record = write_csv(detail, ["signal_index", "available_at", "entry_at", "exit_at", "event", *controls,
+                                    "gross_long_bps", "candidate_net_bps", "evaluation_day", "utc_band",
+                                    *[f"{name}_matched" for name in controls]], rows())
+        result.update(opportunity_file=record["file"], opportunity_sha256=record["sha256"],
+                      opportunity_bytes=record["bytes"])
     return result
 
 
@@ -275,6 +291,7 @@ def preflight(plan: dict, config: dict, trials: int, approval: dict | None) -> d
             "resamples": 0, "parallel_trials": 1, "estimated_wall_seconds": estimate,
             "estimate_method": "Sum of enforced worker upper bounds, not extrapolated average speed.",
             "memory_estimate_mb": plan["estimated_rss_mb"], "limits": limits,
+            "estimated_run_storage_bytes": plan["estimated_run_storage_mib"] * 1024**2,
             "trial_count_exception": approval is not None, "auto_retry_count": 0}
 
 
@@ -301,9 +318,11 @@ def authorize(root: Path, approval_path: Path | None, dataset_id: str, dataset_d
 
 
 def git(*args: str) -> str:
-    result = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True,
-                            encoding="utf-8", timeout=20, check=True)
-    return result.stdout.strip()
+    return git_bytes(*args).decode("utf-8").strip()
+
+
+def git_bytes(*args: str) -> bytes:
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, timeout=20, check=True).stdout
 
 
 def source_hashes() -> dict:
@@ -336,9 +355,13 @@ def publication(registration_dir: Path, revision: str, branch: str, registration
     if remote.split()[0] != revision:
         raise ValueError("Publication revision is not the remote branch head.")
     for name in ("registration.json", "preregistration.jsonl"):
-        path = registration_dir / name
+        path = safe_under(registration_dir, registration_dir / name)
         relative = path.relative_to(ROOT).as_posix()
-        if git("show", f"{revision}:{relative}") != path.read_text(encoding="utf-8").strip():
+        if name == "preregistration.jsonl":
+            matches = git_bytes("show", f"{revision}:{relative}") == path.read_bytes()
+        else:
+            matches = git("show", f"{revision}:{relative}") == path.read_text(encoding="utf-8").strip()
+        if not matches:
             raise ValueError("Published registration differs from local bytes.")
     if source_hashes() != registration["source_hashes"]:
         raise ValueError("Source changed after registration.")
@@ -359,23 +382,41 @@ def dataset_report(dataset_id: str, source: str, results: list, untested: list,
             "interpretation": "Synthetic diagnostic only; incomplete is not a completed null. No real-world alpha has been demonstrated."}
 
 
+def candidate_ledger(registration: dict, selected: list[dict]) -> str:
+    rows = []
+    for order, candidate in enumerate(selected):
+        rows.append({"attempt_id": registration["attempt_id"], "candidate_id": candidate["id"], "order": order,
+                     "hypothesis": candidate["hypothesis"], "rule": candidate, "parameters": registration["prepared"]["cutoffs"],
+                     "available_at": "bar close t", "entry": "open[t+1]", "exit": "open[t+4]",
+                     "dataset": registration["dataset"], "evaluation": registration["prepared"],
+                     "plan_sha256": registration["plan_sha256"], "source_hashes": registration["source_hashes"],
+                     "controls": ["complement"] + (["parent_a", "parent_b"] if len(candidate["terms"]) == 2 else []),
+                     "metrics": None, "decision": "PENDING", "reason": "Awaiting verified publication and authorized execution.",
+                     "budget_allocated_seconds": registration["plan"]["candidate_seconds"], "budget_consumed_seconds": 0,
+                     "measurement_rule": "RESEARCH_PROTOCOL.md section 11; plan and source hashes bind exact gates."})
+    return "".join(canonical(row) + "\n" for row in rows)
+
+
 def evaluate_worker(request: dict, directory: Path) -> dict:
     plan = request["plan"]
     output = Path(request["output"])
     if request["stage"] == "prepare":
-        manifest, bars = qualify(Path(request["inbox"]), request["dataset_id"], request["source"],
-                                 request.get("expected_digest"), retain_activity=True)
-        prepared = prepare_arrays(bars, plan, directory)
+        manifest, bars, manifest_digest = qualify_input(Path(request["inbox"]), request["dataset_id"], request["source"],
+                                                        request.get("expected_digest"), retain_activity=True)
+        prepared = prepare_arrays(bars, plan, directory, output / "features.csv")
         path = output / "bars.npy"
         np.save(path, bars, allow_pickle=False)
-        return {"manifest": manifest, "prepared": prepared, "bars_sha256": sha256(path.read_bytes()).hexdigest()}
+        return {"manifest": manifest, "manifest_sha256": manifest_digest, "prepared": prepared,
+                "bars_sha256": file_record(path)["sha256"]}
     path = output / "bars.npy"
-    if sha256(path.read_bytes()).hexdigest() != request["bars_sha256"]:
+    if file_record(path)["sha256"] != request["bars_sha256"]:
         raise ValueError("Qualified data changed after registration.")
     bars = np.load(path, allow_pickle=False)
     if available_activity(bars) != request["prepared"]["activity_columns"]:
         raise ValueError("Staged activity columns do not match registration.")
-    detail = output / f"{request['candidate']['id']}-opportunities.csv"
+    pending = safe_under(output, output / "pending-opportunities")
+    pending.mkdir(exist_ok=True)
+    detail = pending / f"{request['candidate']['id']}-opportunities.csv"
     return measure(bars, request["prepared"], request["candidate"], plan, request["cost_bps"], detail)
 
 
@@ -399,12 +440,24 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     inbox = safe_under(root, root / ("artifacts/aqrs-b01/rehearsal/input" if source == "internal_open"
                                     else "artifacts/blind-test/inbox"))
     output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
+    check_storage(root, budget)
     output.mkdir(parents=True, exist_ok=False)
     registration_dir = safe_under(root, root / "evidence/blind" / attempt)
     registration_dir.mkdir(parents=True, exist_ok=False)
     hashes = source_hashes()
     execution_source = snapshot(output, Path(__file__))
     verify_snapshot(output, hashes)
+    write_json(output / "search-plan.json", {"schema": "aqrs.blind-plan-snapshot.v1", "plan": plan,
+                                             "plan_sha256": fingerprint(plan), "source_hashes": hashes,
+                                             "source_revision": execution_source["git"]["commit"]})
+    write_json(output / "predictions.json", prediction_status(dataset_id))
+    overview = {"schema": "aqrs.blind-run.v1", "attempt_id": attempt, "dataset_id": dataset_id,
+                "source": source, "execution_status": "PREPARING", "complete": False,
+                "created_at": journal.now(), "execution_source": execution_source,
+                "source_hashes": hashes, "plan_sha256": fingerprint(plan), "configuration": config,
+                "budget": budget, "input_files": [], "trials": [],
+                "artifacts": {name: file_record(output / name) for name in ("search-plan.json", "predictions.json")}}
+    write_json(output / "run-manifest.json", overview)
     if source == "internal_open":
         write_open_fixture(inbox)
     started = time.monotonic()
@@ -415,7 +468,17 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
                         config["resource_governor"]["max_peak_rss_mb_per_trial"],
                         command=worker_command(output))
     write_json(output / "preparation.json", receipt)
+    overview["artifacts"]["preparation.json"] = file_record(output / "preparation.json")
+    overview["preparation"] = {key: value for key, value in receipt.items() if key != "result"}
     if receipt["execution_status"] != "COMPLETED":
+        overview.update(execution_status=receipt["execution_status"], stopped_at=journal.now(),
+                        candidate_resolution="NOT_REGISTERED", untested_candidate_count=len(selected))
+        report = dataset_report(dataset_id, source, [], [], receipt["execution_status"])
+        report.update(candidate_resolution="NOT_REGISTERED", untested_candidate_count=len(selected))
+        report["stop_reason"] = receipt.get("stop_reason")
+        write_json(output / "report.json", report)
+        overview["artifacts"]["report.json"] = file_record(output / "report.json")
+        write_json(output / "run-manifest.json", overview)
         raise ValueError("Preparation stopped; inspect preparation.json. No automatic retry.")
     verify_snapshot(output, hashes)
     data = receipt["result"]
@@ -428,28 +491,30 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     entry = next(e for e in data["manifest"]["datasets"] if e["id"] == dataset_id)
     if source == "external_blind" and entry["sha256"] != expected_digest:
         raise ValueError("Authorized input digest mismatch.")
+    overview["input_files"] = [{"file": "manifest.json", "sha256": data["manifest_sha256"], "verified": True},
+                               *[{"file": item["file"], "sha256": item["sha256"], "verified": item == entry}
+                                 for item in data["manifest"]["datasets"]]]
+    overview["artifacts"]["features.csv"] = data["prepared"]["feature_table"]
     registration = {"schema": "aqrs.blind-registration.v1", "attempt_id": attempt,
                     "dataset_id": dataset_id, "source": source, "dataset_type": "synthetic", "market_evidence": False,
                     "created_at": journal.now(), "plan": plan, "plan_sha256": fingerprint(plan),
                     "source_hashes": hashes, "execution_source": execution_source,
                     "dataset": entry, "prepared": data["prepared"],
+                    "input_files": overview["input_files"], "plan_artifact": overview["artifacts"]["search-plan.json"],
+                    "prediction_artifact": overview["artifacts"]["predictions.json"],
+                    "preparation_artifact": overview["artifacts"]["preparation.json"],
+                    "preparation": overview["preparation"],
                     "bars_sha256": data["bars_sha256"], "budget": budget, "approval": approval,
                     "preparation_wall_seconds": receipt["runtime_wall_seconds"],
                     "preparation_peak_rss_mb": receipt["peak_rss_mb"], "costs": config["costs"],
                     "candidate_ids": [c["id"] for c in selected], "full_space": full_space}
-    entries = []
-    for order, candidate in enumerate(selected):
-        entries.append({"attempt_id": attempt, "candidate_id": candidate["id"], "order": order,
-                        "hypothesis": candidate["hypothesis"], "rule": candidate, "parameters": data["prepared"]["cutoffs"],
-                        "available_at": "bar close t", "entry": "open[t+1]", "exit": "open[t+4]",
-                        "dataset": entry, "evaluation": data["prepared"], "plan_sha256": fingerprint(plan),
-                        "source_hashes": registration["source_hashes"],
-                        "controls": ["complement"] + (["parent_a", "parent_b"] if len(candidate["terms"]) == 2 else []),
-                        "metrics": None, "decision": "PENDING", "reason": "Awaiting verified publication and authorized execution.",
-                        "budget_allocated_seconds": plan["candidate_seconds"], "budget_consumed_seconds": 0,
-                        "measurement_rule": "RESEARCH_PROTOCOL.md section 11; plan and source hashes bind exact gates."})
+    ledger = registration_dir / "preregistration.jsonl"
+    with ledger.open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write(candidate_ledger(registration, selected))
+    registration["preregistration_artifact"] = file_record(ledger)
     write_json(registration_dir / "registration.json", registration)
-    write_text(registration_dir / "preregistration.jsonl", "".join(canonical(row) + "\n" for row in entries))
+    overview.update(execution_status="AWAITING_PUBLICATION", registered_candidates=registration["candidate_ids"])
+    write_json(output / "run-manifest.json", overview)
     return registration_dir
 
 
@@ -457,7 +522,8 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
     if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
         raise ValueError("Invalid attempt ID.")
     registration_dir = safe_under(root, root / "evidence/blind" / attempt)
-    registration = json.loads((registration_dir / "registration.json").read_text(encoding="utf-8"))
+    registration_path = safe_under(registration_dir, registration_dir / "registration.json")
+    registration = json.loads(registration_path.read_text(encoding="utf-8"))
     if registration["attempt_id"] != attempt:
         raise ValueError("Registration attempt ID mismatch.")
     if registration["source"] == "internal_open" and (attempt != "AQRS-B01-OPEN" or registration["dataset_id"] != "D001"):
@@ -465,7 +531,8 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
     plan = load_plan()
     approval = authorize(root, approval_path, registration["dataset_id"], registration["dataset"]["sha256"],
                          registration["source"], plan)
-    if approval != registration["approval"] or registration["plan_sha256"] != fingerprint(plan):
+    if (approval != registration["approval"] or registration["plan_sha256"] != fingerprint(plan)
+            or registration["plan"] != plan):
         raise ValueError("Authorization or frozen plan changed after registration.")
     if approval is not None and approval["attempt_id"] != attempt:
         raise ValueError("Authorization attempt ID mismatch.")
@@ -477,6 +544,10 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
             or registration["full_space"] != full_space):
         raise ValueError("Registration does not match the frozen candidate space.")
     publication(registration_dir, revision, branch, registration)
+    ledger = safe_under(registration_dir, registration_dir / "preregistration.jsonl")
+    if (file_record(ledger) != registration["preregistration_artifact"]
+            or ledger.read_bytes() != candidate_ledger(registration, expected_candidates).encode("utf-8")):
+        raise ValueError("Published candidate ledger does not match the registered rules.")
     config = load_governor()
     if approval:
         config["resource_governor"]["max_wall_seconds_per_campaign"] = min(
@@ -484,9 +555,27 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
     budget = preflight(plan, config, len(registration["candidate_ids"]), approval)
     if budget != registration["budget"]:
         raise ValueError("Budget changed after registration.")
+    if config["costs"] != registration["costs"]:
+        raise ValueError("Costs changed after registration.")
     output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
+    check_storage(output, budget)
+    records = (registration["plan_artifact"], registration["prediction_artifact"],
+               registration["preparation_artifact"], registration["prepared"]["feature_table"])
+    for record in records:
+        if file_record(safe_under(output, output / record["file"])) != record:
+            raise ValueError("Pre-run evidence differs from the published registration.")
     with (output / "execution-reservation.json").open("x", encoding="utf-8") as stream:
         stream.write(canonical({"revision": revision, "timestamp": journal.now()}))
+    overview = {"schema": "aqrs.blind-run.v1", "attempt_id": attempt, "dataset_id": registration["dataset_id"],
+                "source": registration["source"], "execution_status": "RUNNING", "complete": False,
+                "created_at": registration["created_at"], "started_at": journal.now(), "registration_revision": revision,
+                "execution_source": registration["execution_source"], "source_hashes": registration["source_hashes"],
+                "plan_sha256": registration["plan_sha256"], "configuration": config, "budget": budget,
+                "input_files": registration["input_files"], "preparation": registration["preparation"],
+                "registered_candidates": registration["candidate_ids"], "trials": [],
+                "artifacts": {record["file"]: record for record in records},
+                "preregistration": {"path": ledger.relative_to(root).as_posix(), **registration["preregistration_artifact"]}}
+    write_json(output / "run-manifest.json", overview)
     selected = expected_candidates
     db = journal.connect(output / "research.sqlite3")
     journal.begin(db, attempt, fingerprint(registration), {"research": {"candidates": selected}}, registration)
@@ -509,16 +598,33 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
                                 command=worker_command(output))
             try:
                 verify_snapshot(output, registration["source_hashes"])
-            except (ValueError, OSError):
+                if receipt["execution_status"] == "COMPLETED":
+                    result = receipt["result"]
+                    name = f"{candidate['id']}-opportunities.csv"
+                    staged = safe_under(output, output / "pending-opportunities" / name)
+                    record = file_record(staged)
+                    if record != {"file": result["opportunity_file"], "sha256": result["opportunity_sha256"],
+                                  "bytes": result["opportunity_bytes"]} or (output / name).exists():
+                        raise ValueError("Opportunity evidence does not match the completed worker receipt.")
+                    staged.replace(output / name)
+            except (KeyError, ValueError, OSError):
                 receipt.pop("result", None)
-                receipt.update(execution_status="FAILED", stop_reason="Execution source snapshot changed; measurements discarded.")
+                receipt.update(execution_status="FAILED", stop_reason="Source or opportunity evidence verification failed; measurements discarded.")
             result = receipt.pop("result", None)
             row = {"candidate_id": candidate["id"], "effect_claimed": False,
                    "decision": "NOT_EVALUATED", "resource": receipt}
             if result is not None:
                 row.update(result)
             results.append(row)
-            write_json(output / f"{candidate['id']}-result.json", row)
+            result_path = output / f"{candidate['id']}-result.json"
+            write_json(result_path, row)
+            overview["artifacts"][result_path.name] = file_record(result_path)
+            overview["trials"].append({"candidate_id": candidate["id"], **receipt})
+            if result is not None:
+                overview["artifacts"][row["opportunity_file"]] = {"file": row["opportunity_file"],
+                                                                  "sha256": row["opportunity_sha256"],
+                                                                  "bytes": row["opportunity_bytes"]}
+            write_json(output / "run-manifest.json", overview)
             journal.finish_experiment(db, attempt, {
                 "experiment_id": f"{attempt}:{candidate['id']}", "candidate_id": candidate["id"],
                 "execution_status": receipt["execution_status"], "evidence_status": "INSUFFICIENT_EVIDENCE" if result else "NOT_EVALUATED",
@@ -544,6 +650,10 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
                       activity_columns=registration["prepared"]["activity_columns"],
                       out_of_rehearsal_scope=[c["id"] for c in full_space if c not in selected])
         write_json(output / "report.json", report)
+        overview.update(execution_status=status, complete=report["complete"], finished_at=journal.now(),
+                        runtime_wall_seconds=report["runtime_wall_seconds"], untested_candidates=untested)
+        overview["artifacts"]["report.json"] = file_record(output / "report.json")
+        overview["indexed_artifact_bytes"] = sum(record["bytes"] for record in overview["artifacts"].values())
         lines = ["# AQRS-B01 synthetic diagnostic", "", report["interpretation"], "",
                  f"Source: {report['source']}. Complete: {report['complete']}. Effect claimed: {report['effect_claimed']}.",
                  f"Execution: {status}. Registration: {revision}.", ""]
@@ -553,6 +663,7 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
         write_text(output / "report.md", "\n".join(lines) + "\n")
         journal.finish_campaign(db, attempt, status, report)
         db.close()
+        write_json(output / "run-manifest.json", overview)
     return report
 
 

@@ -1,5 +1,6 @@
 """Known-answer engineering fixtures; never load an external blind inbox."""
 
+import csv
 import json
 from hashlib import sha256
 from itertools import combinations
@@ -134,6 +135,25 @@ def test_order_flow_reaches_guarded_registration_and_worker(tmp_path, monkeypatc
     assert receipt["started_fits"] == receipt["completed_fits"] == registration["budget"]["planned_fits"] == 9
     bars = np.load(output / "bars.npy", allow_pickle=False)
     assert bars.shape == (86400, 9)
+    overview = json.loads((output / "run-manifest.json").read_text())
+    assert overview["execution_status"] == "AWAITING_PUBLICATION" and overview["trials"] == []
+    assert overview["input_files"] == [
+        {"file": "manifest.json", "sha256": sha256(path.read_bytes()).hexdigest(), "verified": True},
+        {"file": "D001.csv", "sha256": digest, "verified": True},
+    ]
+    plan_copy = json.loads((output / "search-plan.json").read_text())
+    assert plan_copy["plan"] == plan and plan_copy["plan_sha256"] == fingerprint(plan)
+    predictions = json.loads((output / "predictions.json").read_text())
+    assert predictions["status"] == "NOT_APPLICABLE" and predictions["records"] == []
+    with (output / "features.csv").open(encoding="utf-8", newline="") as stream:
+        feature_rows = list(csv.DictReader(stream))
+    assert len(feature_rows) == len(bars)
+    assert feature_rows[0]["return20"] == ""
+    for index in (0, 20, 86400 - 1):
+        row = feature_rows[index]
+        assert row["available_at"] == blind.utc_stamp(bars[index, 0] + 60)
+        assert float(row["buy_share"]) == bars[index, 6] / bars[index, 5]
+    assert overview["artifacts"]["features.csv"]["bytes"] <= 32 * 1024**2
     original = blind.measure(bars, registration["prepared"], entries[-5]["rule"], plan, 15)
     mutated = bars.copy()
     mutated[registration["prepared"]["evaluation_start"]:, 6] = 0
@@ -150,14 +170,83 @@ def test_order_flow_reaches_guarded_registration_and_worker(tmp_path, monkeypatc
         result = blind.evaluate_worker(request, output)
         assert 0 < result["event_count"] < result["eligible_opportunities"]
 
+    def deny_publication(*args):
+        raise ValueError("Fixture publication stop.")
+
+    monkeypatch.setattr(blind, "publication", deny_publication)
+    with pytest.raises(ValueError, match="publication stop"):
+        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
+    assert not (output / "S01-opportunities.csv").exists()
     monkeypatch.setattr(blind, "publication", lambda *args: None)
-    monkeypatch.setattr(blind, "supervise", lambda *args, **kwargs: {
-        "execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
-    })
+    ledger = directory / "preregistration.jsonl"
+    full_ledger = ledger.read_bytes()
+    ledger.write_bytes(full_ledger.splitlines(keepends=True)[0])
+    truncated = {**registration, "preregistration_artifact": blind.file_record(ledger)}
+    (directory / "registration.json").write_text(json.dumps(truncated), encoding="utf-8")
+    with pytest.raises(ValueError, match="ledger does not match"):
+        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
+    assert not (output / "execution-reservation.json").exists()
+    ledger.write_bytes(full_ledger)
+    assert b"\r\n" not in full_ledger
+    changed_costs = {**registration, "costs": {**registration["costs"], "fee_bps_per_side": 99}}
+    (directory / "registration.json").write_text(json.dumps(changed_costs), encoding="utf-8")
+    with pytest.raises(ValueError, match="Costs changed"):
+        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
+    (directory / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
+    feature_path = output / "features.csv"
+    with feature_path.open("a", encoding="utf-8") as stream:
+        stream.write("changed\n")
+    with pytest.raises(ValueError, match="Pre-run evidence differs"):
+        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
+    with feature_path.open("rb+") as stream:
+        stream.truncate(overview["artifacts"]["features.csv"]["bytes"])
+    (output / "run-manifest.json").write_text(json.dumps({"dataset_id": "wrong", "trials": ["wrong"]}), encoding="utf-8")
+    original_supervise = blind.supervise
+
+    def one_then_stop(*args, **kwargs):
+        if args[1]["candidate"]["id"] == "S01":
+            return original_supervise(*args, **kwargs)
+        (output / "pending-opportunities/S02-opportunities.csv").write_text("Unconfirmed.\n", encoding="utf-8")
+        return {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout."}
+
+    monkeypatch.setattr(blind, "supervise", one_then_stop)
     report = blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
     assert report["started_fits"] == report["completed_fits"] == 9
     assert report["activity_columns"] == list(ACTIVITY_COLUMNS)
-    assert report["out_of_rehearsal_scope"] == [] and len(report["untested_candidates"]) == 23
+    assert report["out_of_rehearsal_scope"] == [] and len(report["untested_candidates"]) == 22
+    final_overview = json.loads((output / "run-manifest.json").read_text())
+    assert final_overview["execution_status"] == "TIMED_OUT" and not final_overview["complete"]
+    assert final_overview["dataset_id"] == "D001"
+    assert [row["execution_status"] for row in final_overview["trials"]] == ["COMPLETED", "TIMED_OUT"]
+    assert "S01-opportunities.csv" in final_overview["artifacts"]
+    assert "S02-opportunities.csv" not in final_overview["artifacts"]
+    assert not (output / "S02-opportunities.csv").exists()
+    for record in final_overview["artifacts"].values():
+        payload = (output / record["file"]).read_bytes()
+        assert sha256(payload).hexdigest() == record["sha256"] and len(payload) == record["bytes"]
+    # A conjunction exposes both parent controls. Counts must reconstruct the actual contrasts.
+    pair = next(row["rule"] for row in entries if row["candidate_id"] == "P02")
+    detail = output / "P02-check.csv"
+    result = blind.measure(bars, registration["prepared"], pair, plan, 15, detail)
+    with detail.open(encoding="utf-8", newline="") as stream:
+        opportunities = list(csv.DictReader(stream))
+    assert len(opportunities) == result["eligible_opportunities"]
+    for name, contrast in result["contrasts"].items():
+        matched = [row for row in opportunities if row[f"{name}_matched"] == "1"]
+        assert sum(int(row["event"]) for row in matched) == contrast["matched_events"]
+        assert sum(int(row[name]) for row in matched) == contrast["matched_controls"]
+        groups = {(row["evaluation_day"], row["utc_band"]) for row in matched if row["event"] == "1"}
+        assert groups == {(row["evaluation_day"], row["utc_band"]) for row in matched if row[name] == "1"}
+    assert result["opportunity_bytes"] * 24 <= 64 * 1024**2
+
+
+def test_storage_rejection_precedes_input(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    monkeypatch.setattr("aqrs.blind_evidence.shutil.disk_usage", lambda path: SimpleNamespace(free=1))
+    with pytest.raises(ValueError, match="Insufficient disk space"):
+        blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
+    assert not (tmp_path / "artifacts").exists()
 
 
 @pytest.mark.parametrize(("header", "values", "reason"), [
@@ -209,7 +298,11 @@ def test_only_authorized_payload_is_opened(delivery, monkeypatch):
 
     monkeypatch.setattr(Path, "read_bytes", guard)
     qualify(delivery, "D001", "internal_open", manifest["datasets"][0]["sha256"])
-    monkeypatch.setattr(Path, "read_bytes", lambda path: pytest.fail("No CSV bytes may be read."))
+    def reject_csv(path):
+        assert path.suffix != ".csv", "No CSV bytes may be read."
+        return original(path)
+
+    monkeypatch.setattr(Path, "read_bytes", reject_csv)
     with pytest.raises(ValueError, match="Authorized digest"):
         qualify(delivery, "D001", "internal_open", "0" * 64)
 
@@ -349,6 +442,7 @@ def test_registered_source_mutation_rejected(tmp_path, monkeypatch):
     monkeypatch.setattr(blind, "ROOT", tmp_path)
     monkeypatch.setattr(blind, "source_hashes", lambda: {"changed": "hash"})
     monkeypatch.setattr(blind, "git", lambda *args: "1" * 40 if args[0] == "ls-remote" else "{}")
+    monkeypatch.setattr(blind, "git_bytes", lambda *args: (tmp_path / "preregistration.jsonl").read_bytes())
     with pytest.raises(ValueError, match="Source changed"):
         blind.publication(tmp_path, "1" * 40, "codex/aqrs-b01-blind-preparation", {"source_hashes": {}})
 

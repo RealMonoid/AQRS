@@ -129,6 +129,18 @@ I/O with finite subprocess timeouts, outside the worker's hard deadline. No
 network payload downloads are needed. The open two-candidate rehearsal uses
 the unchanged defaults. This is not approval of any external run.
 
+AQRS-B01 evidence storage estimate per dataset: 32 MiB for up to 86,400
+feature rows, 64 MiB for up to 24 opportunity CSVs of about 13,000 rows each,
+and 32 MiB for staged bars, source, reports, journals and temporary writes.
+Preflight records 128 MiB and checks free space before opening inputs and
+before candidate release. This is a space check without a filesystem quota
+or a reserved allocation. A full 16-dataset delivery with retained outputs
+has an estimated 2.25 GiB envelope including up to 256 MiB of input CSVs.
+Streaming export and checksums run under the existing worker time and RSS
+limits. Manifest and journal persistence remain parent-side I/O. This evidence
+adds zero trials, fits, resamples or workers. No prediction row budget is
+needed for the rule-only plan.
+
 AQRS-D01's data-only preparation counts sequential data workers separately from
 research trials and performs zero fits. Worker count cannot exceed the configured
 trial-count ceiling. The entry caps itself at two symbols, 31 UTC days per symbol,

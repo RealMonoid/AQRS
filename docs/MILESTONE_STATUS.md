@@ -88,6 +88,61 @@ Use this table for planned development, founding, and project-level research exp
 
 **Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
 
+### AQRS-B01 evidence amendment Test Card
+
+**2026-11-11, 20:21:18 UTC orientation checkpoint; before implementation.**
+Baseline `1f71d5e`. Owner requested machine-readable per-run evidence. The
+riskiest assumption is that exports represent the actual matched strata and
+causal features without changing measurements, releasing outcomes early, or
+making a stopped attempt appear complete. Reuse the published configuration,
+candidate ledger, opportunity CSV, dataset report and supervised worker. Add
+the plan snapshot, feature CSV, prediction applicability record and run
+manifest. Pass if a maximum-row synthetic delivery produces all applicable
+files, exact digests and matched counts, a publication stop prevents candidate
+output, and a timeout retains honest partial evidence. Independent review of
+the execution/receipt boundaries is required. See the AQRS-B01 fault tree.
+
+**Resource assessment and stop.** Estimate 30–60 minutes of development.
+Reserve 32 MiB for features, 64 MiB for up to 24 opportunity CSVs, and 32 MiB
+for staged bars, source and metadata, including temporary writes. Check
+128 MiB free on the run volume before admission and before execution. Inputs
+are separate at up to 16 MiB per CSV and 256 MiB per delivery. A 16-dataset
+envelope requires about 2.25 GiB including input. Stream CSVs and digests.
+Exports share existing worker limits. Zero new fits, trials, resamples,
+workers or dependencies. Stop if match reconciliation, source ordering,
+storage admission or the current compute bounds fail. No external outcomes or
+canonical OPEN replay.
+
+**Learning Card, 2026-11-11, 20:36:13 UTC.** `SUPPORTED / PERSEVERE` for
+the machine-readable evidence. Measured interval from the orientation
+checkpoint through final tests was 14 minutes 55 seconds, before publication.
+The independent review found that the earlier publication check could accept a
+truncated ledger if its local and pushed copies agreed. Corrected this by
+binding the UTF-8 LF ledger digest and regenerating all expected pending rows.
+Also rebuilt the run manifest from verified registration and receipts, bound
+effective costs, and promoted opportunity evidence only after a completed and
+verified worker receipt. The completion marker follows journal persistence.
+
+Windows `python -m pytest -q --tb=short` passed 217 tests in 87.66 s on the
+corrected source. The focused blind file passed 40 tests in 26.27 s. The
+maximum-row fixture generated 14,676,748 feature CSV bytes and 1,309,749 bytes
+for one conjunction opportunity CSV. Supervised preparation took 2.266 s with
+129.72 MiB observed peak RSS. Tests reconciled exact matched counts and hashes,
+low storage rejection before input, changed artifact rejection and a simulated
+timeout with 22 untouched candidates. Independent Windows review matched the
+eight exact blobs and passed five focused tests plus a real offline local-Git
+proof. A pushed truncated ledger with matching SHA failed before reservation.
+The full ledger completed two synthetic guarded trials with valid artifact
+hashes and SQLite integrity. No new alpha tests or real outcomes were added.
+
+The estimate is 128 MiB per dataset run plus delivery bytes. No increased
+compute limits, new dependencies or new document per experiment. Ruff, language
+and diff checks pass. Historical OPEN artifacts remain bound to their original
+source. Linux and the external campaign remain unverified. The Test Card was
+recorded before implementation in the work transcript without a separate Git
+timestamp. No production incident occurred. External admission waits for the
+owner's data, budget and start. Candidate publication is checked per run.
+
 ### AQRS-B01 search amendment Test Card: causal minute order flow
 
 **2026-11-11, 20:04:51 UTC, before implementation.** The owner requested

@@ -106,6 +106,34 @@ Quantile values and coverage-only input metadata are registered before outcome
 access. Git publication proves ordering relative to this runner, not absence
 of out-of-band human analysis. Do not send data payloads to Git.
 
+**Machine-readable evidence.** Publish `configs/blind_search.json` and its
+bound protocol and code before delivery. After authorization, copy the frozen
+plan and source digests into `search-plan.json` before reading the CSV. One
+dataset runs per attempt. `evidence/blind/ATTEMPT/preregistration.jsonl` is the
+published one-row-per-candidate ledger. `registration.json` binds it to the
+selected input and pre-run artifacts. All other files below are local under
+`artifacts/aqrs-b01/runs/ATTEMPT/`.
+
+| File | Format and contents |
+|---|---|
+| `search-plan.json` | UTF-8 JSON with frozen parameters, source identity and SHA-256 bindings. |
+| `features.csv` | UTF-8 CSV, one row per candle, with index, UTC open and availability timestamps, partition and the nine named feature columns. Empty cells represent unavailable features or insufficient history. |
+| `CANDIDATE-opportunities.csv` | UTF-8 CSV, one row per eligible opportunity. `available_at` is the event or control time. Join rows within a file by `(evaluation_day, utc_band)` and the control arm. `event=1` marks events. The named control flag marks control members. `ARM_matched=1` means both arms are present in that group and enter that comparison. The grouping is many-to-many. Entry, exit and observed outcomes are included. |
+| `predictions.json` | UTF-8 JSON with the prediction record fields and `NOT_APPLICABLE` status for the fixed rule-only plan. There are zero model candidates and the records list is empty. |
+| `report.json` | UTF-8 JSON closing statement for the dataset, including status, effect claims and untested IDs. |
+| `run-manifest.json` | UTF-8 JSON with code identity, effective configuration, input SHA-256 digests, budget, preparation and candidate runtimes, status and artifact file sizes/digests. Unopened sibling CSV digests are marked as declarations. |
+
+Feature export is part of supervised preparation and contains no forward
+outcomes. The publication gate checks the candidate ledger's digest and exact
+resolved rows, including order, rules and pending status. It verifies the local
+plan, feature and prediction file digests before any candidate starts.
+The runner promotes opportunity CSVs from `pending-opportunities/` only after
+a completed worker receipt and source/file checks. A stopped attempt retains
+its status and completed evidence. Files remaining in the pending directory
+are unconfirmed. The run manifest records completion after the journal and
+reports are persisted. A process killed outside the supervisor can leave the
+latest checkpoint incomplete.
+
 Stop after 24 candidates or the first worker failure, exhausted budget,
 integrity failure or owner cancellation. Do not stop early because a result is
 positive or negative. Never retry automatically; record all remaining IDs as

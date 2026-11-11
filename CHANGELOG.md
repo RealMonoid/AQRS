@@ -2,6 +2,30 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Export machine-readable AQRS-B01 run evidence
+
+Bind the frozen plan, complete pending candidate ledger and validated inputs to
+per-run features, grouped event/control times, dataset reports and a run
+manifest. Record prediction applicability for the rule-only plan. Verify the
+published ledger bytes and resolved content before outcomes. Promote candidate
+CSVs only after accepted worker receipts. Assess and check a 128 MiB run-output
+storage allowance within the existing compute limits.
+
+**Paths**
+
+- `.gitattributes`
+- `CHANGELOG.md`
+- `README.md`
+- `configs/blind_search.json`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/blind_evidence.py`
+- `src/aqrs/blind_input.py`
+- `src/aqrs/blind_search.py`
+- `tests/test_blind_search.py`
+
 ## 2026-11-11 — Freeze causal minute order-flow rules for AQRS-B01
 
 Stage validated minute aggregates and derive buy share, sell-share change and

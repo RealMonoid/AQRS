@@ -109,6 +109,9 @@ Delivery does not authorize search. Global Governor settings are unchanged.
 The CSV may include validated minute buy volume, sell volume and trade count.
 Each supplied activity field activates two fixed order-flow rules in the
 24-slot search. Absent fields select the predefined OHLCV fallback rules.
+The [machine-readable evidence table](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
+lists the published ledger and local files. Preflight estimates 128 MiB of
+run storage per dataset in addition to the input CSVs.
 
 The single open rehearsal has a separate generated input and a two-trial budget:
 

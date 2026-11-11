@@ -65,7 +65,7 @@ def utc_stamp(seconds: float) -> str:
     return datetime.fromtimestamp(seconds, UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def read_manifest(inbox: Path, source: str) -> dict:
+def read_manifest(inbox: Path, source: str) -> tuple[dict, str]:
     plain_path(inbox, True)
     # Names are inspected without opening an unexpected file, even the manifest.
     names = {path.name for path in inbox.iterdir()}
@@ -79,7 +79,10 @@ def read_manifest(inbox: Path, source: str) -> dict:
     path = inbox / "manifest.json"
     if path.stat().st_size > 65536:
         raise ValueError("Manifest exceeds 64 KiB.")
-    manifest = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
+    payload = path.read_bytes()
+    if len(payload) > 65536:
+        raise ValueError("Manifest exceeds 64 KiB.")
+    manifest = json.loads(payload.decode("utf-8"), object_pairs_hook=unique_object)
     expected = {"schema": SCHEMA, "dataset_type": "synthetic", "source": source,
                 "timezone": "UTC", "bar_seconds": 60, "price_reference": "mid"}
     if set(manifest) != set(expected) | {"datasets"}:
@@ -119,7 +122,7 @@ def read_manifest(inbox: Path, source: str) -> dict:
         raise ValueError("Input allowlist does not match the manifest.")
     if size > 256 * MIB:
         raise ValueError("Delivery exceeds 256 MiB.")
-    return manifest
+    return manifest, sha256(payload).hexdigest()
 
 
 def validate_activity(columns: list[str], values: list[str], volume: float) -> dict[str, float]:
@@ -143,7 +146,13 @@ def validate_activity(columns: list[str], values: list[str], volume: float) -> d
 
 def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None,
             *, retain_activity: bool = False) -> tuple[dict, np.ndarray]:
-    manifest = read_manifest(inbox, source)
+    manifest, selected, _ = qualify_input(inbox, dataset_id, source, expected_digest, retain_activity=retain_activity)
+    return manifest, selected
+
+
+def qualify_input(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None,
+                  *, retain_activity: bool = False) -> tuple[dict, np.ndarray, str]:
+    manifest, manifest_digest = read_manifest(inbox, source)
     if dataset_id not in {entry["id"] for entry in manifest["datasets"]}:
         raise ValueError("Requested dataset is absent.")
     selected = None
@@ -188,7 +197,7 @@ def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | No
             raise ValueError("OHLC ordering violation.")
         if entry["id"] == dataset_id:
             selected = data
-    return manifest, selected
+    return manifest, selected, manifest_digest
 
 
 def write_open_fixture(inbox: Path) -> None:

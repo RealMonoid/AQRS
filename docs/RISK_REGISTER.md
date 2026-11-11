@@ -61,6 +61,16 @@ slots from header presence and reserve each available feature's fit. Test
 future-row mutations, partial headers, known memberships, actual fit receipts,
 and stage-to-registration consistency. Use an independent review before closure.
 
+**Evidence amendment, 2026-11-11.** Incorrect evidence can follow an export
+grouping that differs from the actual comparison OR a partial worker write
+being promoted as complete OR a digest detached from the exact input bytes.
+Bind the selected CSV and original input manifest digests, export group IDs
+and match flags from the measured strata, write files atomically, and include
+candidate evidence only after a completed receipt. Verify counts against
+result strata, reject low disk space and mutated pre-run evidence, and retain
+an incomplete status and untested IDs on a stop. The publication check remains
+before outcome work. Use independent review of these boundaries.
+
 Assign an ID, owner, observable trigger, budget/stop rule, proposed test and affected milestone; add it to this registry and the relevant release gate. Record evidence rather than inventing precision. Apply the [material finding rule](DEVELOPMENT_PROCESS.md#experiment-queue) when a pending action depends on the affected guarantee. If the risk requires a changed norm, add an ADR to `DECISIONS.md`.
 
 ### FTA-AQRS-D01: Spot data expansion
