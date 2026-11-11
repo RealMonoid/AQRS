@@ -4,7 +4,7 @@ The **only** changelog in this repository. Entries are in English, newest first,
 
 ## 2026-11-11 — Repair audit controls and preserve research evidence
 
-AQRS-A06 binds pilot admission to validated policy, supervises core data preparation, reserves fits before work, corrects status/provenance and failure reporting, and verifies a real synthetic LightGBM path. Preserve the existing research evidence as a versioned bundle, digest manifest, frozen configurations, exposure index and eight immutable scripts. These distinct machine-readable audit artifacts make prior local-only evidence recoverable; README is their canonical index. Preserve missing historical provenance and independent-registration limitations. Extend the existing CI and require separately published cards before future outcome campaigns.
+AQRS-A06 binds pilot admission to validated policy, supervises core data preparation, reserves fits before work, corrects status/provenance and failure reporting, and verifies a real synthetic LightGBM path. Preserve the existing research evidence as a versioned bundle, digest manifest, frozen configurations, exposure index and eight immutable scripts. These distinct machine-readable audit artifacts make prior local-only evidence recoverable; README is their canonical index. Preserve missing historical provenance and independent-registration limitations. Extend the existing CI and require separately published cards before future outcome campaigns. Close scoped F2/F5 after independent review, four successful CI jobs and restoration from the private remote; retain a small machine-readable verification record so this closure does not depend on expiring CI logs.
 
 **Added or modified paths (relative to the preserved working-tree baseline)**
 
@@ -23,6 +23,7 @@ AQRS-A06 binds pilot admission to validated policy, supervises core data prepara
 - `docs/RESOURCE_GOVERNOR.md`
 - `docs/RISK_REGISTER.md`
 - `evidence/acceptance.zip`
+- `evidence/aqrs-a06-verification.json`
 - `evidence/configurations.json`
 - `evidence/exposure.json`
 - `evidence/historical/m1-e05/check_execution.py`

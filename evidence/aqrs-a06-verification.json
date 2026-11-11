@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "work_item": "AQRS-A06",
+  "verified_code_commit": "70005cc74d6e76b541455841566773c2622d41f8",
+  "workflow_run_url": "https://github.com/RealMonoid/AQRS/actions/runs/42956133504",
+  "source": "GitHub Actions job API and retrieved job logs; durable excerpts, not a cryptographic timestamp authority",
+  "ci_jobs": [
+    {
+      "id": 130311569392,
+      "name": "acceptance (ubuntu-24.04, 3.12)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record platform",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install AQRS",
+          "conclusion": "success"
+        },
+        {
+          "name": "Plan the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify preserved acceptance evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run behavioral tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run lint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run policy-checker self-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run language audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve synthetic campaign evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "test_result": "2026-11-11T03:58:56.5778284Z 51 passed in 28.80s",
+      "platform": "2026-11-11T03:58:08.6234437Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 x86_64 3.12.16 ('EST', 'EDT')",
+      "non_root_linux_assertion": "Passed in Record platform step: assert os.geteuid() != 0",
+      "selected_log_lines": [
+        "2026-11-11T03:58:27.5346702Z Verified 295 preserved evidence files.",
+        "2026-11-11T03:58:56.5778284Z 51 passed in 28.80s",
+        "2026-11-11T03:58:56.7163709Z All checks passed!",
+        "2026-11-11T03:58:56.8114833Z Language-policy checker self-test passed."
+      ]
+    },
+    {
+      "id": 130311569640,
+      "name": "acceptance (ubuntu-24.04, 3.11)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record platform",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install AQRS",
+          "conclusion": "success"
+        },
+        {
+          "name": "Plan the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify preserved acceptance evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run behavioral tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run lint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run policy-checker self-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run language audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve synthetic campaign evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "test_result": "2026-11-11T03:59:00.8714779Z 51 passed in 33.59s",
+      "platform": "2026-11-11T03:58:09.4050763Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 x86_64 3.11.18 ('EST', 'EDT')",
+      "non_root_linux_assertion": "Passed in Record platform step: assert os.geteuid() != 0",
+      "selected_log_lines": [
+        "2026-11-11T03:58:26.9997831Z Verified 295 preserved evidence files.",
+        "2026-11-11T03:59:00.8714779Z 51 passed in 33.59s",
+        "2026-11-11T03:59:01.0713546Z All checks passed!",
+        "2026-11-11T03:59:01.1639045Z Language-policy checker self-test passed."
+      ]
+    },
+    {
+      "id": 130311569647,
+      "name": "acceptance (windows-latest, 3.11)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record platform",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install AQRS",
+          "conclusion": "success"
+        },
+        {
+          "name": "Plan the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify preserved acceptance evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run behavioral tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run lint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run policy-checker self-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run language audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve synthetic campaign evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "test_result": "2026-11-11T03:59:49.2136089Z 51 passed in 48.83s",
+      "platform": "2026-11-11T03:58:14.3611114Z Windows-10-10.0.26100-SP0 AMD64 3.11.9 ('Coordinated Universal Time', 'Coordinated Universal Time')",
+      "non_root_linux_assertion": "Not applicable",
+      "selected_log_lines": [
+        "2026-11-11T03:58:59.6462598Z Verified 295 preserved evidence files.",
+        "2026-11-11T03:59:49.2136089Z 51 passed in 48.83s",
+        "2026-11-11T03:59:49.7624362Z All checks passed!",
+        "2026-11-11T03:59:50.2748116Z Language-policy checker self-test passed."
+      ]
+    },
+    {
+      "id": 130311569669,
+      "name": "acceptance (windows-latest, 3.12)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record platform",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install AQRS",
+          "conclusion": "success"
+        },
+        {
+          "name": "Plan the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run the synthetic campaign",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify preserved acceptance evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run behavioral tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run lint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run policy-checker self-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run language audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve synthetic campaign evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Set up Python",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "test_result": "2026-11-11T03:59:42.5335203Z 51 passed in 43.89s",
+      "platform": "2026-11-11T03:58:13.9599264Z Windows-2025Server-10.0.26100-SP0 AMD64 3.12.10 ('Coordinated Universal Time', 'Coordinated Universal Time')",
+      "non_root_linux_assertion": "Not applicable",
+      "selected_log_lines": [
+        "2026-11-11T03:58:57.7531027Z Verified 295 preserved evidence files.",
+        "2026-11-11T03:59:42.5335203Z 51 passed in 43.89s",
+        "2026-11-11T03:59:43.0957582Z All checks passed!",
+        "2026-11-11T03:59:43.6572390Z Language-policy checker self-test passed."
+      ]
+    }
+  ],
+  "local_checks": {
+    "platform": "Native Windows, Python 3.12.12",
+    "tests": {
+      "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a06-suite-2",
+      "exit_code": 0,
+      "passed": 51,
+      "seconds": 73.58
+    },
+    "other_passed": [
+      "python -B -m ruff check . --no-cache",
+      "python -B scripts/check_language_policy.py --self-test",
+      "python -B scripts/check_language_policy.py",
+      "python -m pip check",
+      "git diff --check"
+    ],
+    "non_utc_fixture": "Native Windows local timezone was Central Europe (+01:00); explicit UTC fixture conversion matched."
+  },
+  "independent_review": {
+    "reviewer": "Separate read-only audit_regressions agent",
+    "revision": "70005cc74d6e76b541455841566773c2622d41f8",
+    "result": "No further code blocker for the documented F2/F5 scope.",
+    "checks": [
+      "Effective tighter and unsupported strict admission before archive access; original costs preserved",
+      "Expired original deadline and supervised core preparation; documented remaining control-plane I/O boundary",
+      "Archived actual worker rejects zero fit allowance with BUDGET_EXHAUSTED, no completed fit and no metrics",
+      "SQLite WAL preservation, serialized size bounds, portable archive paths and cadence-aware variant identity"
+    ],
+    "focused_tests_passed": 10,
+    "isolation_tests_passed": 6
+  },
+  "remote_restore": {
+    "source": "https://github.com/RealMonoid/AQRS.git",
+    "branch": "audit/aqrs-a06",
+    "revision": "70005cc74d6e76b541455841566773c2622d41f8",
+    "verified_files": 295,
+    "sqlite_journals": 26,
+    "bundle_sha256": "775c7c30f8e447dbda47a01155b0c83214b8d0db8b316002fc8d710bedc0e6ec",
+    "destination": "artifacts/aqrs-a06/from-remote",
+    "result": "All member digests and SQLite integrity checks passed after restoration from a fresh remote clone. ZIP bytes match; parsed JSON records match after Git text line-ending normalization."
+  },
+  "boundaries": [
+    "No new real-market campaign or protected-day evaluation.",
+    "Historical M2-E08/E09 executed source binding remains incomplete; old preregistration timing cannot be reconstructed.",
+    "Historical manual exposure may be incomplete; preserved attempts are not independent alpha evidence.",
+    "Core source/report persistence, final cleanup, and pilot parent-side archive/report I/O remain outside the hard worker deadline.",
+    "Observed RSS is not an OS-enforced hard memory ceiling; no cross-campaign budget service was added.",
+    "M2-E14 needs its registered campaign entry and pre-run published binding before execution; no new scientific thresholds were introduced."
+  ],
+  "recorded_at": "2026-11-11T04:04:31.020587+00:00"
+}
