@@ -1,0 +1,82 @@
+{
+  "campaign_id": "M2-E18",
+  "training_dataset_id": "84b5179bc227facbfab46cf5c786f7c7a432c412f7d9186295787cf2bad470c9",
+  "owner_approved": true,
+  "owner_instruction": "freigabe (2026-11-12, in response to the fixed M2-E18 campaign proposal)",
+  "definition_id": "6831e78c84eeda676bb99a7223451c0c79f124eec0010dd8574fdeb29de1bbd6",
+  "archive_scope": [
+    {
+      "name": "BTCUSDT-1m-2025-12-01.zip",
+      "day": "2025-12-01",
+      "sha256": "cda08bfa0f7831c02a5fc78969ee3a6f9557d131966b1e1c18a3e0c3316b3d64",
+      "checksum_sha256": "64de9a7ff715f56ffed3823b0f07d754316d18a1dd32d670787510dea50ac69f"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-02.zip",
+      "day": "2025-12-02",
+      "sha256": "55990f4bbb63927e2e6530064ab529d2db71195f04caf940aebc4a36bc494d8a",
+      "checksum_sha256": "1c2706121824885f9af175c5fad73e8421e432656b018779234f131085b0c9f8"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-03.zip",
+      "day": "2025-12-03",
+      "sha256": "a595afa315db1dc04b9433bd762755c447d02032fe84faa9c71ad9075e1e7359",
+      "checksum_sha256": "080cb79b8e8d14b4711041d00c2e63eb0eaeb9f7b6a6fdc058eefd40f5be3d95"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-04.zip",
+      "day": "2025-12-04",
+      "sha256": "6812537ea88a44f0b012003d43c7ff6fa3aff8b4fba622a13ebe358b9ff5901d",
+      "checksum_sha256": "66d07d850e9c4e8904f591d4f02cc237de0a9a3201b7b50cf1910cb1c6cc23b8"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-05.zip",
+      "day": "2025-12-05",
+      "sha256": "7c2b58fa030ff46229e4addf34710691b43d6242408da641cbdbd075a90cc4db",
+      "checksum_sha256": "ab9cd0b37760146d66101cc85f382172bddccea4a5e1cff1aa041fedf1978e54"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-06.zip",
+      "day": "2025-12-06",
+      "sha256": "6d7f82dd107b76074443f138c3e21528af18279cf872834118f454af26ade2fb",
+      "checksum_sha256": "16900617f04445f777f5af7f91f551550c86733cca90f8dfc3a79911104c1e5f"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-07.zip",
+      "day": "2025-12-07",
+      "sha256": "347f817989165682afe3298212e472908f3915c97c28b5f5e76ff2f83b87b38f",
+      "checksum_sha256": "0ede143d993a0bf49e2ff0b1bb7042b1dd8975e1e00e12837b1eed1a7e6e5f5b"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-08.zip",
+      "day": "2025-12-08",
+      "sha256": "3319f4f4cd1332afaa30b12fe8db5f0b4da1c10a43a9fdff7621bea82b8fc7a0",
+      "checksum_sha256": "cc25fa1ddd624bba16a6ae7c94fba142330d33593339a21443bb69fe12a3c4e5"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-09.zip",
+      "day": "2025-12-09",
+      "sha256": "89d10cc401ee38d141f3f6450b9d0fb82300dfc485ab6d1f450bd24cc140e7a9",
+      "checksum_sha256": "941041caecd804e03d13582afb8ea5c3770bda034b74f1284c10fb43705ca262"
+    },
+    {
+      "name": "BTCUSDT-1m-2025-12-10.zip",
+      "day": "2025-12-10",
+      "sha256": "c556406c576249f8bd80fef750d6d9e53583d30a8c9f6906387f77ca15763c8c",
+      "checksum_sha256": "5be81603ac7e7bc5bc66b496179b5d7ebe651d668a30b86b81adb24bfeea66c3"
+    }
+  ],
+  "governor_id": "01a77e1e1949ff800f22396e060c15978b8535dd63c58f9a8f9786426f9bc94d",
+  "published_revision": "54fb8644b5a27c51fece7d89f3d9996a65356ad2",
+  "review": {
+    "revision": "54fb8644b5a27c51fece7d89f3d9996a65356ad2",
+    "status": "PASS"
+  },
+  "verification": {
+    "revision": "54fb8644b5a27c51fece7d89f3d9996a65356ad2",
+    "windows": "PASS",
+    "ubuntu": "PASS"
+  },
+  "ci_run_url": "https://github.com/RealMonoid/AQRS/actions/runs/43120088595",
+  "windows_report_sha256": "d314d0202953b52c87774716a12fd684a013e6e2f5840723e3ab755f633fb524"
+}

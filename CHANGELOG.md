@@ -2,6 +2,21 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Stage the authorized M2-E18 Ubuntu replay
+
+This replay-only branch stages the ten digest-verified AQRS-D01 archive
+pairs and the qualifying Windows report for one non-root Ubuntu run of
+the frozen revision. The workflow runs only on this branch. Market
+evaluation uses the existing local-input entry and seven-charge plan.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `.github/workflows/docs-language.yml`
+- `evidence/m2-e18-replay/acceptance.zip`
+- `evidence/m2-e18-replay/admission.json`
+- `evidence/m2-e18-replay/windows.json`
+
 ## 2026-11-12 — Freeze the M2-E18 comparison and admission contract
 
 Register the authorized AQRS-D01 window and two scope-bound candidate

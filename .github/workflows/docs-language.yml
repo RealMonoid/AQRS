@@ -1,50 +1,54 @@
-name: AQRS acceptance
+name: M2-E18 authorized Ubuntu replay
 
 on:
   push:
-  pull_request:
+    branches: [codex/m2-e18-ubuntu-replay]
+
+permissions:
+  contents: read
 
 jobs:
-  acceptance:
-    timeout-minutes: 15
+  market-replay:
+    if: github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     env:
       TZ: America/New_York
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-24.04]
-        python: ['3.11', '3.12']
-    runs-on: ${{ matrix.os }}
     steps:
-      - name: Check out source
+      - name: Check out the frozen and reviewed M2-E18 revision
         uses: actions/checkout@v5
-      - name: Set up Python
+        with:
+          ref: 54fb8644b5a27c51fece7d89f3d9996a65356ad2
+          path: frozen
+      - name: Check out the registered inputs and Windows receipt
+        uses: actions/checkout@v5
+        with:
+          path: replay-input
+          persist-credentials: false
+      - name: Set up the Windows-matched Python version
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python }}
-      - name: Record platform
-        run: python -c "import os, platform; print(platform.platform(), platform.machine(), platform.python_version(), __import__('time').tzname); assert not hasattr(os, 'geteuid') or os.geteuid() != 0"
-      - name: Install AQRS
-        run: python -m pip install -e ".[dev]"
-      - name: Plan the synthetic campaign
-        run: python -m aqrs research plan --config configs/research.yaml
-      - name: Run the synthetic campaign
-        run: python -m aqrs research run --config configs/research.yaml
-      - name: Verify preserved acceptance evidence
-        run: python scripts/evidence_archive.py --verify
-      - name: Run behavioral tests
-        run: python -m pytest -q
-      - name: Run lint
-        run: python -m ruff check .
-      - name: Run policy-checker self-test
-        run: python scripts/check_language_policy.py --self-test
-      - name: Run language audit
-        run: python scripts/check_language_policy.py
-      - name: Preserve synthetic campaign evidence
+          python-version: '3.12.12'
+      - name: Install the frozen package and matching numerical dependencies
+        working-directory: frozen
+        run: >-
+          python -m pip install -e .
+          numpy==2.5.4 scipy==1.18.1 scikit-learn==1.9.1 PyYAML==6.0.3
+          psutil==7.2.2 threadpoolctl==3.8.0 joblib==1.6.0
+      - name: Run the authorized comparison under non-root Ubuntu
+        working-directory: frozen
+        run: |
+          python -c "import os, platform; from datetime import datetime; assert os.geteuid() != 0; print(platform.platform(), platform.machine(), platform.python_version(), datetime.now().astimezone().utcoffset())"
+          python -B -m aqrs.m2_e14 --campaign M2-E18 --market-root ../replay-input/evidence/m2-e18-replay/acceptance.zip --admission ../replay-input/evidence/m2-e18-replay/admission.json --windows-report ../replay-input/evidence/m2-e18-replay/windows.json --output artifacts/m2-e18/ubuntu
+      - name: Preserve replay evidence
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: aqrs-${{ matrix.os }}-py${{ matrix.python }}
-          path: artifacts/
-          if-no-files-found: ignore
+          name: m2-e18-ubuntu-evidence
+          path: |
+            frozen/artifacts/m2-e18/ubuntu/report.json
+            frozen/artifacts/m2-e18/ubuntu/report.md
+            frozen/artifacts/m2-e18/ubuntu/research.sqlite3
+            frozen/artifacts/m2-e18/ubuntu/source/
+          if-no-files-found: warn
           retention-days: 30
