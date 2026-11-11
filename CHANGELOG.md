@@ -4,7 +4,7 @@ The **only** changelog in this repository. Entries are in English, newest first,
 
 ## 2026-11-11 — Correct research comparison and precision boundaries
 
-AQRS-A07 corrects the price-drop control window in a separately registered count-only variant, preserves historical evidence, adds complete hourly policy diagnostics including skips, and labels sparse-trade and movement-screen limitations. Reuse the simulator, planner and CLI for conditional scalar precision planning without data access or fits. Add negative/positive synthetic tests and explicit M2-E14 design admission conditions. `events.py` is a distinct supported count API replacing use of the immutable historical scanner; no new real-data campaign runner or statistical confirmation framework is introduced.
+AQRS-A07 corrects the price-drop control window in a separately registered count-only variant, preserves historical evidence, adds complete hourly policy diagnostics including skips, and labels sparse-trade and movement-screen limitations. Reuse the simulator, planner and CLI for conditional scalar precision planning without data access or fits. Add negative/positive synthetic tests and explicit M2-E14 design admission conditions. Independent review exposed a close/open gap at the initial equality boundary; require a strict gap and preserve that correction in the card and variant lineage. `events.py` is a distinct supported count API replacing use of the immutable historical scanner; no new real-data campaign runner or statistical confirmation framework is introduced.
 
 **Paths**
 

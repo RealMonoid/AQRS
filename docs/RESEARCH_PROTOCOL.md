@@ -65,7 +65,9 @@ similar prior volatility. Match on information available at entry and use the
 same fill, holding, sizing, and cost rules.
 The corrected count reference is `PRICE_DROP_V2` in `aqrs.events`: keep the
 five-minute, -50-bps crossing and 15-minute hold, but select only earlier
-same-hour controls with `control_entry + 15 <= event_entry - 5`. Choose the
+same-hour controls with `control_entry + 15 < event_entry - 5`. Equality is
+unsafe because the control exit would use the next open after the lookback's
+first close, and those prices can differ even at the same timestamp. Choose the
 nearest eligible earlier control using the original prior-volatility criterion.
 This excludes the event-defining fall from its control return. Do not exclude
 other controls by inspecting their subsequent returns. Unmatched coverage is a

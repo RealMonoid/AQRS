@@ -41,6 +41,43 @@ def test_historical_control_contains_the_planted_trigger(
     assert pair["control_entry_minute_utc"] + 15 == pair["event_entry_minute_utc"]
 
 
+def test_control_exit_excludes_a_next_open_jump_at_the_lookback_boundary(planted_drop):
+    events = import_module("aqrs.events")
+    opened = np.r_[100.0, planted_drop[:-1]]
+    opened[85] = 99.5  # close[84] is 100; shared timestamp does not imply equal price.
+    start = datetime(2024, 1, 1, tzinfo=UTC).timestamp()
+    values = np.column_stack(
+        [
+            start + 60 * np.arange(1440),
+            opened,
+            np.maximum(opened, planted_drop),
+            np.minimum(opened, planted_drop),
+            planted_drop,
+            np.ones(1440),
+        ]
+    )
+    bars = Bars(values, "SYNTH", 1)
+    validate(bars)
+    pair = events.scan(planted_drop)[0]["pair"]
+    control, event = pair["control_entry_minute_utc"], pair["event_entry_minute_utc"]
+    assert control + 15 < event - 5
+    outcomes = [
+        simulate(
+            bars,
+            np.array([entry - 1]),
+            np.ones(1),
+            15,
+            False,
+            1,
+            0,
+            pilot.prior.COSTS,
+        )
+        for entry in [control, event]
+    ]
+    assert outcomes[0]["gross_pnl"] == outcomes[1]["gross_pnl"] == 0
+    assert outcomes[0]["net_pnl"] == outcomes[1]["net_pnl"]
+
+
 def test_full_day_price_drop_v2_excludes_the_trigger_from_the_control_hold(
     planted_drop,
 ):
@@ -50,7 +87,7 @@ def test_full_day_price_drop_v2_excludes_the_trigger_from_the_control_hold(
             "block_start_minute_utc": 0,
             "trigger_count": 1,
             "eligible_trigger_count": 1,
-            "pair": {"event_entry_minute_utc": 90, "control_entry_minute_utc": 70},
+            "pair": {"event_entry_minute_utc": 90, "control_entry_minute_utc": 69},
         },
         {
             "block_start_minute_utc": 480,
@@ -67,18 +104,18 @@ def test_full_day_price_drop_v2_excludes_the_trigger_from_the_control_hold(
     ]
 
 
-@pytest.mark.parametrize("controls", [[75], [105], [75, 105], []])
+@pytest.mark.parametrize("controls", [[70], [75], [105], [75, 105], []])
 def test_v2_leaves_event_unmatched_without_an_uncontaminated_earlier_control(controls):
     events = import_module("aqrs.events")
     volatility = dict.fromkeys([90, *controls], 1.0)
     assert events.first_pair([90], controls, volatility) is None
 
 
-def test_v2_accepts_exact_hold_boundary_and_preserves_first_event_and_nearest_control():
+def test_v2_requires_strict_boundary_and_preserves_first_event_and_nearest_control():
     events = import_module("aqrs.events")
-    volatility = dict.fromkeys([60, 65, 70, 71, 75, 90, 95], 1.0)
-    expected = {"event_entry_minute_utc": 90, "control_entry_minute_utc": 70}
-    for controls in ([75, 65, 60, 70, 71], [71, 70, 60, 65, 75]):
+    volatility = dict.fromkeys([60, 65, 69, 70, 71, 75, 90, 95], 1.0)
+    expected = {"event_entry_minute_utc": 90, "control_entry_minute_utc": 69}
+    for controls in ([75, 65, 60, 70, 69], [69, 70, 60, 65, 75]):
         assert events.first_pair([90, 95], controls, volatility) == expected
     assert events.first_pair([90], [71], volatility) is None
 
@@ -91,11 +128,11 @@ def test_v2_keeps_same_hour_and_prior_volatility_comparability():
         "event_entry_minute_utc": 90,
         "control_entry_minute_utc": 65,
     }
-    assert events.first_pair([90], [70], {70: 0.0, 90: 0.0}) == {
+    assert events.first_pair([90], [69], {69: 0.0, 90: 0.0}) == {
         "event_entry_minute_utc": 90,
-        "control_entry_minute_utc": 70,
+        "control_entry_minute_utc": 69,
     }
-    assert events.first_pair([90], [70], {70: 0.0, 90: 1.0}) is None
+    assert events.first_pair([90], [69], {69: 0.0, 90: 1.0}) is None
 
 
 def test_future_closes_cannot_change_an_earlier_count_pair(planted_drop):

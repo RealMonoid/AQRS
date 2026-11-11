@@ -26,7 +26,8 @@ def first_pair(
             control
             for control in controls
             if control // 60 == event // 60
-            and control + HOLD_MINUTES <= event - LOOKBACK
+            # Exit before the lookback's first close, including a possible next-open gap.
+            and control + HOLD_MINUTES < event - LOOKBACK
             and max(volatility[control], volatility[event])
             <= 2 * min(volatility[control], volatility[event])
         ]
