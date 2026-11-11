@@ -2,6 +2,21 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Record the M2-E14 Windows development outcome
+
+Preserve both campaign records and the exact source binding in a bounded
+evidence bundle. The volume screen missed both net thresholds. The Ridge
+movement screen stopped before fitting, so the conditional Ubuntu market
+replay did not qualify. Record the four exact-revision synthetic CI results.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e14-acceptance.zip`
+- `evidence/m2-e14-verification.json`
+
 ## 2026-11-11 — Implement the guarded M2-E14 discovery campaign
 
 Run the volume filter and fitted Ridge comparisons through the shared

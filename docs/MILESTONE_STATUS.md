@@ -33,7 +33,14 @@ start conditions are unchanged. No automatic dispatch follows this task.
 
 Use this table for planned development, founding, and project-level research experiments. Row order is the current priority. The [dispatch and update rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution.
 
-**Priority review, 2026-11-11.** AQRS-D01 completed the owner-authorized free-data qualification after A08. The broader development inputs are available; no new outcome campaign follows automatically. M2-E14 remains the next campaign proposal, waiting for the biased-design self-test, justified precision plan, independent design review, registered diagnostic views, verified campaign admission and published source/card binding before named outcome access. Its run authorization and Governor limits remain separate. The owner deferred AQRS-SC01; revisit scheduling when the owner reprioritizes it. Two-way Sierra Chart and ACSIL interoperability remains a v1.0 requirement. The price-drop outcome exercise and both completed model pilot follow-ups remain deferred.
+**Priority review, 2026-11-11.** [M2-E14](#m2-e14-windows-campaign-learning-card)
+closed the named Windows attempt. Both research follow-ups defer, and the
+Ridge movement screen leaves the two-family market comparison criterion open.
+Review that criterion when qualifying a new development scope. A subsequent
+campaign needs a decision-changing design and its own authorization.
+M2-E15 still needs a concrete entry rule where persistence could matter.
+The price-drop outcome exercise and previous pilot follow-ups remain
+deferred. Revisit AQRS-SC01 when the owner reprioritizes it.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -43,9 +50,9 @@ Use this table for planned development, founding, and project-level research exp
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E14 | 2026-11-10 | WAITING | [Verify the guarded two-candidate entry on synthetic inputs.](#m2-e14-pre-outcome-design-checkpoint) | Before market outcomes, pass the [pre-outcome design checks](RESEARCH_PROTOCOL.md#precision-and-claim-admission) through the actual entry, obtain independent review of the frozen evaluation path, and verify fail-closed admission and the published card/source binding. Owner approval recorded. Market execution also requires effective preflight. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| M2-E14 | 2026-11-10 | CLOSED | [Windows campaign completed. Volume gates missed and Ridge screened before fitting.](#m2-e14-windows-campaign-learning-card) | Owner-approved fixed development attempt. The missing Ridge comparison makes the conditional Ubuntu market replay ineligible. The two-family market milestone criterion stays open. |
 | AQRS-D01 | 2026-11-11 | CLOSED | [Qualified 48 free Spot archives and 69,120 minute bars with retained activity fields.](#aqrs-d01-learning-card-qualified-free-spot-development-data) | SUPPORTED / PERSEVERE for data preparation after independent review and four Windows/Linux CI jobs. M2-E14 outcome admission remains separate. |
 | AQRS-A08 | 2026-11-11 | CLOSED | [Descriptive diagnostics and additional-view accounting verified.](#aqrs-a08-learning-card-descriptive-signal-diagnostics) | SUPPORTED / PERSEVERE for the scoped engineering slice. M2-E14 still requires justified precision, its independent full-design review and a verified admission entry before outcomes. |
 | AQRS-A07 | 2026-11-11 | CLOSED | [Corrected control timing and verified complete opportunity and precision diagnostics.](#aqrs-a07-learning-card-research-comparison-and-precision-boundaries) | Independent review and four exact-revision CI jobs passed. Scientific coverage, confounding and M2-E14 design admission remain open. |
@@ -86,8 +93,8 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** M2-E14 is the active development item. Its guarded entry proceeds
-through the [Test Card](#m2-e14-guarded-campaign-entry-test-card).
+**Status:** The [M2-E14 guarded entry and Windows attempt](#m2-e14-windows-campaign-learning-card)
+are recorded. No development loop is active.
 AQRS-B01 preparation is complete and its external search is waiting.
 AQRS-D01 and AQRS-A06/A07/A08 remain closed.
 
@@ -1371,6 +1378,51 @@ Use an isolated worktree at `1552eaf` with the prior E14 design changes.
   preflight apply. Stop affected work on binding, containment, qualification,
   timing, cost, budget or replay failure. Development fixtures use no market
   payload. Run admission and scientific evidence are separate decisions.
+
+### M2-E14 Windows campaign Learning Card
+
+**2026-11-11.** `SUPPORTED / PERSEVERE` for the guarded entry.
+The exact [published revision](https://github.com/RealMonoid/AQRS/commit/9f8fe4960bc2af5edd08f1df7f73912202f45902)
+passed independent review, including 65 focused Windows tests and independent
+causal and synthetic input checks. The [four exact-revision CI jobs](https://github.com/RealMonoid/AQRS/actions/runs/43102295817)
+each passed 236 tests on Windows and non-root Ubuntu with Python 3.11/3.12,
+including the synthetic M2-E14 entry. Each job verified the 295 historical
+evidence files. Native Windows `python -B -m aqrs.m2_e14 --market-root <archive-directory> --admission <receipt> --output <new-directory>`
+exited 0 for the one authorized market attempt
+`d98b5971b2254756a3cf398a0f609e70`. All ten expected archives qualified
+before evaluation. The January 6 reservation had zero authorized reads,
+and the fixed importer allowlist excluded it.
+
+- **Volume.** All 18 day/band slots produced pairs across six validation
+  days, nine per fold. Mean event net return was -22.16 bps and the mean
+  paired advantage was -3.86 bps after the common 25 bps cost. The
+  5 bps and 2 bps screens missed. Over all 4,354 eligible positive moves,
+  the filter improved the simulated policy by 0.41 bps per opportunity
+  while both policies had negative net returns. `DEFER` for follow-up.
+- **Ridge.** `SCREENED_OUT`. The first purged training fold's 90th percentile
+  of absolute 30-minute movements was 22.68 bps against the 27 bps cost and
+  buffer threshold. Zero market estimator fits and zero validation
+  predictions followed. The forecast, net incremental value and two-family
+  real-data milestone criterion remain unevaluated. `DEFER` for follow-up.
+
+The market attempt used three of seven planned charges (one synthetic timing
+fit and two volume cutoff calibrations), about 6.48 seconds of summed worker
+wall time and 131.59 MiB peak sampled RSS. Market-effect inference remains
+`INCONCLUSIVE / DEFER`. An inline read-only report check confirmed the
+digest-bound Windows result rejects Ubuntu market replay, so real-data
+platform parity remains open. No market retry or outcome-based changes to
+the design followed. The review's mock claim marker was identified by its
+synthetic run ID and moved out of the live ledger before the market attempt.
+
+The [verification receipt](../evidence/m2-e14-verification.json) binds the
+[29-member evidence bundle](../evidence/m2-e14-acceptance.zip) to the dataset,
+published source and Windows attempt. An inline `python -B -` check passed
+SQLite integrity, source and report digests, archive verification, and
+consolidation of two variant-linked records and 55 diagnostic views.
+About 26 minutes elapsed from 21:02:19 UTC through evidence consolidation.
+Review the remaining two-family criterion at the next M2 evidence review.
+Reopen research only with a separately registered design and justified
+development scope that can exercise the missing comparison.
 
 ## AQRS-SC01 Test Card: Sierra Chart and ACSIL round trip, 2026-11-10
 
