@@ -2,6 +2,42 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Implement the guarded M2-E14 discovery campaign
+
+Run the volume filter and fitted Ridge comparisons through the shared
+simulator, supervised workers and attempt journal. Enforce the published
+definition, protected-date boundary, seven-charge plan and platform replay
+conditions. Preserve prospective variant and diagnostic identities in the
+evidence index.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/discovery.py`
+- `src/aqrs/m2_e14.py`
+- `tests/test_m2_e14.py`
+
+## 2026-11-11 — Specify M2-E14's pre-outcome comparison and exposure
+
+Advance the fixed two-candidate campaign design. Define the complete policy
+populations and the separate matched-pair comparison, verify capacity and
+precision, count both cutoff calibrations, and register the planned diagnostic
+views. Record the failure paths for the future guarded entry. Market access
+and execution remain waiting on the existing admission conditions.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+
 ## 2026-11-11 — Export machine-readable AQRS-B01 run evidence
 
 Bind the frozen plan, complete pending candidate ledger and validated inputs to

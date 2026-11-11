@@ -107,6 +107,23 @@ using an actual close/open price jump. Q1's V1 outcome restriction remains;
 Q3's scientific design admission remains open. Verified software and new
 diagnostics do not resolve those remaining research prerequisites.
 
+### FTA-M2-E14: pre-outcome implementation plan
+
+The top event is an invalid comparison or unauthorized outcome run. The
+[design checkpoint](MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint)
+fixes the descriptive scope. The future entry must exercise these paths:
+
+| Failure path | Safeguard and required proof |
+|---|---|
+| Unpublished or changed definition OR incomplete authorization/diagnostics OR altered input allowlist permits an archive read | Bind the exact published definition, source and named authorization. Reject each missing or changed record, wrong date or symbol, and January 6 before the loader is called. Reject a historical digest mismatch before ZIP decoding, including when both the ZIP and its sidecar have changed. |
+| Late features, labels across fold or band boundaries, or cutoff fitted on validation creates apparent value | Reuse causal features and purged folds. Test earlier policy decisions under future-only perturbation, training-only scaling and cutoff, touching/overlapping pair holds, band-end equality and exact next-open fills. Retrospective pair membership can change with a later control. |
+| Unequal costs or dropping skipped rows inflates incremental value | Reuse the simulator with matched policies. Test hand-computed one-sided and both-skipped action cases, a shared-gross-outcome null with equal trade counts and costs, a planted contrast, and the historical V1/V2 null and planted fixtures. Reconcile trade, day, fold and opportunity totals. |
+| Extra fit, expired deadline, or exposure persistence failure makes the result unauditable | Verify two trials and up to seven fit charges including timing and both cutoff calibrations, one deadline and supported memory mode before work. Verify a screened/no-estimator-fit path and reject a tight or unsupported configuration. Retain both candidate records, including screened or failed outcomes. Bind every evaluated view to the attempt, dataset and source. |
+
+Independent full-path review remains a campaign admission condition. The
+matched event comparison is observational. Non-overlap controls the holding
+windows, with serial dependence and trigger contamination still possible.
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.

@@ -199,7 +199,8 @@ def build(root):
                         "lightgbm_parameters", config.get("isolation_forest")
                     ),
                 }
-                variant_id = (
+                market_e14 = config.get("campaign_id") == "M2-E14" and config.get("variant") == "M2-E14"
+                variant_id = cid if market_e14 else (
                     "historical-"
                     + digest(json.dumps(signature, sort_keys=True).encode())[:16]
                 )
@@ -208,7 +209,8 @@ def build(root):
                     {
                         "variant_id": variant_id,
                         "definition": signature,
-                        "registration": "retrospective_reconstruction",
+                        "registration": "prospective_market_definition"
+                        if market_e14 else "retrospective_reconstruction",
                         "attempt_ids": [],
                     },
                 )["attempt_ids"].append(eid)
@@ -238,11 +240,32 @@ def build(root):
                     }
                 )
                 # Replays keep their own diagnostic looks, even for the same model.
-                diagnostics = (
-                    json.loads(metrics).get("diagnostic_exposure") if metrics else None
-                )
+                metrics_record = json.loads(metrics) if metrics else {}
+                diagnostics = metrics_record.get("diagnostic_exposure")
                 if diagnostics is not None:
                     attempts[-1]["diagnostic_exposure"] = diagnostics
+                if config.get("campaign_id") == "M2-E14":
+                    if (
+                        execution == "COMPLETED"
+                        and metrics_record.get("result", {}).get("evaluation_status") == "COMPLETED"
+                        and not diagnostics
+                    ):
+                        raise ValueError("Completed M2-E14 comparison lacks diagnostic receipts.")
+                    binding = {
+                        "attempt_id": eid,
+                        "prospective_variant_id": cid,
+                        "definition_id": config["definition_id"],
+                        "published_revision": config["published_revision"],
+                        "dataset_scope": scope,
+                        "dataset_id": attempts[-1]["dataset_id"],
+                        "source_id": report["provenance"]["source_id"],
+                    }
+                    if any(
+                        any(view.get(key) != value for key, value in binding.items())
+                        for view in diagnostics or []
+                    ):
+                        raise ValueError("M2-E14 diagnostic attempt binding differs from its campaign.")
+                    attempts[-1]["source_binding"] = binding
     if len({a["experiment_id"] for a in attempts}) != len(attempts):
         raise ValueError(
             "Duplicate attempt identities across source journals require review."

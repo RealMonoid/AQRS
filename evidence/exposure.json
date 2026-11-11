@@ -1418,14 +1418,29 @@
       ],
       "decision_gates": "- **Decision gates.** A technical pass requires both versioned records, including hypothesis and origin, timings, input and source identities, matched controls, gross and net results, turnover, trial exposure and coverage by UTC day and band. Report non-overlapping counts and independent-day evidence separately, with dependence and any unavailable effective sample-size estimate explicit. Check future-only perturbation for both candidates and an artificial shared-outcome case that yields no incremental advantage. For the event follow-up, require at least 12 matched pairs across at least four days, with at least four pairs per fold, mean event net return of at least 5 bps and mean paired advantage of at least 2 bps. For the forecast follow-up, require at least a 1% relative MAE reduction against both forecasts in each fold, at least 12 candidate trades across four days with at least four per fold, mean candidate net return of at least 5 bps per trade, and mean incremental net return of at least 2 bps per common eligible opportunity versus the one-feature Ridge policy, including flat decisions. Otherwise record the failed threshold or insufficient coverage and defer follow-up. Keep both results even if neither advances. These screens do not establish independent alpha or M2 acceptance.",
       "definition": "- **Candidate `VOL_CONFIRM_V1`.** Hypothesis: unusually high relative volume strengthens short-horizon continuation after a positive five-minute BTCUSDT spot move. At each completed minute `t`, compare `close[t] / close[t-5] - 1` with zero. Among positive events, the candidate adds a filter at the training-only 75th percentile of relative volume among positive events. Reuse the existing definition of current volume divided by the mean of the prior 12 completed minutes. The baseline is the positive-move rule alone, evaluated on the same opportunities. Report actions and skips for both. For the event contrast, take at most one non-overlapping pair per UTC eight-hour band per validation day. In chronological order, match the first eligible high-volume event with the nearest eligible below-threshold positive event in that band, breaking ties by earlier timestamp. Both simulated exits must precede the band end. Freeze the cutoff per fold and count uncovered bands and unmatched opportunities.",
+      "diagnostic_plan": {
+        "status": "PLANNED_NOT_RUN",
+        "horizon_bars": 30,
+        "validation_intervals": {
+          "fold_1": [5760, 10049],
+          "fold_2": [10080, 14369]
+        },
+        "views": ["aggregate", "fold_1", "fold_2", "utc_day", "utc_8h_band_by_day"],
+        "tables": {
+          "paired_events": ["pair_count", "empty_bands", "high_events_without_eligible_partner", "events_unselected_under_pair_cap", "event_and_control_gross_and_net_bps", "paired_net_difference_bps"],
+          "volume_filter_and_positive_move_baseline": ["eligible_count", "actions_and_skips", "gross_and_net_bps", "turnover", "trade_count", "net_difference_bps_per_eligible_opportunity"]
+        },
+        "grouping": "Expand day and band views over the validation dates using entry UTC. Retain empty groups.",
+        "precision": "Day and fold comparison values are descriptive. Effective independent units are unknown."
+      },
       "execution_authorization": "See the canonical queue; this audit remediation does not execute the campaign.",
       "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
       "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
       "registered_at": "2026-11-11T01:34:21.229616+00:00",
       "research_admission": {
-        "reason": "Fix the descriptive or inferential decision, common opportunity population and justified precision assumptions before outcomes; original thresholds remain unchanged.",
-        "reference": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
-        "review": "AQRS-A07",
+        "reason": "Fixed-window descriptive development screen. Inference is deferred. Await the reviewed synthetic entry, verified admission, published source/card binding and named run authorization.",
+        "reference": "docs/MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint",
+        "review": "M2-E14 pre-outcome design checkpoint",
         "status": "WAITING_DESIGN_REVIEW"
       },
       "status": "PLANNED_NOT_RUN",
@@ -1448,14 +1463,43 @@
       ],
       "decision_gates": "- **Decision gates.** A technical pass requires both versioned records, including hypothesis and origin, timings, input and source identities, matched controls, gross and net results, turnover, trial exposure and coverage by UTC day and band. Report non-overlapping counts and independent-day evidence separately, with dependence and any unavailable effective sample-size estimate explicit. Check future-only perturbation for both candidates and an artificial shared-outcome case that yields no incremental advantage. For the event follow-up, require at least 12 matched pairs across at least four days, with at least four pairs per fold, mean event net return of at least 5 bps and mean paired advantage of at least 2 bps. For the forecast follow-up, require at least a 1% relative MAE reduction against both forecasts in each fold, at least 12 candidate trades across four days with at least four per fold, mean candidate net return of at least 5 bps per trade, and mean incremental net return of at least 2 bps per common eligible opportunity versus the one-feature Ridge policy, including flat decisions. Otherwise record the failed threshold or insufficient coverage and defer follow-up. Keep both results even if neither advances. These screens do not establish independent alpha or M2 acceptance.",
       "definition": "- **Candidate `RIDGE_INCREMENT_V1`.** Hypothesis: relative volume and rolling volatility improve a 30-minute forward-return forecast over one-bar return alone. At each completed minute use the three existing trailing features and the existing Ridge pipeline. Compare with zero and an otherwise identical Ridge fitted on one-bar return alone. Standardization fits on training rows only. Compare both Ridge decision policies on the same validation rows and position rules, with momentum and flat as additional references. The fitted score changes the baseline long-or-flat decision only by crossing the same cost-plus-buffer threshold.",
+      "diagnostic_plan": {
+        "status": "PLANNED_NOT_RUN",
+        "horizon_bars": 30,
+        "validation_intervals": {
+          "fold_1": [5760, 10049],
+          "fold_2": [10080, 14369]
+        },
+        "forecast": {
+          "roles": ["three_feature_ridge", "one_feature_ridge"],
+          "diagnostic_ids": [
+            "AQRS-DIAG-RANK-V1",
+            "AQRS-DIAG-PREDICTION-MEAN-V1",
+            "AQRS-DIAG-PREDICTION-SD-V1",
+            "AQRS-DIAG-TARGET-MEAN-V1",
+            "AQRS-DIAG-TARGET-SD-V1"
+          ],
+          "views": ["aggregate", "fold_1", "fold_2"],
+          "comparison_metrics": ["mae", "zero_mae", "relative_mae_reduction_vs_controls"],
+          "training_screen": {"metric": "training_abs_move_p90", "view": "fold_1_training", "interval": [12, 5729]},
+          "count": 30
+        },
+        "policy": {
+          "roles": ["three_feature_ridge", "one_feature_ridge", "momentum", "flat"],
+          "metrics": ["eligible_count", "actions_and_skips", "gross_and_net_bps", "turnover", "trade_count", "net_difference_bps_per_eligible_opportunity_vs_one_feature_ridge"],
+          "views": ["aggregate", "fold_1", "fold_2", "utc_day", "utc_8h_band_by_day"]
+        },
+        "grouping": "Expand day and band views over the validation dates using entry UTC. Retain empty groups.",
+        "precision": "Day and fold comparison values are descriptive. Effective independent units are unknown."
+      },
       "execution_authorization": "See the canonical queue; this audit remediation does not execute the campaign.",
       "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
       "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
       "registered_at": "2026-11-11T01:34:21.230656+00:00",
       "research_admission": {
-        "reason": "Fix the descriptive or inferential decision, common opportunity population and justified precision assumptions before outcomes; original thresholds remain unchanged.",
-        "reference": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
-        "review": "AQRS-A07",
+        "reason": "Fixed-window descriptive development screen. Inference is deferred. Await the reviewed synthetic entry, verified admission, published source/card binding and named run authorization.",
+        "reference": "docs/MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint",
+        "review": "M2-E14 pre-outcome design checkpoint",
         "status": "WAITING_DESIGN_REVIEW"
       },
       "status": "PLANNED_NOT_RUN",

@@ -43,7 +43,7 @@ Use this table for planned development, founding, and project-level research exp
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E14 | 2026-11-10 | WAITING | [Review claim, precision and opportunity population before the two-candidate campaign.](#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10) | Complete the [pre-outcome design checks](RESEARCH_PROTOCOL.md#precision-and-claim-admission), register diagnostic views, and resolve [AQRS-A07 Q3](RISK_REGISTER.md#fta-aqrs-a07-research-logic-audit-correction); record what this small design can decide and include skipped opportunities. Publish the fixed card/source binding before named archive access and outcome execution, which retain their separate authorization and preflight requirements. |
+| M2-E14 | 2026-11-10 | WAITING | [Verify the guarded two-candidate entry on synthetic inputs.](#m2-e14-pre-outcome-design-checkpoint) | Before market outcomes, pass the [pre-outcome design checks](RESEARCH_PROTOCOL.md#precision-and-claim-admission) through the actual entry, obtain independent review of the frozen evaluation path, and verify fail-closed admission and the published card/source binding. Owner approval recorded. Market execution also requires effective preflight. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | AQRS-D01 | 2026-11-11 | CLOSED | [Qualified 48 free Spot archives and 69,120 minute bars with retained activity fields.](#aqrs-d01-learning-card-qualified-free-spot-development-data) | SUPPORTED / PERSEVERE for data preparation after independent review and four Windows/Linux CI jobs. M2-E14 outcome admission remains separate. |
@@ -86,7 +86,10 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
+**Status:** M2-E14 is the active development item. Its guarded entry proceeds
+through the [Test Card](#m2-e14-guarded-campaign-entry-test-card).
+AQRS-B01 preparation is complete and its external search is waiting.
+AQRS-D01 and AQRS-A06/A07/A08 remain closed.
 
 ### AQRS-B01 evidence amendment Test Card
 
@@ -1199,6 +1202,175 @@ Before running, explicitly choose the intended descriptive or inferential decisi
 - **Resource Governor and stop.** Planning only was approved, with zero archive reads, fits or campaigns. Proposed execution allows up to three hours of development and one sequential campaign per platform, with Ubuntu conditional on a valid Windows result. Per campaign: two candidate trials, two folds, four Ridge fits including the fitted control, one representative timing fit, one seed, zero resamples, zero network data requests, zero spend and zero protected reads. Reuse the importer, fold builder, evaluator and supervised workers. Retain the existing 120-second trial and 300-second campaign deadlines and 4,096 MiB sampled-RSS ceiling. Estimate under 90 seconds and 512 MiB sampled RSS per campaign and up to 10 MiB of new evidence across both platforms, subject to preflight. Count control fits explicitly before launch. Refine [FTA-M0-A and FTA-M1-B](RISK_REGISTER.md#mandatory-fault-tree-analysis-fta-for-critical-development-changes) and obtain the required independent review before execution. Stop on invalid scope, a timing or cost invariant failure, resource rejection or replay mismatch. No retries, budget increases or alternate windows within this card.
 
 **Planning verification, 2026-11-10.** A read-only `python -B -` check exited 0. The count receipts supply digest records for all ten dates. The existing fold builder on the 14,400 planned rows keeps every modeled exit before its interval boundary. The cost helper reproduces 25 bps, and the two trials and five fits per platform fit the static limits. No archive payload was opened. Live preflight and the execution path remain unverified. Prefer reusing the importer, fold builder, evaluator and worker supervisor behind a campaign entry with its own verified admission. An entry that inherits either open Governor finding still needs that finding closed before reuse. The named data access and run remain `WAITING` for authorization.
+
+### M2-E14 pre-outcome design checkpoint
+
+**Design Test Card, 2026-11-11.** Baseline `1f71d5e` plus the existing
+working-tree edits. The riskiest assumption is that this fixed window can
+inform a bounded development decision once the comparison populations and
+denominators are explicit. The alternative is that an effect claim or an
+ambiguous denominator makes the proposed result unusable. Require the exact
+ten-day metadata scope, both purged folds, the original costs and gates, known
+answers for null and planted controls, and a prospective index for all planned
+views. Check the count and denominator arithmetically and exercise existing
+timing, cost and control helpers on synthetic inputs. Pass permits a synthetic
+campaign-entry implementation proposal. Stop if the design requires changing
+the window, thresholds, budget or an existing runtime contract. Allow up to
+25 minutes of design and verification, zero market or protected reads, trials,
+estimator fits, resamples, network requests or spend. This checkpoint has no
+recurring runtime cost. ADR-043/044/049 and IDEA-001/004 favor retaining the
+fixed event and controls over a new search. No critical runtime contract changes.
+Map the risks for the later implementation before it starts.
+
+**Decision and precision.** Use the existing campaign to test reproducible
+discovery and apply the unchanged follow-up screens on the named development
+sample. A passing screen permits a proposal for a new, adequately designed
+study. A failed screen defers that follow-up. Both outcomes leave the effect
+claim open. Show the observed coverage and comparison values separately by
+day and fold, and report effective independent units as unknown.
+There are at most 18 non-overlapping matched pairs across six validation dates.
+Even if all 18 pairs were independent with a 20 bps standard deviation, the
+existing calculation needs 619 units for a 2 bps mean effect and detects only
+about 11.72 bps at that capacity. Six assumed independent day means at the
+same illustrative dispersion would detect about 20.30 bps. Dispersion for either
+unit and serial dependence are unknown. The Ridge rows also have overlapping
+30-minute labels. The default for market-effect claims is `INCONCLUSIVE / DEFER`.
+Quant Research revisits inference when a separately scoped plan can justify
+dispersion, independent units and a precision target for the specific claim.
+
+**Population and attribution.** Use the existing 31-row purge and timestamp
+actions by the next open, when the signal is available. Attribute fills and
+their complete round-trip P&L to the entry's UTC date and eight-hour band.
+Run each policy chronologically on the same signal rows as its own control,
+with a separate one-position state per policy. Positions may close and reopen
+at the same open. A skipped row contributes zero P&L for that policy and
+remains in the denominator, including while a position is open.
+
+- **Volume.** Use every fold-eligible positive five-minute move for the policy
+  contrast. Estimate the 75th percentile with linear interpolation on the
+  purged training positives, with values at the cutoff assigned to high
+  volume. An empty calibration population makes the comparison unavailable.
+  For the separate paired contrast, use high and below-cutoff positives in
+  the same entry band with both exits strictly inside that band. Select the
+  first high event with an eligible non-overlapping control, breaking ties
+  between equally close controls by earlier entry. A hold occupies the
+  half-open interval from entry to exit. Report empty bands, high events with
+  no eligible partner, and unselected events under the one-pair cap.
+  Event eligibility uses prices and volume known at each respective decision.
+  Later matching is retrospective, so a later control may change an earlier
+  event's pair without changing either policy's earlier decision. The other
+  entry's triggering move may occur during a hold, and the two groups can
+  differ in other characteristics. Keep the 2 bps paired gate on that
+  conditional comparison. The complete positive-move policy contrast is a
+  descriptive view with no new advancement threshold.
+- **Ridge.** Compare both fitted forecasts and zero over the same eligible
+  signal rows. Require the original relative MAE threshold in each fold for
+  each control. A zero control MAE makes the relative reduction undefined.
+  The shared training-only movement screen can record an unavailable
+  forecast comparison. Use the same strict 27 bps score threshold for both
+  fitted long-or-flat policies and the momentum reference. Keep flat as an
+  always-flat reference. There are 4,289 eligible rows per fold, 8,578 in all.
+  Divide the full unit-notional candidate minus one-feature net P&L by 8,578
+  and convert to bps. The original 2 bps screen therefore requires 17,156
+  bps of total incremental return across trades, even though each policy
+  can fill at most 286 non-overlapping trades. Preserve this gate and report
+  its demanding scale explicitly. Per-trade returns use their own denominator.
+
+**Reuse and verification boundary.** Use `load_spot_day` and a campaign-specific
+allowlist with the historical archive digests. Reuse `market.features`,
+`market.targets` and `market.build_folds`, `evaluation.model`,
+`evaluation.prediction_metrics`, `evaluation.simulate`, the supervised worker,
+fit reservations and the existing journal and source snapshot. The existing
+evaluator's reference set omits a fitted one-feature control within a
+comparison, and the price-drop count matcher implements a different rule.
+The new entry needs the small candidate-specific orchestration and exact
+admission checks. AQRS-A02-F2/F5 have documented closure. Verify the new
+entry's effective limits and one shared preparation/timing/worker deadline.
+Check the expected digest allowlist and authorization before opening input,
+then compare observed archive digests during qualification. Source and report
+persistence remain outside the worker watchdog. The
+[exposure index](../evidence/exposure.json) registers both prospective
+diagnostic plans. Persist each evaluated view with the predictor role where
+applicable, prospective variant ID, exact dataset scope, published revision
+and source identity. Verify evidence consolidation retains the association
+and the views from each attempt, including replays. A screened comparison
+can complete an engineering attempt while the actual Ridge comparison and
+the two-family real-data milestone criterion remain open.
+
+**Governor accounting.** Retain the original five estimator fits (four
+forecast fits and one timing fit). Reserve up to two additional calibration
+charges for the two fold-specific volume cutoffs under the existing Governor
+rule for calibration. The prospective upper bound is seven fit charges
+across two sequential trials. This fits the default ceiling of 12.
+The training movement check is a diagnostic that can stop the forecast path.
+It does not set a prediction or trading parameter. Count calibration and
+estimator outcomes separately. The named campaign plan and effective preflight
+must carry all seven charges. This checkpoint authorizes no campaign.
+
+**Design Learning Card, 2026-11-11.** `SUPPORTED / PERSEVERE` for the
+descriptive plan. Market-effect inference remains `INCONCLUSIVE / DEFER`.
+Native Windows Python 3.12: the inline `python -B -` design check detected the
+missing diagnostic plan on the original revision (exit 1) and passed on the
+revised files (exit 0). It checked all ten expected archive/checksum metadata
+pairs, fold bounds, original gates, 30 planned Ridge diagnostic views,
+Governor arithmetic, synthetic null and 7.5 bps planted policy contrast per
+opportunity, unchanged historical exposure and changelog coverage. Focused
+`python -B -m pytest -q` on research logic, market timing and evaluation passed
+48 tests (49 deselected), including both V1/V2 known-answer fixtures. A
+separate read-only reviewer verified the revised design, including the
+cutoff-calibration accounting, digest-check order and diagnostic bindings.
+Both language checks, manual English review and `git diff --check` passed.
+About nine minutes elapsed from 20:30:45 UTC through the recorded review.
+Zero market or protected payload reads, fits, campaigns, resamples or spend.
+The next bounded proof is the synthetic campaign entry through both complete
+comparison paths, including pre-loader rejection tests and attempt receipts.
+Linux execution, independent full-path review, consolidation of actual
+attempts, publication and named real-data admission remain open.
+
+### M2-E14 guarded campaign entry Test Card
+
+**2026-11-11, before implementation.** The owner replied “freigabe” after
+reviewing the fixed December 25, 2025–January 3, 2026 UTC BTCUSDT scope and
+the remaining publication and execution conditions. Interpret it as approval
+for this campaign, including its synthetic qualification, one Windows
+market attempt and the conditional Ubuntu replay in the original card.
+Use an isolated worktree at `1552eaf` with the prior E14 design changes.
+
+- **Hypothesis and baseline.** A small dedicated entry can reuse the shared
+  importer, causal features, Ridge, simulator, worker, journal and evidence
+  index to execute both frozen comparisons. The baseline has the shared
+  helpers but no E14 entry. The riskiest failures are outcome access before
+  binding and a mechanically favored comparison. Follow [FTA-M2-E14](RISK_REGISTER.md#fta-m2-e14-pre-outcome-implementation-plan).
+  ADR-043/044/048/049 and IDEA-001/004 favor reuse and fixed comparisons.
+- **Minimum proof.** Through the actual entry, exercise the frozen folds and
+  thresholds, both trial records, two volume calibrations, four forecast
+  fits and the timing fit. Verify known-answer null and planted comparisons,
+  matched next-open costs, complete opportunity denominators, causal
+  perturbation, screened and rejected paths, and preservation of role/source/
+  revision/attempt bindings through evidence consolidation. Reject wrong
+  dates and digests, missing authorization, missing or changed registration,
+  unverified publication and tight limits before opening an outcome archive
+  where the check does not require payload bytes. Treat simulated results as
+  descriptive development evidence.
+- **Verification and publication.** Run targeted failing and passing tests,
+  Windows full suite, lint, policy checks and evidence preservation, then
+  independent review and Windows/Ubuntu CI on the frozen revision. Publish
+  the exact card/definition/source before any market payload. Verify the
+  remote branch and tested revision and retain both platform receipts.
+  A preserved-bundle replay may stage only the named members inside the
+  supervised preparation stage. Compare dataset, execution source, discrete
+  results and screen gates exactly across platforms. Use absolute tolerance
+  `1e-10` and relative tolerance `1e-9` for floating-point comparison values.
+- **Resources and stop.** One development increment up to three hours.
+  One fixed sequential campaign per platform after verification, with
+  Ubuntu conditional on valid Windows results. At most two trials, one
+  seed, seven reserved charges (five estimator fits and two cutoff
+  calibrations), no resamples, automatic retries, protected access or spend.
+  Retain 120-second worker and 300-second shared campaign maxima, 4,096 MiB
+  sampled RSS and the original 10 MiB evidence target. Static and live
+  preflight apply. Stop affected work on binding, containment, qualification,
+  timing, cost, budget or replay failure. Development fixtures use no market
+  payload. Run admission and scientific evidence are separate decisions.
 
 ## AQRS-SC01 Test Card: Sierra Chart and ACSIL round trip, 2026-11-10
 

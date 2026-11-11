@@ -195,6 +195,21 @@ budget because `research plan` performs a separate synthetic preflight fit.
 See the [M1-E04 Test Card](docs/MILESTONE_STATUS.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
 for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
+## M2-E14 fixed discovery comparison
+
+Run the guarded two-candidate comparison on its internal synthetic fixture:
+
+```bash
+python -m aqrs.m2_e14 --synthetic --output artifacts/m2-e14/open
+```
+
+The entry writes an attempt journal, recoverable execution source, machine
+report and short Markdown report. The market entry requires the verified
+published revision and an exact admission record for the registered ten
+BTCUSDT Spot days. An Ubuntu market replay also requires the valid Windows
+report bound by digest. See the [Test Card](docs/MILESTONE_STATUS.md#m2-e14-guarded-campaign-entry-test-card)
+for eligibility, the shared Governor plan and the descriptive claim.
+
 ## Compute Budget First: avoid multi-year calibrations
 
 AQRS treats compute budgets as **hard safety controls**, beginning with M0/v0.1. The Research Manager proposes what to investigate; a separate **Resource Governor** decides whether and for how long it may run. The default plan allows at most two research trials, 12 model fits, one seed and one parallel trial, with a 120-second trial timeout, 300-second campaign timeout and a 4-GiB sampled tree RSS stop threshold (see YAML; hardware-dependent defaults, not performance guarantees).
