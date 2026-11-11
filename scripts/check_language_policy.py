@@ -13,24 +13,37 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SUFFIXES = {".md", ".mdx", ".rst", ".txt", ".yaml", ".yml", ".json"}
-SKIP_DIRS = {".git", ".venv", "venv", "build", "dist", "artifacts", "outputs", "__pycache__"}
+SKIP_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "artifacts",
+    "outputs",
+    "__pycache__",
+}
 POLICY_DECLARATIONS = {
     "AGENTS.md": "English-only repository policy (permanent)",
     "CODEX_START.md": "English-only repository policy (permanent)",
     "docs/LANGUAGE_POLICY.md": "Permanent English-only language policy",
 }
-GERMAN_TERMS = set((
-    "aber alle als also auch auf aus bekommen bevor bei bereits bis bleibt bitte damit danach "
-    "dann dass dein deine deiner dem den dennoch der deren diese dieser dieses diesen dir doch "
-    "durch dürfen ein eine einer eines endlich ergebnis ergebnisse erstellen erst falls finden "
-    "für gegen haben hier immer kann keine keinen können mit muss müssen nach nicht nur "
-    "oder prüfen schritt sein sollte sollen sowie statt trotzdem und unser unsere werden "
-    "wichtig wenn wieder wird wir wurden wurde wobei zusätzlich zwischen zusammen"
-).split())
-GERMAN_HEADINGS = set((
-    "einleitung zusammenfassung ergebnisse anforderungen entscheidungen voraussetzungen "
-    "entwicklungsauftrag beispiele beispiel schlussfolgerung ausblick übergabe inhalt"
-).split())
+GERMAN_TERMS = set(
+    (
+        "aber alle als also auch auf aus bekommen bevor bei bereits bis bleibt bitte damit danach "
+        "dann dass dein deine deiner dem den dennoch der deren diese dieser dieses diesen dir doch "
+        "durch dürfen ein eine einer eines endlich ergebnis ergebnisse erstellen erst falls finden "
+        "für gegen haben hier immer kann keine keinen können mit muss müssen nach nicht nur "
+        "oder prüfen schritt sein sollte sollen sowie statt trotzdem und unser unsere werden "
+        "wichtig wenn wieder wird wir wurden wurde wobei zusätzlich zwischen zusammen"
+    ).split()
+)
+GERMAN_HEADINGS = set(
+    (
+        "einleitung zusammenfassung ergebnisse anforderungen entscheidungen voraussetzungen "
+        "entwicklungsauftrag beispiele beispiel schlussfolgerung ausblick übergabe inhalt"
+    ).split()
+)
 WORD = re.compile(r"[a-zA-ZäöüÄÖÜß]+")
 INLINE_CODE = re.compile(r"`[^`]*`")
 URL = re.compile(r"https?://\S+")
@@ -52,7 +65,10 @@ def german_issue(line: str) -> bool:
 
 def collect_files(root: Path):
     for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in SUFFIXES:
+        if not path.is_file():
+            continue
+        suffixless_document = not path.suffix and "docs" in path.relative_to(root).parts
+        if path.suffix.lower() not in SUFFIXES and not suffixless_document:
             continue
         if any(part in SKIP_DIRS for part in path.relative_to(root).parts):
             continue
@@ -81,7 +97,9 @@ def audit(root: Path) -> tuple[int, list[str]]:
             continue
         for number, line in enumerate(lines, 1):
             if german_issue(line):
-                issues.append(f"{path.relative_to(root)}:{number}: review likely non-English prose")
+                issues.append(
+                    f"{path.relative_to(root)}:{number}: review likely non-English prose"
+                )
     return checked, issues
 
 
@@ -89,28 +107,46 @@ def self_test():
     assert german_issue("Diese Dokumente müssen immer auf Englisch geschrieben werden.")
     assert german_issue("Wir prüfen die Hypothesen und erstellen neue Berichte.")
     assert german_issue("# Anforderungen")
-    assert not german_issue("All project documentation and future Codex edits must be written in English.")
-    assert not german_issue("The model and research journal are versioned and auditable.")
-    assert not german_issue("The paper cites Müller and discusses out-of-sample model selection.")
+    assert not german_issue(
+        "All project documentation and future Codex edits must be written in English."
+    )
+    assert not german_issue(
+        "The model and research journal are versioned and auditable."
+    )
+    assert not german_issue(
+        "The paper cites Müller and discusses out-of-sample model selection."
+    )
     print("Language-policy checker self-test passed.")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Audit AQRS documentation for English-only policy violations.")
-    parser.add_argument("--root", type=Path, default=ROOT, help="Repository root to inspect")
-    parser.add_argument("--self-test", action="store_true", help="Run detector examples before auditing")
+    parser = argparse.ArgumentParser(
+        description="Audit AQRS documentation for English-only policy violations."
+    )
+    parser.add_argument(
+        "--root", type=Path, default=ROOT, help="Repository root to inspect"
+    )
+    parser.add_argument(
+        "--self-test", action="store_true", help="Run detector examples before auditing"
+    )
     arguments = parser.parse_args()
     if arguments.self_test:
         self_test()
     root = arguments.root.resolve()
     count, issues = audit(root)
     if issues:
-        print(f"FAIL: {len(issues)} possible language-policy violations in {count} checked files:")
+        print(
+            f"FAIL: {len(issues)} possible language-policy violations in {count} checked files:"
+        )
         for issue in issues:
             print(f"  {issue}")
         raise SystemExit(1)
-    print(f"PASS: checked {count} documentation/configuration files; no obvious German prose detected.")
-    print("Manual review remains mandatory; this heuristic is not proof of English-only text.")
+    print(
+        f"PASS: checked {count} documentation/configuration files; no obvious German prose detected."
+    )
+    print(
+        "Manual review remains mandatory; this heuristic is not proof of English-only text."
+    )
 
 
 if __name__ == "__main__":

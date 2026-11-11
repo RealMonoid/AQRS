@@ -107,3 +107,9 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 **v0.8/M7:** Hardware/platform profiles, accuracy of resource predictions, safe resume, alerts and measured resource/quality trade-offs for real workloads, including native Windows and provider-neutral Linux server usage.
 
 **v0.9/v1.0:** End-to-end tests must verify that a multi-year calibration estimate is rejected before launch. A correctly bounded or terminated job is a valid *Governor* outcome, not an alpha finding.
+
+## 8. Execution scope and audit records
+
+AQRS-A06 checks remaining time even when timing is disabled. Core data staging runs in an isolated worker after static admission and before timing/model fits; all these workers share the original campaign deadline and sampled-RSS policy. Preparation CPU/RSS is recorded separately and included in campaign totals. Source snapshot, journal/report I/O and cleanup remain outside a hard external deadline. Both pilots validate the approved configuration; their parent-side archive/report I/O also remains outside hard timeout enforcement. A new entry needs its own boundary review.
+
+Supported estimator/calibration calls reserve the fit allowance before starting; failed reservations remain in `started_fits`, separate from `completed_fits`. This protects trusted AQRS workers, not hostile Python. No global lifetime budget is invented: each manual campaign requires its own authorization, and the exposure index retains repetitions. No automatic retries or budget increases are introduced.

@@ -1,0 +1,1936 @@
+{
+  "attempts": [
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "fb0c868d2e244e9a90ad7f861a0737ee:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-ubuntu-24.04-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "fb0c868d2e244e9a90ad7f861a0737ee",
+      "timestamp_utc": "2026-11-06T18:49:19.068798+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "fb0c868d2e244e9a90ad7f861a0737ee:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-ubuntu-24.04-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "fb0c868d2e244e9a90ad7f861a0737ee",
+      "timestamp_utc": "2026-11-06T18:49:19.068828+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d2d63163941c40629950b5bb42ba1277:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-ubuntu-24.04-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "d2d63163941c40629950b5bb42ba1277",
+      "timestamp_utc": "2026-11-06T18:49:20.581001+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d2d63163941c40629950b5bb42ba1277:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-ubuntu-24.04-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "d2d63163941c40629950b5bb42ba1277",
+      "timestamp_utc": "2026-11-06T18:49:20.581042+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "172b526229a84e47a4082fc2ec295d9f:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-windows-latest-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "172b526229a84e47a4082fc2ec295d9f",
+      "timestamp_utc": "2026-11-06T18:49:55.867272+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "172b526229a84e47a4082fc2ec295d9f:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-windows-latest-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "172b526229a84e47a4082fc2ec295d9f",
+      "timestamp_utc": "2026-11-06T18:49:55.867272+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "11f737c0d773478887c9db4bc3a0fd4b:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-windows-latest-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "11f737c0d773478887c9db4bc3a0fd4b",
+      "timestamp_utc": "2026-11-06T18:50:07.532479+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "11f737c0d773478887c9db4bc3a0fd4b:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42274092987/aqrs-windows-latest-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "11f737c0d773478887c9db4bc3a0fd4b",
+      "timestamp_utc": "2026-11-06T18:50:07.532479+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "799cb8aeceff43b599811dc51ea3e276:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-ubuntu-24.04-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "799cb8aeceff43b599811dc51ea3e276",
+      "timestamp_utc": "2026-11-06T19:00:23.244782+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "799cb8aeceff43b599811dc51ea3e276:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-ubuntu-24.04-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "799cb8aeceff43b599811dc51ea3e276",
+      "timestamp_utc": "2026-11-06T19:00:23.244791+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "1e99ca751f124c0598e10df46dd53e15:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-ubuntu-24.04-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "1e99ca751f124c0598e10df46dd53e15",
+      "timestamp_utc": "2026-11-06T19:00:24.066790+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "b4e34c159e2bb1454121c732c8db18f52da2f284e17503d713db7f2af8682e0e",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "1e99ca751f124c0598e10df46dd53e15:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-ubuntu-24.04-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "1e99ca751f124c0598e10df46dd53e15",
+      "timestamp_utc": "2026-11-06T19:00:24.066811+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f4c61107c26444289766e1db61624afa:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-windows-latest-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f4c61107c26444289766e1db61624afa",
+      "timestamp_utc": "2026-11-06T19:01:06.016368+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f4c61107c26444289766e1db61624afa:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-windows-latest-py3.11/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f4c61107c26444289766e1db61624afa",
+      "timestamp_utc": "2026-11-06T19:01:06.016368+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "995229f4d12e489eb2a594a33710d105:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-windows-latest-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "995229f4d12e489eb2a594a33710d105",
+      "timestamp_utc": "2026-11-06T19:01:08.004402+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "995229f4d12e489eb2a594a33710d105:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/github-actions/42275704043/aqrs-windows-latest-py3.12/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "995229f4d12e489eb2a594a33710d105",
+      "timestamp_utc": "2026-11-06T19:01:08.004402+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "eccb625200f94cf68ceb633c57d32ee9:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "eccb625200f94cf68ceb633c57d32ee9",
+      "timestamp_utc": "2026-11-06T18:27:15.816863+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "eccb625200f94cf68ceb633c57d32ee9:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "eccb625200f94cf68ceb633c57d32ee9",
+      "timestamp_utc": "2026-11-06T18:27:15.816875+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "eccb625200f94cf68ceb633c57d32ee9:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "895d9d7458bc4e1787629c3c213395ba:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "895d9d7458bc4e1787629c3c213395ba",
+      "timestamp_utc": "2026-11-06T18:27:19.113131+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "eccb625200f94cf68ceb633c57d32ee9:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "895d9d7458bc4e1787629c3c213395ba:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "895d9d7458bc4e1787629c3c213395ba",
+      "timestamp_utc": "2026-11-06T18:27:19.113141+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "668ec9c1a31d4f4f8313f444e3f6433f",
+      "timestamp_utc": "2026-11-06T18:26:30.430505+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "668ec9c1a31d4f4f8313f444e3f6433f",
+      "timestamp_utc": "2026-11-06T18:26:30.430523+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "55ed0dc77ec44140a972eb9cfb7e6e69:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "55ed0dc77ec44140a972eb9cfb7e6e69",
+      "timestamp_utc": "2026-11-06T18:26:33.929426+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "55ed0dc77ec44140a972eb9cfb7e6e69:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/final-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "55ed0dc77ec44140a972eb9cfb7e6e69",
+      "timestamp_utc": "2026-11-06T18:26:33.929440+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d91895f66d684dbb9e8e0b7a956728db:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "d91895f66d684dbb9e8e0b7a956728db",
+      "timestamp_utc": "2026-11-06T18:24:20.447520+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d91895f66d684dbb9e8e0b7a956728db:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "d91895f66d684dbb9e8e0b7a956728db",
+      "timestamp_utc": "2026-11-06T18:24:20.447537+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "d91895f66d684dbb9e8e0b7a956728db:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "499c138d7d824e9c8281f36465a55ed3:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "499c138d7d824e9c8281f36465a55ed3",
+      "timestamp_utc": "2026-11-06T18:24:23.668158+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "d91895f66d684dbb9e8e0b7a956728db:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "499c138d7d824e9c8281f36465a55ed3:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "499c138d7d824e9c8281f36465a55ed3",
+      "timestamp_utc": "2026-11-06T18:24:23.668170+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "4ce6613bcb104c50a7fd6b0602ccf3ba",
+      "timestamp_utc": "2026-11-06T18:23:31.736883+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "4ce6613bcb104c50a7fd6b0602ccf3ba",
+      "timestamp_utc": "2026-11-06T18:23:31.736901+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "b6ac9e8ddbbf4274ba5580720927bbc0:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "b6ac9e8ddbbf4274ba5580720927bbc0",
+      "timestamp_utc": "2026-11-06T18:23:35.035473+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "b6ac9e8ddbbf4274ba5580720927bbc0:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "b6ac9e8ddbbf4274ba5580720927bbc0",
+      "timestamp_utc": "2026-11-06T18:23:35.035485+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "95318570331540408b3965de81486667:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "95318570331540408b3965de81486667",
+      "timestamp_utc": "2026-11-06T18:29:50.170628+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "95318570331540408b3965de81486667:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "95318570331540408b3965de81486667",
+      "timestamp_utc": "2026-11-06T18:29:50.170642+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "95318570331540408b3965de81486667:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "fa352b62925b4cceb8ca0d54f940dd69:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "fa352b62925b4cceb8ca0d54f940dd69",
+      "timestamp_utc": "2026-11-06T18:29:53.342707+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "95318570331540408b3965de81486667:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "fa352b62925b4cceb8ca0d54f940dd69:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python311/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "fa352b62925b4cceb8ca0d54f940dd69",
+      "timestamp_utc": "2026-11-06T18:29:53.342717+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "baa9fb550c124fcc83c7318fc591b76b:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "baa9fb550c124fcc83c7318fc591b76b",
+      "timestamp_utc": "2026-11-06T18:29:05.575898+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "baa9fb550c124fcc83c7318fc591b76b:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "baa9fb550c124fcc83c7318fc591b76b",
+      "timestamp_utc": "2026-11-06T18:29:05.575910+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "baa9fb550c124fcc83c7318fc591b76b:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "072a7c0eb9334f069b844a21399cf488:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "072a7c0eb9334f069b844a21399cf488",
+      "timestamp_utc": "2026-11-06T18:29:09.190884+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "632c9321082fc2efcf133d41041639a7e82524f5a5aef35c8f54d972e7c2be99",
+      "duplicate_of_in_original_journal": "baa9fb550c124fcc83c7318fc591b76b:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "072a7c0eb9334f069b844a21399cf488:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/linux-m0/release-python312/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "072a7c0eb9334f069b844a21399cf488",
+      "timestamp_utc": "2026-11-06T18:29:09.190904+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": "7ec539e452f4efc7063947409a905f9c3e975b06ddf2585d252cb1ef72457893",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "e1286897d9344fd5b4ce7375575fdea7:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e04/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "e1286897d9344fd5b4ce7375575fdea7",
+      "timestamp_utc": "2026-11-08T20:11:32.874252+00:00",
+      "variant_id": "historical-11d44f0edcc922fa"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": "7ec539e452f4efc7063947409a905f9c3e975b06ddf2585d252cb1ef72457893",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "989bc1f3002c45c4a91c56ab0f2501dc:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e04/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "989bc1f3002c45c4a91c56ab0f2501dc",
+      "timestamp_utc": "2026-11-08T20:21:15.105622+00:00",
+      "variant_id": "historical-11d44f0edcc922fa"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": "7ec539e452f4efc7063947409a905f9c3e975b06ddf2585d252cb1ef72457893",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "1aa63be4f18d4905a6b27cb19a9785f9:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e06/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "1aa63be4f18d4905a6b27cb19a9785f9",
+      "timestamp_utc": "2026-11-08T23:07:42.345211+00:00",
+      "variant_id": "historical-cf7fa0409017d4e8"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": "7ec539e452f4efc7063947409a905f9c3e975b06ddf2585d252cb1ef72457893",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "50a2026a6b044d28909db1a5f90f309a:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e06/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "50a2026a6b044d28909db1a5f90f309a",
+      "timestamp_utc": "2026-11-08T23:09:12.643439+00:00",
+      "variant_id": "historical-cf7fa0409017d4e8"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": null,
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "NOT_EVALUATED",
+      "execution_status": "REJECTED_PREFLIGHT",
+      "experiment_id": "a6e0494f2ee14c0e8485c033edbdf074:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e10/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "a6e0494f2ee14c0e8485c033edbdf074",
+      "timestamp_utc": "2026-11-08T23:51:33.798944+00:00",
+      "variant_id": "historical-cf7fa0409017d4e8"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "dataset_id": "7ec539e452f4efc7063947409a905f9c3e975b06ddf2585d252cb1ef72457893",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "b3fe564089b7470188f3bae991fa835a:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/m1-e11/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "b3fe564089b7470188f3bae991fa835a",
+      "timestamp_utc": "2026-11-09T00:05:20.394290+00:00",
+      "variant_id": "historical-cf7fa0409017d4e8"
+    },
+    {
+      "candidate_id": "ridge",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "3a7d57c4cef449d19383723cbfbf810d:ridge",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e08/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "3a7d57c4cef449d19383723cbfbf810d",
+      "timestamp_utc": "2026-11-09T18:15:17.028987+00:00",
+      "variant_id": "historical-fc181f3f5e358ac1"
+    },
+    {
+      "candidate_id": "lightgbm",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "NOT_EVALUATED",
+      "execution_status": "FAILED",
+      "experiment_id": "3a7d57c4cef449d19383723cbfbf810d:lightgbm",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e08/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "3a7d57c4cef449d19383723cbfbf810d",
+      "timestamp_utc": "2026-11-09T18:15:17.028987+00:00",
+      "variant_id": "historical-784fd24cf08b5fa3"
+    },
+    {
+      "candidate_id": "ridge",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d9f180a7e58345be855702d5af768e7d:ridge",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e09/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "d9f180a7e58345be855702d5af768e7d",
+      "timestamp_utc": "2026-11-09T18:37:14.509889+00:00",
+      "variant_id": "historical-fc181f3f5e358ac1"
+    },
+    {
+      "candidate_id": "lightgbm",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "d9f180a7e58345be855702d5af768e7d:lightgbm",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e09/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "d9f180a7e58345be855702d5af768e7d",
+      "timestamp_utc": "2026-11-09T18:37:14.509909+00:00",
+      "variant_id": "historical-784fd24cf08b5fa3"
+    },
+    {
+      "candidate_id": "ridge",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "9de172568b9842f0840345abd548fe53:ridge",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e09/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "9de172568b9842f0840345abd548fe53",
+      "timestamp_utc": "2026-11-09T18:33:15.076551+00:00",
+      "variant_id": "historical-fc181f3f5e358ac1"
+    },
+    {
+      "candidate_id": "lightgbm",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "9de172568b9842f0840345abd548fe53:lightgbm",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e09/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "9de172568b9842f0840345abd548fe53",
+      "timestamp_utc": "2026-11-09T18:33:15.076551+00:00",
+      "variant_id": "historical-784fd24cf08b5fa3"
+    },
+    {
+      "candidate_id": "volatility_only",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f7ef9ddd05a44a38ba5e8e0603a74955:volatility_only",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e10/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "f7ef9ddd05a44a38ba5e8e0603a74955",
+      "timestamp_utc": "2026-11-09T20:53:59.894932+00:00",
+      "variant_id": "historical-6e924bd048bc1575"
+    },
+    {
+      "candidate_id": "isolation_forest",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f7ef9ddd05a44a38ba5e8e0603a74955:isolation_forest",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e10/ubuntu/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "f7ef9ddd05a44a38ba5e8e0603a74955",
+      "timestamp_utc": "2026-11-09T20:53:59.894946+00:00",
+      "variant_id": "historical-24dee3b8b244fc96"
+    },
+    {
+      "candidate_id": "volatility_only",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "0da57660ffe74ad1a9ddcf2d92f4cc8e:volatility_only",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e10/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "0da57660ffe74ad1a9ddcf2d92f4cc8e",
+      "timestamp_utc": "2026-11-09T20:52:48.756052+00:00",
+      "variant_id": "historical-6e924bd048bc1575"
+    },
+    {
+      "candidate_id": "isolation_forest",
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "0da57660ffe74ad1a9ddcf2d92f4cc8e:isolation_forest",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e10/windows/research.sqlite3",
+      "kind": "development_attempt_or_platform_replay",
+      "run_id": "0da57660ffe74ad1a9ddcf2d92f4cc8e",
+      "timestamp_utc": "2026-11-09T20:52:48.756052+00:00",
+      "variant_id": "historical-24dee3b8b244fc96"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "NOT_EVALUATED",
+      "execution_status": "REJECTED_PREFLIGHT",
+      "experiment_id": "3a7c6f6b65b14780bf3a3d8e027b79df:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3a7c6f6b65b14780bf3a3d8e027b79df",
+      "timestamp_utc": "2026-11-06T18:08:57.128759+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "NOT_EVALUATED",
+      "execution_status": "REJECTED_PREFLIGHT",
+      "experiment_id": "3a7c6f6b65b14780bf3a3d8e027b79df:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3a7c6f6b65b14780bf3a3d8e027b79df",
+      "timestamp_utc": "2026-11-06T18:08:57.128759+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "a7f32c697ee740aab333abf96daa6aa5:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "a7f32c697ee740aab333abf96daa6aa5",
+      "timestamp_utc": "2026-11-06T18:09:26.837260+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "a7f32c697ee740aab333abf96daa6aa5:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "a7f32c697ee740aab333abf96daa6aa5",
+      "timestamp_utc": "2026-11-06T18:09:26.837260+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "a7f32c697ee740aab333abf96daa6aa5:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f372342709f84e6ab70bcb03d7530813:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f372342709f84e6ab70bcb03d7530813",
+      "timestamp_utc": "2026-11-06T18:10:13.624045+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "a7f32c697ee740aab333abf96daa6aa5:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f372342709f84e6ab70bcb03d7530813:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f372342709f84e6ab70bcb03d7530813",
+      "timestamp_utc": "2026-11-06T18:10:13.624045+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "b44c2444f02f4ce7b62ff0f0b1548f94",
+      "timestamp_utc": "2026-11-06T18:12:04.542629+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "b44c2444f02f4ce7b62ff0f0b1548f94",
+      "timestamp_utc": "2026-11-06T18:12:04.542629+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "26cb84aa7cd940c6ab829799bc4ec0f4:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "26cb84aa7cd940c6ab829799bc4ec0f4",
+      "timestamp_utc": "2026-11-06T18:12:10.489496+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "26cb84aa7cd940c6ab829799bc4ec0f4:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "26cb84aa7cd940c6ab829799bc4ec0f4",
+      "timestamp_utc": "2026-11-06T18:12:10.489496+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "701249fc369a44dca91cee7adc0109e1:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "701249fc369a44dca91cee7adc0109e1",
+      "timestamp_utc": "2026-11-06T18:24:47.058094+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "701249fc369a44dca91cee7adc0109e1:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "701249fc369a44dca91cee7adc0109e1",
+      "timestamp_utc": "2026-11-06T18:24:47.058094+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "1f7edb1c9f124206aaa73cbfd9ea2267",
+      "timestamp_utc": "2026-11-06T18:26:17.872646+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "1f7edb1c9f124206aaa73cbfd9ea2267",
+      "timestamp_utc": "2026-11-06T18:26:17.872646+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f3d90d204b1745019380b4af8532d4ab:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f3d90d204b1745019380b4af8532d4ab",
+      "timestamp_utc": "2026-11-06T18:26:24.364716+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f3d90d204b1745019380b4af8532d4ab:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "f3d90d204b1745019380b4af8532d4ab",
+      "timestamp_utc": "2026-11-06T18:26:24.364716+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "530f7957306743a3976df17c401277c2:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "530f7957306743a3976df17c401277c2",
+      "timestamp_utc": "2026-11-06T18:29:00.285163+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "530f7957306743a3976df17c401277c2:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "530f7957306743a3976df17c401277c2",
+      "timestamp_utc": "2026-11-06T18:29:00.285163+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "530f7957306743a3976df17c401277c2:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "3fc788772a8d45c68a8bab954889b65f:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3fc788772a8d45c68a8bab954889b65f",
+      "timestamp_utc": "2026-11-06T18:29:06.628218+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "530f7957306743a3976df17c401277c2:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "3fc788772a8d45c68a8bab954889b65f:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3fc788772a8d45c68a8bab954889b65f",
+      "timestamp_utc": "2026-11-06T18:29:06.628218+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "3a5020358d134fdc984cee23f97945f1:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3a5020358d134fdc984cee23f97945f1",
+      "timestamp_utc": "2026-11-06T18:30:08.911523+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "3a5020358d134fdc984cee23f97945f1:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "3a5020358d134fdc984cee23f97945f1",
+      "timestamp_utc": "2026-11-06T18:30:08.911523+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "candidate_id": "C_LAG",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "3a5020358d134fdc984cee23f97945f1:C_LAG",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "96809e464fbe437f8b5366f1cde1a123:C_LAG",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "96809e464fbe437f8b5366f1cde1a123",
+      "timestamp_utc": "2026-11-06T18:30:14.815500+00:00",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "candidate_id": "C_LAG_VOL",
+      "data_scope": [
+        "synthetic"
+      ],
+      "dataset_id": "27d67749e57b05086b66c23bbb2eae919fa8b8b07dec2cbc33e54677bd4743b2",
+      "duplicate_of_in_original_journal": "3a5020358d134fdc984cee23f97945f1:C_LAG_VOL",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "96809e464fbe437f8b5366f1cde1a123:C_LAG_VOL",
+      "independent_confirmation": false,
+      "journal": "artifacts/research.sqlite3",
+      "kind": "synthetic_engineering",
+      "run_id": "96809e464fbe437f8b5366f1cde1a123",
+      "timestamp_utc": "2026-11-06T18:30:14.815500+00:00",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    }
+  ],
+  "engineering_checks": [
+    "M1-E05",
+    "M2-E01",
+    "M2-E04",
+    "M2-E05",
+    "M2-E06"
+  ],
+  "evidence_counts": {
+    "INSUFFICIENT_EVIDENCE": 76,
+    "NOT_EVALUATED": 4
+  },
+  "future_registrations": [
+    {
+      "data_scope": [
+        "2025-12-25",
+        "2025-12-26",
+        "2025-12-27",
+        "2025-12-28",
+        "2025-12-29",
+        "2025-12-30",
+        "2025-12-31",
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03"
+      ],
+      "decision_gates": "- **Decision gates.** A technical pass requires both versioned records, including hypothesis and origin, timings, input and source identities, matched controls, gross and net results, turnover, trial exposure and coverage by UTC day and band. Report non-overlapping counts and independent-day evidence separately, with dependence and any unavailable effective sample-size estimate explicit. Check future-only perturbation for both candidates and an artificial shared-outcome case that yields no incremental advantage. For the event follow-up, require at least 12 matched pairs across at least four days, with at least four pairs per fold, mean event net return of at least 5 bps and mean paired advantage of at least 2 bps. For the forecast follow-up, require at least a 1% relative MAE reduction against both forecasts in each fold, at least 12 candidate trades across four days with at least four per fold, mean candidate net return of at least 5 bps per trade, and mean incremental net return of at least 2 bps per common eligible opportunity versus the one-feature Ridge policy, including flat decisions. Otherwise record the failed threshold or insufficient coverage and defer follow-up. Keep both results even if neither advances. These screens do not establish independent alpha or M2 acceptance.",
+      "definition": "- **Candidate `VOL_CONFIRM_V1`.** Hypothesis: unusually high relative volume strengthens short-horizon continuation after a positive five-minute BTCUSDT spot move. At each completed minute `t`, compare `close[t] / close[t-5] - 1` with zero. Among positive events, the candidate adds a filter at the training-only 75th percentile of relative volume among positive events. Reuse the existing definition of current volume divided by the mean of the prior 12 completed minutes. The baseline is the positive-move rule alone, evaluated on the same opportunities. Report actions and skips for both. For the event contrast, take at most one non-overlapping pair per UTC eight-hour band per validation day. In chronological order, match the first eligible high-volume event with the nearest eligible below-threshold positive event in that band, breaking ties by earlier timestamp. Both simulated exits must precede the band end. Freeze the cutoff per fold and count uncovered bands and unmatched opportunities.",
+      "execution_authorization": "See the canonical queue; this audit remediation does not execute the campaign.",
+      "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
+      "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
+      "registered_at": "2026-11-11T01:34:21.229616+00:00",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
+      "variant_id": "VOL_CONFIRM_V1",
+      "work_item": "M2-E14"
+    },
+    {
+      "data_scope": [
+        "2025-12-25",
+        "2025-12-26",
+        "2025-12-27",
+        "2025-12-28",
+        "2025-12-29",
+        "2025-12-30",
+        "2025-12-31",
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03"
+      ],
+      "decision_gates": "- **Decision gates.** A technical pass requires both versioned records, including hypothesis and origin, timings, input and source identities, matched controls, gross and net results, turnover, trial exposure and coverage by UTC day and band. Report non-overlapping counts and independent-day evidence separately, with dependence and any unavailable effective sample-size estimate explicit. Check future-only perturbation for both candidates and an artificial shared-outcome case that yields no incremental advantage. For the event follow-up, require at least 12 matched pairs across at least four days, with at least four pairs per fold, mean event net return of at least 5 bps and mean paired advantage of at least 2 bps. For the forecast follow-up, require at least a 1% relative MAE reduction against both forecasts in each fold, at least 12 candidate trades across four days with at least four per fold, mean candidate net return of at least 5 bps per trade, and mean incremental net return of at least 2 bps per common eligible opportunity versus the one-feature Ridge policy, including flat decisions. Otherwise record the failed threshold or insufficient coverage and defer follow-up. Keep both results even if neither advances. These screens do not establish independent alpha or M2 acceptance.",
+      "definition": "- **Candidate `RIDGE_INCREMENT_V1`.** Hypothesis: relative volume and rolling volatility improve a 30-minute forward-return forecast over one-bar return alone. At each completed minute use the three existing trailing features and the existing Ridge pipeline. Compare with zero and an otherwise identical Ridge fitted on one-bar return alone. Standardization fits on training rows only. Compare both Ridge decision policies on the same validation rows and position rules, with momentum and flat as additional references. The fitted score changes the baseline long-or-flat decision only by crossing the same cost-plus-buffer threshold.",
+      "execution_authorization": "See the canonical queue; this audit remediation does not execute the campaign.",
+      "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
+      "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
+      "registered_at": "2026-11-11T01:34:21.230656+00:00",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
+      "variant_id": "RIDGE_INCREMENT_V1",
+      "work_item": "M2-E14"
+    }
+  ],
+  "manual_screens": [
+    {
+      "data_scope": [
+        "2026-01-05"
+      ],
+      "forward_outcomes": false,
+      "kind": "count_only",
+      "receipt": "artifacts/m2-e02",
+      "registration": "historical_timing_unverified",
+      "variant_id": "PRICE_DROP_V1",
+      "work_item": "M2-E02"
+    },
+    {
+      "data_scope": [
+        "2026-01-01/2026-01-05"
+      ],
+      "forward_outcomes": false,
+      "kind": "count_only",
+      "receipt": "artifacts/m2-e03",
+      "registration": "historical_timing_unverified",
+      "variant_id": "PRICE_DROP_V1",
+      "work_item": "M2-E03"
+    },
+    {
+      "data_scope": [
+        "2025-12-25/2025-12-31",
+        "2026-01-01/2026-01-05"
+      ],
+      "forward_outcomes": false,
+      "kind": "count_only",
+      "receipt": "artifacts/m2-e12/coverage.json",
+      "registration": "historical_timing_unverified",
+      "variant_id": "PRICE_DROP_V1",
+      "work_item": "M2-E12"
+    }
+  ],
+  "schema_version": "1",
+  "scope": "Reconstruction from the 26 archived journals plus documented count-only screens; not a proof that every historical manual selection is known.",
+  "unknown_exposure": "Unrecorded manual inspection cannot be reconstructed. Existing development windows are exposed; no effective independent sample size or adjusted significance is claimed.",
+  "variants": [
+    {
+      "attempt_ids": [
+        "fb0c868d2e244e9a90ad7f861a0737ee:C_LAG",
+        "d2d63163941c40629950b5bb42ba1277:C_LAG",
+        "172b526229a84e47a4082fc2ec295d9f:C_LAG",
+        "11f737c0d773478887c9db4bc3a0fd4b:C_LAG",
+        "799cb8aeceff43b599811dc51ea3e276:C_LAG",
+        "1e99ca751f124c0598e10df46dd53e15:C_LAG",
+        "f4c61107c26444289766e1db61624afa:C_LAG",
+        "995229f4d12e489eb2a594a33710d105:C_LAG",
+        "eccb625200f94cf68ceb633c57d32ee9:C_LAG",
+        "895d9d7458bc4e1787629c3c213395ba:C_LAG",
+        "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG",
+        "55ed0dc77ec44140a972eb9cfb7e6e69:C_LAG",
+        "d91895f66d684dbb9e8e0b7a956728db:C_LAG",
+        "499c138d7d824e9c8281f36465a55ed3:C_LAG",
+        "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG",
+        "b6ac9e8ddbbf4274ba5580720927bbc0:C_LAG",
+        "95318570331540408b3965de81486667:C_LAG",
+        "fa352b62925b4cceb8ca0d54f940dd69:C_LAG",
+        "baa9fb550c124fcc83c7318fc591b76b:C_LAG",
+        "072a7c0eb9334f069b844a21399cf488:C_LAG",
+        "3a7c6f6b65b14780bf3a3d8e027b79df:C_LAG",
+        "a7f32c697ee740aab333abf96daa6aa5:C_LAG",
+        "f372342709f84e6ab70bcb03d7530813:C_LAG",
+        "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG",
+        "26cb84aa7cd940c6ab829799bc4ec0f4:C_LAG",
+        "701249fc369a44dca91cee7adc0109e1:C_LAG",
+        "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG",
+        "f3d90d204b1745019380b4af8532d4ab:C_LAG",
+        "530f7957306743a3976df17c401277c2:C_LAG",
+        "3fc788772a8d45c68a8bab954889b65f:C_LAG",
+        "3a5020358d134fdc984cee23f97945f1:C_LAG",
+        "96809e464fbe437f8b5366f1cde1a123:C_LAG"
+      ],
+      "definition": {
+        "candidate": {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        "costs": {
+          "decision_buffer_bps": 2.0,
+          "fee_bps_per_side": 4.0,
+          "quoted_spread_bps": 3.0,
+          "slippage_bps_per_side": 2.0
+        },
+        "execution": {
+          "allow_short": true,
+          "exit_after_horizon_bars": true,
+          "max_open_positions": 1,
+          "notional_per_trade": 1.0,
+          "price_reference": "next_bar_open"
+        },
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": 5,
+          "scenario": "null",
+          "source": "synthetic",
+          "symbol": "SYNTH_BTC_LIKE"
+        },
+        "model_parameters": null,
+        "registered_variant": null,
+        "research": {
+          "final_holdout_fraction": 0.2,
+          "horizon_bars": 3,
+          "train_bars": 4000,
+          "validation_bars": 1000,
+          "walk_forward_folds": 3
+        },
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-2e4ebb28eea5f87d"
+    },
+    {
+      "attempt_ids": [
+        "fb0c868d2e244e9a90ad7f861a0737ee:C_LAG_VOL",
+        "d2d63163941c40629950b5bb42ba1277:C_LAG_VOL",
+        "172b526229a84e47a4082fc2ec295d9f:C_LAG_VOL",
+        "11f737c0d773478887c9db4bc3a0fd4b:C_LAG_VOL",
+        "799cb8aeceff43b599811dc51ea3e276:C_LAG_VOL",
+        "1e99ca751f124c0598e10df46dd53e15:C_LAG_VOL",
+        "f4c61107c26444289766e1db61624afa:C_LAG_VOL",
+        "995229f4d12e489eb2a594a33710d105:C_LAG_VOL",
+        "eccb625200f94cf68ceb633c57d32ee9:C_LAG_VOL",
+        "895d9d7458bc4e1787629c3c213395ba:C_LAG_VOL",
+        "668ec9c1a31d4f4f8313f444e3f6433f:C_LAG_VOL",
+        "55ed0dc77ec44140a972eb9cfb7e6e69:C_LAG_VOL",
+        "d91895f66d684dbb9e8e0b7a956728db:C_LAG_VOL",
+        "499c138d7d824e9c8281f36465a55ed3:C_LAG_VOL",
+        "4ce6613bcb104c50a7fd6b0602ccf3ba:C_LAG_VOL",
+        "b6ac9e8ddbbf4274ba5580720927bbc0:C_LAG_VOL",
+        "95318570331540408b3965de81486667:C_LAG_VOL",
+        "fa352b62925b4cceb8ca0d54f940dd69:C_LAG_VOL",
+        "baa9fb550c124fcc83c7318fc591b76b:C_LAG_VOL",
+        "072a7c0eb9334f069b844a21399cf488:C_LAG_VOL",
+        "3a7c6f6b65b14780bf3a3d8e027b79df:C_LAG_VOL",
+        "a7f32c697ee740aab333abf96daa6aa5:C_LAG_VOL",
+        "f372342709f84e6ab70bcb03d7530813:C_LAG_VOL",
+        "b44c2444f02f4ce7b62ff0f0b1548f94:C_LAG_VOL",
+        "26cb84aa7cd940c6ab829799bc4ec0f4:C_LAG_VOL",
+        "701249fc369a44dca91cee7adc0109e1:C_LAG_VOL",
+        "1f7edb1c9f124206aaa73cbfd9ea2267:C_LAG_VOL",
+        "f3d90d204b1745019380b4af8532d4ab:C_LAG_VOL",
+        "530f7957306743a3976df17c401277c2:C_LAG_VOL",
+        "3fc788772a8d45c68a8bab954889b65f:C_LAG_VOL",
+        "3a5020358d134fdc984cee23f97945f1:C_LAG_VOL",
+        "96809e464fbe437f8b5366f1cde1a123:C_LAG_VOL"
+      ],
+      "definition": {
+        "candidate": {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        },
+        "costs": {
+          "decision_buffer_bps": 2.0,
+          "fee_bps_per_side": 4.0,
+          "quoted_spread_bps": 3.0,
+          "slippage_bps_per_side": 2.0
+        },
+        "execution": {
+          "allow_short": true,
+          "exit_after_horizon_bars": true,
+          "max_open_positions": 1,
+          "notional_per_trade": 1.0,
+          "price_reference": "next_bar_open"
+        },
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": 5,
+          "scenario": "null",
+          "source": "synthetic",
+          "symbol": "SYNTH_BTC_LIKE"
+        },
+        "model_parameters": null,
+        "registered_variant": null,
+        "research": {
+          "final_holdout_fraction": 0.2,
+          "horizon_bars": 3,
+          "train_bars": 4000,
+          "validation_bars": 1000,
+          "walk_forward_folds": 3
+        },
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-ecf6d470b6bd1b1b"
+    },
+    {
+      "attempt_ids": [
+        "e1286897d9344fd5b4ce7375575fdea7:C_LAG",
+        "989bc1f3002c45c4a91c56ab0f2501dc:C_LAG"
+      ],
+      "definition": {
+        "candidate": {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        "costs": {
+          "decision_buffer_bps": 2.0,
+          "fee_bps_per_side": 10.0,
+          "quoted_spread_bps": 1.0,
+          "slippage_bps_per_side": 2.0
+        },
+        "execution": {
+          "allow_short": false,
+          "exit_after_horizon_bars": true,
+          "max_open_positions": 1,
+          "notional_per_trade": 1.0,
+          "price_reference": "next_bar_open"
+        },
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": 1,
+          "scenario": "historical",
+          "source": "binance_vision_spot",
+          "symbol": "BTCUSDT"
+        },
+        "model_parameters": null,
+        "registered_variant": null,
+        "research": {
+          "horizon_bars": 15,
+          "train_bars": 720,
+          "validation_bars": 360,
+          "walk_forward_folds": 2
+        },
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-11d44f0edcc922fa"
+    },
+    {
+      "attempt_ids": [
+        "1aa63be4f18d4905a6b27cb19a9785f9:C_LAG",
+        "50a2026a6b044d28909db1a5f90f309a:C_LAG",
+        "a6e0494f2ee14c0e8485c033edbdf074:C_LAG",
+        "b3fe564089b7470188f3bae991fa835a:C_LAG"
+      ],
+      "definition": {
+        "candidate": {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        "costs": {
+          "decision_buffer_bps": 2.0,
+          "fee_bps_per_side": 10.0,
+          "quoted_spread_bps": 1.0,
+          "slippage_bps_per_side": 2.0
+        },
+        "execution": {
+          "allow_short": false,
+          "exit_after_horizon_bars": true,
+          "max_open_positions": 1,
+          "notional_per_trade": 1.0,
+          "price_reference": "next_bar_open"
+        },
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": 1,
+          "scenario": "historical",
+          "source": "binance_vision_spot",
+          "symbol": "BTCUSDT"
+        },
+        "model_parameters": null,
+        "registered_variant": null,
+        "research": {
+          "horizon_bars": 30,
+          "train_bars": 720,
+          "validation_bars": 360,
+          "walk_forward_folds": 2
+        },
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-cf7fa0409017d4e8"
+    },
+    {
+      "attempt_ids": [
+        "3a7d57c4cef449d19383723cbfbf810d:ridge",
+        "d9f180a7e58345be855702d5af768e7d:ridge",
+        "9de172568b9842f0840345abd548fe53:ridge"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "ridge"
+        },
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": [
+          "past_return",
+          "relative_volume",
+          "rolling_volatility"
+        ],
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": {
+          "deterministic": true,
+          "force_col_wise": true,
+          "learning_rate": 0.05,
+          "max_depth": 3,
+          "min_child_samples": 50,
+          "n_estimators": 32,
+          "n_jobs": 1,
+          "num_leaves": 7,
+          "random_state": 42,
+          "verbosity": -1
+        },
+        "registered_variant": "M2-E08/1",
+        "research": {},
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-fc181f3f5e358ac1"
+    },
+    {
+      "attempt_ids": [
+        "3a7d57c4cef449d19383723cbfbf810d:lightgbm",
+        "d9f180a7e58345be855702d5af768e7d:lightgbm",
+        "9de172568b9842f0840345abd548fe53:lightgbm"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "lightgbm"
+        },
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": [
+          "past_return",
+          "relative_volume",
+          "rolling_volatility"
+        ],
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": {
+          "deterministic": true,
+          "force_col_wise": true,
+          "learning_rate": 0.05,
+          "max_depth": 3,
+          "min_child_samples": 50,
+          "n_estimators": 32,
+          "n_jobs": 1,
+          "num_leaves": 7,
+          "random_state": 42,
+          "verbosity": -1
+        },
+        "registered_variant": "M2-E08/1",
+        "research": {},
+        "seed": 42
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-784fd24cf08b5fa3"
+    },
+    {
+      "attempt_ids": [
+        "f7ef9ddd05a44a38ba5e8e0603a74955:volatility_only",
+        "0da57660ffe74ad1a9ddcf2d92f4cc8e:volatility_only"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "volatility_only"
+        },
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": [
+          "past_return",
+          "relative_volume",
+          "rolling_volatility"
+        ],
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": {
+          "bootstrap": false,
+          "contamination": "auto",
+          "max_features": 1.0,
+          "max_samples": 256,
+          "n_estimators": 64,
+          "n_jobs": 1,
+          "random_state": 42,
+          "warm_start": false
+        },
+        "registered_variant": "M2-E10/1",
+        "research": {},
+        "seed": null
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-6e924bd048bc1575"
+    },
+    {
+      "attempt_ids": [
+        "f7ef9ddd05a44a38ba5e8e0603a74955:isolation_forest",
+        "0da57660ffe74ad1a9ddcf2d92f4cc8e:isolation_forest"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "isolation_forest"
+        },
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": [
+          "past_return",
+          "relative_volume",
+          "rolling_volatility"
+        ],
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": {
+          "bootstrap": false,
+          "contamination": "auto",
+          "max_features": 1.0,
+          "max_samples": 256,
+          "n_estimators": 64,
+          "n_jobs": 1,
+          "random_state": 42,
+          "warm_start": false
+        },
+        "registered_variant": "M2-E10/1",
+        "research": {},
+        "seed": null
+      },
+      "registration": "retrospective_reconstruction",
+      "variant_id": "historical-24dee3b8b244fc96"
+    }
+  ]
+}

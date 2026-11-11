@@ -151,3 +151,7 @@ All interfaces, serialized metadata and reports are English. The developer's **n
 ## Evidence before magic
 
 Traceability of **what information existed when**, **why an attempt was chosen**, **which costs were charged**, **which baseline it beat**, and **which compute it consumed** takes precedence over model count and raw throughput.
+
+## Audit remediation implementation
+
+The existing supervisor also contains core data preparation. `research.prepare_data` imports/generates and stages the prefix after static admission and before fitting. Core timing and trial workers execute saved source. `provenance.snapshot` is shared by the core and pilots. SQLite remains the runtime journal; the versioned exposure index is an audit projection, not a second scheduler. Evidence archives use SQLite backup snapshots. See the [execution boundary](../README.md#auditable-evidence-and-execution-boundaries) for deadline and historical-evidence limits.

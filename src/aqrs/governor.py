@@ -32,12 +32,17 @@ def supervise(
         "peak_rss_mb": None,
         "sampled_cpu_seconds": 0.0,
         "completed_fits": 0,
+        "started_fits": 0,
         "runtime_wall_seconds": 0.0,
     }
     if started_at >= deadline:
         return outcome
 
-    command = command or [sys.executable, "-m", "aqrs.worker"]
+    command = command or (
+        [sys.executable, "-B", "-E", request["_worker_entry"]]
+        if request.get("_worker_entry")
+        else [sys.executable, "-B", "-m", "aqrs.worker"]
+    )
     windows = sys.platform == "win32"
     env = dict(os.environ)
     for key in (
@@ -95,6 +100,9 @@ def supervise(
         fits = directory / "fits.json"
         if fits.exists():
             outcome["completed_fits"] = _read(fits)
+        started_fits = directory / "started_fits.json"
+        if started_fits.exists():
+            outcome["started_fits"] = _read(started_fits)
         outcome["runtime_wall_seconds"] = time.monotonic() - started_at
         return outcome
 
@@ -126,7 +134,12 @@ def _watch(process, job, directory, deadline, campaign_limited, max_rss_mb, outc
         code = process.poll()
         if code is not None:
             result = directory / "result.json"
-            if code == 0 and outcome["started"]:
+            if code == 3 and (directory / "budget_stop.json").exists():
+                outcome.update(
+                    execution_status="BUDGET_EXHAUSTED",
+                    stop_reason="Fit budget exhausted before fit.",
+                )
+            elif code == 0 and outcome["started"]:
                 try:
                     metrics = _read(result, deadline)
                 except FileNotFoundError:

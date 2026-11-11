@@ -108,12 +108,21 @@ Choose the next **smallest decision-changing uncertainty**, not the most excitin
 
 Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonical list of planned tests. Give each planned experiment a stable ID and its original addition date in YYYY-MM-DD format. Record the decision, minimum test or card link, start conditions, and any parent ID. Project-level market research plans may link to the Research Journal for trial details.
 
-1. **Order and start.** Resume the single `ACTIVE` experiment if its start conditions and authorization still hold. If they no longer hold, move it to `WAITING` and record why. When no experiment is active, work from the top and mark the first eligible `READY` row `ACTIVE` before starting it. Eligibility requires satisfied prerequisites and scope authorization. Order rows by the expected value of better evidence for the next decision, weighed against effort, waiting time, and work displaced. A long or costly test can rank first when the expected decision improvement justifies that cost and delay. Check prerequisites before downstream work. Mark a row `READY` only when its Test Card and start conditions are complete. Keep unmet conditions in `WAITING`. If nothing is eligible, report the first unresolved start condition.
-2. **Update after learning.** Record the result, evidence link, and next decision in the row or its linked Learning Card. Close evaluated tests. Add a follow-up with a new ID, addition date, and parent ID only when it can change a remaining decision within budget. Reorder the queue after each result. For a deferral, record the missing evidence and revisit condition. A deferred test that has not run stays `WAITING`. After an evaluated test, keep its result closed and use a separate row for any justified follow-up. Mark obsolete or superseded tests `CANCELLED` with a reason or replacement ID. Keep closed and cancelled entries or links to their records below the pending rows.
+1. **Order and start.** Dispatch only within the current authorized work item, sequence, or queue mandate. Resume the single `ACTIVE` experiment if it is covered and its start conditions still hold. If an experiment's authorization or start conditions lapse, move it to `WAITING` and record why. When no experiment is active, work from the top and mark the first eligible `READY` row `ACTIVE` before starting it. Eligibility requires satisfied prerequisites, scope authorization, and budget. After closing a row, apply the same rule to the next eligible row within the authorized sequence or queue mandate without waiting for another start signal. A standalone work item ends at its agreed boundary. Order rows by the expected value of better evidence for the next decision, weighed against effort, waiting time, and work displaced. A long or costly test can rank first when the expected decision improvement justifies that cost and delay. Mark a row `READY` only when its Test Card and start conditions are complete. Keep unmet conditions in `WAITING`. If nothing within the mandate is eligible, report the first unresolved start condition if one remains.
+2. **Update after learning.** Record the result, evidence link, and next decision in the row or its linked Learning Card. Close evaluated tests. Add a follow-up with a new ID, addition date, and parent ID only when it can change a remaining decision within budget. Reorder the queue after each result. For a deferral, apply rule 5. A deferred test that has not run stays `WAITING`. After an evaluated test, keep its result closed and use a separate row for any justified follow-up. Mark obsolete or superseded tests `CANCELLED` with a reason or replacement ID. Keep closed and cancelled entries or links to their records below the pending rows.
+
+3. **Material findings.** A verified violation or missing required evidence is material for dispatch when it invalidates a planned action, use of evidence, or gate. Before the next dependent action, Engineering records the finding ID, the affected guarantee, evidence or execution path, and the observable resumption check in the existing risk record, Test/Learning Card, or issue. For every pending row that depends on it directly or through another prerequisite, link the finding in the start conditions and set it to `WAITING`, including rows that were `READY` or `ACTIVE`. Apply the same check before marking a new row eligible or choosing or changing its execution path.
+4. **Resume affected work.** Keep a row in `WAITING` while any linked material finding is open. Close each condition only when the named check passes and its evidence is recorded, with independent verification where required. Set the row to `READY` only when all other start conditions and authorization also hold. Follow rule 1 for dispatch. Independent rows retain their status and eligibility. Keep closed attempts and original evidence intact. Record any change in the eligibility of that evidence or the affected gate in the existing record.
+
+5. **Revisit deferred decisions.** Use `DEFER` when missing decision-relevant evidence can change a named decision and obtaining it now is impractical or outside authorized scope. In the existing decision record or Learning Card, record why, the observable revisit condition, the default until it occurs, and who checks it in which existing workflow. Link any dependent work. A date or milestone can prompt a review. Reopening requires the recorded condition. For pending work in `WAITING`, name the missing approval or prerequisite, the technical obstacle and affected path, or the evidence needed to justify the work. When qualifying new data, reviewing candidate evidence, or checking an acceptance gate, check the relevant linked decisions at their named observation points. On a trigger match, reassess the decision and priority before proposing new work. Meeting a trigger does not authorize execution or change the status of the closed attempt. Apply rules 1–4 to any justified follow-up. Stop an unchanged comparison when the evidence supports that decision within the tested scope. When sufficient evidence leaves a material choice reserved to the owner, present the choice and a recommendation for decision.
 
 ### 1. Write a compact Test Card **before implementation**
 
 Use a GitHub issue if available; otherwise update the **current-loop section of `docs/MILESTONE_STATUS.md`**. Do **not** create a file for each card.
+
+For a routine correction with a known outcome and no change to a critical contract, use the ordinary change record and targeted checks. Use a Test Card when a plausible result could change the approach, scope, safeguard, or acceptance decision. Keep one Test Card across setup attempts that seek the same proof. Record each attempt, its outcome, and its resource use separately under the existing stop and authorization rules. A material change to the question or criteria requires a new bounded loop.
+
+Record the complete Test Card before implementation begins and before collecting or inspecting the first contributing result for the decision. A complete earlier plan in the same record can serve as the card. Include exact decision thresholds and comparison tolerances where applicable, and state what changes if the result passes, fails, or remains inconclusive. For a test based on existing records, identify prior evidence used to plan it. Label later additions and preserve the original criteria and attempts. Treat criteria chosen after seeing an affected result as exploratory for that result.
 
 ```text
 Loop ID / milestone:
@@ -161,14 +170,18 @@ A test's passing status proves only the **defined engineering claim**, not that 
 
 Before closing a [critical contract change](#risk-grading-and-fault-tree-analysis-gate) or marking a milestone `ACCEPTED`, assign a separate read-only verification task to a reviewer who did not implement the change. Ask for **verification mode** and provide the exact revision or working-tree snapshot, the predeclared Test Card or applicable [milestone DoD](MILESTONE_DOD.md), and links to the evidence and any applicable FTA.
 
-The reviewer derives checks from the criteria and governing contracts. For each applicable criterion, report whether it is met, failed, or lacks evidence, with a reference to the check or the gap. Reuse valid evidence and keep any additional checks within the authorized scope and budget. Return implementation or evidence gaps to Engineering. The change owner records or links the review in the existing Learning Card or acceptance record. The affected gate stays open while required evidence is missing or a criterion fails. Criteria changes and release approvals follow the existing authorization rules.
+Where a Test Card governs the decision, identify its predeclared contents by a dated entry, revision, or snapshot. The reviewer checks whether they precede implementation and the first contributing result and match the criteria actually applied. Report late, changed, or unverified criteria separately.
+
+The reviewer derives checks from the criteria and governing contracts. For each applicable criterion, report whether it is met, failed, or lacks evidence, with a reference to the check or the gap. Reuse valid evidence and keep any additional checks within the authorized scope and budget. Return implementation or evidence gaps to Engineering and apply the [material finding rule](#experiment-queue) to dependent work. The change owner records or links the review in the existing Learning Card or acceptance record. The affected gate stays open while required evidence is missing or a criterion fails. Criteria changes and release approvals follow the existing authorization rules.
+
+Before a market-outcome campaign, publish its fixed Test Card and definition as a separate revision under the [research registration rule](RESEARCH_PROTOCOL.md#10-exposure-and-pre-run-registration). This does not imply historical cards were independently timestamped. Engineering fixtures are not market-outcome campaigns.
 
 ### 4. LEARN and DECIDE
 
 Record one short Learning Card in the same issue or current-loop section:
 
 ```text
-Experiment or incident ID, date, and actual elapsed working time:
+Experiment or incident ID, date, and actual elapsed working time through the recorded decision:
 One-line outcome and its effect on the decision:
 Execution outcome and benefit finding, recorded separately:
 Expected versus observed, baseline or criterion, and evidence reference:
@@ -178,8 +191,10 @@ Consequential approach rejection recorded in DECISIONS.md: ID | NOT_APPLICABLE
 Conclusion: SUPPORTED | REFUTED | INCONCLUSIVE | BLOCKED
 Action: PERSEVERE | PIVOT | STOP | DEFER
 Which assumption changed or remains unresolved, and which queued tests are now unnecessary?
-Recommended next action, estimated effort, and how to verify it:
+Next action, any required authorization or prerequisite, estimated effort, and how to verify it:
 ```
+
+If the full interval is unavailable, state the measurement endpoint. Report concrete avoided work separately from measured savings.
 
 #### Diagnosis in existing records
 
@@ -196,7 +211,7 @@ If a run both stops and violates a requirement, record both diagnoses under the 
 - **SUPPORTED:** continue only if current release gates or the next riskiest uncertainty warrant it.
 - **REFUTED:** abandon or change the approach; preserve the evidence, do not optimize until it looks successful.
 - **INCONCLUSIVE:** define a cheaper or better discriminating test; do not automatically increase trial counts.
-- **BLOCKED:** report the blocker and owner decision needed; no hidden workaround violating constraints.
+- **BLOCKED:** report the blocker, the affected work and the condition for resuming. Continue independent authorized work. Ask for an owner decision only when one is required.
 - A `PIVOT` that changes scope, science contracts, budget ceilings, security, or platform compatibility needs explicit approval and an ADR in `docs/DECISIONS.md`.
 
 ### 5. Close the loop, not just the ticket
@@ -208,7 +223,7 @@ Close any triggered FTA or postmortem action with a reproducible prevention test
 Start with **four modest metrics**, measured per completed loop or milestone, not as hard quotas:
 
 1. **Evidence rate:** number of *resolved* critical assumptions (supported or refuted) per completed loop or time spent. `INCONCLUSIVE` and `BLOCKED` are recorded, not counted as resolved.
-2. **Time to evidence:** elapsed working time from a stated test card to a supported/refuted/inconclusive result; record budget-versus-actual duration when meaningful.
+2. **Time to evidence:** elapsed working time from the Test Card through the recorded decision. Use the Learning Card's measurement endpoint and compare budget with actual duration when meaningful.
 3. **Regression/rework:** failures in previously passing critical gates, and time spent correcting them.
 4. **Reproducibility and native Windows/Linux acceptance:** fraction of required commands/tests actually passing in the declared environment, with their observed runtimes.
 

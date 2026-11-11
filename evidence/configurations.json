@@ -1,0 +1,3311 @@
+{
+  "072a7c0eb9334f069b844a21399cf488": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "0da57660ffe74ad1a9ddcf2d92f4cc8e": {
+    "archive_digests": [
+      "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+      "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+      "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+      "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+    ],
+    "calibration_quantile": 0.9,
+    "costs": {
+      "decision_buffer_bps": 2,
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "days": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04"
+    ],
+    "features": [
+      "past_return",
+      "relative_volume",
+      "rolling_volatility"
+    ],
+    "horizon": 30,
+    "isolation_forest": {
+      "bootstrap": false,
+      "contamination": "auto",
+      "max_features": 1.0,
+      "max_samples": 256,
+      "n_estimators": 64,
+      "n_jobs": 1,
+      "random_state": 42,
+      "warm_start": false
+    },
+    "last_eligible_minute": 28,
+    "limits": {
+      "campaign_seconds": 300,
+      "rss_mb": 4096,
+      "timing_seconds": 5,
+      "trial_seconds": 120
+    },
+    "minimum_mean_difference_bps": 5,
+    "minimum_pairs_per_day": 4,
+    "numeric_replay_tolerance": 1e-08,
+    "research": {
+      "candidates": [
+        {
+          "id": "volatility_only"
+        },
+        {
+          "id": "isolation_forest"
+        }
+      ]
+    },
+    "scikit_learn": "1.9.1",
+    "screen_bps": 27,
+    "variant": "M2-E10/1"
+  },
+  "11f737c0d773478887c9db4bc3a0fd4b": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "172b526229a84e47a4082fc2ec295d9f": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "1aa63be4f18d4905a6b27cb19a9785f9": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e06/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e06",
+      "name": "AQRS",
+      "path_base": "../..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 30,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "1e99ca751f124c0598e10df46dd53e15": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "1f7edb1c9f124206aaa73cbfd9ea2267": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "26cb84aa7cd940c6ab829799bc4ec0f4": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "3a5020358d134fdc984cee23f97945f1": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "3a7c6f6b65b14780bf3a3d8e027b79df": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "3a7d57c4cef449d19383723cbfbf810d": {
+    "archive_digests": [
+      "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+      "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+      "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+      "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+    ],
+    "costs": {
+      "decision_buffer_bps": 2,
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "days": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04"
+    ],
+    "features": [
+      "past_return",
+      "relative_volume",
+      "rolling_volatility"
+    ],
+    "horizon": 30,
+    "lightgbm_parameters": {
+      "deterministic": true,
+      "force_col_wise": true,
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "min_child_samples": 50,
+      "n_estimators": 32,
+      "n_jobs": 1,
+      "num_leaves": 7,
+      "random_state": 42,
+      "verbosity": -1
+    },
+    "lightgbm_version": "4.6.0",
+    "research": {
+      "candidates": [
+        {
+          "id": "ridge"
+        },
+        {
+          "id": "lightgbm"
+        }
+      ]
+    },
+    "seed": 42,
+    "variant": "M2-E08/1"
+  },
+  "3fc788772a8d45c68a8bab954889b65f": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "499c138d7d824e9c8281f36465a55ed3": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "4ce6613bcb104c50a7fd6b0602ccf3ba": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "50a2026a6b044d28909db1a5f90f309a": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e06/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e06",
+      "name": "AQRS",
+      "path_base": "../..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 30,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "530f7957306743a3976df17c401277c2": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "55ed0dc77ec44140a972eb9cfb7e6e69": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "668ec9c1a31d4f4f8313f444e3f6433f": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "701249fc369a44dca91cee7adc0109e1": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "799cb8aeceff43b599811dc51ea3e276": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "895d9d7458bc4e1787629c3c213395ba": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "95318570331540408b3965de81486667": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "96809e464fbe437f8b5366f1cde1a123": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "989bc1f3002c45c4a91c56ab0f2501dc": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e04/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e04",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 15,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "995229f4d12e489eb2a594a33710d105": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "9de172568b9842f0840345abd548fe53": {
+    "archive_digests": [
+      "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+      "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+      "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+      "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+    ],
+    "costs": {
+      "decision_buffer_bps": 2,
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "days": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04"
+    ],
+    "features": [
+      "past_return",
+      "relative_volume",
+      "rolling_volatility"
+    ],
+    "horizon": 30,
+    "lightgbm_parameters": {
+      "deterministic": true,
+      "force_col_wise": true,
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "min_child_samples": 50,
+      "n_estimators": 32,
+      "n_jobs": 1,
+      "num_leaves": 7,
+      "random_state": 42,
+      "verbosity": -1
+    },
+    "lightgbm_version": "4.6.0",
+    "research": {
+      "candidates": [
+        {
+          "id": "ridge"
+        },
+        {
+          "id": "lightgbm"
+        }
+      ]
+    },
+    "seed": 42,
+    "variant": "M2-E08/1"
+  },
+  "a6e0494f2ee14c0e8485c033edbdf074": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e10/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e10",
+      "name": "AQRS",
+      "path_base": "../..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 30,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "a7f32c697ee740aab333abf96daa6aa5": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "b3fe564089b7470188f3bae991fa835a": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e11/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e11",
+      "name": "AQRS",
+      "path_base": "../..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 30,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "b44c2444f02f4ce7b62ff0f0b1548f94": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "b6ac9e8ddbbf4274ba5580720927bbc0": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "baa9fb550c124fcc83c7318fc591b76b": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "d2d63163941c40629950b5bb42ba1277": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "d91895f66d684dbb9e8e0b7a956728db": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "d9f180a7e58345be855702d5af768e7d": {
+    "archive_digests": [
+      "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+      "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+      "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+      "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+    ],
+    "costs": {
+      "decision_buffer_bps": 2,
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "days": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04"
+    ],
+    "features": [
+      "past_return",
+      "relative_volume",
+      "rolling_volatility"
+    ],
+    "horizon": 30,
+    "lightgbm_parameters": {
+      "deterministic": true,
+      "force_col_wise": true,
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "min_child_samples": 50,
+      "n_estimators": 32,
+      "n_jobs": 1,
+      "num_leaves": 7,
+      "random_state": 42,
+      "verbosity": -1
+    },
+    "lightgbm_version": "4.6.0",
+    "research": {
+      "candidates": [
+        {
+          "id": "ridge"
+        },
+        {
+          "id": "lightgbm"
+        }
+      ]
+    },
+    "seed": 42,
+    "variant": "M2-E08/1"
+  },
+  "e1286897d9344fd5b4ce7375575fdea7": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 10.0,
+      "quoted_spread_bps": 1.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": false,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/m1-e04/research.sqlite3"
+    },
+    "market": {
+      "archive_dir": "artifacts/m1-e02",
+      "bar_minutes": 1,
+      "day": "2026-01-05",
+      "n_bars": 1440,
+      "retrieved_on": "2026-11-08",
+      "scenario": "historical",
+      "source": "binance_vision_spot",
+      "symbol": "BTCUSDT",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts/m1-e04",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        }
+      ],
+      "horizon_bars": 15,
+      "train_bars": 720,
+      "validation_bars": 360,
+      "walk_forward_folds": 2
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 3,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 1,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "eccb625200f94cf68ceb633c57d32ee9": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "f372342709f84e6ab70bcb03d7530813": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "f3d90d204b1745019380b4af8532d4ab": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "f4c61107c26444289766e1db61624afa": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "f7ef9ddd05a44a38ba5e8e0603a74955": {
+    "archive_digests": [
+      "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+      "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+      "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+      "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+    ],
+    "calibration_quantile": 0.9,
+    "costs": {
+      "decision_buffer_bps": 2,
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "days": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-01-03",
+      "2026-01-04"
+    ],
+    "features": [
+      "past_return",
+      "relative_volume",
+      "rolling_volatility"
+    ],
+    "horizon": 30,
+    "isolation_forest": {
+      "bootstrap": false,
+      "contamination": "auto",
+      "max_features": 1.0,
+      "max_samples": 256,
+      "n_estimators": 64,
+      "n_jobs": 1,
+      "random_state": 42,
+      "warm_start": false
+    },
+    "last_eligible_minute": 28,
+    "limits": {
+      "campaign_seconds": 300,
+      "rss_mb": 4096,
+      "timing_seconds": 5,
+      "trial_seconds": 120
+    },
+    "minimum_mean_difference_bps": 5,
+    "minimum_pairs_per_day": 4,
+    "numeric_replay_tolerance": 1e-08,
+    "research": {
+      "candidates": [
+        {
+          "id": "volatility_only"
+        },
+        {
+          "id": "isolation_forest"
+        }
+      ]
+    },
+    "scikit_learn": "1.9.1",
+    "screen_bps": 27,
+    "variant": "M2-E10/1"
+  },
+  "fa352b62925b4cceb8ca0d54f940dd69": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  },
+  "fb0c868d2e244e9a90ad7f861a0737ee": {
+    "costs": {
+      "decision_buffer_bps": 2.0,
+      "fee_bps_per_side": 4.0,
+      "quoted_spread_bps": 3.0,
+      "slippage_bps_per_side": 2.0
+    },
+    "execution_simulation": {
+      "allow_short": true,
+      "exit_after_horizon_bars": true,
+      "max_open_positions": 1,
+      "notional_per_trade": 1.0,
+      "price_reference": "next_bar_open"
+    },
+    "journal": {
+      "sqlite_path": "artifacts/research.sqlite3"
+    },
+    "market": {
+      "bar_minutes": 5,
+      "n_bars": 12000,
+      "scenario": "null",
+      "source": "synthetic",
+      "symbol": "SYNTH_BTC_LIKE",
+      "timezone": "UTC"
+    },
+    "project": {
+      "artifact_dir": "artifacts",
+      "name": "AQRS",
+      "path_base": "..",
+      "seed": 42
+    },
+    "reporting": {
+      "write_json": true,
+      "write_markdown": true
+    },
+    "research": {
+      "candidates": [
+        {
+          "features": [
+            "past_return"
+          ],
+          "id": "C_LAG",
+          "model": "ridge"
+        },
+        {
+          "features": [
+            "past_return",
+            "relative_volume",
+            "rolling_volatility"
+          ],
+          "id": "C_LAG_VOL",
+          "model": "ridge"
+        }
+      ],
+      "final_holdout_fraction": 0.2,
+      "horizon_bars": 3,
+      "train_bars": 4000,
+      "validation_bars": 1000,
+      "walk_forward_folds": 3
+    },
+    "resource_governor": {
+      "auto_retry_count": 0,
+      "enabled": true,
+      "fail_closed_on_unenforceable_limits": true,
+      "max_model_fits_per_campaign": 12,
+      "max_parallel_trials": 1,
+      "max_peak_rss_mb_per_trial": 4096,
+      "max_research_trials_per_campaign": 2,
+      "max_seeds": 1,
+      "max_wall_seconds_per_campaign": 300,
+      "max_wall_seconds_per_trial": 120,
+      "memory_mode": "observed_rss",
+      "preflight": {
+        "enabled": true,
+        "measure_representative_pilot": true,
+        "reject_if_estimated_over_budget": true,
+        "require_explicit_fit_count": true,
+        "runtime_estimate_safety_factor": 2.0
+      }
+    }
+  }
+}

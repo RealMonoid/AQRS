@@ -45,7 +45,12 @@ def make_plan(
 
 
 def preflight(
-    config: dict, directory: Path, started: float, *, input_error: str | None = None
+    config: dict,
+    directory: Path,
+    started: float,
+    *,
+    input_error: str | None = None,
+    validate_only: bool = False,
 ) -> tuple[dict, list]:
     limits = config["resource_governor"]
     settings = limits["preflight"]
@@ -80,6 +85,7 @@ def preflight(
         estimated_memory_mb=memory_estimate,
         started_trials=0,
         completed_fits=0,
+        started_fits=0,
         holdout_start=holdout_start,
         runtime_wall_seconds=0.0,
         peak_rss_mb=None,
@@ -105,6 +111,9 @@ def preflight(
         python=platform.python_version(),
     )
     reasons = plan["rejection_reasons"]
+    remaining = started + campaign_limit - monotonic()
+    if remaining <= 0:
+        reasons.append("Campaign wall-time budget exhausted before admission.")
     if input_error:
         reasons.append(input_error)
     folds = []
@@ -124,11 +133,17 @@ def preflight(
             )
         except ValueError as error:
             reasons.append(str(error))
-    if not reasons and pilot_fits:
+    if not reasons and pilot_fits and not validate_only:
         largest_train = folds[-1][0]
         pilot = supervise(
             directory,
             {
+                **(
+                    {"_worker_entry": str((directory / "source/pilot.py").resolve())}
+                    if (directory / "source/pilot.py").exists()
+                    else {}
+                ),
+                "fit_limit": 1,
                 "pilot_rows": largest_train.stop - largest_train.start,
                 "pilot_columns": max(
                     len(c["features"]) for c in research["candidates"]
@@ -141,6 +156,7 @@ def preflight(
         plan.update(
             pilot=pilot,
             completed_fits=pilot["completed_fits"],
+            started_fits=pilot.get("started_fits", pilot["completed_fits"]),
             peak_rss_mb=pilot["peak_rss_mb"],
             sampled_cpu_seconds=pilot.get("sampled_cpu_seconds", 0.0),
             estimate_method="bounded largest-shape Ridge pilot with conservative M0 allowances",
@@ -161,7 +177,10 @@ def preflight(
             estimated_wall_seconds=campaign_estimate,
             estimated_trial_seconds=trial_estimate,
         )
-        if trial_estimate > trial_limit or campaign_estimate > campaign_limit:
+        if (
+            trial_estimate > trial_limit
+            or campaign_estimate - pilot_wall > started + campaign_limit - monotonic()
+        ):
             reasons.append("Estimated wall time exceeds the trial or campaign limit.")
     plan["preflight_status"] = "REJECTED_PREFLIGHT" if reasons else "ADMITTED"
     plan["stop_reason"] = " ".join(reasons) if reasons else None

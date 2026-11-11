@@ -30,7 +30,7 @@ Start with [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for current ac
 
 Treat these as **product and research-method constraints**, not an order to write more speculative design documents. Record justified deviations in `docs/DECISIONS.md`.
 
-**Scope restriction:** Implement only the next increment authorized by the owner. Use the milestone status and queue to identify the proposed scope. `EVALUATE` requires evidence at its assigned gate.
+**Scope restriction:** Implement only increments covered by the current authorized work item or sequence. Follow the [dispatch rules](docs/DEVELOPMENT_PROCESS.md#experiment-queue) for queue work and use the milestone status to check start conditions. `EVALUATE` requires evidence at its assigned gate.
 
 ## Mandatory product-development feedback loop
 
@@ -85,4 +85,4 @@ Keep the vertical slice **complete and honest** rather than broad and hollow. In
 
 Use `docs/DEFINITION_OF_DONE.md` for the M0 tests and `docs/MILESTONE_DOD.md` for the whole product acceptance contract. Mark a milestone `ACCEPTED` in `docs/MILESTONE_STATUS.md` only after its gate is proven with actual commands, exit codes, run IDs and artifacts. Record Test Cards before implementation in the existing current-loop section or issue. A successfully executed **negative/null finding** is a valid software result. An interrupted or budgeted run is an execution event.
 
-After an authorized increment, report what exists, which **native Windows and Linux** checks passed, the resource enforcement modes, any remaining blockers and the next smallest vertical increment.
+At the end of an authorized work item or sequence, report what exists, which applicable **native Windows and Linux** checks passed, the resource enforcement modes, any remaining blockers and the next smallest vertical increment.

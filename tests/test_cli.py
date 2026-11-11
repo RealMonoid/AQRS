@@ -16,8 +16,8 @@ def config_at(tmp_path, **limits):
     config = yaml.safe_load(
         (ROOT / "configs/research.yaml").read_text(encoding="utf-8")
     )
-    config["project"].update(path_base=".", artifact_dir="research results ü")
-    config["journal"]["sqlite_path"] = "research results ü/journal.sqlite3"
+    config["project"].update(path_base=".", artifact_dir="research results Ã¼")
+    config["journal"]["sqlite_path"] = "research results Ã¼/journal.sqlite3"
     config["market"]["n_bars"] = 240
     config["research"].update(train_bars=60, validation_bars=30, walk_forward_folds=2)
     config["resource_governor"].update(limits)
@@ -241,7 +241,7 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
     assert first["plan"]["completed_fits"] == 5
     assert first["plan"]["sampled_cpu_seconds"] > 0
     assert all(t["evidence_status"] == "INSUFFICIENT_EVIDENCE" for t in first["trials"])
-    with sqlite3.connect(tmp_path / "research results ü/journal.sqlite3") as db:
+    with sqlite3.connect(tmp_path / "research results Ã¼/journal.sqlite3") as db:
         assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
         assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone() == (2,)
         assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (4,)
@@ -267,7 +267,7 @@ def test_cli_journals_rejected_budget_and_strict_memory_without_fits(tmp_path):
         assert report["plan"]["planned_fits"] == fits
         assert report["plan"]["started_trials"] == report["plan"]["completed_fits"] == 0
         assert report["execution_status"] == "REJECTED_PREFLIGHT"
-    with sqlite3.connect(tmp_path / "research results ü/journal.sqlite3") as db:
+    with sqlite3.connect(tmp_path / "research results Ã¼/journal.sqlite3") as db:
         assert db.execute(
             "SELECT execution_status, evidence_status, COUNT(*) FROM experiments "
             "GROUP BY 1, 2"
@@ -288,6 +288,8 @@ def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monke
     calls = []
 
     def first_blocks(directory, request, trial_seconds, deadline, rss):
+        if request.get("stage") == "prepare":
+            return supervise(directory, request, trial_seconds, deadline, rss)
         calls.append(request["features"])
         if len(calls) == 1:
             return supervise(
@@ -335,6 +337,10 @@ def test_cancellation_stops_remaining_candidates(tmp_path, monkeypatch):
         }
 
     def unexpected(*args):
+        if args[1].get("stage") == "prepare":
+            from aqrs.governor import supervise
+
+            return supervise(*args)
         raise AssertionError("A candidate started after cancellation.")
 
     monkeypatch.setattr(planning, "supervise", cancel)
@@ -346,6 +352,10 @@ def test_cancellation_stops_remaining_candidates(tmp_path, monkeypatch):
     calls = []
 
     def cancel_trial(*args):
+        if args[1].get("stage") == "prepare":
+            from aqrs.governor import supervise
+
+            return supervise(*args)
         calls.append(args)
         return cancel() | {"started": True, "runtime_wall_seconds": 0.1}
 
@@ -399,7 +409,22 @@ def test_holdout_changes_do_not_affect_research_metrics_or_priority(
         values[192:, 1:5] *= 10
         return replace(bars, values=values)
 
+    original_supervise = research.supervise
+
+    def changed_preparation(directory, request, *args):
+        if request.get("stage") == "prepare":
+            return {
+                "execution_status": "COMPLETED",
+                "stop_reason": None,
+                "started": True,
+                "completed_fits": 0,
+                "peak_rss_mb": None,
+                "result": research.prepare_data(request),
+            }
+        return original_supervise(directory, request, *args)
+
     monkeypatch.setattr(research, "generate", change_holdout)
+    monkeypatch.setattr(research, "supervise", changed_preparation)
     second, code = research.run(config, base, plan_only=False)
     assert code == 0
     original, changed = (

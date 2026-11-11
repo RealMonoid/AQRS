@@ -33,7 +33,7 @@ python scripts/check_language_policy.py --self-test
 python scripts/check_language_policy.py
 ```
 
-The check audits Markdown/text documentation and human-readable configuration text for likely non-English (especially German) passages and verifies that the key policy declarations remain present. `.github/workflows/docs-language.yml` runs the same check on GitHub pushes and pull requests. Keep the check active as the repository grows, including Linux and headless execution.
+The check audits Markdown/text documentation, suffixless files under `docs/`, and human-readable configuration text for likely non-English (especially German) passages and verifies that the key policy declarations remain present. `.github/workflows/docs-language.yml` runs the same check on GitHub pushes and pull requests. Keep the check active as the repository grows, including Linux and headless execution.
 
 **Important:** A lightweight language heuristic cannot prove that every sentence is English, particularly short headings or code comments. Codex and reviewers remain responsible for checking every modified artifact. Passing the checker is necessary, not sufficient.
 
@@ -44,3 +44,5 @@ The documentation repository keeps **one up-to-date canonical file per distinct 
 ## Acceptance
 
 The language rule is part of the **universal Definition of Done for every milestone through v1.0 and beyond**. A milestone cannot be accepted if its new or edited documentation, Codex additions, reports or code explanations violate this rule, even when its numerical tests pass.
+
+Original external-language source material is retained as non-normative input under `artifacts/aqrs-a06/source-material/`; it is not an AQRS-authored specification or a source of current instructions. The canonical adaptive design is already documented in English.

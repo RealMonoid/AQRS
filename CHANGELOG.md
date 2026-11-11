@@ -2,6 +2,161 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Repair audit controls and preserve research evidence
+
+AQRS-A06 binds pilot admission to validated policy, supervises core data preparation, reserves fits before work, corrects status/provenance and failure reporting, and verifies a real synthetic LightGBM path. Preserve the existing research evidence as a versioned bundle, digest manifest, frozen configurations, exposure index and eight immutable scripts. These distinct machine-readable audit artifacts make prior local-only evidence recoverable; README is their canonical index. Preserve missing historical provenance and independent-registration limitations. Extend the existing CI and require separately published cards before future outcome campaigns.
+
+**Added or modified paths (relative to the preserved working-tree baseline)**
+
+- `.gitattributes`
+- `.github/workflows/docs-language.yml`
+- `CHANGELOG.md`
+- `HANDOFF_MANIFEST.md`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/LANGUAGE_POLICY.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/acceptance.zip`
+- `evidence/configurations.json`
+- `evidence/exposure.json`
+- `evidence/historical/m1-e05/check_execution.py`
+- `evidence/historical/m1-e06/verify_campaigns.py`
+- `evidence/historical/m2-e02/count_pairs.py`
+- `evidence/historical/m2-e03/run_coverage.py`
+- `evidence/historical/m2-e04/compare_interaction.py`
+- `evidence/historical/m2-e08/pilot.py`
+- `evidence/historical/m2-e09/verify_replay.py`
+- `evidence/historical/m2-e12/run_coverage.py`
+- `evidence/manifest.json`
+- `pyproject.toml`
+- `scripts/check_language_policy.py`
+- `scripts/evidence_archive.py`
+- `scripts/m2_isolation_forest_pilot.py`
+- `scripts/m2_supervised_pilot.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/governor.py`
+- `src/aqrs/planning.py`
+- `src/aqrs/provenance.py`
+- `src/aqrs/research.py`
+- `src/aqrs/worker.py`
+- `tests/test_audit_controls.py`
+- `tests/test_cli.py`
+- `tests/test_isolation_pilot.py`
+
+**Moved source material**
+
+- `docs/QUANT_RESEARCH_CODEX_HANDOFF2` → `artifacts/aqrs-a06/source-material/QUANT_RESEARCH_CODEX_HANDOFF2` (pre-existing untracked original; bytes preserved, excluded from normative documentation).
+
+
+## 2026-11-10 — Record the M2-E15 state machine library check
+
+Record the pinned Python library check for setup expiration and price invalidation, and link the synthetic criteria from M2-E15.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Verify archived M2-E09 source evidence and M2-E14 planning inputs
+
+Record the remaining source-binding gap after the read-only M2-E16 review and verify the M2-E14 dates, fold boundaries, costs and static budget from existing metadata.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Make deferred decisions observable
+
+Require decision-relevant revisit conditions, a current default, and a named observation point in existing records. Verify the rule with the M2-E14, AQRS-A02-F2, M2-E12, and M2-E09 cases.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Queue the state machine coverage test
+
+Add M2-E15 as a conditional count-only comparison after M2-E14. Use disagreement coverage to decide whether an outcome study is worth proposing.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Make test cards verifiable before work
+
+Fix decision criteria before the first contributing work, have independent verification check the recorded criteria, and use ordinary change records for routine corrections. Keep setup attempts under their shared test contract, name the elapsed-time endpoint, and check existing M2-E09 source evidence before considering a separately authorized replay.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Continue through the authorized objective
+
+Bind completion reports to the authorized objective, clarify covered queue dispatch and the whole-work time estimate, and separate blocker reporting and chat handoffs from approval.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Bind material findings to dependent queue work
+
+Require explicit start and resumption conditions for dependent work. Record path-specific Governor debt, separate M2-E09 outcome parity from source reproducibility, and attach the T20 timezone check to the next applicable platform verification.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+
+## 2026-11-10 — Defer the Sierra Chart compatibility pilot
+
+Record the owner's deferral of AQRS-SC01 and prioritize M2-E14. Retain the v1.0 interoperability requirement and the pilot's build prerequisites.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-10 — Plan the two-candidate campaign and Sierra Chart interoperability
+
+Register the M2-E14 campaign proposal with causal inputs, controls and execution limits. Record the owner-required ACSIL data and signal paths, the AQRS-SC01 synthetic acceptance test, and its initial timing risk analysis.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/PRODUCT_VISION.md`
+- `docs/RISK_REGISTER.md`
+- `docs/requirements/REQUIREMENTS.md`
+
+## 2026-11-10 — Adopt the baseline rule question
+
+Specify what a model must improve about a baseline rule and use the existing matched comparison to measure its contribution. Apply the question in planning the next M2 real-data campaign.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+
 ## 2026-11-10 — Record five M2 model assessments
 
 Use the existing evidence to record four scoped deferrals and the cross-series PCA data blocker. Define the evidence and fair comparison needed to reopen each decision.

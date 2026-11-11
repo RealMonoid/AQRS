@@ -16,6 +16,7 @@ from aqrs import journal
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
 from aqrs.storage import fingerprint, write_json
+from aqrs.worker import reserve_fit
 from aqrs.worker import run as run_worker
 
 if __package__:
@@ -169,6 +170,7 @@ def evaluate_worker(request, directory):
         matrix = np.random.default_rng(42).normal(size=(4277, len(prior.FEATURES)))
         model = estimator()
         started = monotonic()
+        reserve_fit(request, directory, 1)
         model.fit(matrix)
         write_json(directory / "fits.json", 1)
         cutoff(-model.score_samples(matrix))
@@ -190,6 +192,7 @@ def evaluate_worker(request, directory):
 
     days = []
     for number, (train, validation) in enumerate(folds):
+        reserve_fit(request, directory, len(folds))
         if request["phase"] == CONTROL:
             volatility_cutoff = cutoff(matrix[train, 2])
             charge()
@@ -277,9 +280,10 @@ def diagnostic(bars, indices):
 
 
 def governor_limits(source):
-    import yaml
+    from aqrs.config import load
 
-    limits = yaml.safe_load(source.read_text(encoding="utf-8"))["resource_governor"]
+    effective, _ = load(source)
+    limits = effective["resource_governor"]
     for key, required in {
         "max_research_trials_per_campaign": 2,
         "max_seeds": 1,
@@ -402,7 +406,8 @@ def compare(output, report, db, deadline):
         report["stop_reason"] = (
             "Training-only 90th percentile absolute move did not exceed 27 bps."
         )
-        return "SCREENED_OUT"
+        report["evaluation_status"] = "SCREENED_OUT"
+        return "COMPLETED"
     window = output / "development.npy"
     np.save(window, bars.values, allow_pickle=False)
     request = {"window": str(window), "dataset_id": bars.fingerprint}
@@ -472,9 +477,9 @@ def compare(output, report, db, deadline):
         for row in report["days"]
     )
     report["research_decision"] = "PROPOSE_FOLLOW_UP" if advance else "DEFER"
-    report["evidence_status"] = (
-        "DEVELOPMENT_SCREEN_MET" if advance else "INSUFFICIENT_EVIDENCE"
-    )
+    report["evidence_status"] = "INSUFFICIENT_EVIDENCE"
+    report["evaluation_status"] = "COMPLETED"
+    report["development_screen_met"] = advance
     return "COMPLETED"
 
 
@@ -486,7 +491,8 @@ def valid_receipt(output, expected_platform):
         or report["config_id"] != fingerprint(CONFIG)
         or fingerprint(report["configuration"]) != report["config_id"]
         or report["system"] != expected_platform
-        or report["holdout"]["reads"] != 0
+        or report["holdout"].get("authorized_reads", report["holdout"].get("reads"))
+        != 0
         or report["runtime_seconds"] > LIMITS["campaign_seconds"]
         or report["plan"]["preflight_status"] != "ADMITTED"
         or report["plan"]["planned_fits"] != 5
@@ -640,7 +646,14 @@ def main():
         "platform": platform.platform(),
         "python": platform.python_version(),
         "provenance": provenance,
-        "holdout": {"start_at": "2026-01-06T00:00:00Z", "reads": 0},
+        "holdout": {
+            "start_at": "2026-01-06T00:00:00Z",
+            "authorized_reads": 0,
+            "access_measurement": "not_instrumented",
+            "evaluated": False,
+        },
+        "schema_version": "2",
+        "evaluation_status": "NOT_COMPLETED",
         "trials": {},
         "evidence_status": "NOT_EVALUATED",
     }
@@ -650,7 +663,7 @@ def main():
             if replay and replay["provenance"]["source_id"] != provenance["source_id"]:
                 raise ValueError("Replay source differs from the Windows snapshot.")
             status = compare(output, report, db, started + LIMITS["campaign_seconds"])
-        except (OSError, ValueError) as error:
+        except Exception as error:
             report["stop_reason"] = str(error)
             status = "FAILED" if report["trials"] else "REJECTED_PREFLIGHT"
             if status == "REJECTED_PREFLIGHT" and "plan" in report:
@@ -689,7 +702,7 @@ def main():
         journal.finish_campaign(db, run_id, status, report)
         write_json(output / "report.json", report)
     print(f"{status} {run_id} {output}")
-    return 0 if status in {"COMPLETED", "SCREENED_OUT"} else 2
+    return 0 if status == "COMPLETED" else 2
 
 
 if __name__ == "__main__":

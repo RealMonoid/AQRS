@@ -70,7 +70,10 @@ def test_fit_and_both_cutoffs_use_training_only(bars, tmp_path, monkeypatch):
 
     monkeypatch.setattr(pilot, "cutoff", spy_cutoff)
     monkeypatch.setattr(pilot, "estimator", Spy)
-    control = pilot.evaluate_worker(request | {"phase": pilot.CONTROL}, tmp_path)
+    control_dir, challenger_dir = tmp_path / "control", tmp_path / "challenger"
+    control_dir.mkdir()
+    challenger_dir.mkdir()
+    control = pilot.evaluate_worker(request | {"phase": pilot.CONTROL}, control_dir)
     assert fits == []
     challenger = pilot.evaluate_worker(
         request
@@ -78,7 +81,7 @@ def test_fit_and_both_cutoffs_use_training_only(bars, tmp_path, monkeypatch):
             "phase": pilot.CHALLENGER,
             "volatility_cutoffs": [day["volatility_cutoff"] for day in control],
         },
-        tmp_path,
+        challenger_dir,
     )
     assert len(quantiles) == 4
     assert len(fits) == 2

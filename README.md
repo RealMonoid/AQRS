@@ -153,6 +153,18 @@ reproduced evidence. The scheduler never restarts a failed trial automatically.
 
 There is no agreed production market, exchange, live instrument class, paid dataset, real trading-capital budget, GPU environment or broker connector. Do not invent one. These decisions remain in [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md). M0 operates on deterministic synthetic data only.
 
+## Auditable evidence and execution boundaries
+
+The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See [AQRS-A06](docs/MILESTONE_STATUS.md#aqrs-a06-test-card-audit-controls-and-recoverable-evidence) for verification and limitations.
+
+Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the private Git remote carries the versioned bundle. Refresh evidence and exposure records before accepting a new campaign.
+
+Core report schema `2` adds recoverable source, available Git identity, environment versions and explicit zero-cost flags. Workers execute the archived source. Package version `0.1.0` remains a compatibility label, not an execution identity or milestone status. Old reports remain unchanged legacy records.
+
+The core deadline covers supervised input validation/staging, timing fits and candidate workers. Configuration loading, source snapshots, SQLite/report persistence and cleanup are control-plane work outside that hard compute boundary; elapsed setup is checked before admission. This is not an OS deadline for arbitrary filesystem I/O. Pilots validate approved Governor settings and retain frozen costs; their parent-side archive/report I/O still has no hard external timeout. Strict RAM containment remains unsupported and is rejected. Supported estimator/calibration calls reserve fits before starting. A new manual campaign still needs its separately authorized budget.
+
+LightGBM 4.6.0 is an optional runtime extra (`pip install -e ".[supervised]"`) and is included in the development extra for its real synthetic integration test. The core install does not require it. A completed economic screen uses `evaluation_status=SCREENED_OUT` and `execution_status=COMPLETED`; development screens retain `evidence_status=INSUFFICIENT_EVIDENCE`.
+
 ## Version policy
 
 This handoff carries the prior scientific scope, model/tool registry and resource-governance decisions forward. The single [`CHANGELOG.md`](CHANGELOG.md) preserves historical changes and records all subsequent file edits. All AQRS-authored documents and every future Codex edit MUST remain in English; all milestones must pass their native Windows **and** Linux compatibility gates.

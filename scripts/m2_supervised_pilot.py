@@ -4,13 +4,12 @@ import platform
 import sys
 from contextlib import closing
 from datetime import date
-from hashlib import sha256
-from importlib.metadata import distributions
 from pathlib import Path
 from time import monotonic
 from uuid import uuid4
 
 from aqrs import journal
+from aqrs.config import fields, load, number
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
 from aqrs.storage import fingerprint, write_json
@@ -104,26 +103,9 @@ def per_day(result):
 def archive_source(
     output: Path, *, entry: Path = Path(__file__), support: tuple[Path, ...] = ()
 ) -> dict:
-    package = Path(journal.__file__).resolve().parent
-    paths = (
-        {"source/pilot.py": entry}
-        | {f"source/{path.name}": path for path in support}
-        | {f"source/aqrs/{path.name}": path for path in sorted(package.glob("*.py"))}
-    )
-    hashes = {}
-    for name, source in paths.items():
-        payload = source.read_bytes()
-        target = output / name
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(payload)
-        hashes[name] = sha256(payload).hexdigest()
-    return {
-        "source_id": fingerprint(hashes),
-        "files": hashes,
-        "dependencies": dict(
-            sorted((item.name, item.version) for item in distributions())
-        ),
-    }
+    from aqrs.provenance import snapshot
+
+    return snapshot(output, entry, support)
 
 
 def compare(output, report, db, run_id, config):
@@ -133,13 +115,44 @@ def compare(output, report, db, run_id, config):
     from aqrs.planning import make_plan
 
     started = monotonic()
-    deadline = started + 300
-    issue = capability("observed_rss")
+    deadline = report.get("campaign_deadline", started + 300)
+    effective, _ = load(output / "source/research.yaml")
+    limits = effective["resource_governor"]
+    if not limits["preflight"]["measure_representative_pilot"]:
+        raise ValueError("The frozen pilot requires bounded timing fits.")
+    factor = max(2, limits["preflight"]["runtime_estimate_safety_factor"])
+    costs = config["costs"]
+    fields(
+        costs,
+        "fee_bps_per_side quoted_spread_bps slippage_bps_per_side decision_buffer_bps",
+    )
+    for key in costs:
+        number(costs, key, 0, 10_000)
+    if costs != COSTS:
+        raise ValueError("Costs differ from the frozen supervised variant.")
+    if limits["max_peak_rss_mb_per_trial"] < 4096:
+        raise ValueError("Frozen pilot requires the registered 4096 MiB allowance.")
+    issue = capability(limits["memory_mode"])
     if issue:
         raise ValueError(issue)
-    report["plan"] = make_plan(2, 2, 1, 5, 6, 120, 300, pilot_fits=2)
+    report["plan"] = make_plan(
+        2,
+        2,
+        1,
+        5,
+        min(6, limits["max_model_fits_per_campaign"]),
+        min(120, limits["max_wall_seconds_per_trial"]),
+        min(300, limits["max_wall_seconds_per_campaign"]),
+        pilot_fits=2,
+        max_trials=limits["max_research_trials_per_campaign"],
+        max_seeds=limits["max_seeds"],
+    )
+    report["plan"]["limits"] = limits
+    deadline = min(deadline, started + limits["max_wall_seconds_per_campaign"])
     if report["plan"]["preflight_status"] != "ADMITTED":
         raise ValueError("The frozen campaign exceeds its fit or time budget.")
+    if monotonic() >= deadline:
+        raise ValueError("Campaign budget exhausted before archive access.")
     bars = read_window(Path("artifacts/m2-e03"))
     report["dataset_id"] = bars.fingerprint
     prefix = output / "development.npy"
@@ -164,7 +177,8 @@ def compare(output, report, db, run_id, config):
         "features": FEATURES,
         "allow_short": False,
         "notional": 1,
-        "costs": COSTS,
+        "costs": costs,
+        "fit_limit": 2,
         "real_spot": True,
     }
     command = [
@@ -177,8 +191,13 @@ def compare(output, report, db, run_id, config):
     for model_name in MODELS:
         pilot = supervise(
             output,
-            {"model": model_name, "pilot_rows": 4277, "pilot_columns": len(FEATURES)},
-            30,
+            {
+                "model": model_name,
+                "pilot_rows": 4277,
+                "pilot_columns": len(FEATURES),
+                "fit_limit": 1,
+            },
+            min(30, limits["max_wall_seconds_per_trial"]),
             deadline,
             4096,
             command=command,
@@ -187,13 +206,13 @@ def compare(output, report, db, run_id, config):
         if pilot["execution_status"] != "COMPLETED" or pilot["completed_fits"] != 1:
             return "REJECTED_PREFLIGHT"
     estimates = {
-        name: max(2, 2 * pilot["runtime_wall_seconds"])
-        + 2 * max(1, 2 * pilot["result"]["fit_wall_seconds"])
+        name: max(2, factor * pilot["runtime_wall_seconds"])
+        + 2 * max(1, factor * pilot["result"]["fit_wall_seconds"])
         for name, pilot in report["preflight"].items()
     }
     report["plan"]["estimated_trial_seconds"] = estimates
     if (
-        max(estimates.values()) > 120
+        max(estimates.values()) > min(120, limits["max_wall_seconds_per_trial"])
         or sum(estimates.values()) > deadline - monotonic()
     ):
         return "REJECTED_PREFLIGHT"
@@ -204,13 +223,19 @@ def compare(output, report, db, run_id, config):
         }
         journal.start_experiment(db, run_id, name, metadata)
         outcome = supervise(
-            output, request | {"model": name}, 120, deadline, 4096, command=command
+            output,
+            request | {"model": name},
+            min(120, limits["max_wall_seconds_per_trial"]),
+            deadline,
+            4096,
+            command=command,
         )
         status = outcome["execution_status"]
         result = outcome.get("result", {})
-        if status == "COMPLETED" and result["feasibility"]["status"] == "SCREENED_OUT":
-            status = "SCREENED_OUT"
-        if status == "COMPLETED" and outcome["completed_fits"] != 2:
+        screened = (
+            status == "COMPLETED" and result["feasibility"]["status"] == "SCREENED_OUT"
+        )
+        if status == "COMPLETED" and not screened and outcome["completed_fits"] != 2:
             status = "FAILED"
         report["trials"][name] = outcome | {"execution_status": status}
         journal.finish_experiment(
@@ -229,7 +254,11 @@ def compare(output, report, db, run_id, config):
         )
         if status != "COMPLETED":
             return status
+        if screened:
+            report["evaluation_status"] = "SCREENED_OUT"
+            return "COMPLETED"
         report["per_day"][name] = per_day(result)
+    report["evaluation_status"] = "COMPLETED"
     ridge, lightgbm = (report["per_day"][name] for name in MODELS)
     report["paired_deltas"] = [
         {
@@ -250,9 +279,26 @@ def compare(output, report, db, run_id, config):
     return "COMPLETED"
 
 
-def main(output):
+def main(
+    output,
+    config_path=Path("configs/research.yaml"),
+    cost_path=Path("configs/m1-e04.yaml"),
+):
+    started = monotonic()
     output.mkdir(parents=True, exist_ok=False)
-    provenance = archive_source(output)
+    effective, _ = load(config_path)
+    cost_config, _ = load(cost_path)
+    if cost_config["costs"] != COSTS:
+        raise ValueError("Cost configuration differs from the frozen pilot.")
+    provenance = archive_source(output, support=(cost_path,))
+    effective_path = output / "source/research.yaml"
+    effective_path.write_bytes(config_path.read_bytes())
+    from hashlib import sha256
+
+    provenance["files"]["source/research.yaml"] = sha256(
+        effective_path.read_bytes()
+    ).hexdigest()
+    provenance["source_id"] = fingerprint(provenance["files"])
     config = {
         "variant": "M2-E08/1",
         "days": [day.isoformat() for day in DAYS],
@@ -261,19 +307,29 @@ def main(output):
         "lightgbm_parameters": PARAMETERS,
         "features": FEATURES,
         "horizon": 30,
-        "costs": COSTS,
+        "costs": cost_config["costs"],
         "seed": 42,
         "research": {"candidates": [{"id": name} for name in MODELS]},
     }
     run_id = uuid4().hex
     report = {
         "run_id": run_id,
+        "campaign_deadline": started
+        + min(300, effective["resource_governor"]["max_wall_seconds_per_campaign"]),
         "configuration": config,
         "config_id": fingerprint(config),
         "platform": platform.platform(),
         "python": platform.python_version(),
         "provenance": provenance,
-        "holdout": {"start_at": "2026-01-06T00:00:00Z", "reads": 0},
+        "governor_limits": effective["resource_governor"],
+        "holdout": {
+            "start_at": "2026-01-06T00:00:00Z",
+            "authorized_reads": 0,
+            "access_measurement": "not_instrumented",
+            "evaluated": False,
+        },
+        "schema_version": "2",
+        "evaluation_status": "NOT_COMPLETED",
         "preflight": {},
         "trials": {},
         "per_day": {},
@@ -282,14 +338,15 @@ def main(output):
         journal.begin(db, run_id, report["config_id"], config, report)
         try:
             status = compare(output, report, db, run_id, config)
-        except (OSError, ValueError) as error:
+        except Exception as error:
             report["stop_reason"] = str(error)
             status = "REJECTED_PREFLIGHT" if not report["trials"] else "FAILED"
+        report.pop("campaign_deadline", None)
         report["execution_status"] = status
         with db:
             db.execute(
                 "UPDATE experiments SET execution_status = 'CANCELLED' "
-                "WHERE run_id = ? AND execution_status = 'PROPOSED'",
+                "WHERE run_id = ? AND execution_status IN ('PROPOSED', 'RUNNING')",
                 (run_id,),
             )
         report["journal_integrity"] = db.execute("PRAGMA integrity_check").fetchone()[0]

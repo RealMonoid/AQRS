@@ -170,3 +170,11 @@ Machine-readable `report.json` and readable `report.md` include:
 Keep the supervised pilot's source snapshot and report together. The report and campaign journal bind the snapshot by file digests and list the installed dependency versions. The source identity identifies an execution and leaves the scientific variant lineage intact.
 
 Core numerical results must reproduce with the same seed. Run IDs, timestamps and measured durations may vary. Define every metric's units and favorable direction.
+
+## H. Audit-compatible reporting and provenance
+
+Current reports use `schema_version="2"`; records without it remain legacy evidence. Record source bytes/digests, available Git commit and dirty state (null when unavailable), Python/platform and installed dependencies. Source identity is separate from scientific variant identity. New metadata never repairs missing execution-time bindings in M2-E08/E09. Core workers execute their saved source snapshot.
+
+`SCREENED_OUT` belongs only to `evaluation_status`; a completed screen is an execution success. A positive development screen may set a separate decision/boolean but keeps `evidence_status=INSUFFICIENT_EVIDENCE`. Literal holdout fields describe authorization (`authorized_reads=0`, `access_measurement=not_instrumented`), never measured access counts. Existing reservations remain binding. List zero-valued cost/buffer components without silently substituting costs or forbidding synthetic controls.
+
+The [exposure index](../evidence/exposure.json) links definitions to attempts, data scopes and original journals. The [manifest](../evidence/manifest.json) identifies recoverable records, including SQLite backup snapshots preserving committed WAL state. Unknown historical exposure and preregistration remain explicit. These additive report fields and audit records require no database schema migration.

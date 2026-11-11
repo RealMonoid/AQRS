@@ -1,6 +1,6 @@
 # AQRS English-only, Windows/Linux portable Codex handoff manifest
 
-**Status:** Documents and configuration only. No `aqrs` application has been implemented by this handoff. Codex must build M0/v0.1 and perform **native Windows and independent Linux** execution tests.
+**Historical archive manifest only.** This describes the original documentation-only archive, not today's checkout. AQRS is implemented; current instructions and acceptance are in `README.md`, `CODEX_START.md` and `docs/MILESTONE_STATUS.md`. `SHA256SUMS.txt` verifies the original archive only. Current preserved research evidence uses `evidence/manifest.json`.
 
 ## Entry points
 

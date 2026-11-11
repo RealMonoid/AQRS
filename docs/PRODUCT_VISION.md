@@ -26,6 +26,8 @@ By v1.0, a single user can operate AQRS locally through a CLI (with an optional 
 8. **Monitor candidates:** accepted candidates first run as shadow/paper forecasts and simulated decisions over fresh data. Monitor predictive quality, net results, costs and risk separately. Predefined rules determine *continue, pause, investigate or retire*.
 9. **Reproduce and audit:** a report links the research question to data versions, source code, trials, controls, negative tests and final decisions. A repeated run with identical inputs reproduces the essential numerical results.
 
+The [Sierra Chart and ACSIL requirement](requirements/REQUIREMENTS.md#functional-requirements) adds two-way research interoperability. Sierra Chart is a Windows integration surface. The AQRS core remains usable headlessly on Linux.
+
 ### Example of future CLI experience (**not commands already implemented**)
 
 ```bash

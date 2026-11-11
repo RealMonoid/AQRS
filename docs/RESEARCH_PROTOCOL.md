@@ -101,6 +101,13 @@ interpreting coverage.
 
 ## 5. Baselines, ablations and controls
 
+**What does the model improve about a specific baseline rule?** When proposing
+a model that changes a rule, name the baseline rule, the decision the model
+would change, and the minimum improvement needed to advance. Compare the rule
+with and without the model on the same eligible decision opportunities under
+the same execution and cost assumptions. Report opportunities skipped by
+either variant as well as those where both act.
+
 Minimum controls:
 
 1. Predictive benchmark such as `y_hat=0` or a training-only historical mean return.
@@ -173,3 +180,11 @@ If an implementation constraint would change a predeclared scientific condition 
 Use **quant research mode** to plan or interpret an authorized experiment. Before a run, fix the research question, data scope, baseline and controls, costs, and decision rule in the existing experiment record. After the run, take the technical disposition and evidence references from Engineering or Verification, including the run IDs and any failed checks or limitations. Exclude evidence affected by a technical or functional failure until it has been verified after correction.
 
 Assess the eligible evidence against the predeclared rule. Record the execution status, scientific finding and its uncertainty, and follow-up decision separately in the existing Research Journal attempt or its linked evidence. A replay of the same inputs can support technical reproducibility. The scientific claim still depends on the data, comparison and independence of the evidence. Send defects to Engineering and keep any new run or scope change subject to the applicable authorization and preflight. The [protected evaluation and confirmation rules](#4-out-of-sample-research-validation) continue to govern access and use.
+
+## 10. Exposure and pre-run registration
+
+Before an outcome campaign, register each scientific variant in the [exposure index](../evidence/exposure.json): ID, origin, data window, inputs/horizon/costs, candidate/control relation, fixed advancement and coverage rules, budget and Test Card reference. Count-only screens and manual selections that informed the rule also consume exposure. Keep attempts and platform replays distinct from variants and independent confirmation. Refresh the index and preserved evidence at acceptance; retain incomplete historical knowledge explicitly.
+
+Commit and publish the fixed Test Card and definition separately before the first outcome run; record that revision in the receipt. A later commit does not retroactively prove preregistration, and publication does not make previously explored data independent. Changing a threshold, horizon or cost assumption creates a new registered variant. Sensitivity work needs its own counted plan.
+
+Set minimum non-overlapping coverage and coverage across days/folds before interpreting economic results, with dependence and uncertainty explicit. Zero trades are a valid flat-policy result, not a profitability finding; a minimum count alone never establishes significance. Preserve M2-E14's existing thresholds. January 6 stays protected. Define any future independent confirmation scope and authorization before access under the existing protected-evaluation gate. Do not rotate holdouts to erase exposure or interpret literal authorization fields as observed read counts.

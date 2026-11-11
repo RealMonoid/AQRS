@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 from aqrs.market import FEATURE_NAMES, Bars, features, targets
 from aqrs.storage import write_json
+from aqrs.worker import reserve_fit
 
 RIDGE_ALPHA = 1.0
 
@@ -93,6 +94,7 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         x = rng.normal(size=(request["pilot_rows"], request["pilot_columns"]))
         y = rng.normal(size=len(x))
         started = monotonic()
+        reserve_fit(request, directory, 1)
         model_factory().fit(x, y)
         elapsed = monotonic() - started
         write_json(directory / "fits.json", 1)
@@ -138,6 +140,7 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         train = slice(train_start, train_stop)
         val = slice(val_start, val_stop)
         x_train = x[train]
+        reserve_fit(request, directory, len(request["folds"]))
         fitted = model_factory().fit(x_train, y[train])
         write_json(directory / "fits.json", fit_count)
         prediction = fitted.predict(x[val])
