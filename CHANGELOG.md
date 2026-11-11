@@ -4,7 +4,7 @@ The **only** changelog in this repository. Entries are in English, newest first,
 
 ## 2026-11-11 — Expand bounded free Spot data preparation
 
-AQRS-D01 prepares a guarded, reproducible multi-day and two-symbol data-only path by reusing the daily importer and supervisor. Retain additional kline activity fields and preserve existing research admission. Planning recorded before implementation; verification and acquisition pending. The new dataset module separates optional online acquisition from the offline research CLI; its configuration fixes the approved calendar scope.
+AQRS-D01 prepares a guarded, reproducible multi-day and two-symbol data-only path by reusing the daily importer and supervisor. Retain additional kline activity fields and preserve existing research admission. The predeclared slice passed independent review, 177 local tests and four Windows/Ubuntu CI jobs. All 48 real daily archives qualified; preserve the acquisition and verification metadata in a small versioned receipt. The new dataset module separates optional online acquisition from the offline research CLI; its configuration fixes the approved calendar scope.
 
 **Paths**
 
@@ -19,6 +19,7 @@ AQRS-D01 prepares a guarded, reproducible multi-day and two-symbol data-only pat
 - `src/aqrs/binance_spot_pilot.py`
 - `src/aqrs/spot_dataset.py`
 - `tests/test_spot_dataset.py`
+- `evidence/aqrs-d01-verification.json`
 
 
 ## 2026-11-11 — Remove mandatory data-rights and license review gates

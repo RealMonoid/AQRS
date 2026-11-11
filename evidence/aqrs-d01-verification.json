@@ -1,0 +1,1131 @@
+{
+  "schema_version": "1",
+  "work_items": [
+    "AQRS-G01",
+    "AQRS-D01"
+  ],
+  "recorded_at": "2026-11-11T07:33:55.142179+00:00",
+  "implementation_commit": "8f6016543bb0f6379010427c14c878cb40183dfb",
+  "pre_implementation_record": {
+    "recorded_at": "2026-11-11T07:15:50.108834+00:00",
+    "base_commit": "4fd02d9f002016e035f8c24d9b4ebaecfbad1b5a",
+    "files": {
+      "docs/MILESTONE_STATUS.md": "e7e5219a86c79b14b47ccadc21d36ba1387cb2d772beb167b9db2d47a6fe6ba1",
+      "docs/RISK_REGISTER.md": "121e5ceb643f398e814cdad05b4bedafd8e6f65d94e1298d7744070fe3612051",
+      "src/aqrs/binance_spot_pilot.py": "f60e0f352e57655b268bb405a9064dfbe31e02c8107a2273a470992d70adba0a",
+      "src/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "src/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff"
+    }
+  },
+  "decision": "SUPPORTED / PERSEVERE for bounded Spot data preparation",
+  "scope": {
+    "id": "AQRS-D01",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "start": "2025-12-01",
+    "end": "2025-12-24"
+  },
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider tests/test_spot_dataset.py --tb=line",
+      "stage": "loader baseline",
+      "exit": 1,
+      "result": "18 expected failures: new API absent"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider tests/test_spot_dataset.py -k \"plan or offline or qualification or network_scope or strict_memory\" --tb=line",
+      "stage": "entry baseline",
+      "exit": 1,
+      "result": "12 expected failures: new module absent"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider tests/test_spot_dataset.py tests/test_market.py --tb=short",
+      "exit": 0,
+      "passed": 46,
+      "seconds": 3.3
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-d01-suite tests",
+      "exit": 0,
+      "passed": 177,
+      "seconds": 58.86,
+      "platform": "native Windows Python 3.12.12"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check src tests scripts",
+      "exit": 0
+    },
+    {
+      "command": "python scripts/check_language_policy.py --self-test",
+      "exit": 0
+    },
+    {
+      "command": "python scripts/check_language_policy.py",
+      "exit": 0,
+      "files": 47
+    },
+    {
+      "command": "python scripts/evidence_archive.py --verify",
+      "exit": 0,
+      "preserved_files": 295
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B -m aqrs.spot_dataset plan --scope configs/spot_data.json",
+      "exit": 0,
+      "archives": 48,
+      "bars": 69120,
+      "max_requests": 96,
+      "planned_fits": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B -m aqrs.spot_dataset acquire --scope configs/spot_data.json --output artifacts/aqrs-d01/data",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B - (independent output digest/row alignment audit)",
+      "exit": 0,
+      "result": "48 ZIP digests and published checksums; both dataset/activity digests; 69,120 aligned rows; limits and zero fits verified"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -B - (registry/changelog/source preservation audit)",
+      "exit": 0,
+      "result": "registry IDs/statuses preserved; 24 implementation paths covered; six existing research/config/governor files unchanged"
+    },
+    {
+      "command": "python scripts/check_language_policy.py --self-test; python scripts/check_language_policy.py; git diff --check",
+      "stage": "final record checks",
+      "exit": 0,
+      "files": 48
+    }
+  ],
+  "independent_review": {
+    "reviewer": "verify_spot_expansion",
+    "implementation_commit": "8f6016543bb0f6379010427c14c878cb40183dfb",
+    "result": "No actionable defect or acquisition blocker found",
+    "focused_tests": {
+      "passed": 46,
+      "seconds": 3.46,
+      "exit": 0
+    },
+    "additional_probes": [
+      "saved original M1 arrays/digest/fingerprint parity",
+      "first-day timing rejection after exactly two mocked requests and no publication",
+      "complete first symbol plus incomplete second symbol gives global FAILED",
+      "fixed plan counts and five pre-implementation snapshot hashes"
+    ],
+    "boundaries": "Initial reviewer did not access real market payloads or independently run Linux; exact-revision CI and real receipts are recorded separately.",
+    "completion_receipt_review": {
+      "result": "No remaining adoption blocker; SUPPORTED / PERSEVERE for bounded data preparation",
+      "exit": 0,
+      "checked": [
+        "report and manifest digest references",
+        "48 exact scope entries and per-symbol bar counts",
+        "elapsed/worker/RSS/storage budgets",
+        "both timing extrapolations",
+        "zero fits and development-only status",
+        "executed code digests match reviewed code",
+        "four CI jobs bound to implementation SHA"
+      ],
+      "limitations": "Metadata review; raw data audit and CI were not independently repeated."
+    }
+  },
+  "ci": {
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/42979643150",
+    "run_id": 42979643150,
+    "head_sha": "8f6016543bb0f6379010427c14c878cb40183dfb",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 130386776727,
+        "os": "Windows",
+        "python": "3.12.10",
+        "passed": 177,
+        "seconds": 55.25,
+        "conclusion": "success"
+      },
+      {
+        "id": 130386777112,
+        "os": "Ubuntu 24.04.5",
+        "python": "3.12.16",
+        "passed": 177,
+        "seconds": 36.89,
+        "conclusion": "success"
+      },
+      {
+        "id": 130386777128,
+        "os": "Ubuntu 24.04.5",
+        "python": "3.11.18",
+        "passed": 177,
+        "seconds": 39.46,
+        "conclusion": "success"
+      },
+      {
+        "id": 130386777202,
+        "os": "Windows",
+        "python": "3.11.9",
+        "passed": 177,
+        "seconds": 52.12,
+        "conclusion": "success"
+      }
+    ],
+    "coverage": "Existing offline synthetic plan/run, evidence integrity, full behavioral tests including new offline multi-symbol CLI and guards, Ruff and language checks. Linux platform step asserts non-root. No real archive acquisition in CI."
+  },
+  "acquisition": {
+    "schema_version": "1",
+    "execution_status": "COMPLETED",
+    "plan": {
+      "schema_version": "1",
+      "scope": {
+        "id": "AQRS-D01",
+        "symbols": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "start": "2025-12-01",
+        "end": "2025-12-24"
+      },
+      "scope_id": "86e54b2610f0fceb5302c35102697c41cc8e9591e6e31337493f46cddfe3e873",
+      "entries": [
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-01",
+          "name": "BTCUSDT-1m-2025-12-01.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-01.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-02",
+          "name": "BTCUSDT-1m-2025-12-02.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-02.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-03",
+          "name": "BTCUSDT-1m-2025-12-03.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-03.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-04",
+          "name": "BTCUSDT-1m-2025-12-04.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-04.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-05",
+          "name": "BTCUSDT-1m-2025-12-05.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-05.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-06",
+          "name": "BTCUSDT-1m-2025-12-06.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-06.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-07",
+          "name": "BTCUSDT-1m-2025-12-07.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-07.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-08",
+          "name": "BTCUSDT-1m-2025-12-08.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-08.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-09",
+          "name": "BTCUSDT-1m-2025-12-09.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-09.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-10",
+          "name": "BTCUSDT-1m-2025-12-10.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-10.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-11",
+          "name": "BTCUSDT-1m-2025-12-11.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-11.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-12",
+          "name": "BTCUSDT-1m-2025-12-12.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-12.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-13",
+          "name": "BTCUSDT-1m-2025-12-13.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-13.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-14",
+          "name": "BTCUSDT-1m-2025-12-14.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-14.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-15",
+          "name": "BTCUSDT-1m-2025-12-15.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-15.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-16",
+          "name": "BTCUSDT-1m-2025-12-16.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-16.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-17",
+          "name": "BTCUSDT-1m-2025-12-17.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-17.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-18",
+          "name": "BTCUSDT-1m-2025-12-18.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-18.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-19",
+          "name": "BTCUSDT-1m-2025-12-19.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-19.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-20",
+          "name": "BTCUSDT-1m-2025-12-20.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-20.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-21",
+          "name": "BTCUSDT-1m-2025-12-21.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-21.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-22",
+          "name": "BTCUSDT-1m-2025-12-22.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-22.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-23",
+          "name": "BTCUSDT-1m-2025-12-23.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-23.zip"
+        },
+        {
+          "symbol": "BTCUSDT",
+          "day": "2025-12-24",
+          "name": "BTCUSDT-1m-2025-12-24.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-24.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-01",
+          "name": "ETHUSDT-1m-2025-12-01.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-01.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-02",
+          "name": "ETHUSDT-1m-2025-12-02.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-02.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-03",
+          "name": "ETHUSDT-1m-2025-12-03.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-03.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-04",
+          "name": "ETHUSDT-1m-2025-12-04.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-04.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-05",
+          "name": "ETHUSDT-1m-2025-12-05.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-05.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-06",
+          "name": "ETHUSDT-1m-2025-12-06.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-06.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-07",
+          "name": "ETHUSDT-1m-2025-12-07.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-07.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-08",
+          "name": "ETHUSDT-1m-2025-12-08.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-08.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-09",
+          "name": "ETHUSDT-1m-2025-12-09.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-09.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-10",
+          "name": "ETHUSDT-1m-2025-12-10.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-10.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-11",
+          "name": "ETHUSDT-1m-2025-12-11.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-11.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-12",
+          "name": "ETHUSDT-1m-2025-12-12.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-12.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-13",
+          "name": "ETHUSDT-1m-2025-12-13.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-13.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-14",
+          "name": "ETHUSDT-1m-2025-12-14.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-14.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-15",
+          "name": "ETHUSDT-1m-2025-12-15.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-15.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-16",
+          "name": "ETHUSDT-1m-2025-12-16.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-16.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-17",
+          "name": "ETHUSDT-1m-2025-12-17.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-17.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-18",
+          "name": "ETHUSDT-1m-2025-12-18.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-18.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-19",
+          "name": "ETHUSDT-1m-2025-12-19.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-19.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-20",
+          "name": "ETHUSDT-1m-2025-12-20.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-20.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-21",
+          "name": "ETHUSDT-1m-2025-12-21.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-21.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-22",
+          "name": "ETHUSDT-1m-2025-12-22.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-22.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-23",
+          "name": "ETHUSDT-1m-2025-12-23.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-23.zip"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "day": "2025-12-24",
+          "name": "ETHUSDT-1m-2025-12-24.zip",
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-24.zip"
+        }
+      ],
+      "archive_count": 48,
+      "bar_count": 69120,
+      "max_requests": 96,
+      "max_download_bytes": 25362432,
+      "max_storage_bytes": 134217728,
+      "planned_fits": 0,
+      "research_trials": 0,
+      "data_workers": 2,
+      "worker_seconds": 120,
+      "campaign_seconds": 300,
+      "max_rss_mb": 4096,
+      "memory_mode": "observed_rss",
+      "acquire": true,
+      "limits": {
+        "enabled": true,
+        "fail_closed_on_unenforceable_limits": true,
+        "max_research_trials_per_campaign": 2,
+        "max_model_fits_per_campaign": 12,
+        "max_seeds": 1,
+        "max_parallel_trials": 1,
+        "max_wall_seconds_per_trial": 120,
+        "max_wall_seconds_per_campaign": 300,
+        "memory_mode": "observed_rss",
+        "max_peak_rss_mb_per_trial": 4096,
+        "auto_retry_count": 0,
+        "preflight": {
+          "enabled": true,
+          "require_explicit_fit_count": true,
+          "measure_representative_pilot": true,
+          "runtime_estimate_safety_factor": 2.0,
+          "reject_if_estimated_over_budget": true
+        }
+      },
+      "protected_date": "2026-01-06",
+      "evidence_status": "NOT_EVALUATED",
+      "research_ready": false,
+      "estimate_method": "512 MiB allowance; online first-day timing times remaining days times two"
+    },
+    "evidence_status": "NOT_EVALUATED",
+    "research_ready": false,
+    "workers": [
+      {
+        "execution_status": "COMPLETED",
+        "stop_reason": null,
+        "started": true,
+        "peak_rss_mb": 58.0703125,
+        "sampled_cpu_seconds": 2.28125,
+        "completed_fits": 0,
+        "started_fits": 0,
+        "runtime_wall_seconds": 43.25,
+        "result": {
+          "execution_status": "COMPLETED",
+          "manifest": {
+            "schema_version": "1",
+            "symbol": "BTCUSDT",
+            "bar_minutes": 1,
+            "bar_count": 34560,
+            "dataset_id": "e2ca547c4fefe2176fbd22708385470e46b6132f43cac748c613cd4ad2a62983",
+            "activity_sha256": "20b537e9c37a5fd428aec76ec85e28f6df7f47b07490b437b8be9025db0edecd",
+            "dataset_sha256": "c8a0f2272471376d4c01b4132b56862da9aebb60a424978dba713cd845aa06db",
+            "first_bar_open_utc": "2025-12-01T00:00:00+00:00",
+            "last_bar_available_utc": "2025-12-25T00:00:00+00:00",
+            "archives": [
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-01",
+                "name": "BTCUSDT-1m-2025-12-01.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-01.zip",
+                "sha256": "cda08bfa0f7831c02a5fc78969ee3a6f9557d131966b1e1c18a3e0c3316b3d64",
+                "checksum_sha256": "64de9a7ff715f56ffed3823b0f07d754316d18a1dd32d670787510dea50ac69f",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-02",
+                "name": "BTCUSDT-1m-2025-12-02.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-02.zip",
+                "sha256": "55990f4bbb63927e2e6530064ab529d2db71195f04caf940aebc4a36bc494d8a",
+                "checksum_sha256": "1c2706121824885f9af175c5fad73e8421e432656b018779234f131085b0c9f8",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-03",
+                "name": "BTCUSDT-1m-2025-12-03.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-03.zip",
+                "sha256": "a595afa315db1dc04b9433bd762755c447d02032fe84faa9c71ad9075e1e7359",
+                "checksum_sha256": "080cb79b8e8d14b4711041d00c2e63eb0eaeb9f7b6a6fdc058eefd40f5be3d95",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-04",
+                "name": "BTCUSDT-1m-2025-12-04.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-04.zip",
+                "sha256": "6812537ea88a44f0b012003d43c7ff6fa3aff8b4fba622a13ebe358b9ff5901d",
+                "checksum_sha256": "66d07d850e9c4e8904f591d4f02cc237de0a9a3201b7b50cf1910cb1c6cc23b8",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-05",
+                "name": "BTCUSDT-1m-2025-12-05.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-05.zip",
+                "sha256": "7c2b58fa030ff46229e4addf34710691b43d6242408da641cbdbd075a90cc4db",
+                "checksum_sha256": "ab9cd0b37760146d66101cc85f382172bddccea4a5e1cff1aa041fedf1978e54",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-06",
+                "name": "BTCUSDT-1m-2025-12-06.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-06.zip",
+                "sha256": "6d7f82dd107b76074443f138c3e21528af18279cf872834118f454af26ade2fb",
+                "checksum_sha256": "16900617f04445f777f5af7f91f551550c86733cca90f8dfc3a79911104c1e5f",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-07",
+                "name": "BTCUSDT-1m-2025-12-07.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-07.zip",
+                "sha256": "347f817989165682afe3298212e472908f3915c97c28b5f5e76ff2f83b87b38f",
+                "checksum_sha256": "0ede143d993a0bf49e2ff0b1bb7042b1dd8975e1e00e12837b1eed1a7e6e5f5b",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-08",
+                "name": "BTCUSDT-1m-2025-12-08.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-08.zip",
+                "sha256": "3319f4f4cd1332afaa30b12fe8db5f0b4da1c10a43a9fdff7621bea82b8fc7a0",
+                "checksum_sha256": "cc25fa1ddd624bba16a6ae7c94fba142330d33593339a21443bb69fe12a3c4e5",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-09",
+                "name": "BTCUSDT-1m-2025-12-09.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-09.zip",
+                "sha256": "89d10cc401ee38d141f3f6450b9d0fb82300dfc485ab6d1f450bd24cc140e7a9",
+                "checksum_sha256": "941041caecd804e03d13582afb8ea5c3770bda034b74f1284c10fb43705ca262",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-10",
+                "name": "BTCUSDT-1m-2025-12-10.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-10.zip",
+                "sha256": "c556406c576249f8bd80fef750d6d9e53583d30a8c9f6906387f77ca15763c8c",
+                "checksum_sha256": "5be81603ac7e7bc5bc66b496179b5d7ebe651d668a30b86b81adb24bfeea66c3",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-11",
+                "name": "BTCUSDT-1m-2025-12-11.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-11.zip",
+                "sha256": "0019409804c2a223e88c7b23b6a26723e80dff40d38b7881a1ea0b07fdac39e3",
+                "checksum_sha256": "7a3c408b9ae3d3ce0238b85559ed5d3f5a94ef7fe832299db7ba818bcd08958e",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-12",
+                "name": "BTCUSDT-1m-2025-12-12.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-12.zip",
+                "sha256": "bbcaabef0ed53d57fd02afbcc25110e6d2067be99a156d803f68a7cfe3c09dba",
+                "checksum_sha256": "49b0e0a1f0eb59bb52f5d6ed4f0ff346e542a08df6993dcedd4b7f677ee574fc",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-13",
+                "name": "BTCUSDT-1m-2025-12-13.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-13.zip",
+                "sha256": "b1d0c2f1647bfc7156d9ce04f54ed8bab1e688823742848fb854d701bd81fe50",
+                "checksum_sha256": "c0abc5196889d3404518b3724f77a4053372b1ac596ee9ea71508d6e511ff01b",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-14",
+                "name": "BTCUSDT-1m-2025-12-14.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-14.zip",
+                "sha256": "2a47e52f3326de49366b5de1b9646376fb0c30c5a89651d58da15641e6a07e51",
+                "checksum_sha256": "c4aad1632a76b63c3f91eab07f283e6ce6c921212ecce7f424f7c58be4cb152a",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-15",
+                "name": "BTCUSDT-1m-2025-12-15.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-15.zip",
+                "sha256": "097f85753abd7270f44e01c5ed97e2528e5955c38bb1ae75477d975f73022e7f",
+                "checksum_sha256": "4e29de5f31183b7e78e8a5346a3ec516c23549f59c71356f75969c3ead16e366",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-16",
+                "name": "BTCUSDT-1m-2025-12-16.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-16.zip",
+                "sha256": "9c35e854d6a527e4827a435ae883049b76632d9ae89da3d8a7b29daef30ff9b3",
+                "checksum_sha256": "e26d2f0115125f22e7a46ea775bec6158f27f337fa1ecdeb312193a93808550f",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-17",
+                "name": "BTCUSDT-1m-2025-12-17.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-17.zip",
+                "sha256": "ca2a9c0abcd750d8decf9e90c8c16ea5aa137954459851f3201b13fd7c5e7624",
+                "checksum_sha256": "a3871852bd0d8b6b8b604e9afce5ccd9203a8cef279efe2fed20ad91b8722729",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-18",
+                "name": "BTCUSDT-1m-2025-12-18.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-18.zip",
+                "sha256": "7babb40236ec16d638c69a8a456225139c3f2dd76b0c133213a1fcdddf0cf229",
+                "checksum_sha256": "c6e05727cdf5f1300c41288a4bd752df6b0863808f4c8dc5e660452e8df82721",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-19",
+                "name": "BTCUSDT-1m-2025-12-19.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-19.zip",
+                "sha256": "88d0178412723df2b27c22e84cb3bc82aad46dbde9a7ff5634e14a60dd3ee6ce",
+                "checksum_sha256": "43021228c2cae010fea93b13df8b553cece51d81ce1eb316cfed7f4cac68bae5",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-20",
+                "name": "BTCUSDT-1m-2025-12-20.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-20.zip",
+                "sha256": "9eafbc9f02a613f7f6e74b836fadc56d61f967f067e1fecd3d36b49b8a9e679d",
+                "checksum_sha256": "4ddc09488eff206db3e97392f455b2f67dbb6224d6800acafc21c193f71690ef",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-21",
+                "name": "BTCUSDT-1m-2025-12-21.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-21.zip",
+                "sha256": "e691f4a817a84d9fb21f59be9d25aca7e14a9f7b836025fab37771449131fb5f",
+                "checksum_sha256": "92c84a2dc05d5a1600e6e79b8e767e6ef40ac6b0188488bd45dcb11f5fe1f6be",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-22",
+                "name": "BTCUSDT-1m-2025-12-22.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-22.zip",
+                "sha256": "7641fba81c822c34a8ea4506638870301cdf823846a597f1849b00568732eea8",
+                "checksum_sha256": "36a73dd7f01769fb2dfb256121bd6039335f9b9012f39a801f236751be6af199",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-23",
+                "name": "BTCUSDT-1m-2025-12-23.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-23.zip",
+                "sha256": "7723df75f6a7558ce7f9e8a00efb52105126dfb2aabe839be39c3e130ec164c1",
+                "checksum_sha256": "b39024a2d8a3268078f1e2fd2dcd55739117622247e5b852ab19818224631704",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "BTCUSDT",
+                "day": "2025-12-24",
+                "name": "BTCUSDT-1m-2025-12-24.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-12-24.zip",
+                "sha256": "a8f7da7d37d375c6988e683b3b41e9c620a5d95b09156bfd4e8d2add49bcef56",
+                "checksum_sha256": "89bb610b96905213a4621c63a8f684b18dcee465ac0222d39308fb4f6494d654",
+                "source_timestamp_unit": "microseconds"
+              }
+            ],
+            "scope_id": "86e54b2610f0fceb5302c35102697c41cc8e9591e6e31337493f46cddfe3e873",
+            "qualified": true,
+            "research_ready": false,
+            "data_role": "DEVELOPMENT",
+            "evidence_status": "NOT_EVALUATED"
+          }
+        }
+      },
+      {
+        "execution_status": "COMPLETED",
+        "stop_reason": null,
+        "started": true,
+        "peak_rss_mb": 57.7890625,
+        "sampled_cpu_seconds": 2.65625,
+        "completed_fits": 0,
+        "started_fits": 0,
+        "runtime_wall_seconds": 42.18799999996554,
+        "result": {
+          "execution_status": "COMPLETED",
+          "manifest": {
+            "schema_version": "1",
+            "symbol": "ETHUSDT",
+            "bar_minutes": 1,
+            "bar_count": 34560,
+            "dataset_id": "905c31ff92842e99ee4c2e4818ddf2826cae543095e2d980aa903ffa91146389",
+            "activity_sha256": "be1a0e16bee51f0dd97bb33070004b7cdd04435d735c8a73856b35f49742e182",
+            "dataset_sha256": "3a732d6365be98697be01f0e55fa5fc72c876eddf65c0402cc3e838fb13395d7",
+            "first_bar_open_utc": "2025-12-01T00:00:00+00:00",
+            "last_bar_available_utc": "2025-12-25T00:00:00+00:00",
+            "archives": [
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-01",
+                "name": "ETHUSDT-1m-2025-12-01.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-01.zip",
+                "sha256": "ac326257086b4c6cd774750d28e619bddb4b26619c2ff46dbbecfb9118af7082",
+                "checksum_sha256": "ee72ece0152033bf3a90143518218a8a9412c1f75cf6ef1ef8e852ab410fe5cd",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-02",
+                "name": "ETHUSDT-1m-2025-12-02.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-02.zip",
+                "sha256": "12c9e38b967bcb75db2d10d9de8b9a59f8efbfd1eacc633bc611a0bb5bca721c",
+                "checksum_sha256": "7638d3926bbc8d199b8ac13bd4b78f0efee875da3fb6e1ec2236d6172469b3bd",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-03",
+                "name": "ETHUSDT-1m-2025-12-03.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-03.zip",
+                "sha256": "0a9fcb706b9698213948a2902a66bbdf8368bd4a1824bbe6fd6858a029e920d1",
+                "checksum_sha256": "d9d3ccd935422540c81d03259822de46435dbae1e87ff10a309ce33ea9c7af21",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-04",
+                "name": "ETHUSDT-1m-2025-12-04.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-04.zip",
+                "sha256": "94634673683b9c5f62eefb9f18e831161935b1fb22cadcf335019585e9dac7ae",
+                "checksum_sha256": "264d726e3969948e62552456ba367586df1e38ad95d04974cb649961748fcc5d",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-05",
+                "name": "ETHUSDT-1m-2025-12-05.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-05.zip",
+                "sha256": "f95b094d0499967d4702fc193877a306c0a01dc6fa5ddebd7eb2f6900e291c5c",
+                "checksum_sha256": "ed130b85388a97151c55e4ae27d22ae3ed3e405372059c9a4213685401884631",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-06",
+                "name": "ETHUSDT-1m-2025-12-06.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-06.zip",
+                "sha256": "f7e93562a9e4f9c586bab34706346f6c8b13b312e5f69e2ca051840f31996d95",
+                "checksum_sha256": "65e999c3e5113cda1056d58716f2d4d12c1991a2a725a032ca724379dd5e3da5",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-07",
+                "name": "ETHUSDT-1m-2025-12-07.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-07.zip",
+                "sha256": "fb237f3a9ecd7446e47c130fdcc7af9406bde7692565e43f770ac7345a652f47",
+                "checksum_sha256": "7bcac2e812dea670633ea8c57e4133be24b8220f38c84ae8c7417927c81e41d7",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-08",
+                "name": "ETHUSDT-1m-2025-12-08.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-08.zip",
+                "sha256": "458a84a8534fd3616a84ebdd95a0296fa853b297ca9b132ac5906ad70826b605",
+                "checksum_sha256": "3d8d02ba6fe9f3b37f5174a35243e01fe0da56feb131c27c64acaccdbe968a29",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-09",
+                "name": "ETHUSDT-1m-2025-12-09.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-09.zip",
+                "sha256": "b596d99921625b4704e7434b05c6c301074b3eb50eb98f28fb44dead4598631a",
+                "checksum_sha256": "44311dbce38a9a150b38ab781d4465b4c6921957fda03a3e9757995a5f8fcc8a",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-10",
+                "name": "ETHUSDT-1m-2025-12-10.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-10.zip",
+                "sha256": "5307e91bf4d0d477244d4952d8f5a4e50f801e13be29ca7a5702acbe4ef2573d",
+                "checksum_sha256": "fff71c13ccd63f97fa243b9b72016e20158f6e7657bc6768ebe616046b74e009",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-11",
+                "name": "ETHUSDT-1m-2025-12-11.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-11.zip",
+                "sha256": "18158214385855a2be78f3981d8f906c44e4112ed3a4a8a3046c2df4311b030b",
+                "checksum_sha256": "761fdf9f4c080440ac9ecbe8a5447e72b6f9058faa266ad971a6b3c1534f6be8",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-12",
+                "name": "ETHUSDT-1m-2025-12-12.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-12.zip",
+                "sha256": "9d87cda81a2f83a4d61e701ea43346f75db727b3d2a4a06c0dda16d24037703e",
+                "checksum_sha256": "bd7a9716610d1d52fb7890b4797b3d91fdb626e2f6cf9b920e120a4b1c37a893",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-13",
+                "name": "ETHUSDT-1m-2025-12-13.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-13.zip",
+                "sha256": "6e62f528e9032b1dfa952b23ee99bfcc541f5f18549adc7ed105f2393ebecc20",
+                "checksum_sha256": "3260ae933faa95a09ddfaf6cda67c9d81e272decd6d803190f6c8ce372e7332b",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-14",
+                "name": "ETHUSDT-1m-2025-12-14.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-14.zip",
+                "sha256": "2ffae7f7125888a1bd7821eaf2389028ca9b9cf9eccffe285ad8564944cf57ae",
+                "checksum_sha256": "ded68a7f24482093404275a9f6848176f7244f925d4557e0655d083e1029f6f3",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-15",
+                "name": "ETHUSDT-1m-2025-12-15.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-15.zip",
+                "sha256": "2c2ffbcce0c3dbee71bf8d5b1cdb54845dbafd7c6f3db6b5bc91d1800c356a13",
+                "checksum_sha256": "c4731ca4aaa328d29a6ad3ced756b84c408bed2aa47b6071d68dc10b9c417674",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-16",
+                "name": "ETHUSDT-1m-2025-12-16.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-16.zip",
+                "sha256": "223eda4b5f562b629d2b1e537dbff1ae6719ae8752cbfefbe4a4034c0550c413",
+                "checksum_sha256": "e808695c42fc79d47f02c25dd6d837eb385dea14587d3f4777dd125fb73cc726",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-17",
+                "name": "ETHUSDT-1m-2025-12-17.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-17.zip",
+                "sha256": "4504a81a2f8722c31f130b3a7055f4e0f6c69de721f838e9179c7802b9da9191",
+                "checksum_sha256": "ce8e297391bfaf6ae685d473af6548adc59075464ee9997cad16c8d1d43dfdf7",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-18",
+                "name": "ETHUSDT-1m-2025-12-18.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-18.zip",
+                "sha256": "6afd0254b44c50d18d713e966f1162ec95421b3cf4a2ecb41b63e128c68aba68",
+                "checksum_sha256": "f0ce63c2791f8f42b6937a8d1377fa601928cae3e8c90136c8a4264db567327f",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-19",
+                "name": "ETHUSDT-1m-2025-12-19.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-19.zip",
+                "sha256": "5c2844e0649fb9c9e8d06cde22c43812ee5ef8991cb841a0d960a2101c17acb1",
+                "checksum_sha256": "9802e8a7446e8cc6d27d9a7afc7519510aee8abf144ecbb7f5d062171adb63ca",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-20",
+                "name": "ETHUSDT-1m-2025-12-20.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-20.zip",
+                "sha256": "aa2df327ed89360f1f9de988e9431d42a34d17264f86399eaf8087491df0a861",
+                "checksum_sha256": "b66d97d98a6a78ee5df62fdd08072665ffd2111977ac029e0d413dc5f3bad3ce",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-21",
+                "name": "ETHUSDT-1m-2025-12-21.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-21.zip",
+                "sha256": "0408059f0b294f58112518e761dfa9d0335dba988744b00e4a3cc6fb5d3388ac",
+                "checksum_sha256": "8b4962905e00ecbf8a3d89097aea8701740cfbddb3a94f448ce7a1fe32224602",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-22",
+                "name": "ETHUSDT-1m-2025-12-22.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-22.zip",
+                "sha256": "5a891d260512349c46930a0e7f64108d777ca05efac3c0591afb82241d38d4c2",
+                "checksum_sha256": "d7c74fd3f8812f3b029b0a8b682b91a198912c4724da94d8064e687c518dad46",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-23",
+                "name": "ETHUSDT-1m-2025-12-23.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-23.zip",
+                "sha256": "2b208196453cd9e0219df5be2135e5e290bbce3678cdf6fdaeadbdc5c19db6e1",
+                "checksum_sha256": "e22c46f708a8a6eb9a27ade77352a371a1fc7a1e64e08cc37fca62e746ad2765",
+                "source_timestamp_unit": "microseconds"
+              },
+              {
+                "symbol": "ETHUSDT",
+                "day": "2025-12-24",
+                "name": "ETHUSDT-1m-2025-12-24.zip",
+                "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-12-24.zip",
+                "sha256": "1a24be705ddff1fc8ad38396c8b2201df948eafb422baf6e5219c5a13008aa32",
+                "checksum_sha256": "95ee378189173a8765b75abea4d860b899931fb62e11d854517f1e37b374d168",
+                "source_timestamp_unit": "microseconds"
+              }
+            ],
+            "scope_id": "86e54b2610f0fceb5302c35102697c41cc8e9591e6e31337493f46cddfe3e873",
+            "qualified": true,
+            "research_ready": false,
+            "data_role": "DEVELOPMENT",
+            "evidence_status": "NOT_EVALUATED"
+          }
+        }
+      }
+    ],
+    "started_at": "2026-11-11T07:30:18.387214+00:00",
+    "protected_access": {
+      "authorized_reads": 0,
+      "access_measurement": "not_instrumented"
+    },
+    "source": {
+      "source_id": "a5f74330a9e3fc0dfcd04c83d19dd01712f6a0381b846640371e2c656f0d2256",
+      "files": {
+        "source/pilot.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+        "source/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+        "source/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+        "source/aqrs/binance_spot_pilot.py": "3bfdd55f23d020a9d4dc4faabfd2b8acf2cdd88c6f5716ad9cd3539a979a4e81",
+        "source/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+        "source/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+        "source/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+        "source/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+        "source/aqrs/journal.py": "0e72c8aaf0c5cc0795a1370c3a72772530e2dd5347164a64905f069dbf2ebaa6",
+        "source/aqrs/market.py": "be48f903df0e2c6dce8bbf6ce556a07ad67f78fdc505b4090de06aea15bf8e73",
+        "source/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+        "source/aqrs/platform_guard.py": "41a6e6b0657e787d319dcb5e8acb50fb9ef5bb3cb6360c3d199313fd5d36e738",
+        "source/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+        "source/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+        "source/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+        "source/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+        "source/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc"
+      },
+      "git": {
+        "commit": "8f6016543bb0f6379010427c14c878cb40183dfb",
+        "dirty": true
+      },
+      "python": "3.12.12",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "Pygments": "2.21.0",
+        "aqrs": "0.1.0",
+        "cloudpickle": "3.1.2",
+        "colorama": "0.4.6",
+        "iniconfig": "2.3.1",
+        "joblib": "1.6.0",
+        "lightgbm": "4.6.0",
+        "narwhals": "2.28.0",
+        "numpy": "2.5.4",
+        "packaging": "26.3",
+        "pip": "26.3",
+        "pluggy": "1.7.0",
+        "psutil": "7.2.2",
+        "pytest": "9.2.0",
+        "pywin32": "312",
+        "ruff": "0.17.4",
+        "scikit-learn": "1.9.1",
+        "scipy": "1.18.1",
+        "threadpoolctl": "3.8.0"
+      }
+    },
+    "elapsed_seconds": 85.73399999999674,
+    "storage_bytes": 21698508
+  },
+  "output_verification": {
+    "verified": true,
+    "symbols": [
+      {
+        "symbol": "BTCUSDT",
+        "bar_count": 34560,
+        "first_bar_open_utc": "2025-12-01T00:00:00+00:00",
+        "last_bar_available_utc": "2025-12-25T00:00:00+00:00",
+        "dataset_id": "e2ca547c4fefe2176fbd22708385470e46b6132f43cac748c613cd4ad2a62983",
+        "dataset_sha256": "c8a0f2272471376d4c01b4132b56862da9aebb60a424978dba713cd845aa06db",
+        "activity_sha256": "20b537e9c37a5fd428aec76ec85e28f6df7f47b07490b437b8be9025db0edecd"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "bar_count": 34560,
+        "first_bar_open_utc": "2025-12-01T00:00:00+00:00",
+        "last_bar_available_utc": "2025-12-25T00:00:00+00:00",
+        "dataset_id": "905c31ff92842e99ee4c2e4818ddf2826cae543095e2d980aa903ffa91146389",
+        "dataset_sha256": "3a732d6365be98697be01f0e55fa5fc72c876eddf65c0402cc3e838fb13395d7",
+        "activity_sha256": "be1a0e16bee51f0dd97bb33070004b7cdd04435d735c8a73856b35f49742e182"
+      }
+    ],
+    "actual_storage_bytes": 21698581
+  },
+  "artifacts": {
+    "report": "artifacts/aqrs-d01/data/report.json",
+    "report_sha256": "0453504873c70c910ad7ddac45eed52007f27ae9f9d4732ba48581e40d142691",
+    "symbol_manifests": {
+      "BTCUSDT": {
+        "path": "artifacts/aqrs-d01/data/BTCUSDT/manifest.json",
+        "sha256": "c05470bcd212f0ae3b1a71762092a85799cd740682210746b9e0ed91ba92f731"
+      },
+      "ETHUSDT": {
+        "path": "artifacts/aqrs-d01/data/ETHUSDT/manifest.json",
+        "sha256": "5543b4d5d4acb7956117f525163ad382ab639b11f1ae67edca8861cfeda9fa63"
+      }
+    }
+  },
+  "limitations": [
+    "Data preparation only; no market outcome diagnostics, candidate fits or economic evidence.",
+    "Two named symbols and one month subset do not establish market breadth or independent sample size.",
+    "Existing M1 campaign scope and M2-E14 outcome admission are unchanged.",
+    "Real archive qualification ran on Windows; Linux CI exercised synthetic fixtures through the same entry.",
+    "Sampled RSS is not a strict memory cap; parent source/report I/O remains outside the external worker deadline.",
+    "No new protected-data access was authorized; access is not instrumented as a global security guarantee."
+  ],
+  "elapsed_work": {
+    "start_utc": "2026-11-11T07:01:15Z",
+    "checkpoint_utc": "2026-11-11T07:38:34Z",
+    "elapsed_seconds": 2239,
+    "scope": "Source review, G01 correction, D01 implementation, independent reviews, platform checks, acquisition and final record validation.",
+    "final_receipt_review": "Independent reviewer found no remaining adoption blocker after checking the completion receipts."
+  }
+}

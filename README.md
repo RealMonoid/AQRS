@@ -2,7 +2,7 @@
 
 **English-only repository policy (permanent):** All AQRS documentation and future Codex additions or revisions must be written in English. See [`docs/LANGUAGE_POLICY.md`](docs/LANGUAGE_POLICY.md).
 
-**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
+**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. A separate [Spot data preparation entry](#prepare-broader-spot-datasets) now qualifies bounded multi-day inputs for two symbols and retains activity fields. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
 
 AQRS is designed as a local, CPU-friendly research platform for **short-horizon systematic trading**. Its goal is not impressive backtest graphics. It must discover potential *incremental predictive information* in market data, translate such information into plausible net-of-cost simulated decisions, and challenge apparent discoveries using independent controls. “No defensible tradable edge found” is a valid research result.
 
