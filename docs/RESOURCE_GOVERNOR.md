@@ -132,14 +132,19 @@ the unchanged defaults. This is not approval of any external run.
 AQRS-B01 evidence storage estimate per dataset: 32 MiB for up to 86,400
 feature rows, 64 MiB for up to 24 opportunity CSVs of about 13,000 rows each,
 and 32 MiB for staged bars, source, reports, journals and temporary writes.
-Preflight records 128 MiB and checks free space before opening inputs and
+Add 1 MiB for sequencing, the short closure and gap records. Preflight records
+129 MiB and checks free space before opening inputs and
 before candidate release. This is a space check without a filesystem quota
 or a reserved allocation. A full 16-dataset delivery with retained outputs
-has an estimated 2.25 GiB envelope including up to 256 MiB of input CSVs.
+has an estimated 2.27 GiB envelope including up to 256 MiB of input CSVs.
+For successive deliveries, estimate 129 MiB times all retained dataset runs
+plus the current delivery and any separately retained input archives.
 Streaming export and checksums run under the existing worker time and RSS
 limits. Manifest and journal persistence remain parent-side I/O. This evidence
 adds zero trials, fits, resamples or workers. No prediction row budget is
-needed for the rule-only plan.
+needed for the rule-only plan. Sequence, publication, closure and replay add
+no search trials or fits. Read-only replay reconstructs two existing results.
+The per-dataset budget is initialized afresh, with no transfer from prior runs.
 
 AQRS-D01's data-only preparation counts sequential data workers separately from
 research trials and performs zero fits. Worker count cannot exceed the configured

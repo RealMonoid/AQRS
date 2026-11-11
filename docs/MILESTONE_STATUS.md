@@ -88,6 +88,75 @@ Use this table for planned development, founding, and project-level research exp
 
 **Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
 
+### AQRS-B01 sequential delivery Test Card
+
+**2026-11-11, 20:38:18 UTC orientation checkpoint; before implementation.**
+Baseline `1552eaf`. Owner requires sequential deliveries, one dataset at a
+time, published immutable verdicts, and complete evidence with a gap ledger.
+Hypothesis: append-only published start and verdict records plus local exclusive
+ownership can enforce order across deliveries without using later CSVs for
+planning. The riskiest assumption is the boundary from a published closure to
+the next admitted payload. A synthetic local-remote sequence must reject skipped
+IDs, concurrent or duplicate starts, unpushed starts/verdicts, altered prior
+verdicts, and manifest changes within a delivery before any later payload read.
+It must continue from a finished delivery to the next consecutive ID, preserve
+old bytes, publish an explicit `NOT_EVALUABLE` verdict on a required-evidence
+gap, and append corrections with the last closed dataset ID. Spy on later file
+opens and stats. Verify actual worker receipts and independent Git-path review.
+
+**Resource assessment and stop.** Estimate 45–75 minutes including review and
+testing. Keep 24 trials, six to nine fits, one worker, 252 seconds of bounded
+worker time and the existing 300-second ceiling per dataset. Estimate 129 MiB
+output per dataset, including 1 MiB for the sequencing and gap records. Inputs
+remain up to 256 MiB per delivery. No unused budget carries forward. Stop if
+sequence or evidence checks cannot fail closed within these boundaries. The
+fault tree covers admission, publication, and journal integrity. No external
+outcomes, downloads, protected data, canonical OPEN replay or new dependency.
+
+**Additional owner acceptance criteria before implementation.** Provide one
+canonical field dictionary, a traced summary of at most 40 lines per dataset,
+and a read-only replay for any two completed candidates with explicit recorded
+and recomputed values. Verify with a reader independent of the chat. Replays
+reconstruct recorded evidence after verdict publication and consume no new
+trial or calibration budget. Allow up to a further 30 minutes of development
+for the independent review and field dictionary, within the standing limit.
+
+**Learning Card, 2026-11-11, 21:09:22 UTC.** `SUPPORTED / PERSEVERE` for
+the sequential and audit controls. Measured interval from orientation through
+the evidence review was 31 minutes 4 seconds, excluding final publication.
+Independent review caught split closure commits, incomplete worker-receipt
+coverage, an authorization-path probe, self-referential replay costs and
+ambiguous summary pointers. Corrected them before acceptance. Git history now
+checks commit groups and append-only order. The published registration anchors
+costs and replay verifies every opportunity row. Unsafe or changed evidence
+is recorded as a gap without following links. The mandatory list includes the
+closed journal and worker receipts. No search rules or estimators changed.
+
+Native Windows `python -m pytest -q --tb=short --basetemp
+.venv/aqrs-b01-deliveries-audit-20261111` passed 222 tests in 148.03 seconds.
+The offline local Git remote exercise completed all 24 guarded D001 trials,
+blocked its successor before publication, accepted the next delivery at D003,
+and recorded D002 as `NOT_EVALUABLE` after a timeout and missing artifacts.
+An attempted historical verdict edit blocked advancement. The D001 example
+ran in 38.532 seconds and indexed 48,974,167 bytes across 58 evidence files.
+The 19-line summary matched its verdict facts and all value references and
+artifact digests checked. Independent review matched 13 final blobs, passed
+seven targeted negative tests and separate closure probes, and used the actual
+replay command on a different pair of synthetic candidates. P12 had 2,093
+events and `NO_INCREMENTAL_EVIDENCE`; S09 had 12,959 events and
+`INSUFFICIENT_COVERAGE`. Both used 15 basis points of registered costs and
+matched all recorded values and opportunity rows. Replay left the artifacts
+unchanged. Ruff, language self-test/check and diff checks passed.
+
+The evidence estimate is 129 MiB per run plus delivery bytes. Git and closure
+checks are outside the supervised compute window. Test Card sequencing is
+recorded by its dated checkpoint without an independent preimplementation Git
+timestamp. Linux and external data execution remain unverified. A hard stop
+without a terminal receipt blocks advancement. The enforced publication history
+does not substitute for server-side protection against administrative rewrite.
+No production incident, external payload access, canonical OPEN replay or
+automatic next-campaign dispatch occurred.
+
 ### AQRS-B01 evidence amendment Test Card
 
 **2026-11-11, 20:21:18 UTC orientation checkpoint; before implementation.**

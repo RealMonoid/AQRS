@@ -125,6 +125,7 @@ def test_order_flow_reaches_guarded_registration_and_worker(tmp_path, monkeypatc
                                     "trial_count_exception": True, "plan_sha256": fingerprint(plan),
                                     "dataset_id": "D001", "dataset_sha256": digest, "attempt_id": attempt,
                                     "max_wall_seconds": 300, "owner_instruction": "Synthetic test fixture only."}))
+    monkeypatch.setattr(blind, "owned_sequence", lambda *args: ({"revision": "1" * 40, "previous": None}, {"fixture": True}))
     directory = blind.register(tmp_path, attempt, "external_blind", "D001", digest, approval)
     registration = json.loads((directory / "registration.json").read_text())
     entries = [json.loads(line) for line in (directory / "preregistration.jsonl").read_text().splitlines()]
@@ -291,12 +292,18 @@ def test_only_authorized_payload_is_opened(delivery, monkeypatch):
     manifest_path.write_text(json.dumps(manifest))
     (delivery / "D002.csv").write_text("This payload is outside the approved dataset.")
     original = Path.read_bytes
+    original_stat = Path.stat
 
     def guard(path):
         assert path.name != "D002.csv"
         return original(path)
 
+    def guard_stat(path, *args, **kwargs):
+        assert path.name != "D002.csv"
+        return original_stat(path, *args, **kwargs)
+
     monkeypatch.setattr(Path, "read_bytes", guard)
+    monkeypatch.setattr(Path, "stat", guard_stat)
     qualify(delivery, "D001", "internal_open", manifest["datasets"][0]["sha256"])
     def reject_csv(path):
         assert path.suffix != ".csv", "No CSV bytes may be read."

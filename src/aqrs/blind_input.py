@@ -50,8 +50,11 @@ def safe_under(root: Path, path: Path) -> Path:
     plain_path(current, True)
     for part in parts:
         current /= part
-        if current.exists() or current.is_symlink():
-            plain_path(current, current.is_dir())
+        try:
+            mode = current.lstat().st_mode
+        except FileNotFoundError:
+            continue
+        plain_path(current, stat.S_ISDIR(mode))
     return path
 
 
@@ -68,15 +71,18 @@ def utc_stamp(seconds: float) -> str:
 def read_manifest(inbox: Path, source: str) -> tuple[dict, str]:
     plain_path(inbox, True)
     # Names are inspected without opening an unexpected file, even the manifest.
-    names = {path.name for path in inbox.iterdir()}
+    names = set()
+    for item in inbox.iterdir():
+        names.add(item.name)
+        if len(names) > 17:
+            raise ValueError("Input allowlist exceeds 16 datasets and a manifest.")
     if "manifest.json" not in names or any(
         name != "manifest.json" and not re.fullmatch(r"D\d{3}\.csv", name)
         for name in names
     ):
         raise ValueError("Input allowlist violation; unexpected contents were not opened.")
-    for name in names:
-        plain_path(inbox / name)
     path = inbox / "manifest.json"
+    plain_path(path)
     if path.stat().st_size > 65536:
         raise ValueError("Manifest exceeds 64 KiB.")
     payload = path.read_bytes()
@@ -93,8 +99,13 @@ def read_manifest(inbox: Path, source: str) -> tuple[dict, str]:
     datasets = manifest["datasets"]
     if not isinstance(datasets, list) or not 1 <= len(datasets) <= 16:
         raise ValueError("Expected one through 16 datasets.")
-    size = 0
-    for index, entry in enumerate(datasets, 1):
+    first = datasets[0].get("id") if isinstance(datasets[0], dict) else None
+    if not isinstance(first, str) or not re.fullmatch(r"D[0-9]{3}", first) or first == "D000":
+        raise ValueError("Invalid first dataset ID.")
+    start_id = int(first[1:])
+    if start_id + len(datasets) - 1 > 999 or (source == "internal_open" and start_id != 1):
+        raise ValueError("Dataset IDs exceed the supported sequence.")
+    for index, entry in enumerate(datasets, start_id):
         if not isinstance(entry, dict) or set(entry) != {
             "id", "file", "sha256", "rows", "start_utc", "end_utc"
         }:
@@ -114,14 +125,8 @@ def read_manifest(inbox: Path, source: str) -> tuple[dict, str]:
         path = inbox / entry["file"]
         if path.name not in names:
             raise ValueError("Declared input is missing.")
-        file_size = path.stat().st_size
-        if file_size > 16 * MIB:
-            raise ValueError("CSV exceeds 16 MiB.")
-        size += file_size
     if names != {"manifest.json"} | {entry["file"] for entry in datasets}:
         raise ValueError("Input allowlist does not match the manifest.")
-    if size > 256 * MIB:
-        raise ValueError("Delivery exceeds 256 MiB.")
     return manifest, sha256(payload).hexdigest()
 
 
@@ -151,8 +156,10 @@ def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | No
 
 
 def qualify_input(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None,
-                  *, retain_activity: bool = False) -> tuple[dict, np.ndarray, str]:
+                  *, retain_activity: bool = False, expected_manifest_sha256: str | None = None) -> tuple[dict, np.ndarray, str]:
     manifest, manifest_digest = read_manifest(inbox, source)
+    if expected_manifest_sha256 is not None and manifest_digest != expected_manifest_sha256:
+        raise ValueError("Delivery manifest changed before payload access.")
     if dataset_id not in {entry["id"] for entry in manifest["datasets"]}:
         raise ValueError("Requested dataset is absent.")
     selected = None
@@ -163,6 +170,8 @@ def qualify_input(inbox: Path, dataset_id: str, source: str, expected_digest: st
             raise ValueError("Authorized digest does not match the declared dataset.")
         path = inbox / entry["file"]
         plain_path(path)
+        if path.stat().st_size > 16 * MIB:
+            raise ValueError("CSV exceeds 16 MiB.")
         payload = path.read_bytes()
         if len(payload) > 16 * MIB or sha256(payload).hexdigest() != entry["sha256"]:
             raise ValueError("CSV size or digest mismatch.")

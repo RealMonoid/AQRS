@@ -68,7 +68,9 @@ Each matched stratum contributes event mean minus control mean; average those
 within a day, then in fixed adjacent two-day blocks. Record raw event/control
 counts, matched counts, per-day contrasts and both evaluation-half signs.
 Also report conditional event gross return, no-trade (zero), and long-or-flat
-net value per ALL eligible opportunities, including skipped opportunities.
+net contributions for all eligible opportunities, including skipped ones. The
+net interval and estimate use the means of complete adjacent two-day blocks.
+An unpaired trailing evaluation day does not enter that block estimate.
 Use existing illustrative costs: fee 4 bps/side, quoted spread 3 bps, slippage
 2 bps/side, total 15 bps per entered round trip. Net-positive is distinct from
 predictability and from recovering the hidden mechanism. There is no cost
@@ -121,7 +123,12 @@ selected input and pre-run artifacts. All other files below are local under
 | `CANDIDATE-opportunities.csv` | UTF-8 CSV, one row per eligible opportunity. `available_at` is the event or control time. Join rows within a file by `(evaluation_day, utc_band)` and the control arm. `event=1` marks events. The named control flag marks control members. `ARM_matched=1` means both arms are present in that group and enter that comparison. The grouping is many-to-many. Entry, exit and observed outcomes are included. |
 | `predictions.json` | UTF-8 JSON with the prediction record fields and `NOT_APPLICABLE` status for the fixed rule-only plan. There are zero model candidates and the records list is empty. |
 | `report.json` | UTF-8 JSON closing statement for the dataset, including status, effect claims and untested IDs. |
-| `run-manifest.json` | UTF-8 JSON with code identity, effective configuration, input SHA-256 digests, budget, preparation and candidate runtimes, status and artifact file sizes/digests. Unopened sibling CSV digests are marked as declarations. |
+| `run-manifest.json` | UTF-8 JSON with code identity, effective configuration, current input SHA-256 digests, budget, preparation and candidate runtimes, status and artifact file sizes/digests. |
+| `gaps.jsonl` | UTF-8 JSON Lines. Append technical stops and evidence gaps as they are detected. An empty file denotes no recorded gap. |
+| `terminal.json` | UTF-8 JSON with terminal execution status and the expected artifact identities for closure. |
+
+The [central evidence field dictionary](CONTRACTS.md#aqrs-b01-evidence-field-dictionary)
+defines units, timing, allowed values and file relationships.
 
 Feature export is part of supervised preparation and contains no forward
 outcomes. The publication gate checks the candidate ledger's digest and exact
@@ -132,13 +139,40 @@ a completed worker receipt and source/file checks. A stopped attempt retains
 its status and completed evidence. Files remaining in the pending directory
 are unconfirmed. The run manifest records completion after the journal and
 reports are persisted. A process killed outside the supervisor can leave the
-latest checkpoint incomplete.
+latest checkpoint incomplete. The runner blocks closure without a terminal
+receipt rather than assuming a killed or unobservable process is finished.
+
+**Sequential admission and verdicts.** Publish one `DNNN-start.json` under
+`evidence/blind/sequence/` for the next identifier before admitting its input.
+The start binds the dataset-scoped approval, preceding verdict, frozen source
+and a token held in the local workspace. A competing workspace cannot use that
+start without its token. The runner checks the current remote head and
+append-only Git ancestry and commit ordering. Only the current CSV is opened or probed. A delivery's
+manifest digest and range stay fixed until its last dataset is closed. The next
+delivery begins at the next identifier. There is no shared or carried budget.
+
+After execution, `close` checks the terminal receipt, original published
+candidate ledger and registration, staged bars, worker receipts, feature and
+opportunity files, prediction status, local gap log, reports, run manifest and
+closed SQLite journal. Publish `DNNN-verdict.json`,
+`DNNN-summary.txt` and `DNNN-gaps.jsonl` together in one commit. Missing or changed evidence
+or incomplete execution yields `NOT_EVALUABLE` and no scientific claim. An
+evaluable closure retains the measured claim and its evidence references. The
+summary is at most 40 lines, with counts by rule type, strongest recorded
+contrast and net result when available, decision, budget use and file pointers.
+Earlier verdicts cannot be modified or removed in the published lineage.
+`correct` adds a separate `Cnnnnnn-correction.json` between datasets, naming
+the original verdict digest and the last closed dataset at recording. The
+runner does not use corrections or earlier outcomes to change the search.
+The invariant applies to the runner and inspected published history; an
+administrator rewriting the remote history outside this workflow is a separate
+repository protection boundary.
 
 Stop after 24 candidates or the first worker failure, exhausted budget,
 integrity failure or owner cancellation. Do not stop early because a result is
 positive or negative. Never retry automatically; record all remaining IDs as
-untested with a reason. Refuse an existing attempt directory and require a
-separate owner authorization and lineage for any later run. Initial external
+untested with a reason. Refuse an existing attempt directory and any new
+start for the same dataset in this series. Initial external
 execution requires the delivery, an exact dataset-scoped owner start record,
 and explicit approval of the proposed 24-trial exception. Defaults stay at two;
 the base Governor file is unchanged. All datasets need an aggregate approved
@@ -151,6 +185,13 @@ and interval, parent comparisons, gross/net distinctions, spent/unused budget,
 tested/untested space, source/data/publication identity and limitations. A
 complete `effect_claimed=false` means nothing met this procedure, not that the
 generator contained no effect. An incomplete run is never a completed null.
+These technical reports supply the evidence; the published verdict is the
+final decision. The two-candidate `replay` command verifies recorded artifacts
+and recalculates only the requested previously measured rules under the frozen
+source and published costs. It also compares every event and control CSV row.
+It emits both recorded and recomputed results with their exact JSON
+Pointers. It writes no artifacts and does not select candidates or advance the
+sequence. A candidate without recorded evidence has no expected replay value.
 
 **After owner-authorized reveal.** First freeze and push blind results. Verify
 the owner's solution commitment. Create one adjudication row per hidden effect

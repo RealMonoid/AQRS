@@ -32,6 +32,18 @@ def write_csv(path: Path, header, rows) -> dict:
     return file_record(path)
 
 
+def verify_csv(path: Path, header, rows) -> bool:
+    with path.open(encoding="utf-8", newline="") as stream:
+        reader = csv.reader(stream, strict=True)
+        if next(reader, None) != header:
+            return False
+        try:
+            return all(actual == [str(value) for value in expected]
+                       for actual, expected in zip(reader, rows, strict=True))
+        except (ValueError, csv.Error):
+            return False
+
+
 def write_features(path: Path, bars, values, plan: dict, training_end: int) -> dict:
     names = plan["features"]
 

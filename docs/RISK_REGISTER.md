@@ -71,6 +71,17 @@ result strata, reject low disk space and mutated pre-run evidence, and retain
 an incomplete status and untested IDs on a stop. The publication check remains
 before outcome work. Use independent review of these boundaries.
 
+**Sequential delivery amendment, 2026-11-11.** The next payload could be opened
+early because an ID is skipped OR an unpushed or changed verdict is accepted OR
+two processes acquire the same slot OR preparation probes a later file. Bind
+the current published append-only sequence, one token-owned start, delivery
+manifest and exclusive run directory before reading the current CSV. Inspect
+only the current CSV. A false evaluable verdict could follow a missing or changed
+artifact OR closure while work is active. Require a terminal receipt, verify the
+required evidence digests and publish an immutable verdict plus gap log. Verify
+rejections and handoff with a local remote and independent review. A hard stop
+without terminal evidence blocks automatic advancement.
+
 Assign an ID, owner, observable trigger, budget/stop rule, proposed test and affected milestone; add it to this registry and the relevant release gate. Record evidence rather than inventing precision. Apply the [material finding rule](DEVELOPMENT_PROCESS.md#experiment-queue) when a pending action depends on the affected guarantee. If the risk requires a changed norm, add an ADR to `DECISIONS.md`.
 
 ### FTA-AQRS-D01: Spot data expansion

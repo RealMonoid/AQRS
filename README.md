@@ -110,7 +110,7 @@ The CSV may include validated minute buy volume, sell volume and trade count.
 Each supplied activity field activates two fixed order-flow rules in the
 24-slot search. Absent fields select the predefined OHLCV fallback rules.
 The [machine-readable evidence table](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
-lists the published ledger and local files. Preflight estimates 128 MiB of
+lists the published ledger and local files. Preflight estimates 129 MiB of
 run storage per dataset in addition to the input CSVs.
 
 The single open rehearsal has a separate generated input and a two-trial budget:
@@ -143,10 +143,36 @@ instruction in a local JSON under `artifacts/blind-test/` with exactly
 `max_wall_seconds` (at most 300), and the nonempty English `owner_instruction`.
 This is an auditable operator authorization record, not cryptographic identity
 verification; Codex must not fabricate approval. Approve the aggregate dataset
-count and budget before multiple individual runs. Then use `register --attempt
-AQRS-B01-... --dataset-id D001 --dataset-sha256 ... --authorization ...`, publish
-the resulting entries, and `execute` with the same attempt/authorization and
-verified revision. No automatic batch, retry, reveal or oracle comparison exists.
+count and budget before multiple individual runs. Use the same arguments for
+`claim`, `register`, and `close` for that dataset:
+
+```text
+python -m aqrs.blind_search claim --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search register --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search execute --attempt AQRS-B01-D001 --published-revision REGISTRATION_COMMIT --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search close --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+```
+
+Run one command at a time. After `claim`, commit and push only the printed
+`D001-start.json`. After `register`, commit and push its registration and
+pending ledger, and use that full commit in `execute`. After `close`, commit
+and push the three printed verdict, summary and gap files together before
+opening the next dataset. Keep the local ownership token in the same workspace.
+An incomplete controlled run can close as `NOT_EVALUABLE`. A hard stop with no
+terminal receipt leaves the sequence blocked for owner review. A correction is
+recorded with `correct --dataset-id D001 --note "English explanation"` between
+datasets and published as its own new file.
+
+To verify any two recorded candidates, use the full published verdict commit:
+
+```text
+python -m aqrs.blind_search replay --dataset-id D001 --published-revision VERDICT_COMMIT --candidate S01 --candidate P01
+```
+
+The expected values are the named candidate rows in `report.json#/results`.
+Replay prints `expected`, `recomputed`, and `matches=true` for both on success.
+Substitute any two measured candidate identifiers. Required files and field
+definitions are in the [evidence dictionary](docs/CONTRACTS.md#aqrs-b01-evidence-field-dictionary).
 
 Outputs are under `artifacts/aqrs-b01/runs/ATTEMPT/`: JSON/Markdown report,
 SQLite journal, per-candidate result and full opportunity/event CSV with hashes.

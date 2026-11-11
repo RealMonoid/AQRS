@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 import re
+import secrets
 import subprocess
 import sys
 import time
@@ -13,19 +14,38 @@ from pathlib import Path
 import numpy as np
 
 from aqrs import journal
+from aqrs.blind_audit import (
+    inspect_closure,
+    make_verdict,
+    summary_text,
+    terminal_receipt,
+)
 from aqrs.blind_evidence import (
     check_storage,
     file_record,
     prediction_status,
+    verify_csv,
     write_csv,
     write_features,
 )
 from aqrs.blind_input import (
     ACTIVITY_COLUMNS,
     qualify_input,
+    read_manifest,
     safe_under,
     utc_stamp,
     write_open_fixture,
+)
+from aqrs.blind_sequence import (
+    BRANCH,
+    SERIES,
+    append_gap,
+    assert_owned,
+    bind_delivery,
+    claim_paths,
+    published_state,
+    record_once,
+    write_once,
 )
 from aqrs.config import load
 from aqrs.governor import supervise
@@ -195,7 +215,7 @@ def contrast(outcomes, event, control, days, bands, day_count, plan) -> dict:
 
 
 def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_bps: float,
-            detail: Path | None = None) -> dict:
+            detail: Path | None = None, verify_detail: Path | None = None) -> dict:
     indices = np.arange(20, len(bars) - 4, 4)
     indices = indices[indices >= prepared["evaluation_start"]]
     values = features(bars)[indices]
@@ -248,7 +268,7 @@ def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_
         }.items() if not passed]
         for name, value in contrasts.items() if name != "complement"
     }
-    if detail is not None:
+    if detail is not None or verify_detail is not None:
         matched = {name: {(row["day"], row["band"]) for row in summary["strata"] if row["matched"]}
                    for name, summary in contrasts.items()}
 
@@ -260,11 +280,15 @@ def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_
                        *[int(mask[row]) for mask in controls.values()], outcomes[row], net[row],
                        *group, *[int(group in matched[name]) for name in controls]]
 
-        record = write_csv(detail, ["signal_index", "available_at", "entry_at", "exit_at", "event", *controls,
-                                    "gross_long_bps", "candidate_net_bps", "evaluation_day", "utc_band",
-                                    *[f"{name}_matched" for name in controls]], rows())
-        result.update(opportunity_file=record["file"], opportunity_sha256=record["sha256"],
-                      opportunity_bytes=record["bytes"])
+        header = ["signal_index", "available_at", "entry_at", "exit_at", "event", *controls,
+                  "gross_long_bps", "candidate_net_bps", "evaluation_day", "utc_band",
+                  *[f"{name}_matched" for name in controls]]
+        if verify_detail is not None:
+            result["opportunity_rows_match"] = verify_csv(verify_detail, header, rows())
+        else:
+            record = write_csv(detail, header, rows())
+            result.update(opportunity_file=record["file"], opportunity_sha256=record["sha256"],
+                          opportunity_bytes=record["bytes"])
     return result
 
 
@@ -301,6 +325,9 @@ def authorize(root: Path, approval_path: Path | None, dataset_id: str, dataset_d
         return None
     if approval_path is None:
         raise ValueError("Owner start authorization is required before input access.")
+    inbox = root.absolute() / "artifacts/blind-test/inbox"
+    if approval_path.suffix.lower() != ".json" or approval_path.absolute().is_relative_to(inbox):
+        raise ValueError("The authorization must be a JSON file outside the blind inbox.")
     path = safe_under(root, approval_path)
     if path.stat().st_size > 16384:
         raise ValueError("Authorization record is too large.")
@@ -349,7 +376,7 @@ def worker_command(output: Path) -> list[str]:
 def publication(registration_dir: Path, revision: str, branch: str, registration: dict) -> None:
     if len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
         raise ValueError("Expected an exact publication commit.")
-    if branch != "codex/aqrs-b01-blind-preparation":
+    if branch != BRANCH:
         raise ValueError("Unexpected publication branch.")
     remote = git("ls-remote", "--exit-code", "origin", f"refs/heads/{branch}")
     if remote.split()[0] != revision:
@@ -365,7 +392,11 @@ def publication(registration_dir: Path, revision: str, branch: str, registration
             raise ValueError("Published registration differs from local bytes.")
     if source_hashes() != registration["source_hashes"]:
         raise ValueError("Source changed after registration.")
-    for name, digest in registration["source_hashes"].items():
+    verify_published_source(revision, registration["source_hashes"])
+
+
+def verify_published_source(revision: str, hashes: dict) -> None:
+    for name, digest in hashes.items():
         published = git("show", f"{revision}:{name}") + "\n"
         if sha256(published.encode()).hexdigest() != digest:
             raise ValueError("Registered source was not published in the same revision.")
@@ -402,7 +433,8 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
     output = Path(request["output"])
     if request["stage"] == "prepare":
         manifest, bars, manifest_digest = qualify_input(Path(request["inbox"]), request["dataset_id"], request["source"],
-                                                        request.get("expected_digest"), retain_activity=True)
+                                                        request.get("expected_digest"), retain_activity=True,
+                                                        expected_manifest_sha256=request.get("manifest_sha256"))
         prepared = prepare_arrays(bars, plan, directory, output / "features.csv")
         path = output / "bars.npy"
         np.save(path, bars, allow_pickle=False)
@@ -420,8 +452,45 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
     return measure(bars, request["prepared"], request["candidate"], plan, request["cost_bps"], detail)
 
 
+def claim_start(root: Path, attempt: str, dataset_id: str, digest: str, approval_path: Path | None, branch: str = BRANCH) -> Path:
+    if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt) or attempt == "AQRS-B01-OPEN":
+        raise ValueError("Invalid external attempt ID.")
+    if not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError("Expected a lowercase SHA-256 dataset digest.")
+    token_path, claim_path = claim_paths(root, dataset_id)
+    plan = load_plan()
+    approval = authorize(root, approval_path, dataset_id, digest, "external_blind", plan)
+    if approval["attempt_id"] != attempt:
+        raise ValueError("Authorization attempt ID mismatch.")
+    config = load_governor()
+    config["resource_governor"]["max_wall_seconds_per_campaign"] = min(
+        config["resource_governor"]["max_wall_seconds_per_campaign"], approval["max_wall_seconds"])
+    preflight(plan, config, len(candidates(plan)), approval)
+    state = published_state(git, git_bytes, branch)
+    if state["active"] or state["next_id"] != dataset_id:
+        raise ValueError("Only the next dataset can be reserved after the preceding verdict is published.")
+    hashes = source_hashes()
+    if state["first"] and (state["first"]["source_hashes"] != hashes or state["first"]["plan_sha256"] != fingerprint(plan)):
+        raise ValueError("The blind series source or plan is frozen.")
+    verify_published_source(state["revision"], hashes)
+    token = {"token": secrets.token_hex(32)}
+    record_once(token_path, token)
+    record_once(claim_path, {"schema": "aqrs.blind-start.v1", "dataset_id": dataset_id,
+                             "attempt_id": attempt, "dataset_sha256": digest, "created_at": journal.now(),
+                             "owner_token_sha256": fingerprint(token), "approval_sha256": fingerprint(approval),
+                             "source_hashes": hashes, "plan_sha256": fingerprint(plan),
+                             "previous_verdict_sha256": fingerprint(state["previous"]) if state["previous"] else None,
+                             "admission_base_revision": state["revision"]})
+    return claim_path
+
+
+def owned_sequence(root: Path, dataset_id: str, attempt: str, approval: dict, branch: str) -> tuple[dict, dict]:
+    state = published_state(git, git_bytes, branch)
+    return state, assert_owned(root, state, dataset_id, attempt, approval, source_hashes())
+
+
 def register(root: Path, attempt: str, source: str, dataset_id: str,
-             expected_digest: str, approval_path: Path | None) -> Path:
+             expected_digest: str, approval_path: Path | None, branch: str = BRANCH) -> Path:
     if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
         raise ValueError("Invalid attempt ID.")
     plan, config = load_plan(), load_governor()
@@ -437,11 +506,22 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
             raise ValueError("Only the named open rehearsal is allowed.")
         selected = [c for c in selected if c["id"] in plan["open_rehearsal_candidates"]]
     budget = preflight(plan, config, len(selected), approval)
+    delivery = None
+    claim = None
+    if source == "external_blind":
+        state, claim = owned_sequence(root, dataset_id, attempt, approval, branch)
     inbox = safe_under(root, root / ("artifacts/aqrs-b01/rehearsal/input" if source == "internal_open"
                                     else "artifacts/blind-test/inbox"))
     output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
     check_storage(root, budget)
+    if claim:
+        manifest, digest = read_manifest(inbox, source)
+        delivery = bind_delivery(manifest, digest, dataset_id, state["previous"])
+        entry = next(row for row in manifest["datasets"] if row["id"] == dataset_id)
+        if entry["sha256"] != expected_digest:
+            raise ValueError("Authorized digest does not match the declared dataset.")
     output.mkdir(parents=True, exist_ok=False)
+    write_once(output / "gaps.jsonl", "")
     registration_dir = safe_under(root, root / "evidence/blind" / attempt)
     registration_dir.mkdir(parents=True, exist_ok=False)
     hashes = source_hashes()
@@ -453,6 +533,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     write_json(output / "predictions.json", prediction_status(dataset_id))
     overview = {"schema": "aqrs.blind-run.v1", "attempt_id": attempt, "dataset_id": dataset_id,
                 "source": source, "execution_status": "PREPARING", "complete": False,
+                "delivery": delivery,
                 "created_at": journal.now(), "execution_source": execution_source,
                 "source_hashes": hashes, "plan_sha256": fingerprint(plan), "configuration": config,
                 "budget": budget, "input_files": [], "trials": [],
@@ -463,6 +544,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     started = time.monotonic()
     receipt = supervise(output, {"stage": "prepare", "inbox": str(inbox), "output": str(output),
                                 "source": source, "dataset_id": dataset_id, "plan": plan,
+                                "manifest_sha256": delivery["manifest_sha256"] if delivery else None,
                                 "expected_digest": expected_digest if source == "external_blind" else None},
                         plan["preparation_seconds"], started + config["resource_governor"]["max_wall_seconds_per_campaign"],
                         config["resource_governor"]["max_peak_rss_mb_per_trial"],
@@ -471,6 +553,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     overview["artifacts"]["preparation.json"] = file_record(output / "preparation.json")
     overview["preparation"] = {key: value for key, value in receipt.items() if key != "result"}
     if receipt["execution_status"] != "COMPLETED":
+        append_gap(output, "preparation", "INCOMPLETE_EXECUTION", receipt["execution_status"])
         overview.update(execution_status=receipt["execution_status"], stopped_at=journal.now(),
                         candidate_resolution="NOT_REGISTERED", untested_candidate_count=len(selected))
         report = dataset_report(dataset_id, source, [], [], receipt["execution_status"])
@@ -479,6 +562,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
         write_json(output / "report.json", report)
         overview["artifacts"]["report.json"] = file_record(output / "report.json")
         write_json(output / "run-manifest.json", overview)
+        terminal_receipt(output, overview)
         raise ValueError("Preparation stopped; inspect preparation.json. No automatic retry.")
     verify_snapshot(output, hashes)
     data = receipt["result"]
@@ -492,14 +576,14 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     if source == "external_blind" and entry["sha256"] != expected_digest:
         raise ValueError("Authorized input digest mismatch.")
     overview["input_files"] = [{"file": "manifest.json", "sha256": data["manifest_sha256"], "verified": True},
-                               *[{"file": item["file"], "sha256": item["sha256"], "verified": item == entry}
-                                 for item in data["manifest"]["datasets"]]]
+                               {"file": entry["file"], "sha256": entry["sha256"], "verified": True}]
     overview["artifacts"]["features.csv"] = data["prepared"]["feature_table"]
     registration = {"schema": "aqrs.blind-registration.v1", "attempt_id": attempt,
                     "dataset_id": dataset_id, "source": source, "dataset_type": "synthetic", "market_evidence": False,
                     "created_at": journal.now(), "plan": plan, "plan_sha256": fingerprint(plan),
                     "source_hashes": hashes, "execution_source": execution_source,
                     "dataset": entry, "prepared": data["prepared"],
+                    "delivery": delivery, "start_sha256": fingerprint(claim) if claim else None,
                     "input_files": overview["input_files"], "plan_artifact": overview["artifacts"]["search-plan.json"],
                     "prediction_artifact": overview["artifacts"]["predictions.json"],
                     "preparation_artifact": overview["artifacts"]["preparation.json"],
@@ -536,6 +620,10 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
         raise ValueError("Authorization or frozen plan changed after registration.")
     if approval is not None and approval["attempt_id"] != attempt:
         raise ValueError("Authorization attempt ID mismatch.")
+    if registration["source"] == "external_blind":
+        state, claim = owned_sequence(root, registration["dataset_id"], attempt, approval, branch)
+        if revision != state["revision"] or registration["start_sha256"] != fingerprint(claim):
+            raise ValueError("Registration does not match the active published start.")
     full_space = candidates(plan, registration["prepared"]["activity_columns"])
     expected_candidates = full_space
     if registration["source"] == "internal_open":
@@ -568,7 +656,9 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
         stream.write(canonical({"revision": revision, "timestamp": journal.now()}))
     overview = {"schema": "aqrs.blind-run.v1", "attempt_id": attempt, "dataset_id": registration["dataset_id"],
                 "source": registration["source"], "execution_status": "RUNNING", "complete": False,
+                "delivery": registration["delivery"],
                 "created_at": registration["created_at"], "started_at": journal.now(), "registration_revision": revision,
+                "registration_sha256": fingerprint(registration),
                 "execution_source": registration["execution_source"], "source_hashes": registration["source_hashes"],
                 "plan_sha256": registration["plan_sha256"], "configuration": config, "budget": budget,
                 "input_files": registration["input_files"], "preparation": registration["preparation"],
@@ -630,10 +720,12 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
                 "execution_status": receipt["execution_status"], "evidence_status": "INSUFFICIENT_EVIDENCE" if result else "NOT_EVALUATED",
                 "metrics": row}, metadata)
             if receipt["execution_status"] != "COMPLETED":
+                append_gap(output, "candidate", receipt["execution_status"], candidate["id"])
                 status = receipt["execution_status"]
                 break
     except (Exception, KeyboardInterrupt) as error:
         status = "CANCELLED" if isinstance(error, KeyboardInterrupt) else "FAILED"
+        append_gap(output, "execution", status, type(error).__name__)
         write_json(output / "failure.json", {"type": type(error).__name__, "reason": str(error)})
     finally:
         untested = [c["id"] for c in selected if c["id"] not in {r["candidate_id"] for r in results}]
@@ -664,27 +756,150 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
         journal.finish_campaign(db, attempt, status, report)
         db.close()
         write_json(output / "run-manifest.json", overview)
+        terminal_receipt(output, overview, bars_digest=registration["bars_sha256"])
     return report
+
+
+def ledger_payload(root: Path, attempt: str, ledger: dict, revision: str) -> bytes:
+    relative = f"evidence/blind/{attempt}/preregistration.jsonl"
+    if ledger["path"] != relative or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise ValueError("Invalid candidate ledger reference.")
+    path = safe_under(root, root / relative)
+    payload = path.read_bytes()
+    if (len(payload) != ledger["bytes"] or sha256(payload).hexdigest() != ledger["sha256"]
+            or payload != git_bytes("show", f"{revision}:{relative}")):
+        raise ValueError("Candidate ledger differs from its published evidence.")
+    return payload
+
+
+def close_dataset(root: Path, attempt: str, dataset_id: str, digest: str, approval_path: Path | None,
+                  branch: str = BRANCH) -> list[Path]:
+    approval = authorize(root, approval_path, dataset_id, digest, "external_blind", load_plan())
+    state, claim = owned_sequence(root, dataset_id, attempt, approval, branch)
+    output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
+    terminal_path = safe_under(output, output / "terminal.json")
+    if not terminal_path.is_file():
+        raise ValueError("No terminal receipt. The dataset remains open and later inputs are blocked.")
+    terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+    if terminal["dataset_id"] != dataset_id or terminal["attempt_id"] != attempt or not terminal["delivery"]:
+        raise ValueError("Terminal receipt does not match the active dataset and delivery.")
+    targets = [safe_under(root, root / SERIES / f"{dataset_id}-{suffix}")
+               for suffix in ("verdict.json", "gaps.jsonl", "summary.txt")]
+    if any(path.exists() for path in targets):
+        raise ValueError("Closure already exists locally. Publish the original records.")
+    record_once(safe_under(output, output / "closing-reservation.json"), {"recorded_at": journal.now()})
+
+    def check_ledger(record, revision, registration_digest):
+        try:
+            git("merge-base", "--is-ancestor", revision, state["revision"])
+            registered = json.loads(git_bytes("show", f"{revision}:evidence/blind/{attempt}/registration.json"))
+            return fingerprint(registered) == registration_digest and bool(ledger_payload(root, attempt, record, revision))
+        except (KeyError, OSError, ValueError, subprocess.SubprocessError):
+            return False
+
+    gaps, evidence = inspect_closure(output, terminal, check_ledger)
+    verdict = make_verdict(claim, terminal["delivery"], terminal, gaps, evidence)
+    summary = summary_text(verdict)
+    verdict["summary_sha256"] = sha256(summary.encode("utf-8")).hexdigest()
+    write_once(targets[1], "".join(canonical(row) + "\n" for row in gaps))
+    write_once(targets[2], summary)
+    record_once(targets[0], verdict)
+    return targets
+
+
+def add_correction(root: Path, dataset_id: str, note: str, branch: str = BRANCH) -> Path:
+    claim_paths(root, dataset_id)
+    state = published_state(git, git_bytes, branch)
+    if state["active"] or not state["previous"] or dataset_id > state["previous"]["dataset_id"] or not note.strip():
+        raise ValueError("Corrections require a closed dataset and are recorded between datasets.")
+    prior = json.loads(git_bytes("show", f"{state['revision']}:{SERIES}/{dataset_id}-verdict.json"))
+    path = safe_under(root, root / SERIES / f"C{state['corrections'] + 1:06}-correction.json")
+    record_once(path, {"schema": "aqrs.blind-correction.v1", "corrects_dataset_id": dataset_id,
+                       "after_dataset_id": state["previous"]["dataset_id"], "verdict_sha256": fingerprint(prior),
+                       "recorded_at": journal.now(), "note": note})
+    return path
+
+
+def replay_evidence(root: Path, dataset_id: str, revision: str, identifiers: list[str], branch: str = BRANCH) -> dict:
+    claim_paths(root, dataset_id)
+    if len(identifiers) != 2 or len(set(identifiers)) != 2 or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise ValueError("Provide the full published verdict revision and two distinct candidate IDs.")
+    state = published_state(git, git_bytes, branch)
+    git("merge-base", "--is-ancestor", revision, state["revision"])
+    verdict = json.loads(git_bytes("show", f"{revision}:{SERIES}/{dataset_id}-verdict.json"))
+    plan = load_plan()
+    if verdict["source_hashes"] != source_hashes() or verdict["plan_sha256"] != fingerprint(plan):
+        raise ValueError("Use the frozen source and plan identified by this verdict.")
+    attempt = verdict["attempt_id"]
+    output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
+    required = ["bars.npy", "report.json", *[f"{identifier}-opportunities.csv" for identifier in identifiers]]
+    for name in required:
+        record = verdict["verified_artifacts"].get(name)
+        if record is None or file_record(safe_under(output, output / name)) != record:
+            raise ValueError("Replay requires the unchanged published evidence for both candidates.")
+    rows = ledger_payload(root, attempt, verdict["preregistration"], verdict["registration_revision"])
+    registration = json.loads(git_bytes("show", f"{verdict['registration_revision']}:evidence/blind/{attempt}/registration.json"))
+    if fingerprint(registration) != verdict["registration_sha256"]:
+        raise ValueError("Replay registration differs from the published verdict.")
+    cost = round_trip_cost(registration["costs"])
+    registered = {row["candidate_id"]: row for row in map(json.loads, rows.splitlines())}
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    measured = {row["candidate_id"]: (index, row) for index, row in enumerate(report["results"])}
+    bars = np.load(output / "bars.npy", allow_pickle=False)
+    comparisons = []
+    for identifier in identifiers:
+        if identifier not in registered or identifier not in measured:
+            raise ValueError("Candidate has no recorded measurement.")
+        entry = registered[identifier]
+        index, recorded = measured[identifier]
+        observed = measure(bars, entry["evaluation"], entry["rule"], plan, cost,
+                           verify_detail=output / f"{identifier}-opportunities.csv")
+        rows_match = observed.pop("opportunity_rows_match")
+        expected = {key: recorded[key] for key in observed}
+        keys = ("decision", "event_count", "contrasts", "all_opportunity_net", "round_trip_cost_bps")
+        comparisons.append({"candidate_id": identifier, "evidence": f"report.json#/results/{index}",
+                            "expected": {key: expected[key] for key in keys},
+                            "recomputed": {key: observed[key] for key in keys}, "opportunity_rows_match": rows_match,
+                            "matches": rows_match and canonical(observed) == canonical(expected)})
+    return {"schema": "aqrs.blind-replay.v1", "dataset_id": dataset_id, "verdict_revision": revision,
+            "comparisons": comparisons, "matches": all(row["matches"] for row in comparisons)}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["register-open", "register", "execute", "worker"])
+    parser.add_argument("action", choices=["claim", "register-open", "register", "execute", "close", "correct", "replay", "worker"])
     parser.add_argument("worker_directory", nargs="?")
     parser.add_argument("--attempt", default="AQRS-B01-OPEN")
     parser.add_argument("--dataset-id", default="D001")
     parser.add_argument("--dataset-sha256", default="")
     parser.add_argument("--authorization", type=Path)
     parser.add_argument("--published-revision")
-    parser.add_argument("--branch", default="codex/aqrs-b01-blind-preparation")
+    parser.add_argument("--branch", default=BRANCH)
+    parser.add_argument("--candidate", action="append", default=[])
+    parser.add_argument("--note", default="")
     args = parser.parse_args()
     if args.action == "worker":
         run(Path(args.worker_directory), evaluate_worker)
         return
     try:
-        if args.action in {"register", "register-open"}:
+        if args.action == "claim":
+            path = claim_start(ROOT, args.attempt, args.dataset_id, args.dataset_sha256, args.authorization, args.branch)
+            print(f"Publish this start before reading input: {path.relative_to(ROOT)}")
+        elif args.action == "close":
+            paths = close_dataset(ROOT, args.attempt, args.dataset_id, args.dataset_sha256, args.authorization, args.branch)
+            print("Publish the closure files together before opening the next dataset:")
+            for path in paths:
+                print(path.relative_to(ROOT))
+        elif args.action == "correct":
+            print(add_correction(ROOT, args.dataset_id, args.note, args.branch).relative_to(ROOT))
+        elif args.action == "replay":
+            result = replay_evidence(ROOT, args.dataset_id, args.published_revision or "", args.candidate, args.branch)
+            print(canonical(result))
+            if not result["matches"]:
+                raise SystemExit(1)
+        elif args.action in {"register", "register-open"}:
             directory = register(ROOT, args.attempt, "internal_open" if args.action == "register-open" else "external_blind",
-                                 args.dataset_id, args.dataset_sha256, args.authorization)
+                                 args.dataset_id, args.dataset_sha256, args.authorization, args.branch)
             print(f"Registered without outcomes: {directory.relative_to(ROOT)}. Publish before execution.")
         else:
             if not args.published_revision:

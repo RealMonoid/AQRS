@@ -19,7 +19,8 @@
   "preparation_seconds": 60,
   "candidate_seconds": 8,
   "estimated_rss_mb": 768,
-  "estimated_run_storage_mib": 128,
+  "estimated_run_storage_mib": 129,
+  "delivery_order": "PUBLISHED_APPEND_ONLY_SEQUENCE",
   "external_execution": "AWAITING_OWNER_DATA_BUDGET_AND_START",
   "open_rehearsal_candidates": ["S08", "P02"]
 }

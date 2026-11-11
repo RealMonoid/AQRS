@@ -2,6 +2,34 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Enforce sequential AQRS-B01 deliveries and auditable verdicts
+
+Bind the next dataset to a published exclusive start and the previous immutable
+verdict. Keep each delivery manifest fixed and inspect only the current CSV.
+Require complete checksummed evidence, record gaps and publish a short traced
+summary with each verdict. Add read-only two-candidate replay and a central
+evidence dictionary. Preserve the statistical search and per-dataset compute
+limits; allow 129 MiB of estimated output storage per dataset.
+
+**Paths**
+
+- `.gitattributes`
+- `CHANGELOG.md`
+- `README.md`
+- `configs/blind_search.json`
+- `docs/CONTRACTS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/blind_audit.py`
+- `src/aqrs/blind_evidence.py`
+- `src/aqrs/blind_input.py`
+- `src/aqrs/blind_search.py`
+- `src/aqrs/blind_sequence.py`
+- `tests/test_blind_search.py`
+- `tests/test_blind_sequence.py`
+
 ## 2026-11-11 — Export machine-readable AQRS-B01 run evidence
 
 Bind the frozen plan, complete pending candidate ledger and validated inputs to
