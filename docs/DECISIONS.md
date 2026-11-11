@@ -63,6 +63,17 @@ This file is **normative**. Add each new architectural decision as a numbered AD
 
 ## Rejected and deferred engineering ideas (durable decision memory)
 
+**AQRS-B01 bounded implementation choice, 2026-11-11.** Prepare the owner's
+blind synthetic diagnostic as a separate finite entry reusing existing worker,
+journal and configuration controls. The owner chose preparation of 24 candidates,
+with run/budget approval later. Keep the two-trial global default and every
+existing queue start condition. The initial fixed rule library diagnoses this
+specific search's coverage and controls; it is not a permanent restriction on
+AQRS discovery or adoption of a universal statistical test. Revisit only after
+the blind comparison identifies a decision-changing limitation and the owner
+authorizes a new bounded procedure.
+
+
 Log only **consequential** alternatives that were actually considered. Each entry must distinguish tested evidence from untested reasoning and name conditions that justify reconsideration. Failed **market alpha** candidates belong in the scientific Research Journal once implemented, not here.
 
 | Idea ID | Status and date (UTC) | Approach | Evidence and reason | Safer alternative and revisit condition |

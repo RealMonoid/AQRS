@@ -132,3 +132,77 @@ def test_no_claim_on_incomplete_run():
     assert not report["effect_claimed"]
     assert report["market_evidence"] is False
 
+
+def test_reparse_and_path_escape_rejected(tmp_path):
+    from aqrs.blind_input import safe_under
+
+    with pytest.raises(ValueError, match="outside|traversal"):
+        safe_under(tmp_path, tmp_path / ".." / "forbidden.csv")
+
+
+def test_publication_rejects_wrong_remote_before_outcomes(tmp_path, monkeypatch):
+    monkeypatch.setattr(blind, "git", lambda *args: "1" * 40 + "\trefs/heads/codex/aqrs-b01-blind-preparation")
+    with pytest.raises(ValueError, match="remote branch"):
+        blind.publication(tmp_path, "0" * 40, "codex/aqrs-b01-blind-preparation", {})
+
+
+def test_registered_source_mutation_rejected(tmp_path, monkeypatch):
+    for name in ("registration.json", "preregistration.jsonl"):
+        (tmp_path / name).write_text("{}\n")
+    monkeypatch.setattr(blind, "ROOT", tmp_path)
+    monkeypatch.setattr(blind, "source_hashes", lambda: {"changed": "hash"})
+    monkeypatch.setattr(blind, "git", lambda *args: "1" * 40 if args[0] == "ls-remote" else "{}")
+    with pytest.raises(ValueError, match="Source changed"):
+        blind.publication(tmp_path, "1" * 40, "codex/aqrs-b01-blind-preparation", {"source_hashes": {}})
+
+
+def test_data_mutation_rejected_before_measurement(tmp_path, monkeypatch):
+    (tmp_path / "bars.npy").write_bytes(b"changed")
+    monkeypatch.setattr(blind, "measure", lambda *a, **k: pytest.fail("Measurement must not start."))
+    with pytest.raises(ValueError, match="data changed"):
+        blind.evaluate_worker({"stage": "candidate", "plan": {}, "output": str(tmp_path),
+                               "bars_sha256": "0" * 64}, tmp_path)
+
+
+def test_subcost_effect_not_removed_by_cost_gate(delivery):
+    _, bars = qualify(delivery, "D001", "internal_open")
+    bars[:, 1:5] = 100 + (bars[:, 1:5] - 100) / 100
+    plan = blind.load_plan()
+    candidate = next(c for c in blind.candidates(plan) if c["id"] == "S08")
+    result = blind.measure(bars, blind.prepare_arrays(bars, plan), candidate, plan, 15)
+    assert result["effect_claimed"]
+    assert result["all_opportunity_net"]["interval_bps"][1] < 0
+
+
+def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch):
+    import sqlite3
+
+    original_root = blind.ROOT
+    for name in blind.SOURCE_PATHS:
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text((original_root / name).read_text(encoding="utf-8"), encoding="utf-8")
+    monkeypatch.setattr(blind, "ROOT", tmp_path)
+    directory = blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
+    registration = json.loads((directory / "registration.json").read_text())
+    entries = [json.loads(line) for line in (directory / "preregistration.jsonl").read_text().splitlines()]
+    assert len(entries) == 2 and all(row["metrics"] is None for row in entries)
+    assert registration["prepared"]["calibration_fits"] == 6
+    publication_checked = []
+    monkeypatch.setattr(blind, "publication", lambda *args: publication_checked.append(True))
+
+    def stop(*args, **kwargs):
+        assert publication_checked
+        return {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
+                "peak_rss_mb": 10, "runtime_wall_seconds": 1, "started_fits": 0, "completed_fits": 0}
+
+    monkeypatch.setattr(blind, "supervise", stop)
+    report = blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
+    assert not report["complete"] and report["execution_status"] == "TIMED_OUT"
+    assert len(report["untested_candidates"]) == 1
+    db = sqlite3.connect(tmp_path / "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/research.sqlite3")
+    assert {r[0] for r in db.execute("SELECT execution_status FROM experiments")} == {"TIMED_OUT", "CANCELLED"}
+    db.close()
+    with pytest.raises(FileExistsError):
+        blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
+

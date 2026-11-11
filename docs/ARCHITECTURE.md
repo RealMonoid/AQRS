@@ -69,6 +69,17 @@ These names suggest responsibilities, **not** a requirement for fourteen empty f
 
 ## v0.1 runtime sequence
 
+The isolated `blind_input.py` and `blind_search.py` entry implements AQRS-B01's
+external-synthetic delivery and fixed rule diagnostic. It reuses `config.load`,
+`governor.supervise`, `worker.run`/fit reservations, the native platform adapter,
+`journal` and atomic storage. Input qualification and six shared quantile
+calibrations run in one preparation worker; each research candidate gets its
+own supervised worker. A remotely verified preregistration barrier separates
+preparation from outcome measurement. It does not change the core market CLI,
+data contracts or reserved day. No generic framework or discovery service is
+introduced. The exact statistical scope is in the research protocol, section 11.
+
+
 1. Validate configuration; create run ID and fingerprint.
 2. Generate deterministic synthetic bars and store a dataset fingerprint.
 3. Check data quality; abort before training if invalid.

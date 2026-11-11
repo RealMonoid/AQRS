@@ -98,6 +98,55 @@ The importer validates the checksum and all 1,440 UTC minute intervals before wr
 `dataset.csv` and `import_report.json`. Keep the source and output local for this
 non-commercial technical pilot.
 
+## Prepare or run the synthetic blind diagnostic
+
+[AQRS-B01](docs/MILESTONE_STATUS.md#aqrs-b01-test-card-external-synthetic-blind-search-preparation)
+is an owner-gated, external-synthetic diagnostic. Its
+[delivery contract](docs/CONTRACTS.md#a2-external-synthetic-blind-test-input-aqrs-b01)
+and [fixed procedure](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
+define the entire search. It never downloads data or reads the protected day.
+Delivery does not authorize search. Global Governor settings are unchanged.
+
+The single open rehearsal has a separate generated input and a two-trial budget:
+
+```text
+python -m aqrs.blind_search register-open
+```
+
+This qualifies the known fixture, charges six quantile calibrations and writes
+the candidate entries under `evidence/blind/AQRS-B01-OPEN/`, with no outcome
+measurements. Commit and push both registration files and the bound source to
+`codex/aqrs-b01-blind-preparation`, then execute with that exact remote revision:
+
+```text
+python -m aqrs.blind_search execute --published-revision FULL_COMMIT_SHA
+```
+
+The runner verifies the remote revision, exact registration and source before
+releasing any candidate worker. A reserved or existing attempt cannot rerun.
+The supervisor enforces worker deadlines and sampled RSS, not a strict RAM cap.
+Git subprocesses have finite timeouts; publication and final receipt I/O are
+outside worker deadlines. No network payload is downloaded. Use `[skip ci]`
+publication messages while the owner's no-download restriction applies.
+
+For a later authorized external run, the owner must explicitly supply data,
+approve the 24-trial exception and start each named dataset attempt. Record that
+instruction in a local JSON under `artifacts/blind-test/` with exactly
+`owner_start_approved=true`, `approved_trials=24`, `trial_count_exception=true`,
+`plan_sha256`, `dataset_id`, `dataset_sha256`, `attempt_id`,
+`max_wall_seconds` (at most 300), and the nonempty English `owner_instruction`.
+This is an auditable operator authorization record, not cryptographic identity
+verification; Codex must not fabricate approval. Approve the aggregate dataset
+count and budget before multiple individual runs. Then use `register --attempt
+AQRS-B01-... --dataset-id D001 --dataset-sha256 ... --authorization ...`, publish
+the resulting entries, and `execute` with the same attempt/authorization and
+verified revision. No automatic batch, retry, reveal or oracle comparison exists.
+
+Outputs are under `artifacts/aqrs-b01/runs/ATTEMPT/`: JSON/Markdown report,
+SQLite journal, per-candidate result and full opportunity/event CSV with hashes.
+All results remain synthetic and never count as market evidence. A partial
+execution is distinguishable from a completed no-finding result.
+
 ## Prepare broader Spot datasets
 
 For broader **data preparation**, the optional Spot dataset entry qualifies one

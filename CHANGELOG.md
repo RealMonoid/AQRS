@@ -24,6 +24,7 @@ no separate experiment documentation is introduced.
 - `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md`
 - `configs/blind_search.json`
+- `pyproject.toml` (declare the already installed SciPy dependency used for Student intervals; no install)
 - `src/aqrs/blind_input.py`
 - `src/aqrs/blind_search.py`
 - `tests/test_blind_search.py`
