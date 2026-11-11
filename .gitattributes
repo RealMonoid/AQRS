@@ -13,3 +13,4 @@ evidence/blind/**/preregistration.jsonl text eol=lf
 # Preserve immutable historical evidence bytes.
 evidence/historical/** -text
 evidence/acceptance.zip binary
+evidence/m2-e18-replay/windows.json binary

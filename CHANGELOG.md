@@ -2,6 +2,18 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Preserve exact Windows receipt bytes for the M2-E18 replay
+
+Retain the byte identity of the digest-bound Windows report across Git
+checkout. The initial replay setup stopped before market evaluation when
+Git normalized its line endings. The registered input archive stays fixed.
+
+**Paths**
+
+- `.gitattributes`
+- `CHANGELOG.md`
+- `evidence/m2-e18-replay/windows.json`
+
 ## 2026-11-12 — Stage the authorized M2-E18 Ubuntu replay
 
 This replay-only branch stages the ten digest-verified AQRS-D01 archive
