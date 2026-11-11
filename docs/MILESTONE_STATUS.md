@@ -88,6 +88,95 @@ Use this table for planned development, founding, and project-level research exp
 
 **Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
 
+### AQRS-B01 search amendment Test Card: causal minute order flow
+
+**2026-11-11, 20:04:51 UTC, before implementation.** The owner requested
+order-flow candidates and delegated feature design before dataset generation.
+Baseline: `f6b8663` plus the local optional-column admission amendment. The
+riskiest assumption is that retained aggregates reach registered candidate
+workers without exposing a future minute, altering fills or expanding the
+trial budget. The minimum proof is an augmented synthetic minute fixture through
+preparation, registration and candidate measurement. With identical OHLCV,
+changing an available activity column must change its candidate membership.
+Changing future rows must preserve the feature and decision prefix. Absent
+columns select the frozen OHLCV fallback slots. Check all eight header subsets,
+exact 24-trial allocation, observed fit charges and the old OHLCV-only route.
+Record commands, worker receipts and independent review. See the AQRS-B01
+fault tree for the causal and accounting checks. No external outcomes or
+canonical OPEN replay.
+
+**Resource assessment and stop.** Estimate 30–60 minutes of development,
+including review and local verification. Replace at most six OHLCV conjunctions
+with six single-feature tails. The proposal keeps 24 trials, one worker,
+60 seconds of preparation, eight seconds per trial and 252 seconds of bounded
+worker time. Maximum calibration fits rise from six to nine, within the existing
+12-fit limit. Three added numeric columns occupy at most 1.98 MiB per 86,400-row
+array. The 16 MiB source CSV and existing memory ceiling remain binding. The
+fit count depends only on the available fields. Stop if qualification, causal
+parity, accounting or registration fails, or if a budget increase is needed.
+
+**Learning Card, 2026-11-11, 20:15:13 UTC.** `SUPPORTED / PERSEVERE` for
+the order-flow amendment. Measured interval: 10 minutes 22 seconds from the
+preimplementation checkpoint through review, excluding orientation and final
+publication. Windows `python -m pytest -q --tb=short` passed 216 tests in 91.91 s.
+The initial guarded fixture failed because its arithmetic produced tiny negative
+sell volumes at the full-buy boundary. Corrected the fixture and retained strict
+input validation. A final targeted guarded fixture run passed in 4.25 s, with
+1.172 s preparation, 125.66 MiB sampled peak RSS and nine started/completed fits.
+
+Independent verification matched the six reviewed blobs and passed 39 focused
+tests in 27.14 s plus separate probes. All eight field subsets used the fixed
+slots, and all six order-flow tails preserved earlier membership and timing
+under future-only perturbation. The OHLCV-only path matched the prior candidate
+catalog and full measurements. A supervised candidate used zero fits and
+rejected mismatched activity metadata or staged digest. The registered set and
+incomplete-run report retained all 24 slots and the observed fit count. No
+material finding remained. The preimplementation card preceded coding in the
+work transcript. No separate timestamped card commit is claimed.
+
+Ruff, language and diff checks passed. Existing OPEN evidence and the Governor
+config are intact. The amended plan replaces up to six conjunctions in exchange
+for direct order-flow coverage. External data access and outcome work remain
+`WAITING` for the owner's delivery and authorization. The fresh tests cover
+Windows. Linux and the external 24-trial campaign remain unverified. No
+production incident or canonical OPEN replay occurred.
+
+### AQRS-B01 input amendment Test Card: optional minute order flow
+
+**2026-11-11, 12:59 UTC, before implementation.** Hypothesis: the existing
+supervised CSV admission can validate three optional minute aggregates while
+returning exactly the same six-column search input for the same OHLCV rows.
+Baseline `f6b8663` accepts only the original header. Pass if a maximum-length
+fixture with all three fields and a partial header qualify, malformed fields or
+headers reject after a valid digest, and the legacy and augmented inputs produce
+identical staged OHLCV. Count zero new trials, fits, workers or dependencies.
+At 86,400 rows, three extra short tokens (15 characters each plus delimiter)
+add about 4 MiB to the CSV. The existing 16 MiB input cap and supervised
+60-second preparation limit apply. A near-capacity synthetic qualification
+provides a local timing sample within that limit. Development estimate 15–30
+minutes. Stop if acceptance requires changing the search, authorization gates,
+or budget. Significant input-validation review: unexpected columns could carry
+hints, malformed aggregates could be mistaken for valid data, or side columns
+could leak into features. Restrict the exact optional names and order, validate
+values and preserve the six-column output. FTA not triggered because neither
+causal timing nor the protected-access, journal or Governor contract changes.
+Single-trade and quote input are estimate-only. No external data or outcome run.
+
+**Learning Card, 2026-11-11, 13:02:57 UTC.** `SUPPORTED / PERSEVERE` for
+optional minute admission. The measured interval since the Test Card checkpoint
+was about four minutes, excluding orientation and final bookkeeping. Native
+Windows `python -m pytest -q tests/test_blind_search.py --durations=4 --tb=short`
+passed 36 tests in 17.91 s. The 86,400-row compatibility check took 1.15 s,
+including two qualifications and the fixture rewrite. The pre-change partial
+header test reproduced the expected rejection. Focused Ruff, language self-test,
+language check and diff validation passed. Peak RSS for the augmented fixture
+and Linux execution remain unmeasured. No blind outcomes, new calibrations for
+research, external reads or new limits. The old OPEN receipt remains bound to
+its original source. Bind and publish the amended source with the prospective
+external candidate registration before any outcomes. The frozen search still
+uses OHLCV and the external run remains WAITING. Event-input implementation is
+deferred pending the owner's separate decision.
+
 ### AQRS-B01 Test Card: external synthetic blind-search preparation
 
 **2026-11-11, before implementation or rehearsal outcomes.** Orientation checkpoint

@@ -106,6 +106,9 @@ is an owner-gated, external-synthetic diagnostic. Its
 and [fixed procedure](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
 define the entire search. It never downloads data or reads the protected day.
 Delivery does not authorize search. Global Governor settings are unchanged.
+The CSV may include validated minute buy volume, sell volume and trade count.
+Each supplied activity field activates two fixed order-flow rules in the
+24-slot search. Absent fields select the predefined OHLCV fallback rules.
 
 The single open rehearsal has a separate generated input and a two-trial budget:
 

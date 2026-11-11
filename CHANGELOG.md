@@ -2,6 +2,46 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Freeze causal minute order-flow rules for AQRS-B01
+
+Stage validated minute aggregates and derive buy share, sell-share change and
+relative trade count at bar close. Allocate two fixed tail rules per supplied
+field and use the original fallback pair for an absent field. Record the
+resolved 24 candidates and six to nine calibration charges. Preserve next-open
+timing and the historical OPEN record. Keep the external run waiting for data
+and owner approval.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/blind_search.json`
+- `docs/CONTRACTS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/blind_input.py`
+- `src/aqrs/blind_search.py`
+- `tests/test_blind_search.py`
+
+## 2026-11-11 — Qualify optional minute order flow for AQRS-B01
+
+Accept and validate any ordered subset of buy volume, sell volume and trade
+count in the existing minute CSV. Preserve the original six-column search
+input, frozen candidate plan and input limits. Document bounded estimates for
+single-trade and quote ingestion pending separate approval. The maximum-row
+synthetic compatibility fixture and malformed-input checks passed on Windows.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/CONTRACTS.md`
+- `docs/MILESTONE_STATUS.md`
+- `src/aqrs/blind_input.py`
+- `tests/test_blind_search.py`
+
 ## 2026-11-11 — Prepare the owner-gated external synthetic blind test
 
 AQRS-B01 freezes a distinct input and finite-search contract in the existing

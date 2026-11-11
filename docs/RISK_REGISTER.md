@@ -51,6 +51,16 @@ immediate owner report and suspended blind interpretation. No market-evidence
 status or M2 acceptance follows from this synthetic engineering test.
 
 
+**Minute order-flow amendment, 2026-11-11.** An invalid decision can result
+from future-minute values entering features OR a missing field being treated as
+zero OR candidate slots diverging from the recorded header. An over-budget
+preparation can result from extra quantiles without corresponding fit reserves.
+Bind staged activity and availability to the authorized CSV and registered array
+digest. Derive features from the completed row and trailing history. Select
+slots from header presence and reserve each available feature's fit. Test
+future-row mutations, partial headers, known memberships, actual fit receipts,
+and stage-to-registration consistency. Use an independent review before closure.
+
 Assign an ID, owner, observable trigger, budget/stop rule, proposed test and affected milestone; add it to this registry and the relevant release gate. Record evidence rather than inventing precision. Apply the [material finding rule](DEVELOPMENT_PROCESS.md#experiment-queue) when a pending action depends on the affected guarantee. If the risk requires a changed norm, add an ADR to `DECISIONS.md`.
 
 ### FTA-AQRS-D01: Spot data expansion

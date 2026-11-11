@@ -111,12 +111,14 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 ## 8. Execution scope and audit records
 
 AQRS-B01 preparation proposes 24 sequential research trials per external
-dataset, six shared quantile calibrations charged as fits, zero predictive
+dataset, six to nine shared quantile calibrations charged as fits, zero predictive
 model fits, seeds or resamples, and one fixed horizon. The base two-trial limit
 is unchanged: a dataset-scoped owner record must explicitly approve 24 before
 blind execution. Preserve <=120 seconds/trial, <=300 seconds/dataset, <=4096
 MiB observed RSS, concurrency one and zero retries; tighter configured limits
-apply. Budget the whole authorized dataset list, not only its first member.
+apply. Before CSV access, budget nine calibration fits per dataset. Charge only
+the six OHLCV features plus the available order-flow features after validation.
+Budget the whole authorized dataset list, not only its first member.
 Conservative preflight uses a bounded open rehearsal or a registered per-trial
 upper limit that fits the complete plan, plus supervised validation/calibration.
 Missing estimates, unavailable guards or excess fits reject before data reads.

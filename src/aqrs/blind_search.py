@@ -14,7 +14,13 @@ from pathlib import Path
 import numpy as np
 
 from aqrs import journal
-from aqrs.blind_input import qualify, safe_under, utc_stamp, write_open_fixture
+from aqrs.blind_input import (
+    ACTIVITY_COLUMNS,
+    qualify,
+    safe_under,
+    utc_stamp,
+    write_open_fixture,
+)
 from aqrs.config import load
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
@@ -37,7 +43,7 @@ def load_governor() -> dict:
     return load(ROOT / "configs/research.yaml")[0]
 
 
-def candidates(plan: dict) -> list[dict]:
+def candidates(plan: dict, activity_columns: tuple[str, ...] | list[str] = ()) -> list[dict]:
     singles, pairs = [], []
     for feature in range(6):
         for tail in range(2):
@@ -47,12 +53,28 @@ def candidates(plan: dict) -> list[dict]:
         for tail in range(2):
             pairs.append({"id": f"P{len(pairs) + 1:02}", "terms": [[left, tail], [right, tail]],
                           "hypothesis": f"The joint {['low', 'high'][tail]} {plan['features'][left]} and {plan['features'][right]} tail adds information beyond either parent."})
-    return singles[:6] + pairs[:6] + singles[6:] + pairs[6:]
+    tail_slots = []
+    for offset, field in enumerate(ACTIVITY_COLUMNS):
+        for tail in range(2):
+            slot = 2 * offset + tail
+            if field in activity_columns:
+                name = plan["features"][6 + offset]
+                direction = ("low", "high")[tail]
+                tail_slots.append({"id": f"T{slot + 1:02}", "terms": [[6 + offset, tail]],
+                                   "hypothesis": f"The {direction} {name} tail changes the next three-minute return."})
+            else:
+                tail_slots.append(pairs[6 + slot])
+    return singles[:6] + pairs[:6] + singles[6:] + tail_slots
+
+
+def available_activity(bars: np.ndarray) -> list[str]:
+    return [name for index, name in enumerate(ACTIVITY_COLUMNS, start=6)
+            if index < bars.shape[1] and np.isfinite(bars[0, index])]
 
 
 def features(bars: np.ndarray) -> np.ndarray:
     close, volume = bars[:, 4], bars[:, 5]
-    result = np.full((len(bars), 6), np.nan)
+    result = np.full(bars.shape, np.nan)
     for column, lag in enumerate((1, 5, 20)):
         result[lag:, column] = (close[lag:] / close[:-lag] - 1) * 10000
     sums = np.concatenate(([0.0], np.cumsum(volume)))
@@ -61,21 +83,35 @@ def features(bars: np.ndarray) -> np.ndarray:
     spread = bars[:, 2] - bars[:, 3]
     result[:, 4] = spread / close * 10000
     result[:, 5] = np.divide(close - bars[:, 3], spread, out=np.full(len(bars), 0.5), where=spread != 0)
+    activity = available_activity(bars)
+    if "buy_volume" in activity:
+        result[:, 6] = np.divide(bars[:, 6], volume, out=np.zeros(len(bars)), where=volume > 0)
+    if "sell_volume" in activity:
+        share = np.divide(bars[:, 7], volume, out=np.zeros(len(bars)), where=volume > 0)
+        prior = np.lib.stride_tricks.sliding_window_view(share[:-1], 20).mean(axis=1)
+        result[20:, 7] = share[20:] - prior
+    if "trade_count" in activity:
+        trades = bars[:, 8]
+        prior = np.lib.stride_tricks.sliding_window_view(trades[:-1], 20).mean(axis=1)
+        result[20:, 8] = np.divide(trades[20:], prior, out=np.zeros(len(prior)), where=prior > 0)
     return result
 
 
 def prepare_arrays(bars: np.ndarray, plan: dict, directory: Path | None = None) -> dict:
     end = int((len(bars) // 1440) * plan["train_fraction"]) * 1440
     values = features(bars)
-    cutoffs = []
-    for column in range(6):
+    activity = available_activity(bars)
+    active_indices = list(range(6)) + [6 + ACTIVITY_COLUMNS.index(name) for name in activity]
+    cutoffs = [None] * len(plan["features"])
+    for fit, column in enumerate(active_indices, start=1):
         if directory is not None:
-            reserve_fit({"fit_limit": 6}, directory, 6)
-        cutoffs.append(np.quantile(values[20:end, column], plan["quantiles"]).tolist())
+            reserve_fit({"fit_limit": plan["calibration_fits"]}, directory, plan["calibration_fits"])
+        cutoffs[column] = np.quantile(values[20:end, column], plan["quantiles"]).tolist()
         if directory is not None:
-            write_json(directory / "fits.json", column + 1)
+            write_json(directory / "fits.json", fit)
     return {"cutoffs": cutoffs, "evaluation_start": end, "evaluation_end": len(bars),
-            "train_start": 20, "train_end": end, "calibration_fits": 6}
+            "train_start": 20, "train_end": end, "calibration_fits": len(active_indices),
+            "activity_columns": activity}
 
 
 def forward_bps(bars: np.ndarray, indices: np.ndarray) -> np.ndarray:
@@ -235,7 +271,7 @@ def preflight(plan: dict, config: dict, trials: int, approval: dict | None) -> d
             or plan["preparation_seconds"] > limits["max_wall_seconds_per_trial"]
             or plan["candidate_seconds"] > limits["max_wall_seconds_per_trial"]):
         raise ValueError("Full plan exceeds a configured Governor limit.")
-    return {"planned_trials": trials, "planned_fits": 6, "predictive_model_fits": 0,
+    return {"planned_trials": trials, "planned_fits": plan["calibration_fits"], "predictive_model_fits": 0,
             "resamples": 0, "parallel_trials": 1, "estimated_wall_seconds": estimate,
             "estimate_method": "Sum of enforced worker upper bounds, not extrapolated average speed.",
             "memory_estimate_mb": plan["estimated_rss_mb"], "limits": limits,
@@ -327,7 +363,8 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
     plan = request["plan"]
     output = Path(request["output"])
     if request["stage"] == "prepare":
-        manifest, bars = qualify(Path(request["inbox"]), request["dataset_id"], request["source"], request.get("expected_digest"))
+        manifest, bars = qualify(Path(request["inbox"]), request["dataset_id"], request["source"],
+                                 request.get("expected_digest"), retain_activity=True)
         prepared = prepare_arrays(bars, plan, directory)
         path = output / "bars.npy"
         np.save(path, bars, allow_pickle=False)
@@ -336,6 +373,8 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
     if sha256(path.read_bytes()).hexdigest() != request["bars_sha256"]:
         raise ValueError("Qualified data changed after registration.")
     bars = np.load(path, allow_pickle=False)
+    if available_activity(bars) != request["prepared"]["activity_columns"]:
+        raise ValueError("Staged activity columns do not match registration.")
     detail = output / f"{request['candidate']['id']}-opportunities.csv"
     return measure(bars, request["prepared"], request["candidate"], plan, request["cost_bps"], detail)
 
@@ -380,6 +419,12 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
         raise ValueError("Preparation stopped; inspect preparation.json. No automatic retry.")
     verify_snapshot(output, hashes)
     data = receipt["result"]
+    fits = data["prepared"]["calibration_fits"]
+    if not receipt["started_fits"] == receipt["completed_fits"] == fits <= budget["planned_fits"]:
+        raise ValueError("Preparation calibration charges do not match registration.")
+    full_space = candidates(plan, data["prepared"]["activity_columns"])
+    if source == "external_blind":
+        selected = full_space
     entry = next(e for e in data["manifest"]["datasets"] if e["id"] == dataset_id)
     if source == "external_blind" and entry["sha256"] != expected_digest:
         raise ValueError("Authorized input digest mismatch.")
@@ -391,7 +436,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
                     "bars_sha256": data["bars_sha256"], "budget": budget, "approval": approval,
                     "preparation_wall_seconds": receipt["runtime_wall_seconds"],
                     "preparation_peak_rss_mb": receipt["peak_rss_mb"], "costs": config["costs"],
-                    "candidate_ids": [c["id"] for c in selected], "full_space": candidates(plan)}
+                    "candidate_ids": [c["id"] for c in selected], "full_space": full_space}
     entries = []
     for order, candidate in enumerate(selected):
         entries.append({"attempt_id": attempt, "candidate_id": candidate["id"], "order": order,
@@ -424,11 +469,12 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
         raise ValueError("Authorization or frozen plan changed after registration.")
     if approval is not None and approval["attempt_id"] != attempt:
         raise ValueError("Authorization attempt ID mismatch.")
-    expected_candidates = candidates(plan)
+    full_space = candidates(plan, registration["prepared"]["activity_columns"])
+    expected_candidates = full_space
     if registration["source"] == "internal_open":
         expected_candidates = [c for c in expected_candidates if c["id"] in plan["open_rehearsal_candidates"]]
     if (registration["candidate_ids"] != [c["id"] for c in expected_candidates]
-            or registration["full_space"] != candidates(plan)):
+            or registration["full_space"] != full_space):
         raise ValueError("Registration does not match the frozen candidate space.")
     publication(registration_dir, revision, branch, registration)
     config = load_governor()
@@ -441,7 +487,7 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
     output = safe_under(root, root / "artifacts/aqrs-b01/runs" / attempt)
     with (output / "execution-reservation.json").open("x", encoding="utf-8") as stream:
         stream.write(canonical({"revision": revision, "timestamp": journal.now()}))
-    selected = [c for c in candidates(plan) if c["id"] in registration["candidate_ids"]]
+    selected = expected_candidates
     db = journal.connect(output / "research.sqlite3")
     journal.begin(db, attempt, fingerprint(registration), {"research": {"candidates": selected}}, registration)
     results = []
@@ -493,8 +539,10 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
                       plan_sha256=registration["plan_sha256"], budget=budget,
                       runtime_wall_seconds=consumed + time.monotonic() - started,
                       started_trials=sum(r["resource"]["started"] for r in results),
-                      started_fits=6, completed_fits=6, full_search_space=registration["full_space"],
-                      out_of_rehearsal_scope=[c["id"] for c in candidates(plan) if c not in selected])
+                      started_fits=registration["prepared"]["calibration_fits"],
+                      completed_fits=registration["prepared"]["calibration_fits"], full_search_space=registration["full_space"],
+                      activity_columns=registration["prepared"]["activity_columns"],
+                      out_of_rehearsal_scope=[c["id"] for c in full_space if c not in selected])
         write_json(output / "report.json", report)
         lines = ["# AQRS-B01 synthetic diagnostic", "", report["interpretation"], "",
                  f"Source: {report['source']}. Complete: {report['complete']}. Effect claimed: {report['effect_claimed']}.",

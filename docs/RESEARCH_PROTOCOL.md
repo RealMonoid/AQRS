@@ -10,19 +10,40 @@ before external delivery. Owner choices that change them require a new freeze
 before looking at external outcomes. The solution stays with the independent
 producer; only the owner verifies its prior commitment after report freeze.
 
-**Search space and order.** Six features known at close t: close returns over
+**Search space and order.** Six OHLCV features known at close t: close returns over
 1, 5 and 20 minutes (bps); current volume / mean of the preceding 20 volumes
 (zero when the denominator is zero); (high-low)/close in bps; and
-(close-low)/(high-low), using 0.5 for a zero range. Calibrate each feature's
+(close-low)/(high-low), using 0.5 for a zero range. An available optional field
+also contributes one feature at the close of minute t:
+
+| Required CSV field | Feature | Definition at minute t |
+|---|---|---|
+| `buy_volume` | `buy_share` | Buy volume / total volume |
+| `sell_volume` | `sell_share_change20` | Sell share minus the mean sell share of the preceding 20 completed minutes |
+| `trade_count` | `relative_trade_count20` | Trade count / mean trade count of the preceding 20 completed minutes |
+
+Each side share is zero for a zero-volume minute. Relative trade count is zero
+when the preceding mean is zero. Preceding windows are t-20 through t-1.
+Calibrate each available feature's
 20th/80th percentiles on bars 20 through the end of the first floor(0.4*days)
-complete days, once per dataset (six charged calibration fits). Rules use
+complete days, once per dataset (six to nine charged calibration fits). Rules use
 `<= q20` or `>= q80`; ties remain included. No outcomes choose cutoffs.
 
 S01–S12 are the low/high tails of each feature in that order. P01–P12 are
 low-low/high-high conjunctions of the fixed pairs (return1, volume), (return5,
 volume), (return20, volume), (return1, range), (return5, close-location), and
-(volume, range), in that order. Evaluate S01–S06, P01–P06, S07–S12, P07–P12.
-All 24 definitions are registered even if the approved budget cannot admit
+(volume, range), in that order. Evaluate S01–S06, P01–P06, S07–S12, then the
+six final slots in this order:
+
+| Field present | Low and high single-feature tails | Fallback if absent |
+|---|---|---|
+| `buy_volume` | T01–T02 | P07–P08 |
+| `sell_volume` | T03–T04 | P09–P10 |
+| `trade_count` | T05–T06 | P11–P12 |
+
+The qualified header alone determines which slots are replaced. Register its
+available fields and the 24 resolved candidates before outcome measurement,
+even if the approved budget cannot admit
 them. No candidate generation, ranking, horizon changes, additional plots,
 feature engineering, retuning or cross-dataset learning after freeze. Manual
 looks outside the registered views are additional exposure and require a new
@@ -119,7 +140,8 @@ The informed/oracle comparison applies the true rule/events to the same
 eligible grid, horizon, costs, contrasts and uncertainty procedure; additionally
 report losses from unsupported horizons or off-grid events. It is a diagnostic
 upper reference, not necessarily a passing score. The stubborn single-feature
-baseline exhausts S01–S12 under the same measurements and reports its separate
+baseline exhausts S01–S12 and the available T01–T06 rules under the same
+measurements and reports its separate
 cost/coverage; reuse already obtained results without creating independent
 evidence. Oracle work, missing single-feature attempts and any new measurements
 need their own post-reveal approval and bounded budget. Nothing automatically

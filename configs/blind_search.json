@@ -1,7 +1,7 @@
 {
   "schema": "aqrs.blind-search.v1",
   "work_item": "AQRS-B01",
-  "features": ["return1", "return5", "return20", "relative_volume", "range_bps", "close_location"],
+  "features": ["return1", "return5", "return20", "relative_volume", "range_bps", "close_location", "buy_share", "sell_share_change20", "relative_trade_count20"],
   "pairs": [[0, 3], [1, 3], [2, 3], [0, 4], [1, 5], [3, 4]],
   "quantiles": [0.2, 0.8],
   "train_fraction": 0.4,
@@ -15,7 +15,7 @@
   "min_per_arm": 60,
   "min_half_blocks": 4,
   "proposed_trials": 24,
-  "calibration_fits": 6,
+  "calibration_fits": 9,
   "preparation_seconds": 60,
   "candidate_seconds": 8,
   "estimated_rss_mb": 768,

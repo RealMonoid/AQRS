@@ -1,13 +1,16 @@
 """Known-answer engineering fixtures; never load an external blind inbox."""
 
 import json
+from hashlib import sha256
+from itertools import combinations
 from pathlib import Path
 
 import numpy as np
 import pytest
 
 from aqrs import blind_search as blind
-from aqrs.blind_input import qualify, write_open_fixture
+from aqrs.blind_input import ACTIVITY_COLUMNS, qualify, write_open_fixture
+from aqrs.storage import fingerprint
 
 
 @pytest.fixture
@@ -25,6 +28,157 @@ def test_input_valid_and_tamper_rejected(delivery):
         stream.write("invalid\n")
     with pytest.raises(ValueError, match="digest"):
         qualify(delivery, "D001", "internal_open")
+
+
+def rewrite_csv(delivery, lines):
+    path = delivery / "D001.csv"
+    payload = ("\n".join(lines) + "\n").encode("utf-8")
+    path.write_bytes(payload)
+    manifest_path = delivery / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    digest = sha256(payload).hexdigest()
+    manifest["datasets"][0]["sha256"] = digest
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    return digest, len(payload)
+
+
+def test_all_minute_activity_fields_preserve_the_search_input(delivery):
+    _, original = qualify(delivery, "D001", "internal_open")
+    rows = (delivery / "D001.csv").read_text(encoding="utf-8").splitlines()
+    rows[0] += ",buy_volume,sell_volume,trade_count"
+    for index in range(1, len(rows)):
+        volume = float(rows[index].rsplit(",", 1)[1])
+        buy = volume * 0.4
+        rows[index] += f",{buy:.40f},{volume - buy:.40f},9007199254740991"
+    digest, size = rewrite_csv(delivery, rows)
+    assert 12 * 1024**2 < size <= 16 * 1024**2
+    _, augmented = qualify(delivery, "D001", "internal_open", digest)
+    np.testing.assert_array_equal(augmented, original)
+
+
+def test_partial_minute_activity_header_is_accepted(delivery):
+    rows = (delivery / "D001.csv").read_text(encoding="utf-8").splitlines()
+    digest, _ = rewrite_csv(delivery, [rows[0] + ",sell_volume,trade_count"] +
+                            [row + ",0.5,7" for row in rows[1:]])
+    _, bars = qualify(delivery, "D001", "internal_open", digest)
+    assert bars.shape == (86400, 6)
+    _, staged = qualify(delivery, "D001", "internal_open", digest, retain_activity=True)
+    assert np.isnan(staged[:, 6]).all()
+    assert np.all(staged[:, 7] == 0.5) and np.all(staged[:, 8] == 7)
+
+
+def test_order_flow_slot_allocation_for_every_header_subset():
+    plan = blind.load_plan()
+    for size in range(4):
+        for present in combinations(ACTIVITY_COLUMNS, size):
+            selected = blind.candidates(plan, present)
+            assert len({row["id"] for row in selected}) == 24
+            for index, field in enumerate(ACTIVITY_COLUMNS):
+                expected = ([f"T{2 * index + n:02}" for n in (1, 2)] if field in present
+                            else [f"P{2 * index + n:02}" for n in (7, 8)])
+                assert [row["id"] for row in selected[18 + 2 * index:20 + 2 * index]] == expected
+
+
+def test_order_flow_features_and_training_are_causal():
+    bars = np.ones((2880, 9))
+    bars[:, 5:9] = [10, 4, 6, 8]
+    bars[20, 6:9] = [7, 3, 12]
+    bars[21, 5:9] = 0
+    features = blind.features(bars)
+    np.testing.assert_allclose(features[20, 6:], [0.7, -0.3, 1.5])
+    np.testing.assert_allclose(features[21, 6:], [0, -0.585, 0])
+    future = bars.copy()
+    future[1440:, 6:9] = [0, 10, 1]
+    np.testing.assert_array_equal(blind.features(future)[:1440], features[:1440])
+    plan = {**blind.load_plan(), "train_fraction": 0.5}
+    assert blind.prepare_arrays(bars, plan) == blind.prepare_arrays(future, plan)
+    no_history = bars.copy()
+    no_history[:20, 8] = 0
+    assert blind.features(no_history)[20, 8] == 0
+
+
+def test_order_flow_reaches_guarded_registration_and_worker(tmp_path, monkeypatch):
+    for name in blind.SOURCE_PATHS:
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text((blind.ROOT / name).read_text(encoding="utf-8"), encoding="utf-8")
+    monkeypatch.setattr(blind, "ROOT", tmp_path)
+    inbox = tmp_path / "artifacts/blind-test/inbox"
+    write_open_fixture(inbox)
+    rows = (inbox / "D001.csv").read_text(encoding="utf-8").splitlines()
+    rows[0] += ",buy_volume,sell_volume,trade_count"
+    for index in range(1, len(rows)):
+        volume = float(rows[index].rsplit(",", 1)[1])
+        buy = volume * ((index % 7) / 6)
+        rows[index] += f",{buy},{volume - buy},{1 + index % 13}"
+    digest, size = rewrite_csv(inbox, rows)
+    assert size <= 16 * 1024**2
+    path = inbox / "manifest.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["source"] = "external_blind"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    plan = blind.load_plan()
+    attempt = "AQRS-B01-FIXTURE"
+    approval = tmp_path / "fixture-authorization.json"
+    approval.write_text(json.dumps({"owner_start_approved": True, "approved_trials": 24,
+                                    "trial_count_exception": True, "plan_sha256": fingerprint(plan),
+                                    "dataset_id": "D001", "dataset_sha256": digest, "attempt_id": attempt,
+                                    "max_wall_seconds": 300, "owner_instruction": "Synthetic test fixture only."}))
+    directory = blind.register(tmp_path, attempt, "external_blind", "D001", digest, approval)
+    registration = json.loads((directory / "registration.json").read_text())
+    entries = [json.loads(line) for line in (directory / "preregistration.jsonl").read_text().splitlines()]
+    assert [row["candidate_id"] for row in entries[-6:]] == [f"T{n:02}" for n in range(1, 7)]
+    assert all(row["metrics"] is None for row in entries)
+    output = tmp_path / "artifacts/aqrs-b01/runs" / attempt
+    receipt = json.loads((output / "preparation.json").read_text())
+    assert receipt["started_fits"] == receipt["completed_fits"] == registration["budget"]["planned_fits"] == 9
+    bars = np.load(output / "bars.npy", allow_pickle=False)
+    assert bars.shape == (86400, 9)
+    original = blind.measure(bars, registration["prepared"], entries[-5]["rule"], plan, 15)
+    mutated = bars.copy()
+    mutated[registration["prepared"]["evaluation_start"]:, 6] = 0
+    mutated[registration["prepared"]["evaluation_start"]:, 7] = mutated[registration["prepared"]["evaluation_start"]:, 5]
+    changed = blind.measure(mutated, registration["prepared"], entries[-5]["rule"], plan, 15)
+    assert original["mechanical_rule"]["all"][0]["feature"] == "buy_share"
+    assert original["event_count"] > 0 and changed["event_count"] == 0
+
+    # Measure all three new feature families through the staged worker entry.
+    for entry in entries[-5::2]:
+        request = {"stage": "candidate", "output": str(output), "plan": plan,
+                   "candidate": entry["rule"], "prepared": registration["prepared"],
+                   "bars_sha256": registration["bars_sha256"], "cost_bps": 15}
+        result = blind.evaluate_worker(request, output)
+        assert 0 < result["event_count"] < result["eligible_opportunities"]
+
+    monkeypatch.setattr(blind, "publication", lambda *args: None)
+    monkeypatch.setattr(blind, "supervise", lambda *args, **kwargs: {
+        "execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
+    })
+    report = blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
+    assert report["started_fits"] == report["completed_fits"] == 9
+    assert report["activity_columns"] == list(ACTIVITY_COLUMNS)
+    assert report["out_of_rehearsal_scope"] == [] and len(report["untested_candidates"]) == 23
+
+
+@pytest.mark.parametrize(("header", "values", "reason"), [
+    (",sell_volume,buy_volume", ",0.5,0.5", "header"),
+    (",trade_count,trade_count", ",1,1", "header"),
+    (",buy_volume,trade_count", ",0.5", "field count"),
+    (",buy_volume", ",nan", "side volume"),
+    (",sell_volume", ",-0.5", "side volume"),
+    (",sell_volume", ",3", "side volume"),
+    (",buy_volume,sell_volume", ",0,0", "sum"),
+    (",trade_count", ",1.0", "trade count"),
+    (",trade_count", ",9007199254740992", "trade count"),
+    (",trade_count", ",", "trade count"),
+])
+def test_invalid_minute_activity_rejected_with_matching_digest(delivery, header, values, reason):
+    rows = (delivery / "D001.csv").read_text(encoding="utf-8").splitlines()
+    rows[0] += header
+    rows[1] += values
+    digest, _ = rewrite_csv(delivery, rows)
+    with pytest.raises(ValueError, match=reason):
+        qualify(delivery, "D001", "internal_open", digest)
 
 
 def test_unexpected_file_rejected_before_payload(delivery, monkeypatch):
@@ -62,8 +216,6 @@ def test_only_authorized_payload_is_opened(delivery, monkeypatch):
 
 @pytest.mark.parametrize("mutation", ["gap", "ohlc", "nan", "header", "calendar"])
 def test_invalid_payload_rejected_with_matching_digest(delivery, mutation):
-    from hashlib import sha256
-
     path = delivery / "D001.csv"
     rows = path.read_text().splitlines()
     row = rows[30].split(",")
@@ -78,10 +230,7 @@ def test_invalid_payload_rejected_with_matching_digest(delivery, mutation):
     else:
         row[0] = "2026-01-06T00:00:00Z"
     rows[30] = ",".join(row)
-    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
-    manifest = json.loads((delivery / "manifest.json").read_text())
-    manifest["datasets"][0]["sha256"] = sha256(path.read_bytes()).hexdigest()
-    (delivery / "manifest.json").write_text(json.dumps(manifest))
+    rewrite_csv(delivery, rows)
     with pytest.raises(ValueError):
         qualify(delivery, "D001", "internal_open")
 

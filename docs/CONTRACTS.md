@@ -57,7 +57,8 @@ the market importers and reserved market day.
   from D001, at most 16 datasets. No archives, subdirectories, links, executables,
   generation code, labels, seeds, effect counts, descriptive filenames or keys.
 - CSV: UTF-8 without BOM, comma separator, decimal point, LF or CRLF, exactly
-  `timestamp_utc,open,high,low,close,volume` as header. No index, blank rows,
+  `timestamp_utc,open,high,low,close,volume` as the required header prefix. The
+  optional suffix is defined below. No index, blank rows,
   comments, missing values, NaN or infinity. Finite positive prices; finite
   nonnegative volume; `low <= open,close <= high`. Gaps between previous close
   and next open are permitted. Prices represent synthetic mid prices.
@@ -110,6 +111,49 @@ CSV rejects that dataset without silently accepting the others. Reports carry
 `dataset_type=synthetic`, `source=external_blind`, `market_evidence=false`.
 The open rehearsal uses its own directory and `source=internal_open`; it never
 reads the inbox. Data delivery alone is not run authorization.
+
+### Optional minute order flow
+
+Append any subset of `buy_volume,sell_volume,trade_count` in that order, with
+each chosen column populated on every row. Full header:
+
+```text
+timestamp_utc,open,high,low,close,volume,buy_volume,sell_volume,trade_count
+```
+
+`buy_volume` and `sell_volume` are executed volumes classified by aggressor
+side within the minute, in the same units as `volume`. They are finite and
+nonnegative. Each is at most `volume` and, when both are present, their sum
+equals `volume`, with relative tolerance `1e-9` and zero absolute tolerance.
+`trade_count` is the total number of executions in the minute. Use 1–16 ASCII
+digits representing an integer from 0 through `2**53 - 1`. Omit unavailable
+columns from the header. All aggregates become available with the completed bar.
+
+Admission validates all supplied fields and binds the complete CSV to its
+manifest digest. The search worker stages validated activity with OHLCV and
+records the available fields before registering the [fixed rules](RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure).
+An absent field selects its defined OHLCV fallback rules. The manifest schema,
+cadence and byte limits apply to every allowed header.
+
+### Deferred event input estimates
+
+Single trades and best bid/ask quotes require distinct event contracts and a
+separately authorized implementation. For ordered local synthetic CSVs, estimate
+4–8 engineering hours for trade prints aggregated to minutes, or 8–16 hours
+for quote validation and aggregation. Trades need event timestamps, stable
+ordering, price, size and documented aggressor side. Quotes also need coherent
+bid/ask state, same-time ordering and rules for stale quotes and minute-boundary
+sampling. Both estimates include a bounded importer, validation and tests.
+Event-level simulation, depth reconstruction and vendor integration are
+separate scopes.
+
+Illustrative 60-day storage, before staging or output: 100 trades/minute gives
+8.64 million rows at 64–100 bytes (0.55–0.86 GB). Ten quote updates/second gives
+51.84 million rows at 80–120 bytes (4.15–6.22 GB). Both sizing scenarios exceed
+the 16 MiB minute CSV cap. A future pilot
+could use one streaming worker, at most 100,000 events and 16 MiB, 60 seconds
+and 512 MiB observed RSS, with zero trials or fits. Measure rows/second and peak
+RSS before proposing full-run time, storage or budget. No event path is enabled.
 
 ## B. Feature availability and targets
 

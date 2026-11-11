@@ -7,6 +7,7 @@ import re
 import stat
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
+from math import isclose, isfinite
 from pathlib import Path
 
 import numpy as np
@@ -15,6 +16,7 @@ from aqrs.storage import write_json
 
 SCHEMA = "aqrs.external-synthetic-minute.v1"
 HEADER = ["timestamp_utc", "open", "high", "low", "close", "volume"]
+ACTIVITY_COLUMNS = ("buy_volume", "sell_volume", "trade_count")
 STAMP = re.compile(r"2000-\d{2}-\d{2}T\d{2}:\d{2}:00Z")
 MIB = 1024 * 1024
 
@@ -120,7 +122,27 @@ def read_manifest(inbox: Path, source: str) -> dict:
     return manifest
 
 
-def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None) -> tuple[dict, np.ndarray]:
+def validate_activity(columns: list[str], values: list[str], volume: float) -> dict[str, float]:
+    activity = {}
+    side_volumes = []
+    for column, token in zip(columns, values, strict=True):
+        if column == "trade_count":
+            if not re.fullmatch(r"[0-9]{1,16}", token) or int(token) >= 2**53:
+                raise ValueError("Invalid minute trade count.")
+            activity[column] = int(token)
+            continue
+        side = float(token)
+        if not isfinite(side) or side < 0 or (side > volume and not isclose(side, volume, rel_tol=1e-9)):
+            raise ValueError("Invalid minute side volume.")
+        side_volumes.append(side)
+        activity[column] = side
+    if len(side_volumes) == 2 and not isclose(sum(side_volumes), volume, rel_tol=1e-9):
+        raise ValueError("Minute buy and sell volumes must sum to total volume.")
+    return activity
+
+
+def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None,
+            *, retain_activity: bool = False) -> tuple[dict, np.ndarray]:
     manifest = read_manifest(inbox, source)
     if dataset_id not in {entry["id"] for entry in manifest["datasets"]}:
         raise ValueError("Requested dataset is absent.")
@@ -136,15 +158,24 @@ def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | No
         if len(payload) > 16 * MIB or sha256(payload).hexdigest() != entry["sha256"]:
             raise ValueError("CSV size or digest mismatch.")
         reader = csv.reader(io.StringIO(payload.decode("utf-8")), strict=True)
-        if next(reader, None) != HEADER:
+        header = next(reader, [])
+        width = len(HEADER)
+        activity = header[width:]
+        if header[:width] != HEADER or activity != [name for name in ACTIVITY_COLUMNS if name in activity]:
             raise ValueError("CSV header mismatch.")
         rows = []
         for row in reader:
-            if len(row) != 6:
-                raise ValueError("CSV row must have exactly six fields.")
-            rows.append([stamp_seconds(row[0]), *map(float, row[1:])])
+            if len(row) != len(header):
+                raise ValueError("CSV field count must match the header.")
+            bar = [stamp_seconds(row[0]), *map(float, row[1:width])]
+            if activity:
+                aggregates = validate_activity(activity, row[width:], bar[-1])
+                if retain_activity:
+                    bar.extend(aggregates.get(name, np.nan) for name in ACTIVITY_COLUMNS)
+            rows.append(bar)
         data = np.asarray(rows, dtype=np.float64)
-        if data.shape != (entry["rows"], 6) or not np.isfinite(data).all():
+        expected_width = width + (len(ACTIVITY_COLUMNS) if activity and retain_activity else 0)
+        if data.shape != (entry["rows"], expected_width) or not np.isfinite(data[:, :width]).all():
             raise ValueError("CSV row count or finite-value violation.")
         if not np.all(np.diff(data[:, 0]) == 60):
             raise ValueError("CSV minute cadence violation.")
