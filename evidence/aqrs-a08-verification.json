@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "work_item": "AQRS-A08",
+  "baseline_commit": "a52d02c745ecfc9538b497e7fa54c83fa4ab43c7",
+  "verified_code_commit": null,
+  "status": "LOCAL_CHECKS_PASSED_REVIEW_AND_CI_PENDING",
+  "local_verification": {
+    "platform": "Native Windows",
+    "command": "python -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a08-full",
+    "exit_code": 0,
+    "passed": 138,
+    "seconds": 76.93,
+    "checks": [
+      "python -B -m ruff check . --no-cache",
+      "python -B scripts/check_language_policy.py --self-test",
+      "python -B scripts/check_language_policy.py",
+      "git diff --check"
+    ],
+    "check_results": "All exit 0; language audit checked 45 files."
+  },
+  "red_checks": {
+    "diagnostics": "15 failed, 2 passed in 1.98s before implementation; the two passing checks exercise existing V1/V2 behavior.",
+    "markdown": "1 failed in 11.37s: missing Spearman report text.",
+    "receipt": "1 failed in 2.99s: missing diagnostic_exposure.",
+    "consolidation": "1 failed in 0.46s: diagnostic views absent from exposure index.",
+    "setup_attempt": "Initial sandbox temp directory creation failed for two tests; rerun used an explicit project basetemp. No source cause."
+  },
+  "synthetic_design_checks": {
+    "null": {
+      "event_forward_bps": 0,
+      "v1_false_advantage_bps": 50,
+      "v2_advantage_bps": 0
+    },
+    "planted": {
+      "effect_bps": 30,
+      "v1_advantage_bps": 80,
+      "v2_advantage_bps": 30
+    },
+    "criterion": "Known advantage within 1e-10 bps; V1 rejected and V2 accepted in both cases. This is a deterministic fixture, not error-rate calibration."
+  },
+  "diagnostic_cost": {
+    "observations": 10000,
+    "elapsed_seconds": 0.0013218999956734478,
+    "additional_observed_rss_mib": 0.85546875,
+    "rss_sample_interval_seconds": 0.001,
+    "fits": 0,
+    "resamples": 0,
+    "passed": true,
+    "diagnostics": {
+      "scope": "DESCRIPTIVE_ONLY",
+      "rank_correlation": 0.17643002160030025,
+      "rank_status": "DEFINED",
+      "prediction_mean": 1.8301770391165158e-05,
+      "prediction_std": 0.0010204183408273851,
+      "target_mean": -2.0499750828023298e-05,
+      "target_std": 0.002012571537074082,
+      "return_units": "simple_return",
+      "independent_sample_size": null,
+      "supports_economic_claim": false
+    }
+  },
+  "synthetic_report_example": {
+    "candidate_id": "C_LAG",
+    "prediction": {
+      "observations": 52,
+      "mae": 0.0018482114223017413,
+      "zero_mae": 0.0017927327781415148,
+      "mae_improvement_vs_zero": -5.547864416022654e-05,
+      "diagnostics": {
+        "scope": "DESCRIPTIVE_ONLY",
+        "rank_correlation": 0.29164176555963456,
+        "rank_status": "DEFINED",
+        "prediction_mean": 0.00026868909297322007,
+        "prediction_std": 0.00024031549095550412,
+        "target_mean": -0.0009095413518123921,
+        "target_std": 0.0021547545709386844,
+        "return_units": "simple_return",
+        "independent_sample_size": null,
+        "supports_economic_claim": false
+      }
+    },
+    "diagnostic_exposure": [
+      {
+        "diagnostic_id": "AQRS-DIAG-RANK-V1",
+        "metric": "rank_correlation",
+        "view": "aggregate",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ],
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-MEAN-V1",
+        "metric": "prediction_mean",
+        "view": "aggregate",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ],
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-SD-V1",
+        "metric": "prediction_std",
+        "view": "aggregate",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ],
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-MEAN-V1",
+        "metric": "target_mean",
+        "view": "aggregate",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ],
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-SD-V1",
+        "metric": "target_std",
+        "view": "aggregate",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ],
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-RANK-V1",
+        "metric": "rank_correlation",
+        "view": "fold_1",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-MEAN-V1",
+        "metric": "prediction_mean",
+        "view": "fold_1",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-SD-V1",
+        "metric": "prediction_std",
+        "view": "fold_1",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-MEAN-V1",
+        "metric": "target_mean",
+        "view": "fold_1",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-SD-V1",
+        "metric": "target_std",
+        "view": "fold_1",
+        "validation_intervals": [
+          [
+            60,
+            86
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-RANK-V1",
+        "metric": "rank_correlation",
+        "view": "fold_2",
+        "validation_intervals": [
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-MEAN-V1",
+        "metric": "prediction_mean",
+        "view": "fold_2",
+        "validation_intervals": [
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-PREDICTION-SD-V1",
+        "metric": "prediction_std",
+        "view": "fold_2",
+        "validation_intervals": [
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-MEAN-V1",
+        "metric": "target_mean",
+        "view": "fold_2",
+        "validation_intervals": [
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      },
+      {
+        "diagnostic_id": "AQRS-DIAG-TARGET-SD-V1",
+        "metric": "target_std",
+        "view": "fold_2",
+        "validation_intervals": [
+          [
+            90,
+            116
+          ]
+        ],
+        "horizon_bars": 3
+      }
+    ]
+  },
+  "preservation": {
+    "historical_exposure": "All baseline index fields and existing registrations unchanged; five unrun diagnostic definitions appended.",
+    "legacy_metrics": "All previous synthetic candidate metrics and trades identical after removing additive diagnostic fields. Both runs consumed five fits.",
+    "acceptance_bundle": "Not modified."
+  },
+  "boundaries": [
+    "No new market archive reads, downloads, market fits or protected access.",
+    "No new horizon, instrument, cost, screen, trading policy or evidence promotion.",
+    "M2-E14 requires justified precision assumptions, independent full-design review, diagnostic registration and a verified admission entry before its separately authorized outcome run.",
+    "A universal design validator and technical M2-E14 runner are not implemented.",
+    "Prospective dating does not waive M1-S or protected-evaluation controls."
+  ]
+}

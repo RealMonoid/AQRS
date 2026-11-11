@@ -517,6 +517,42 @@ def write_reports(output: Path, report: dict) -> None:
             f"MAE on {prediction['observations']} out-of-sample observations was "
             f"{prediction['mae']:.8f}; zero-return MAE was {prediction['zero_mae']:.8f}. "
             "MAE is measured in simple returns and lower is better.",
+        ]
+        if diagnostic := prediction.get("diagnostics"):
+            rank = diagnostic["rank_correlation"]
+            rank_text = f"{rank:.6f}" if rank is not None else diagnostic["rank_status"]
+            lines += [
+                "",
+                "### Descriptive diagnostics",
+                "",
+                f"Spearman rank correlation: {rank_text}. Average ranks handle ties; "
+                "this measures monotonic association, not all possible signal information.",
+                f"Prediction mean/SD: {diagnostic['prediction_mean'] * 10_000:.4f} / "
+                f"{diagnostic['prediction_std'] * 10_000:.4f} bps; target mean/SD: "
+                f"{diagnostic['target_mean'] * 10_000:.4f} / "
+                f"{diagnostic['target_std'] * 10_000:.4f} bps. SD uses population scaling.",
+                "All eligible prediction rows are included, even when the policy is flat. "
+                "These diagnostics make no significance or economic claim. Overlapping "
+                "targets and pooled folds do not establish independent or stable evidence.",
+                "",
+                "| Fold | Observations | Rank correlation | Prediction SD (bps) | Target SD (bps) |",
+                "|---|---:|---:|---:|---:|",
+            ]
+            for index, fold in enumerate(metrics.get("folds", []), 1):
+                fold_prediction = fold["prediction"]
+                if fold_diagnostic := fold_prediction.get("diagnostics"):
+                    rank = fold_diagnostic["rank_correlation"]
+                    rank_text = (
+                        f"{rank:.6f}"
+                        if rank is not None
+                        else fold_diagnostic["rank_status"]
+                    )
+                    lines.append(
+                        f"| {index} | {fold_prediction['observations']} | {rank_text} | "
+                        f"{fold_diagnostic['prediction_std'] * 10_000:.4f} | "
+                        f"{fold_diagnostic['target_std'] * 10_000:.4f} |"
+                    )
+        lines += [
             "",
             "| Policy | Trades | Gross PnL | Net PnL | Turnover | Max drawdown |",
             "|---|---:|---:|---:|---:|---:|",

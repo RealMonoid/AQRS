@@ -171,6 +171,22 @@ Keep the supervised pilot's source snapshot and report together. The report and 
 
 Core numerical results must reproduce with the same seed. Run IDs, timestamps and measured durations may vary. Define every metric's units and favorable direction.
 
+Prediction reports add `diagnostics` to aggregate and fold metrics. Spearman
+`rank_correlation` uses average ranks for ties; it is null with `rank_status`
+`CONSTANT_PREDICTION`, `CONSTANT_TARGET` or `INSUFFICIENT_OBSERVATIONS` when
+undefined, and otherwise `DEFINED`. Means and population standard deviations
+use simple returns in JSON and bps in Markdown. No p-value, independence estimate
+or economic claim follows. Reject empty, non-finite or misaligned vectors.
+The training movement screen remains unchanged; a screened-out run has no
+prediction diagnostics and an empty `diagnostic_exposure` list.
+
+Each diagnostic exposure entry names its definition ID, metric, aggregate/fold
+view, validation index intervals (exclusive stops) and target horizon. The parent
+attempt binds the dataset, source and candidate. Preserve entries on duplicate
+model attempts in both the journal and consolidated exposure index. These are
+additional data views, not additional fits or independent confirmations. Current
+reports remain schema 2 with additive fields; old evidence is not rewritten.
+
 ## H. Audit-compatible reporting and provenance
 
 Current reports use `schema_version="2"`; records without it remain legacy evidence. Record source bytes/digests, available Git commit and dirty state (null when unavailable), Python/platform and installed dependencies. Source identity is separate from scientific variant identity. New metadata never repairs missing execution-time bindings in M2-E08/E09. Core workers execute their saved source snapshot.

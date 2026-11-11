@@ -85,6 +85,10 @@ def read_report(result):
     assert "No real-world alpha" in markdown
     assert "does not establish predictability or net profitability" in markdown
     assert "not a calibrated horizon forecast" in markdown
+    assert "Spearman rank correlation" in markdown
+    assert "Descriptive diagnostics" in markdown
+    assert "no significance or economic claim" in markdown
+    assert "| Fold | Observations | Rank correlation |" in markdown
     return json.loads((path / "report.json").read_text(encoding="utf-8"))
 
 
@@ -287,6 +291,14 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
         assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
         assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone() == (2,)
         assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (4,)
+        for (stored,) in db.execute("SELECT metrics_json FROM experiments"):
+            exposure = json.loads(stored)["diagnostic_exposure"]
+            assert len(exposure) == 15
+            assert {row["view"] for row in exposure} == {
+                "aggregate",
+                "fold_1",
+                "fold_2",
+            }
         assert db.execute(
             "SELECT COUNT(*) FROM experiments WHERE duplicate_of IS NOT NULL"
         ).fetchone() == (2,)

@@ -2,6 +2,30 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Add descriptive signal diagnostics and research prerequisites
+
+AQRS-A08 reuses existing prediction outputs for descriptive association and dispersion, including folds and flat policies. Preserve fixed research rules and strengthen the existing pre-outcome design, precision and exposure requirements. Record broader data, execution and shared decision-code needs at their existing milestone gates. Implementation and verification are in progress.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `evidence/aqrs-a08-verification.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/research.py`
+- `tests/test_audit_controls.py`
+- `tests/test_cli.py`
+- `tests/test_evaluation.py`
+- `tests/test_research_logic.py`
+
 ## 2026-11-11 — Correct research comparison and precision boundaries
 
 AQRS-A07 corrects the price-drop control window in a separately registered count-only variant, preserves historical evidence, adds complete hourly policy diagnostics including skips, and labels sparse-trade and movement-screen limitations. Reuse the simulator, planner and CLI for conditional scalar precision planning without data access or fits. Add negative/positive synthetic tests and explicit M2-E14 design admission conditions. Independent review exposed a close/open gap at the initial equality boundary; require a strict gap and preserve that correction in the card and variant lineage. `events.py` is a distinct supported count API replacing use of the immutable historical scanner; no new real-data campaign runner or statistical confirmation framework is introduced. Close the engineering loop after 121 local tests, independent review and four exact-revision CI jobs; retain their small machine-readable verification receipt and synthetic example as durable evidence.

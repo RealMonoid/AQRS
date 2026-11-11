@@ -9,6 +9,125 @@ from aqrs.evaluation import evaluate, simulate
 from aqrs.market import build_folds, features, generate, validate
 
 
+@pytest.mark.parametrize(
+    "actual,predicted,expected",
+    [
+        ([1, 2, 3, 4], [1, 2, 3, 4], 1.0),
+        ([1, 2, 3, 4], [4, 3, 2, 1], -1.0),
+        ([1, 2, 3, 4], [2, 4, 1, 3], 0.0),
+        ([1, 1, 2, 3], [1, 2, 2, 3], 5 / 6),
+    ],
+)
+def test_prediction_diagnostics_preserve_sign_zero_and_average_ties(
+    actual, predicted, expected
+):
+    actual = np.array(actual, dtype=float) / 10_000
+    predicted = np.array(predicted, dtype=float) / 10_000
+    before = actual.copy(), predicted.copy()
+    metrics = evaluation.prediction_metrics(actual, predicted)
+    diagnostic = metrics["diagnostics"]
+    assert diagnostic["rank_correlation"] == pytest.approx(expected, abs=1e-12)
+    assert diagnostic["rank_status"] == "DEFINED"
+    assert diagnostic["scope"] == "DESCRIPTIVE_ONLY"
+    assert diagnostic["independent_sample_size"] is None
+    assert diagnostic["supports_economic_claim"] is False
+    np.testing.assert_array_equal(actual, before[0])
+    np.testing.assert_array_equal(predicted, before[1])
+    json.dumps(metrics, allow_nan=False)
+
+
+def test_prediction_dispersion_uses_simple_returns_and_population_standard_deviation():
+    metrics = evaluation.prediction_metrics(
+        np.array([0, 0.002, 0.004, 0.006]), np.array([0, 0.001, 0.002, 0.003])
+    )
+    diagnostic = metrics["diagnostics"]
+    assert diagnostic["prediction_mean"] == pytest.approx(0.0015)
+    assert diagnostic["prediction_std"] == pytest.approx(0.001118033988749895)
+    assert diagnostic["target_mean"] == pytest.approx(0.003)
+    assert diagnostic["target_std"] == pytest.approx(0.00223606797749979)
+    assert metrics["mae"] == pytest.approx(0.0015)
+    assert metrics["zero_mae"] == pytest.approx(0.003)
+
+
+@pytest.mark.parametrize(
+    "actual,predicted,status",
+    [
+        ([1, 2], [0, 0], "CONSTANT_PREDICTION"),
+        ([1, 1], [0, 1], "CONSTANT_TARGET"),
+        ([1], [2], "INSUFFICIENT_OBSERVATIONS"),
+    ],
+)
+def test_undefined_rank_is_null_with_a_reason(actual, predicted, status):
+    metrics = evaluation.prediction_metrics(np.array(actual), np.array(predicted))
+    assert metrics["diagnostics"]["rank_correlation"] is None
+    assert metrics["diagnostics"]["rank_status"] == status
+    json.dumps(metrics, allow_nan=False)
+
+
+@pytest.mark.parametrize(
+    "actual,predicted",
+    [
+        ([], []),
+        ([1, 2], [1]),
+        ([[1, 2]], [[1, 2]]),
+        ([1, np.nan], [1, 2]),
+        ([1, 2], [1, np.inf]),
+    ],
+)
+def test_prediction_metrics_reject_invalid_or_misaligned_pairs(actual, predicted):
+    with pytest.raises(ValueError):
+        evaluation.prediction_metrics(np.array(actual), np.array(predicted))
+
+
+def test_opposite_fold_associations_remain_visible_without_extra_fits(tmp_path):
+    class FixedForecast:
+        # Deliberate fixture forecast, not a trained or deployable research model.
+        def fit(self, x, y):
+            return self
+
+        def predict(self, x):
+            return np.array([1, 2, 3, 4]) / 10_000
+
+    bars = generate(7, 80, 5, "SYNTH")
+    opened = bars.values[:, 1].copy()
+    opened[21:26] = 100 * np.cumprod([1, 1.001, 1.002, 1.003, 1.004])
+    opened[31:36] = 100 * np.cumprod([1, 1.004, 1.003, 1.002, 1.001])
+    bars.values[:, 1:5] = opened[:, None]
+    np.save(tmp_path / "prefix.npy", bars.values, allow_pickle=False)
+    result = evaluate(
+        {
+            "prefix": str(tmp_path / "prefix.npy"),
+            "bar_minutes": 5,
+            "symbol": "SYNTH",
+            "folds": [[12, 16, 20, 24], [12, 26, 30, 34]],
+            "horizon": 1,
+            "features": ["past_return"],
+            "allow_short": False,
+            "notional": 1,
+            "costs": {
+                "fee_bps_per_side": 0,
+                "quoted_spread_bps": 0,
+                "slippage_bps_per_side": 0,
+                "decision_buffer_bps": 0,
+            },
+        },
+        tmp_path,
+        model_factory=FixedForecast,
+    )
+    assert [
+        f["prediction"]["diagnostics"]["rank_correlation"] for f in result["folds"]
+    ] == pytest.approx([1, -1])
+    assert json.loads((tmp_path / "fits.json").read_text()) == 2
+    assert result["prediction"]["observations"] == 8
+    exposure = result["diagnostic_exposure"]
+    assert len(exposure) == 15
+    assert {row["view"] for row in exposure} == {"aggregate", "fold_1", "fold_2"}
+    assert len({row["diagnostic_id"] for row in exposure}) == 5
+    aggregate = [row for row in exposure if row["view"] == "aggregate"]
+    assert all(row["validation_intervals"] == [[20, 24], [30, 34]] for row in aggregate)
+    assert all(row["horizon_bars"] == 1 for row in exposure)
+
+
 def test_matched_policy_uses_next_open_and_costs_cannot_improve_fixed_trades():
     bars = generate(7, 80, 5, "SYNTH")
     indices = np.arange(12, 24)
@@ -137,6 +256,14 @@ def test_evaluator_reports_training_means_for_an_unscaled_estimator(tmp_path):
         "short": 0,
         "flat": 20,
     }
+    assert result["prediction"]["diagnostics"]["rank_correlation"] is None
+    assert result["prediction"]["diagnostics"]["rank_status"] == "CONSTANT_PREDICTION"
+    assert result["prediction"]["diagnostics"]["prediction_std"] == 0
+    assert (
+        result["folds"][0]["prediction"]["diagnostics"]["rank_status"]
+        == "CONSTANT_PREDICTION"
+    )
+    assert json.loads((tmp_path / "fits.json").read_text()) == 1
 
 
 def test_future_bars_do_not_change_an_earlier_fitted_candidate_decision(

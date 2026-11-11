@@ -386,6 +386,43 @@ def test_evidence_bundle_preserves_committed_wal_and_index_identity(tmp_path):
             } == {row["experiment_id"] for row in indexed["attempts"]}
 
 
+def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_path):
+    from scripts.evidence_archive import build
+
+    config = {"research": {"candidates": [{"id": "synthetic"}]}}
+    look = {
+        "diagnostic_id": "AQRS-DIAG-RANK-V1",
+        "metric": "rank_correlation",
+        "view": "aggregate",
+        "validation_intervals": [[12, 20]],
+        "horizon_bars": 3,
+    }
+    with closing(journal.connect(tmp_path / "artifacts/journal.sqlite3")) as db:
+        for run_id in ("first", "repeat"):
+            journal.begin(db, run_id, "config", config, {})
+            journal.finish_experiment(
+                db,
+                run_id,
+                {
+                    "experiment_id": f"{run_id}:synthetic",
+                    "candidate_id": "synthetic",
+                    "execution_status": "COMPLETED",
+                    "evidence_status": "INSUFFICIENT_EVIDENCE",
+                    "metrics": {"diagnostic_exposure": [look]},
+                },
+                {"evidence_key": "same-model-and-data"},
+            )
+        build(tmp_path)
+    index = json.loads((tmp_path / "evidence/exposure.json").read_text())
+    assert len(index["variants"]) == 1
+    assert len(index["attempts"]) == 2
+    assert index["attempts"][1]["duplicate_of_in_original_journal"] == "first:synthetic"
+    assert [attempt["diagnostic_exposure"] for attempt in index["attempts"]] == [
+        [look],
+        [look],
+    ]
+
+
 def test_real_lightgbm_comparison_uses_archived_workers(tmp_path, monkeypatch):
     from importlib.metadata import version
 

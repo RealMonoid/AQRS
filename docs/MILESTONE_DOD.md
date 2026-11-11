@@ -97,6 +97,7 @@
 - [ ] Each new signal records the observable event or decision condition, its detection rule and its observation cadence under the [research protocol](RESEARCH_PROTOCOL.md#define-new-signals-around-the-event-under-study).
 - [ ] The rule-based event study demonstrates a [bounded screen](RESEARCH_PROTOCOL.md#lean-research-funnel) with matched controls, early cost estimates, and a recorded advance, defer, or stop decision.
 - [ ] Forecast value is compared with a trivial predictor and suitable simple model baseline on the same chronological research folds.
+- [ ] Descriptive signal diagnostics include flat policies and separate fold views; every new diagnostic on reused data is recorded as additional exposure. Before outcome access, verify the biased-design self-test, planted-effect check, justified precision plan and independent substantive review under the [admission protocol](RESEARCH_PROTOCOL.md#precision-and-claim-admission). Synthetic checks do not establish market evidence.
 - [ ] A candidate→decision control demonstrates that apparent value is not simply a known market filter; e.g. volume+downtrend against downtrend alone.
 - [ ] At least one negative control (e.g. time/block-preserving placebo or condition-matched random entry) can identify a deliberately misleading correlation.
 - [ ] Costs, turnover, effective independent event count and tried-variant count are visible per candidate.
@@ -173,6 +174,7 @@
 - [ ] Position, turnover, entry/exit, exposure and all applicable costs appear separately in the trade/decision ledger. Perpetual funding is event-time-based, not a flat fee on every 15-minute trade.
 - [ ] At least one independent hand-calculated test and adverse scenarios (higher spread/slippage, worse fills, illiquidity) match the simulator or show explicitly justified conservatism.
 - [ ] Minimum risk controls: position caps, exposure budget, drawdown monitoring and safe `flat`/`pause` action. Limits are configurable, not arbitrary permanent constants.
+- [ ] Qualify market/time/size-specific cost assumptions against available observations and conservative stress cases. Passive-order claims address fills and subsequent outcomes jointly; lack of suitable quotes or depth remains an explicit limitation.
 - [ ] Active policies are compared with `no-trade` and a simple policy under matching cost and risk conditions. Complexity must justify itself incrementally.
 - [ ] Reports separate forecast quality, simulated realized gross/net PnL, execution costs, risk and uncertainty. Simulated fills are not guaranteed actual fills.
 - [ ] Native Windows and Linux headless execution remain reproducible and within approved resource limits.
@@ -193,6 +195,7 @@
 
 - [ ] A **frozen** candidate processes only fresh real observations available at each moment, recording each forecast with `generated_at` and `available_at`.
 - [ ] Shadow/paper decisions can be compared with later realized outcomes; parameters/model cannot silently change during monitoring.
+- [ ] Backtest and shadow processing reuse the same frozen signal and decision functions. Batch and incremental replay of identical timestamped observations produce matching decisions; test warm-up, missing/duplicate data and restart behavior before fresh-data monitoring.
 - [ ] Monitoring distinguishes at least four cause families: prediction/calibration drift, cost/spread deterioration, regime/data shift, and risk/drawdown deterioration. An alert does not automatically prove “alpha decay.”
 - [ ] Predefined `WATCH`, `PAUSE`, `REVIEW`, `RETIRE` and controlled-resume transitions have recorded rationale.
 - [ ] Simulated normal operation, gradual drift, abrupt cost changes and data outages trigger expected states; missing data do not generate fake trades.

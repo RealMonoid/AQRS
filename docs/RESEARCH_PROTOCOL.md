@@ -212,6 +212,18 @@ Set minimum non-overlapping coverage and coverage across days/folds before inter
 
 ### Precision and claim admission
 
+Before the next outcome campaign, including M2-E14, retain three reviewable
+design checks against the frozen source: a known-answer null case that rejects
+the historical biased price-drop control, a planted-effect positive case, and
+an independent substantive review by someone other than the implementer.
+Use the actual selection and evaluation path. A constant price series with no
+events does not challenge control selection. Deterministic fixtures test known
+answers; stochastic null studies require a separately budgeted error-rate
+criterion rather than a promise of zero false alarms. AQRS-A08 supplies concrete
+V1/V2 fixtures, not a universal design validator or a completed M2-E14 runner.
+That runner must reject missing required design, precision or exposure records
+before outcome access; its admission tests remain a prerequisite to execution.
+
 Before an outcome run, state whether the intended decision needs a descriptive
 engineering result or evidence about an effect. For the latter, predeclare the
 effect scale, eligible population, uncertainty method and credible assumptions
@@ -226,6 +238,53 @@ an adopted confirmation test. The dispersion must refer to the chosen unit,
 such as a paired observation or a day mean. The calculation estimates neither
 dispersion nor dependence and does not calibrate multiple comparisons or the
 joint M2-E14 gates. A favorable capacity flag never admits a campaign.
+
+Judge planning by whether the declared decision can reasonably be informed
+under justified assumptions, not by minimizing the number of inconclusive
+results. Adequate power is not a guarantee of detection. Inability to afford a
+decisive test justifies deferral of that claim, not rejection of the market.
+Record uncertainty and temporal dependence before scientific interpretation;
+position sizing at M5 is not a reason to postpone that obligation.
+
+### Descriptive diagnostics and additional exposure
+
+The existing evaluator adds average-tie Spearman association and prediction /
+target mean and population standard deviation, both pooled and per fold. These
+are descriptive views of the existing fixed-horizon predictions, including flat
+decisions. Rank association measures monotonic ordering, not all information,
+calibration, net value or causal effects. A constant vector or insufficient
+observations yields a null coefficient with an explicit reason. Pooled results
+must not hide opposing folds; counts are not independent sample sizes.
+
+Every new diagnostic on previously used market dates is another recorded look,
+even without a new model. Register each metric definition and its planned
+aggregate/fold/horizon views before execution, bind the source, candidate,
+attempt and data window, and retain the views on reruns. The evaluator emits
+`diagnostic_exposure` entries; the report, SQLite metrics and evidence index
+retain them. Five new metrics over two folds plus the aggregate create fifteen
+view records, not fifteen independent observations or models. Synthetic checks
+are engineering evidence; registering an unrun definition consumes no market
+data. Record manual diagnostic looks as well. Do not silently recompute old
+reports: raw prediction arrays are not currently archived, so recomputation
+may require a new counted attempt and fits. Additional horizons or instruments
+need a registered question and preflight, not an automatic diagnostic sweep.
+
+Broaden time coverage or instruments only against a named missing source of
+information. Instrument count does not establish independent breadth; document
+synchronization, eligibility, common factors and dependence. Preserve the PCA
+panel prerequisites. Before economic claims, qualify costs at relevant times
+and sizes; passive fills require joint fill/outcome treatment under section 11.3
+of the adopted design. A descriptive signal study may retain illustrative costs
+with that limitation; it cannot claim realistic execution value.
+
+For prospective confirmation, publish the frozen rule/code digests, cost and
+execution assumptions, candidate family, future window, test and stop rules,
+missing-data treatment and result-release plan before confirmation observations
+exist. Keep an externally recorded publication receipt; a user-set commit date
+alone is insufficient. Preserve every attempt and prevent outcome-driven edits
+to that frozen version. Other development may continue separately. This proves
+temporal ordering only; it does not waive M1-S, exposure accounting or the
+existing protected-evaluation admission requirements.
 
 Keep the movement-scale screen separate from conditional predictability,
 forecast accuracy separate from trading activity, and economic effect size

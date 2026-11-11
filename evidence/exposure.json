@@ -1496,6 +1496,96 @@
       "test_card": "docs/MILESTONE_STATUS.md#aqrs-a07-test-card-research-comparison-and-precision-boundaries",
       "variant_id": "PRICE_DROP_V2",
       "work_item": "AQRS-A07"
+    },
+    {
+      "counting": "Each diagnostic/view/attempt is an additional data look, including replay of the same model; not an independent observation.",
+      "data_scope": [],
+      "execution_authorization": "No market-data diagnostics authorized by the synthetic engineering increment.",
+      "kind": "diagnostic_definition",
+      "metric": "rank_correlation",
+      "pre_run_binding": "Bind candidate, exact dates, horizon, views and published source/card revision before market execution.",
+      "registered_at": "2026-11-11T06:55:17.537781+00:00",
+      "source": "src/aqrs/evaluation.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a08-test-card-descriptive-signal-diagnostics",
+      "variant_id": "AQRS-DIAG-RANK-V1",
+      "views": [
+        "aggregate",
+        "each_existing_chronological_fold"
+      ],
+      "work_item": "AQRS-A08"
+    },
+    {
+      "counting": "Each diagnostic/view/attempt is an additional data look, including replay of the same model; not an independent observation.",
+      "data_scope": [],
+      "execution_authorization": "No market-data diagnostics authorized by the synthetic engineering increment.",
+      "kind": "diagnostic_definition",
+      "metric": "prediction_mean",
+      "pre_run_binding": "Bind candidate, exact dates, horizon, views and published source/card revision before market execution.",
+      "registered_at": "2026-11-11T06:55:17.537781+00:00",
+      "source": "src/aqrs/evaluation.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a08-test-card-descriptive-signal-diagnostics",
+      "variant_id": "AQRS-DIAG-PREDICTION-MEAN-V1",
+      "views": [
+        "aggregate",
+        "each_existing_chronological_fold"
+      ],
+      "work_item": "AQRS-A08"
+    },
+    {
+      "counting": "Each diagnostic/view/attempt is an additional data look, including replay of the same model; not an independent observation.",
+      "data_scope": [],
+      "execution_authorization": "No market-data diagnostics authorized by the synthetic engineering increment.",
+      "kind": "diagnostic_definition",
+      "metric": "prediction_std",
+      "pre_run_binding": "Bind candidate, exact dates, horizon, views and published source/card revision before market execution.",
+      "registered_at": "2026-11-11T06:55:17.537781+00:00",
+      "source": "src/aqrs/evaluation.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a08-test-card-descriptive-signal-diagnostics",
+      "variant_id": "AQRS-DIAG-PREDICTION-SD-V1",
+      "views": [
+        "aggregate",
+        "each_existing_chronological_fold"
+      ],
+      "work_item": "AQRS-A08"
+    },
+    {
+      "counting": "Each diagnostic/view/attempt is an additional data look, including replay of the same model; not an independent observation.",
+      "data_scope": [],
+      "execution_authorization": "No market-data diagnostics authorized by the synthetic engineering increment.",
+      "kind": "diagnostic_definition",
+      "metric": "target_mean",
+      "pre_run_binding": "Bind candidate, exact dates, horizon, views and published source/card revision before market execution.",
+      "registered_at": "2026-11-11T06:55:17.537781+00:00",
+      "source": "src/aqrs/evaluation.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a08-test-card-descriptive-signal-diagnostics",
+      "variant_id": "AQRS-DIAG-TARGET-MEAN-V1",
+      "views": [
+        "aggregate",
+        "each_existing_chronological_fold"
+      ],
+      "work_item": "AQRS-A08"
+    },
+    {
+      "counting": "Each diagnostic/view/attempt is an additional data look, including replay of the same model; not an independent observation.",
+      "data_scope": [],
+      "execution_authorization": "No market-data diagnostics authorized by the synthetic engineering increment.",
+      "kind": "diagnostic_definition",
+      "metric": "target_std",
+      "pre_run_binding": "Bind candidate, exact dates, horizon, views and published source/card revision before market execution.",
+      "registered_at": "2026-11-11T06:55:17.537781+00:00",
+      "source": "src/aqrs/evaluation.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a08-test-card-descriptive-signal-diagnostics",
+      "variant_id": "AQRS-DIAG-TARGET-SD-V1",
+      "views": [
+        "aggregate",
+        "each_existing_chronological_fold"
+      ],
+      "work_item": "AQRS-A08"
     }
   ],
   "manual_screens": [

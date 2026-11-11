@@ -11,6 +11,13 @@ from aqrs.storage import write_json
 from aqrs.worker import reserve_fit
 
 RIDGE_ALPHA = 1.0
+DIAGNOSTIC_IDS = {
+    "rank_correlation": "AQRS-DIAG-RANK-V1",
+    "prediction_mean": "AQRS-DIAG-PREDICTION-MEAN-V1",
+    "prediction_std": "AQRS-DIAG-PREDICTION-SD-V1",
+    "target_mean": "AQRS-DIAG-TARGET-MEAN-V1",
+    "target_std": "AQRS-DIAG-TARGET-SD-V1",
+}
 
 
 def model():
@@ -139,6 +146,7 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         screened = {
             "feasibility": feasibility | {"status": "SCREENED_OUT"},
             "rationale": "Training move scale does not clear illustrative costs and buffer.",
+            "diagnostic_exposure": [],
         }
         if real_spot:
             screened["stage_wall_seconds"] = timings
@@ -200,6 +208,23 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         else "Synthetic research folds are insufficient evidence of real-world alpha.",
         "folds": folds,
         "prediction": prediction_metrics(y[indices], prediction),
+        "diagnostic_exposure": [
+            {
+                "diagnostic_id": diagnostic_id,
+                "metric": metric,
+                "view": view,
+                "validation_intervals": intervals,
+                "horizon_bars": horizon,
+            }
+            for view, intervals in [
+                ("aggregate", [[fold[2], fold[3]] for fold in request["folds"]]),
+                *[
+                    (f"fold_{index}", [[fold[2], fold[3]]])
+                    for index, fold in enumerate(request["folds"], 1)
+                ],
+            ]
+            for metric, diagnostic_id in DIAGNOSTIC_IDS.items()
+        ],
         "trading": trading,
         "benchmark_scope": {
             "momentum": "Raw one-bar return used as a score, not a calibrated horizon forecast.",
@@ -215,11 +240,53 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
 
 
 def prediction_metrics(actual: np.ndarray, prediction: np.ndarray) -> dict:
+    """Describe fixed OOS predictions; never infer significance or admit a policy."""
+    actual = np.asarray(actual, dtype=float)
+    prediction = np.asarray(prediction, dtype=float)
+    if (
+        actual.ndim != 1
+        or prediction.shape != actual.shape
+        or not actual.size
+        or not np.isfinite(actual).all()
+        or not np.isfinite(prediction).all()
+    ):
+        raise ValueError("Prediction metrics require nonempty aligned finite vectors.")
     mae = float(np.mean(np.abs(actual - prediction)))
     zero_mae = float(np.mean(np.abs(actual)))
+    correlation = None
+    if len(actual) < 2:
+        rank_status = "INSUFFICIENT_OBSERVATIONS"
+    elif np.all(prediction == prediction[0]):
+        rank_status = "CONSTANT_PREDICTION"
+    elif np.all(actual == actual[0]):
+        rank_status = "CONSTANT_TARGET"
+    else:
+        rank_status = "DEFINED"
+        correlation = float(
+            np.corrcoef(_average_ranks(actual), _average_ranks(prediction))[0, 1]
+        )
     return {
         "observations": len(actual),
         "mae": mae,
         "zero_mae": zero_mae,
         "mae_improvement_vs_zero": zero_mae - mae,
+        "diagnostics": {
+            "scope": "DESCRIPTIVE_ONLY",
+            "rank_correlation": correlation,
+            "rank_status": rank_status,
+            "prediction_mean": float(np.mean(prediction)),
+            "prediction_std": float(np.std(prediction)),
+            "target_mean": float(np.mean(actual)),
+            "target_std": float(np.std(actual)),
+            "return_units": "simple_return",
+            "independent_sample_size": None,
+            "supports_economic_claim": False,
+        },
     }
+
+
+def _average_ranks(values: np.ndarray) -> np.ndarray:
+    """One-based ranks with equal values sharing their average occupied rank."""
+    _, inverse, counts = np.unique(values, return_inverse=True, return_counts=True)
+    ranks = np.cumsum(counts) - (counts - 1) / 2
+    return ranks[inverse]

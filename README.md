@@ -161,6 +161,14 @@ Isolation Forest report retains its legacy paired metric and adds all-hour
 net policy differences including skipped opportunities. No higher evidence
 status follows from these diagnostics.
 
+Prediction reports also show descriptive Spearman rank association and forecast /
+target dispersion, overall and for each existing chronological fold, including
+when the policy takes no trades. Undefined association is labeled explicitly.
+No significance, stable edge or profitability follows. Each new diagnostic view
+is recorded in `diagnostic_exposure` and the journal; reruns retain their own
+views. The training cost screen still stops before prediction when it fails.
+See the [diagnostic and exposure rules](docs/RESEARCH_PROTOCOL.md#descriptive-diagnostics-and-additional-exposure).
+
 For a data-free precision planning example, run:
 
 ```bash

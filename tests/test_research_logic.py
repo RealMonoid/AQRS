@@ -104,6 +104,53 @@ def test_full_day_price_drop_v2_excludes_the_trigger_from_the_control_hold(
     ]
 
 
+@pytest.mark.parametrize("effect_bps", [0, 30])
+def test_design_self_check_rejects_v1_bias_and_recovers_v2_effect(
+    historical_scanner, planted_drop, effect_bps
+):
+    # The trigger exists in both cases; only the post-entry outcome differs.
+    # A completely constant price series would never challenge event selection.
+    events = import_module("aqrs.events")
+    opened = np.r_[100.0, planted_drop[:-1]]
+    opened[105:] *= 1 + effect_bps / 10_000
+    closed = planted_drop.copy()
+    closed[105:] *= 1 + effect_bps / 10_000
+    start = datetime(2024, 1, 1, tzinfo=UTC).timestamp()
+    values = np.column_stack(
+        [
+            start + 60 * np.arange(1440),
+            opened,
+            np.maximum(opened, closed),
+            np.minimum(opened, closed),
+            closed,
+            np.ones(1440),
+        ]
+    )
+    bars = Bars(values, "SYNTH", 1)
+    validate(bars)
+    advantages = []
+    for scanner in (historical_scanner.scan, events.scan):
+        pair = scanner(bars.values[:, 4])[0]["pair"]
+        outcomes = [
+            simulate(
+                bars,
+                np.array([pair[key] - 1]),
+                np.ones(1),
+                15,
+                False,
+                1,
+                0,
+                pilot.prior.COSTS,
+            )["net_pnl"]
+            for key in ("event_entry_minute_utc", "control_entry_minute_utc")
+        ]
+        advantages.append(10_000 * (outcomes[0] - outcomes[1]))
+    assert advantages == pytest.approx([50 + effect_bps, effect_bps], abs=1e-10)
+    # The design check must reject the known biased definition, including under null.
+    admitted = [abs(advantage - effect_bps) <= 1e-10 for advantage in advantages]
+    assert admitted == [False, True]
+
+
 @pytest.mark.parametrize("controls", [[70], [75], [105], [75, 105], []])
 def test_v2_leaves_event_unmatched_without_an_uncontaminated_earlier_control(controls):
     events = import_module("aqrs.events")

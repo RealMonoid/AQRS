@@ -168,9 +168,10 @@ def build(root):
                 evidence,
                 duplicate,
                 metadata,
+                metrics,
             ) in db.execute(
                 "SELECT experiment_id,run_id,candidate_id,timestamp_utc,execution_status,"
-                "evidence_status,duplicate_of,metadata_json FROM experiments"
+                "evidence_status,duplicate_of,metadata_json,metrics_json FROM experiments"
             ):
                 config, report = campaigns[rid]
                 metadata = json.loads(metadata)
@@ -236,6 +237,12 @@ def build(root):
                         else "development_attempt_or_platform_replay",
                     }
                 )
+                # Replays keep their own diagnostic looks, even for the same model.
+                diagnostics = (
+                    json.loads(metrics).get("diagnostic_exposure") if metrics else None
+                )
+                if diagnostics is not None:
+                    attempts[-1]["diagnostic_exposure"] = diagnostics
     if len({a["experiment_id"] for a in attempts}) != len(attempts):
         raise ValueError(
             "Duplicate attempt identities across source journals require review."

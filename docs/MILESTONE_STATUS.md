@@ -21,7 +21,7 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 Use this table for planned development, founding, and project-level research experiments. Row order is the current priority. The [dispatch and update rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution.
 
-**Priority review, 2026-11-11.** AQRS-A07 completed the scoped research-logic corrections after AQRS-A06. M2-E14 remains the next campaign proposal, with a claim/precision and control-population review in addition to its campaign entry, published pre-run binding and named data/run authorization. The owner deferred AQRS-SC01; revisit scheduling when the owner reprioritizes it. Two-way Sierra Chart and ACSIL interoperability remains a v1.0 requirement. The price-drop outcome exercise and both completed model pilot follow-ups remain deferred.
+**Priority review, 2026-11-11.** AQRS-A08 follows the completed A06/A07 corrections and implements descriptive diagnostics plus explicit additional-view accounting. M2-E14 remains the next campaign proposal, waiting for the biased-design self-test, justified precision plan, independent design review, registered diagnostic views, verified campaign admission and published source/card binding before named outcome access. Its run authorization and Governor limits remain separate. The owner deferred AQRS-SC01; revisit scheduling when the owner reprioritizes it. Two-way Sierra Chart and ACSIL interoperability remains a v1.0 requirement. The price-drop outcome exercise and both completed model pilot follow-ups remain deferred.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -31,6 +31,7 @@ Use this table for planned development, founding, and project-level research exp
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| AQRS-A08 | 2026-11-11 | ACTIVE | [Add descriptive diagnostics and preserve outcome admission boundaries.](#aqrs-a08-test-card-descriptive-signal-diagnostics) | Owner authorized useful critique follow-ups; synthetic checks only. M2-E14 still requires the biased-control self-test, justified precision and recorded diagnostic exposure before outcomes. |
 | M2-E14 | 2026-11-10 | WAITING | [Review claim, precision and opportunity population before the two-candidate campaign.](#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10) | Resolve [AQRS-A07 Q3](RISK_REGISTER.md#fta-aqrs-a07-research-logic-audit-correction); record what this small design can decide and include skipped opportunities. Publish the fixed card/source binding before named archive access and outcome execution, which retain their separate authorization and preflight requirements. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
@@ -72,7 +73,37 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** No development loop is active. AQRS-A06 and AQRS-A07 are closed within their engineering scope. M2-E14 retains the research-design and execution start conditions below.
+**Status:** AQRS-A08 is active. AQRS-A06 and AQRS-A07 are closed within their engineering scope. M2-E14 remains waiting for its research-design and execution prerequisites.
+
+### AQRS-A08 Test Card: descriptive signal diagnostics
+
+**2026-11-11, before implementation (06:42 UTC review start).** The owner authorized the useful follow-ups from Claude and explicitly required the biased-control self-test and precision review before M2-E14, with every new diagnostic on previously used market days counted as additional exposure. Baseline is `a52d02c`. Prior source review established MAE and per-fold prediction reporting, but no rank association or forecast dispersion; the training movement screen can stop before fitting. No new market outcome informed this card.
+
+- **Hypothesis and risk.** Reusing the existing prediction arrays can make a flat or weak forecast interpretable without changing fits, timing, costs, policy decisions or evidence status. The alternative is that pooled rank association hides unstable folds or constant forecasts produce misleading numbers. See [FTA-AQRS-A08](RISK_REGISTER.md#fta-aqrs-a08-descriptive-diagnostics-and-admission).
+- **Minimum proof.** Add average-tie Spearman association and prediction/target mean and population standard deviation to the existing aggregate and fold prediction metrics. Expose them in JSON and Markdown, with undefined rank results represented by null plus a reason. Retain all observations and label the output descriptive, without p-values, an independent sample-size estimate or automatic promotion. Keep the current cost screen intact.
+- **Predeclared checks.** Hand-calculated positive, reversed, zero-association and tied-rank fixtures must agree within 1e-12; constant, singleton and invalid input cases must not fabricate a coefficient. A zero-trade synthetic evaluation must still expose diagnostics, with unchanged fit reservations. A constructed reversal across folds must remain visible. The actual simulator must expose the historical V1 control's false 50-bps advantage when event-forward returns are zero, reject that comparison under the fixture's zero-advantage criterion, and accept V2; a planted 30-bps forward effect must be recovered by V2. Preserve the existing 619-unit conditional precision example and its assumptions. These are engineering checks, not statistical error-rate calibration or market admission.
+- **Acceptance and evidence.** Run failing checks before implementation, focused checks, the full Windows suite, Ruff, language self-test/check, diff checks, and the existing four-job Windows/Linux CI. Capture command outcomes and exact revision in this record. Measure diagnostics on 10,000 scalar pairs: target under 2 seconds and under 32 MiB additional sampled process RSS, with no fits/resamples. Review legacy fields and frozen evidence for unintended changes. The new report fields are additive.
+- **Resources and priority.** One bounded 1–3 hour development increment, zero new market archive reads/downloads, market fits, horizon searches, instruments or protected reads. Synthetic verification only, sequential local checks; existing campaign limits remain unchanged. Recurring work is two rank sorts and summaries per existing fold and aggregate, not extra estimator fits. Historical recomputation is a new counted attempt. This has priority over implementing the waiting M2-E14 runner because it clarifies that design's interpretation without launching it.
+- **Stop and decision.** Stop on changed fills/status/budgets, unsupported diagnostics, failed causal checks or a resource excess; narrow or roll back the additive diagnostics instead of changing research thresholds. Adopt only on passing evidence; otherwise record INCONCLUSIVE or REFUTED. IDEA-004 and ADR-043/044/049 were reviewed: do not replace event-defined controls with a global correlation screen. Broader instruments, execution modeling and shadow operation stay at their existing gates.
+
+**Exposure refinement before its implementation.** The owner's explicit counting requirement also needs machine-readable receipts. Each evaluated candidate will record one entry per new metric and aggregate/fold view, with a stable diagnostic definition ID, exact validation index intervals and horizon. The existing report and journal persist these entries without a schema migration; later evidence consolidation must retain them even when a model attempt is a replay. The two-fold fixture must produce 15 entries (five diagnostics times three views); a pre-fit screen produces none. No market attempt is created by registering the definitions or running synthetic fixtures.
+
+
+### AQRS-A08 verification checkpoint
+
+Local implementation passed 138 tests in 76.93 seconds on native Windows. The
+diagnostic baseline failed 15 checks before implementation; Markdown, receipt
+and consolidation checks each separately failed on their missing behavior.
+The known-answer null check rejects V1's false 50-bps advantage and accepts V2's
+zero advantage; V2 also recovers the planted 30-bps effect. Two repeated model
+attempts retain both diagnostic receipts in the consolidated index. All legacy
+synthetic metrics/trades and five fit reservations match the baseline. The
+10,000-observation diagnostic measurement took 0.001322 seconds and 0.855469 MiB
+additional observed RSS, below the declared bounds; this is not a strict memory
+cap. Ruff, language self-test/check (45 files) and diff checks passed. See the
+[verification receipt](../evidence/aqrs-a08-verification.json) for commands,
+synthetic examples and limitations. Independent review and exact-revision
+Windows/Linux CI remain pending; the development loop is not yet closed.
 
 ### AQRS-A07 Test Card: research comparison and precision boundaries
 
@@ -798,6 +829,8 @@ Run the corrected pilot once on Windows in a new output directory with the uncha
 - **Next decision.** Prepare a Test Card for the separate real-data campaign that must yield two versioned and interpretable candidates. Establish the candidate roles, causal inputs, matched controls and costs before proposing a data scope or execution budget. The matched rule-based outcome study and M2 acceptance remain open.
 
 ## M2-E14 Test Card: two interpretable real-data candidates, 2026-11-10
+
+**AQRS-A08 start-condition clarification, 2026-11-11.** Before any outcome run, require the V1-bias rejection / V2 null and planted-effect self-test, a justified precision/decision plan for this campaign, and independent substantive review of its frozen full evaluation path. The illustrative 619-unit calculation does not resolve the missing empirical assumptions. Register each diagnostic view on reused dates in exposure accounting even when the model is unchanged. The future campaign entry must reject incomplete records before outcome access; that entry and its admission tests remain unimplemented. These prerequisites precede M2-E14 and do not silently amend its proposed thresholds or authorize a run.
 
 **AQRS-A07 admission amendment, 2026-11-11.** The original proposed definitions and thresholds below are preserved, not executed or silently relaxed. They are coverage and development-screen conditions, not proof of statistical precision. Six validation dates with at most one event pair per eight-hour band allow at most 18 pairs before missing coverage; they are not automatically 18 independent observations. Under an illustrative independent-pair SD of 20 bps, one-sided alpha 0.05 and power 0.8, detecting a 2-bps mean relative to zero requires 619 units; 18 units detect about 11.72 bps under that approximation. These are assumptions, not measured market dispersion or a calibrated joint false-positive rate.
 
