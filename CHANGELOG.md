@@ -2,6 +2,20 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Close the matched M2-E18 market comparison
+
+Preserve the two complete platform runs, candidate outcomes, replay setup
+correction and exact source and input bindings. Close the two-family
+campaign criterion and retain the open supervised-pilot source gap.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e18-acceptance.zip`
+- `evidence/m2-e18-verification.json`
+
 ## 2026-11-12 — Freeze the M2-E18 comparison and admission contract
 
 Register the authorized AQRS-D01 window and two scope-bound candidate
