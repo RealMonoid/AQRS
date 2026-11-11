@@ -273,4 +273,3 @@ def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch, mutate_so
     db.close()
     with pytest.raises(FileExistsError):
         blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
-

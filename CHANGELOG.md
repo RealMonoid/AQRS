@@ -16,7 +16,9 @@ one actual open rehearsal. That rehearsal completed after remote publication
 verification; final Windows checks passed 201 tests. Linux for this new entry
 remains unverified under the no-download restriction. The compact receipt lists
 all runtime artifact hashes without claiming those ignored artifacts are backed
-up remotely. Preparation is complete; the external run remains WAITING.
+up remotely. Preparation is complete; the external run remains WAITING. The
+final baseline-to-head whitespace audit removed one trailing blank line from
+the test file without changing its syntax tree or any search behavior.
 
 **Paths**
 
