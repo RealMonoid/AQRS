@@ -6,7 +6,7 @@ This protocol complements [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md) and [
 
 Store a versioned model card for each new algorithm:
 
-- `registry_id`, release/commit version, library license and separate model-weight/data licenses if relevant.
+- `registry_id`, release/commit version and dependency versions.
 - `problem`: forecast, anomaly/regime hypothesis, feature representation, decision, execution or research scheduling.
 - Market, instrument, data source, bar/event interval, feature availability, target variable and label horizon.
 - For unsupervised methods, the **downstream test** that distinguishes a rare state from future predictive value.
@@ -38,7 +38,6 @@ Store a versioned model card for each new algorithm:
 - `REJECTED`: evidence does not support usefulness for the *specified task/market period*, not an eternal universal ban.
 - `DEFERRED`: insufficient priority/evidence, with a review trigger/date.
 - `BLOCKED_DATA`: required inputs missing, unreliable or prohibitively expensive.
-- `BLOCKED_LICENSE`: code/weights/data rights prevent intended use.
 - `BLOCKED_RESOURCES`: CPU/RAM/runtime requirement exceeds approved bounds.
 
 `configs/model_tool_registry.json` holds **planning labels**. Live experiment and adoption history belong in the persistent journal, not a repeatedly overwritten static source of truth.
@@ -58,7 +57,7 @@ Before comparing models, record a bounded timing/memory pilot and explicit worst
 ## 5. Milestone-appropriate effort limits
 
 - **v0.1:** NumPy, pandas, minimal scikit-learn model; no model zoo. Verify the registry/DoD is readable and consistent; Native Windows and independent Linux installation tests must pass.
-- **v0.2:** real data; check access/licenses before DeepLOB, FinBERT or GNN trials.
+- **v0.2:** real data; check input availability and timing before DeepLOB, FinBERT or GNN trials.
 - **v0.3:** LightGBM and Isolation Forest as distinct learning families; evaluate XGBoost, HDBSCAN, PCA, autoencoders and Random Forest with bounded pilots or explicit blocking decisions. If needed real data are missing, record `BLOCKED_DATA` and a test plan instead of silently skipping.
 - **v0.4:** research budget becomes part of selection; compare Successive Halving to a static scheduler.
 - **v0.5:** selection-bias protection applies to all attempted models, even those generating no final candidate.
@@ -72,7 +71,7 @@ Before comparing models, record a bounded timing/memory pilot and explicit worst
 | Supervised ML | Inject future-only features; earlier predictions/train/OOS selection must remain unchanged. Same seed and fold config reproduce. |
 | PCA, clustering, autoencoders | Scaling/representation fit on training data only; validation observations cannot define training clusters. |
 | HDBSCAN, HMM, regimes | Historical decisions cannot use future regime labels; OOS/inductive scoring procedure explicitly tested. |
-| Text/LLM | Later publication cannot affect earlier features; separately inspect weights licensing. |
+| Text/LLM | Later publication cannot affect earlier features; verify processing delays and availability. |
 | DeepLOB | Reject OHLCV-only input; require appropriate LOB levels, events and fill/cost inputs. |
 | GNN | No future delisting, index membership or graph-edge knowledge in past-time graphs. |
 | RL/MPC | Same order and cost rules as baseline; RL remains deferred past v1.0. |

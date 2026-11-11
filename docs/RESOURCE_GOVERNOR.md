@@ -110,6 +110,22 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 
 ## 8. Execution scope and audit records
 
+AQRS-D01's data-only preparation counts sequential data workers separately from
+research trials and performs zero fits. Worker count cannot exceed the configured
+trial-count ceiling. The entry caps itself at two symbols, 31 UTC days per symbol,
+512 KiB per ZIP/uncompressed member, 4 KiB per checksum, 128 MiB total preparation
+storage, 120 seconds per worker and 300 seconds overall; tighter configured time/RSS
+limits apply. The conservative RSS admission estimate is 512 MiB. Online first-day
+timing must leave room for a twofold extrapolation plus five seconds before the
+remaining days are fetched. No redirects, retries or automatic alternate windows.
+
+Archive network reads, validation and derived-file publication execute under the
+existing process watchdog and sampled-RSS guard. Scope/configuration loading,
+source snapshots, parent report finalization and directory-size accounting are
+control-plane I/O outside that hard worker deadline. The receipt explicitly
+distinguishes resource/execution outcomes from data qualification and research
+readiness. A quality-only acquisition does not satisfy a research preflight.
+
 AQRS-A06 checks remaining time even when timing is disabled. Core data staging runs in an isolated worker after static admission and before timing/model fits; all these workers share the original campaign deadline and sampled-RSS policy. Preparation CPU/RSS is recorded separately and included in campaign totals. Source snapshot, journal/report I/O and cleanup remain outside a hard external deadline. Both pilots validate the approved configuration; their parent-side archive/report I/O also remains outside hard timeout enforcement. A new entry needs its own boundary review.
 
 Supported estimator/calibration calls reserve the fit allowance before starting. A reserved attempt remains in `started_fits` even if fitting fails; a rejected reservation starts no fit. Keep this count separate from `completed_fits`. This protects trusted AQRS workers, not hostile Python. No global lifetime budget is invented: each manual campaign requires its own authorization, and the exposure index retains repetitions. No automatic retries or budget increases are introduced.

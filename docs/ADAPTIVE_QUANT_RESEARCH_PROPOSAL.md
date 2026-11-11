@@ -209,7 +209,7 @@ selection_lineage_id
 
 | Object | Essential content in addition to metadata |
 |---|---|
-| `ResearchCampaign` | Target, scope, policy version, budget, data rights, allowed actions, stop rules, status. |
+| `ResearchCampaign` | Target, scope, policy version, budget, data access permissions, allowed actions, stop rules, status. |
 | `ResearchDomain` | Instruments, venues, data sources, horizons, families of mechanisms, maximum order of interaction, scope limits. |
 | `Assumption` | Statement, type, source, scope, availability, revision trigger, status. |
 | `ParameterRegion` | Parameters with units, common permitted region, restrictions, origin, type of uncertainty. |
@@ -362,7 +362,7 @@ ModelRevisionManager.review(registry, new_evidence) -> RevisionProposal[]
 ResearchOrchestrator.step(campaign_id) -> ResearchDecision
 ```
 
-`CandidateBatch` may contain new candidates, new domains and extension proposals. It may not directly modify registry schemes or data rights.
+`CandidateBatch` may contain new candidates, new domains and extension proposals. It may not directly modify registry schemes or data access permissions.
 
 `FeasibilityAssessment` provides `FEASIBLE_WITHIN_SCENARIOS`, `ROBUSTLY_INFEASIBLE_WITHIN_SCOPE`, `UNRESOLVED` or `UNSUPPORTED_CAPABILITY`, each with assumptions and a reasonable calculation. A negative screening result alone is not a robust certificate of impossibility.
 
@@ -1172,7 +1172,7 @@ A resumption or substantive revision creates a new candidate version in the stat
 - Budget is reserved nuclear before the start of the job and compared with actual costs after the end. Aborted and failed attempts count with their real costs.
 - Parallel agents must not use the same holdout uncontrollably for successive adaptive hypotheses. Releases require atomic, agent and campaign valid slots and exposure testing under 10.12; local in-process locks alone are not enough.
 - Cache keys include data role, snapshot, fit scope, code/feature version, and configuration. A cache must not circumvent role separation.
-- Shared data licensing and infrastructure costs are allocated in the policy comparison according to a predefined rule.
+- Shared data acquisition and infrastructure costs are allocated in the policy comparison according to a predefined rule.
 - Data protection, deletion and retention are based on the project; sensitive raw content should not be reproduced unnecessarily in immutable logs.
 
 ### 14.4 Role of an LLM/Codex agent
@@ -1222,7 +1222,7 @@ Additionally required for true protected evaluation: independent runtime/service
 
 For an existing Python project, for example, already used NumPy/SciPy, DataFrame and ML libraries come into consideration. This is not an instruction to rebuild another stack on Python or introduce parallel libraries.
 
-Codex MUST check existing dependency locks, Python/compiler versions, licenses and test conventions first. Package versions are set in the actual repository. This document does not claim any specific, already compatible versions.
+Codex MUST check existing dependency locks, Python/compiler versions and test conventions first. Package versions are set in the actual repository. This document does not claim any specific, already compatible versions.
 
 ### 15.2 Optional dependencies
 
@@ -1445,7 +1445,7 @@ Unexecuted tests are called unexecuted. Repository/data assumptions are not subs
 | Unknown in chat | Consequence before productive use |
 |---|---|
 | Programming language and package structure | Map ports to existing idioms; do not use assumed Python file paths. |
-| Actual data resolution and license rights | Check capabilities and permitted use; missing data blocks only affected claims. |
+| Actual data resolution and availability | Check capabilities and coverage; missing data blocks only affected claims. |
 | Existing backtester and fill model | Execution fidelity and cost conventions explicitly check. |
 | Real research/risk budgets | Lock production runs without configuration; do not adopt fixture values. |
 | Previous use of historical test data | Inventory data consumption; unknown past does not mean assured untouchability. |

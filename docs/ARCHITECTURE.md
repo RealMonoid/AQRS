@@ -109,6 +109,17 @@ features, folds, evaluator, Governor and journal. For the accepted BTCUSDT scope
 day is a reserved interval in the manifest. Evaluation workers receive only the research day.
 See the [M1 acceptance evidence](MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
+The optional `spot_dataset` data-only entry reuses `binance_spot_pilot.load_spot_day`,
+`Bars`, `write_dataset`, `provenance.snapshot` and the existing supervisor/worker
+handshake. A fixed scope determines symbol/date URLs before access. Sequential
+contained workers acquire or read archives, verify the published checksum and
+complete UTC cadence, and join days within each symbol. Activity fields have a
+separate timestamp-aligned file and digest; the existing six-column `Bars`
+contract and M1 import wrapper remain compatible. The entry records no model
+fits or economic diagnostics, and does not route these new datasets into an
+existing research campaign. Optional network access is confined to `acquire`;
+the core research CLI and `qualify` remain offline.
+
 ## Time semantics — binding contract
 
 For v0.1, bars have UTC `bar_open_time` and `bar_close_time` and feature vector `X_t` becomes available **only after bar `t` closes**.

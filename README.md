@@ -10,7 +10,7 @@ AQRS is designed as a local, CPU-friendly research platform for **short-horizon 
 
 ## Target product at v1.0
 
-The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over legally usable, quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
+The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
 
 - **Product vision / end state:** [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md)
 - **All discussed models and tools, gates and status:** [`docs/MODEL_TOOL_CATALOG.md`](docs/MODEL_TOOL_CATALOG.md)
@@ -97,6 +97,30 @@ python -m aqrs.binance_spot_pilot --day 2026-01-05 --archive BTCUSDT-1m-2026-01-
 The importer validates the checksum and all 1,440 UTC minute intervals before writing
 `dataset.csv` and `import_report.json`. Keep the source and output local for this
 non-commercial technical pilot.
+
+## Prepare broader Spot datasets
+
+For broader **data preparation**, the optional Spot dataset entry qualifies one
+or two explicitly selected symbols over up to 31 contiguous UTC days. The checked-in
+scope is BTCUSDT and ETHUSDT, December 1–24, 2025. This prepares development data;
+it does not run a research campaign or change M1's fixed campaign input.
+
+```bash
+python -m aqrs.spot_dataset plan --scope configs/spot_data.json
+python -m aqrs.spot_dataset acquire --scope configs/spot_data.json --output artifacts/spot-data
+```
+
+`acquire` is the explicit online action. For already available ZIP/checksum pairs,
+use `qualify --scope configs/spot_data.json --archive-dir <directory> --output <new-directory>`.
+The existing `configs/research.yaml` supplies Governor settings; `--config` can
+select another validated research configuration with equal or tighter limits.
+Each instrument receives its own `dataset.csv`, `activity.csv` and `manifest.json`.
+Activity retains quote volume, trade count and taker-buy base/quote volume, available
+only at bar close. The top-level `report.json` records the frozen plan, source,
+per-worker outcome and observed resources. Failed or partial attempts remain explicit;
+an existing output directory is never overwritten. More than one symbol is not
+automatically independent evidence. See [AQRS-D01](docs/MILESTONE_STATUS.md#aqrs-d01-test-card-free-spot-data-expansion)
+for the fixed acquisition budget and verification status.
 
 ## M1 pilot: run the BTCUSDT spot campaign
 

@@ -71,7 +71,7 @@ Recommend a new chat in the same AQRS project only when the next objective is ma
 - Follow the [M2 Definition of Done](docs/MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls) for the required supervised and unsupervised discovery pilots. An anomaly score alone is never alpha.
 - Do not silently drop HDBSCAN, autoencoders or any other cataloged model. Record decisions as `ADOPTED`, `REJECTED`, `DEFERRED`, or `BLOCKED_*` with evidence and the relevant gate.
 - Distinguish predictive ML, anomaly/regime detection, feature/model selection, research scheduling, decision policy and execution. Every tuning attempt counts toward multiple-testing exposure.
-- Check software, model-weight and dataset licenses **separately**. FinBERT weights are not automatically licensed for commercial use.
+- Data-rights and software, model-weight or dataset license reviews are not AQRS requirements or admission gates. The owner removed these requirements on 2026-11-11; see ADR-051 in `docs/DECISIONS.md`.
 
 ## Compute Budget First — mandatory from M0
 

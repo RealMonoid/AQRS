@@ -12,7 +12,7 @@ Machine-readable companion: [`../configs/model_tool_registry.json`](../configs/m
 |---|---|
 | **CORE** | A working, tested basic capability exists by the named gate. |
 | **EVALUATE** | By that gate supply a reproducible comparison to the named baseline, or a reasoned and testable no-go/BLOCKED report. Adopt only with demonstrated incremental value. |
-| **CONDITIONAL** | Registered tool; enable only when data, compute, license and a positive research case justify it. |
+| **CONDITIONAL** | Registered tool; enable only when data, compute and a positive research case justify it. |
 | **DEFERRED** | Explicitly outside mandatory v1.0 scope; separate authorization required later. |
 
 ## A. Predictive models and statistical baselines
@@ -63,7 +63,7 @@ Machine-readable companion: [`../configs/model_tool_registry.json`](../configs/m
 | [LLM/BERT Embeddings and Structured Text Extraction](https://github.com/huggingface/transformers) | `Transformers / sentence-transformers` | M1/v0.2 | **CONDITIONAL** | Features from news, filings and earnings events; baseline: Text categories / sentiment without an LLM |
 | [gpt-oss (local open-weight language models)](https://github.com/openai/gpt-oss) | `openai/gpt-oss` | M8/v0.9 | **DEFERRED** | Optional local LLM feature extractor, not a required trading agent; baseline: Small text model / FinBERT |
 
-**FinBERT licensing safeguard:** repository code, model weights and training data may carry different licenses. Check each license separately before deployment or redistribution. Publication timestamps and realistic processing delays are essential; text must never be available before release.
+**FinBERT timing safeguard:** publication timestamps and realistic processing delays are essential; text must never be available before release.
 
 ## E. Decisions, research optimization and reinforcement learning
 
@@ -103,7 +103,7 @@ Machine-readable companion: [`../configs/model_tool_registry.json`](../configs/m
 | **PyTorch Forecasting** | TFT and deep time-series tooling | M2/v0.3 | **CONDITIONAL** | [Documentation](https://github.com/sktime/pytorch-forecasting) |
 | **hmmlearn** | HMM tooling; review maintenance status before adoption | M2/v0.3 | **CONDITIONAL** | [Documentation](https://github.com/hmmlearn/hmmlearn) |
 | **PyTorch Geometric** | Graph neural network framework | M2/v0.3 | **CONDITIONAL** | [Documentation](https://github.com/pyg-team/pytorch_geometric) |
-| **Hugging Face Transformers** | Text and embedding models; separately verify weights/text licenses | M1/v0.2 | **CONDITIONAL** | [Documentation](https://github.com/huggingface/transformers) |
+| **Hugging Face Transformers** | Text and embedding models with explicit publication and availability times | M1/v0.2 | **CONDITIONAL** | [Documentation](https://github.com/huggingface/transformers) |
 | **MLflow** | Optional experiment UI/artifact management; SQLite remains authoritative | M7/v0.8 | **CONDITIONAL** | [Documentation](https://github.com/mlflow/mlflow) |
 | **pytest** | Tests for causality, costs, data, journaling and release gates | M0/v0.1 | **CORE** | [Documentation](https://github.com/pytest-dev/pytest) |
 | **Ruff** | Linting and code hygiene | M0/v0.1 | **CORE** | [Documentation](https://github.com/astral-sh/ruff) |
@@ -135,27 +135,27 @@ These dispositions apply to the current M2 scope and evidence. The registry reta
 | `pca_residual` — remove shared market variation and test unusual residual moves | `BLOCKED_DATA` for the registered cross-series factor-removal use. The qualified M2 pilot receipts describe single-instrument BTCUSDT spot features. They supply no synchronized peer panel for testing shared factors. | Revisit when a qualified panel includes BTCUSDT and multiple comparable series with documented as-of availability and recurring co-movement across separate development blocks. Fit scaling and components on training data and compare a fixed residual-based test with the unadjusted single-asset signal and a simple linear factor control. Require a predeclared improvement in the downstream return or risk outcome on matched events. |
 | `autoencoder` — use nonlinear reconstruction errors to generate testable anomaly alerts | `DEFERRED`. M2-E10 leaves the incremental value of the anomaly alert unresolved, and the receipts contain no same-input linear reconstruction comparison demonstrating a specific nonlinear gap. | Revisit when a same-input linear reconstruction control, such as PCA, and simple anomaly controls systematically miss a named recurring pattern with a measurable downstream outcome in separate development blocks. Compare one small CPU model with the linear reconstruction control, Isolation Forest and simple statistics on matched alert opportunities. Require an improvement in the registered downstream outcome at comparable alert coverage. Lower reconstruction error alone is insufficient. |
 
-The review schedules zero fits. Before any comparison, freeze the data scope, availability times, target and horizon, folds and purge, model version, applicable licenses, metric thresholds and trial counts under the [evaluation protocol](MODEL_EVALUATION_PROTOCOL.md#1-pre-registered-model-card-required-before-every-comparison) and [Governor preflight](RESOURCE_GOVERNOR.md#2-preflight-before-each-campaign). Use train-only fitting and preserve the final holdout. For decisions with simulated trades, keep fills and costs identical across arms and report net value separately from prediction or alert quality. Stop or defer if qualified coverage, a causal scoring path or the approved budget is insufficient.
+The review schedules zero fits. Before any comparison, freeze the data scope, availability times, target and horizon, folds and purge, model version, metric thresholds and trial counts under the [evaluation protocol](MODEL_EVALUATION_PROTOCOL.md#1-pre-registered-model-card-required-before-every-comparison) and [Governor preflight](RESOURCE_GOVERNOR.md#2-preflight-before-each-campaign). Use train-only fitting and preserve the final holdout. For decisions with simulated trades, keep fills and costs identical across arms and report net value separately from prediction or alert quality. Stop or defer if qualified coverage, a causal scoring path or the approved budget is insufficient.
 
 ## H. Model adoption and rejection criteria
 
-Before a pilot, record: research question, necessary data, early costs, accepted wall/RAM budget, baseline, forecast/net metrics, statistical plan, chronological folds, tuning budget, attempt count and train-only fitting. Afterwards assign `ADOPTED`, `REJECTED`, `DEFERRED`, `BLOCKED_DATA`, `BLOCKED_LICENSE` or `BLOCKED_RESOURCES` with run ID and justification. **Incremental independent value governs adoption, not the model name.**
+Before a pilot, record: research question, necessary data, early costs, accepted wall/RAM budget, baseline, forecast/net metrics, statistical plan, chronological folds, tuning budget, attempt count and train-only fitting. Afterwards assign `ADOPTED`, `REJECTED`, `DEFERRED`, `BLOCKED_DATA` or `BLOCKED_RESOURCES` with run ID and justification. **Incremental independent value governs adoption, not the model name.**
 
 ## I. Specific technical risks
 
 - HDBSCAN on millions of observations and large neural models can exhaust CPU/RAM. Profile first, sample when justified, and obey the Resource Governor.
 - Regime/HMM methods must see only historical information in each fold; no full-series Viterbi smoothing used as a supposed real-time signal.
 - Autoencoders, PCA, K-Means, GMM and HDBSCAN fit scaling/representation only on training periods. Check how unseen observations will be scored. HDBSCAN may require a separate prediction API and is not automatically an online classifier.
-- Order-book networks need sufficiently complete, legally usable L2/L3 streams and realistic fills; OHLCV is not enough.
-- FinBERT/LLM features require licensed, precisely timestamped texts and no retrospective availability before publication.
+- Order-book networks need sufficiently complete L2/L3 streams and realistic fills; OHLCV is not enough.
+- FinBERT/LLM features require precisely timestamped texts and no retrospective availability before publication.
 - Compare CatBoost/LightGBM/XGBoost/neural networks with identical time windows, costs, validation standards and explicit tuning budgets; tuning is part of multiple testing.
 - RL and FinRL are not required through v1.0. Simulation profits without a credible decision environment are weak evidence.
 - Windows/Linux/CPU wheel availability and memory footprint are adoption prerequisites. Optional dependencies must not break a clean native Windows or headless Linux M0 install.
 
 ## J. Sources and verification date
 
-Links point to official projects or relevant reference implementations. Re-check versions, licenses, wheels and maintenance **at actual adoption time**; this document is not a license grant. Catalog baseline date: **November 6, 2026**.
+Links point to official projects or relevant reference implementations. Re-check versions, wheels and maintenance **at actual adoption time**. Catalog baseline date: **November 6, 2026**.
 
 ## K. Resource Governor: cross-cutting requirement for **all** models
 
-This catalog is **not** an instruction to calibrate 32 models one after another. Each trial must declare its fits, folds, seeds and parameter combinations, and the Resource Governor must measure or conservatively estimate total runtime and RAM before starting. Data/license/compute-constrained methods receive `BLOCKED_*`/`DEFERRED`, **not** stealthy unlimited calibration. Automated reruns without a new approved budget are prohibited. See [`RESOURCE_GOVERNOR.md`](RESOURCE_GOVERNOR.md).
+This catalog is **not** an instruction to calibrate 32 models one after another. Each trial must declare its fits, folds, seeds and parameter combinations, and the Resource Governor must measure or conservatively estimate total runtime and RAM before starting. Data/compute-constrained methods receive `BLOCKED_*`/`DEFERRED`, **not** stealthy unlimited calibration. Automated reruns without a new approved budget are prohibited. See [`RESOURCE_GOVERNOR.md`](RESOURCE_GOVERNOR.md).

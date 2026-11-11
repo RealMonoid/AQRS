@@ -50,7 +50,7 @@ At the final product stage, an independent **Alpha Monitoring** loop tracks acce
 - Costs appear in early screening and realistic backtests; predictive quality is distinct from economic usefulness.
 - Matched controls and ablations challenge claims of incremental edge.
 - Research budgets are transparent, enforced and audited before and during runs.
-- The final v1.0 product operates on real lawful data, supports candidate lifecycle/monitoring, and does not send real-money broker orders.
+- The final v1.0 product operates on real, quality-controlled data, supports candidate lifecycle/monitoring, and does not send real-money broker orders.
 - A negative or inconclusive result is accepted and honestly reported.
 
 ## Minimum-complexity principle

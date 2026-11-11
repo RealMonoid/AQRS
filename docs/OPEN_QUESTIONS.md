@@ -41,7 +41,7 @@ An initial denied read is limited evidence. The [protected evaluation gate](MILE
 
 ## Prerequisites for later model families
 
-Before DeepLOB: are legally usable L2/L3 order-book and realistic fill data available? Before FinBERT/LLM: are text rights, publication times and weight licenses understood? Before HDBSCAN/autoencoders: is compute available for causal out-of-sample anomaly testing? Before RL: is there a credible interactive simulation and a classical policy worth beating? See [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md).
+Before DeepLOB: are sufficiently complete L2/L3 order-book and realistic fill data available? Before FinBERT/LLM: are publication times, processing delays and text availability understood? Before HDBSCAN/autoencoders: is compute available for causal out-of-sample anomaly testing? Before RL: is there a credible interactive simulation and a classical policy worth beating? See [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md).
 
 ## Compute and platform rules are not open-ended blockers
 

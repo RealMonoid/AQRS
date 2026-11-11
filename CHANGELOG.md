@@ -2,6 +2,49 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Expand bounded free Spot data preparation
+
+AQRS-D01 prepares a guarded, reproducible multi-day and two-symbol data-only path by reusing the daily importer and supervisor. Retain additional kline activity fields and preserve existing research admission. Planning recorded before implementation; verification and acquisition pending. The new dataset module separates optional online acquisition from the offline research CLI; its configuration fixes the approved calendar scope.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `README.md`
+- `configs/spot_data.json`
+- `docs/ARCHITECTURE.md`
+- `docs/CONTRACTS.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/spot_dataset.py`
+- `tests/test_spot_dataset.py`
+
+
+## 2026-11-11 — Remove mandatory data-rights and license review gates
+
+AQRS-G01 implements the owner's explicit system-wide removal of data-rights and license checks from current requirements, model prerequisites and acceptance gates under ADR-051. Preserve technical access controls, data quality, provenance, timing, compute limits and historical evidence. No runtime or research rule changes.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `README.md`
+- `configs/model_tool_registry.json`
+- `docs/ADAPTIVE_QUANT_RESEARCH_PROPOSAL.md`
+- `docs/CHAT_SYNTHESIS.md`
+- `docs/DECISIONS.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/MODEL_TOOL_CATALOG.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/PRODUCT_VISION.md`
+- `docs/PROJECT_BRIEF.md`
+- `docs/RISK_REGISTER.md`
+- `docs/ROADMAP.md`
+
 ## 2026-11-11 — Add descriptive signal diagnostics and research prerequisites
 
 AQRS-A08 reuses existing prediction outputs for descriptive association and dispersion, including folds and flat policies. Preserve fixed research rules and strengthen the existing pre-outcome design, precision and exposure requirements. Record broader data, execution and shared decision-code needs at their existing milestone gates. Preserve each diagnostic view through reports, journals and consolidated exposure, including model replays. Five definitions are registered as unrun; historical exposure is unchanged. A compact verification receipt preserves synthetic examples, the known-bias self-test, local checks, independent review and four passing Windows/Linux jobs. No new market campaign or universal admission framework is introduced.

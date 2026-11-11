@@ -24,6 +24,29 @@ Scenarios:
 
 Data-quality checks: monotonically increasing unique timestamps, consistent bar interval, no negative/nonfinite prices, OHLC invariants, no NaN/Inf volume, nonempty series and documented removal of feature warm-up observations.
 
+### Qualified Spot activity inputs
+
+The data preparation path validates each complete daily one-minute Spot archive
+and its published SHA-256. It normalizes pre-2025 millisecond and 2025-onward
+microsecond timestamps to the same UTC bar boundary. Missing, duplicate,
+out-of-order, foreign-day or wrong-unit rows are rejected. The M1 legacy wrapper
+retains its BTCUSDT/microsecond contract, and January 6, 2026 remains rejected
+before archive access by the supported entries.
+
+`activity.csv` aligns `bar_open_time` and `available_at` with the corresponding
+OHLCV bar. Its fields are `quote_volume`, integer `trade_count`,
+`taker_buy_base_volume` and `taker_buy_quote_volume`. Require finite nonnegative
+values, exactly representable trade counts below 2**53, and taker-buy volumes
+no greater than their corresponding total volumes. Completed activity is known
+at bar close only; it does not reveal within-bar event order or quotes.
+
+Per-symbol manifests bind the archive digests, OHLCV identity and both output
+file digests. A completed preparation is `qualified=true`,
+`data_role=DEVELOPMENT`, `research_ready=false`, `evidence_status=NOT_EVALUATED`.
+This is a quality result, not research admission. A failed overall attempt may
+contain an individually qualified first symbol; consumers must check the
+top-level completion receipt before treating the requested scope as complete.
+
 ## B. Feature availability and targets
 
 A feature vector `X_t` describes historical bars **up to and including `t` only**, with `available_at = bar_close_time[t]`.

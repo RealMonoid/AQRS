@@ -13,7 +13,7 @@ Use **Lean Startup / Walking Skeleton**. Every milestone extends an end-to-end w
 | Gate | Version | New capability | Core acceptance |
 |---|---|---|---|
 | **M0** | **v0.1** | Offline synthetic data → features → candidates → cost/controls → time-safe folds → decisions → journal/report, with Resource Governor | Reproducible native Windows **and** Linux CLI walking skeleton with automated tests |
-| **M1** | v0.2 | Real market data and market feasibility | Audited, lawfully usable real data/instrument contract and real historical research run |
+| **M1** | v0.2 | Real market data and market feasibility | Audited real data/instrument contract and real historical research run |
 | **M2** | v0.3 | Hypothesis- and data-driven discovery | Versioned candidates, matched control tests and **LightGBM/Isolation Forest pilots**; HDBSCAN/autoencoder/XGBoost evaluated or explicitly blocked |
 | **M3** | v0.4 | Budgeted adaptive research management | Explainable, revisitable priorities, exploration and comparison with fixed allocation; Governor-integrated scheduling |
 | **M4** | v0.5 | Scientific candidate admission | Statistical independence controls, multiple-testing treatment and frozen candidate/final-test audit |
