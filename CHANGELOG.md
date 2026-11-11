@@ -2,6 +2,35 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Prepare the owner-gated external synthetic blind test
+
+AQRS-B01 freezes a distinct input and finite-search contract in the existing
+canonical documents, registers its Test Card and risk analysis before code,
+and prepares a guarded open rehearsal. No external data, market or protected
+day is searched. The proposed 24-trial exception awaits owner approval; base
+Governor limits and the existing queue remain unchanged. New focused modules,
+configuration, tests and a compact evidence receipt serve this runnable boundary;
+no separate experiment documentation is introduced.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/CONTRACTS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md`
+- `configs/blind_search.json`
+- `src/aqrs/blind_input.py`
+- `src/aqrs/blind_search.py`
+- `tests/test_blind_search.py`
+- `evidence/blind/AQRS-B01-OPEN/preregistration.jsonl`
+- `evidence/blind/AQRS-B01-OPEN/registration.json`
+- `evidence/aqrs-b01-verification.json`
+
 ## 2026-11-11 — Expand bounded free Spot data preparation
 
 AQRS-D01 prepares a guarded, reproducible multi-day and two-symbol data-only path by reusing the daily importer and supervisor. Retain additional kline activity fields and preserve existing research admission. The predeclared slice passed independent review, 177 local tests and four Windows/Ubuntu CI jobs. All 48 real daily archives qualified; preserve the acquisition and verification metadata in a small versioned receipt. The new dataset module separates optional online acquisition from the offline research CLI; its configuration fixes the approved calendar scope.

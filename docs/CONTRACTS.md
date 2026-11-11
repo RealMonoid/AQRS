@@ -47,6 +47,66 @@ This is a quality result, not research admission. A failed overall attempt may
 contain an individually qualified first symbol; consumers must check the
 top-level completion receipt before treating the requested scope as complete.
 
+## A2. External synthetic blind-test input (AQRS-B01)
+
+This contract is frozen before external payload delivery and is independent of
+the market importers and reserved market day.
+
+- Deliver one flat directory, `artifacts/blind-test/inbox/`, containing exactly
+  `manifest.json` and the declared `D001.csv`, `D002.csv`, etc. IDs are consecutive
+  from D001, at most 16 datasets. No archives, subdirectories, links, executables,
+  generation code, labels, seeds, effect counts, descriptive filenames or keys.
+- CSV: UTF-8 without BOM, comma separator, decimal point, LF or CRLF, exactly
+  `timestamp_utc,open,high,low,close,volume` as header. No index, blank rows,
+  comments, missing values, NaN or infinity. Finite positive prices; finite
+  nonnegative volume; `low <= open,close <= high`. Gaps between previous close
+  and next open are permitted. Prices represent synthetic mid prices.
+- Timestamps: exactly `YYYY-MM-DDTHH:MM:00Z`, denoting bar OPEN. All bar values
+  become available 60 seconds later. Use an artificial calendar wholly in year
+  2000, starting at 00:00 UTC, with 30 to 60 complete consecutive UTC days
+  (43,200 to 86,400 rows). Strict increasing one-minute cadence, no gaps or
+  duplicates. Prefer 60 days for precision without adapting hidden effects to
+  the search. Volume uses arbitrary consistent units.
+- Maximum CSV: 16 MiB; manifest: 64 KiB; total CSV payload: 256 MiB.
+  No automatic repair, sorting, resampling, filling or retry.
+- The JSON manifest has exactly these keys, with consecutive dataset entries,
+  integer counts and lowercase SHA-256 over the exact delivered CSV bytes:
+
+```json
+{
+  "schema": "aqrs.external-synthetic-minute.v1",
+  "dataset_type": "synthetic",
+  "source": "external_blind",
+  "timezone": "UTC",
+  "bar_seconds": 60,
+  "price_reference": "mid",
+  "datasets": [
+    {
+      "id": "D001",
+      "file": "D001.csv",
+      "sha256": "<64 lowercase hexadecimal characters>",
+      "rows": 86400,
+      "start_utc": "2000-01-01T00:00:00Z",
+      "end_utc": "2000-02-29T23:59:00Z"
+    }
+  ]
+}
+```
+
+The producer sends the owner a SHA-256 commitment to the exact sealed solution
+bytes before delivery. The owner retains both outside this inbox. Do not send
+the solution, its location, generator notes or hints to AQRS. Reveal and verify
+the commitment only after blind reports are frozen and published. CSV digests
+establish transport consistency, not producer authenticity.
+
+Admission checks the flat name allowlist before payload access, rejects links
+and Windows reparse points, then validates schema, limits, digests, CSV header,
+numbers, OHLC, cadence, complete days and manifest endpoints/counts. Unexpected
+files are never opened. Invalid delivery is rejected as a whole. Reports carry
+`dataset_type=synthetic`, `source=external_blind`, `market_evidence=false`.
+The open rehearsal uses its own directory and `source=internal_open`; it never
+reads the inbox. Data delivery alone is not run authorization.
+
 ## B. Feature availability and targets
 
 A feature vector `X_t` describes historical bars **up to and including `t` only**, with `available_at = bar_close_time[t]`.

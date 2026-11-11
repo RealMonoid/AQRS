@@ -1,5 +1,127 @@
 # Research protocol — scientific and economic integrity
 
+## 11. AQRS-B01 frozen blind-search procedure
+
+**Scope:** owner-authorized preparation on 2026-11-11. This is a diagnostic of
+the implemented finite search, not an unrestricted search or a market study.
+Input contract: [A2](CONTRACTS.md#a2-external-synthetic-blind-test-input-aqrs-b01).
+The code, this section and `configs/blind_search.json` are frozen and published
+before external delivery. Owner choices that change them require a new freeze
+before looking at external outcomes. The solution stays with the independent
+producer; only the owner verifies its prior commitment after report freeze.
+
+**Search space and order.** Six features known at close t: close returns over
+1, 5 and 20 minutes (bps); current volume / mean of the preceding 20 volumes
+(zero when the denominator is zero); (high-low)/close in bps; and
+(close-low)/(high-low), using 0.5 for a zero range. Calibrate each feature's
+20th/80th percentiles on bars 20 through the end of the first floor(0.4*days)
+complete days, once per dataset (six charged calibration fits). Rules use
+`<= q20` or `>= q80`; ties remain included. No outcomes choose cutoffs.
+
+S01–S12 are the low/high tails of each feature in that order. P01–P12 are
+low-low/high-high conjunctions of the fixed pairs (return1, volume), (return5,
+volume), (return20, volume), (return1, range), (return5, close-location), and
+(volume, range), in that order. Evaluate S01–S06, P01–P06, S07–S12, P07–P12.
+All 24 definitions are registered even if the approved budget cannot admit
+them. No candidate generation, ranking, horizon changes, additional plots,
+feature engineering, retuning or cross-dataset learning after freeze. Manual
+looks outside the registered views are additional exposure and require a new
+owner decision before proceeding. Payload inspection is allowed by the owner,
+but this chosen procedure intentionally uses a fixed analysis plan.
+
+**Timing and population.** Remaining complete days are evaluation data, with
+first/second halves reported separately; neither half selects candidates.
+No claim of protected confirmation is made. Opportunities are indices
+`t = 20 + 4*k`, inside evaluation, with exit before its end. Signal availability
+is minute t's close; entry open[t+1], exit open[t+4], horizon three minutes,
+at most one position. Persist every opportunity's event/entry/exit time and
+candidate/control membership. Features do not use future bars. Primary outcome
+is long gross forward return in bps. Positive or negative conditional effects
+can be claimed; a negative effect is not silently converted into a new short
+strategy. No fitted trading model, optimization or funding is used.
+
+**Controls and measurements.** Compare a rule with its complement within each
+UTC date and 8-hour band. For a conjunction A&B also compare against A&!B and
+B&!A within the same strata. Record empty/unmatched strata; do not impute them.
+Each matched stratum contributes event mean minus control mean; average those
+within a day, then in fixed adjacent two-day blocks. Record raw event/control
+counts, matched counts, per-day contrasts and both evaluation-half signs.
+Also report conditional event gross return, no-trade (zero), and long-or-flat
+net value per ALL eligible opportunities, including skipped opportunities.
+Use existing illustrative costs: fee 4 bps/side, quoted spread 3 bps, slippage
+2 bps/side, total 15 bps per entered round trip. Net-positive is distinct from
+predictability and from recovering the hidden mechanism. There is no cost
+screen that discards a statistically detectable sub-cost effect.
+
+**Uncertainty and decisions.** For each contrast, a two-sided Student interval
+over adjacent two-day block means uses alpha `0.05/(24*4)` (96 predeclared
+endpoint slots: complement, two parent contrasts, all-opportunity net). No
+resampling, repeated seeds or post-hoc selection of dependence length. Require
+at least eight complete blocks, 60 matched events and 60 matched controls per
+contrast, at least four block values in each chronological half, same nonzero
+direction in both halves, and an interval excluding zero. Conjunctions must
+pass all three contrasts in the same direction. Otherwise report
+`INSUFFICIENT_COVERAGE`, `BELOW_THRESHOLD`, `UNSTABLE` or
+`EXPLAINED_BY_SIMPLER_CONDITION`, preserving the measurements. These intervals
+assume sufficiently independent, stable two-day block means; arbitrary hidden
+long-memory or regime changes can violate that assumption. The blind exercise
+does not establish calibrated false-positive rates for all possible generators.
+The open fixture tests software behavior only. Mechanical rules and complete
+measurements survive rejection, enabling post-reveal diagnosis.
+
+**Preregistration and stopping.** One immutable JSON object per candidate in
+`preregistration.jsonl`, created and committed/pushed before outcomes. It holds
+ID/order, one-sentence hypothesis, rule AST, feature/cutoff parameters, horizon
+and availability, exact dataset hash/window, controls, fixed metrics/decision
+rules, allocated budget, `metrics=null`, `decision=PENDING`, consumed budget
+zero, plan/source hashes and attempt ID. A single push may publish all entries;
+the remote commit and exact file/source content must be verified before the
+supervisor releases a worker. Each result is a separate immutable JSON linked
+to that entry; SQLite retains all attempts and execution/evidence status.
+Quantile values and coverage-only input metadata are registered before outcome
+access. Git publication proves ordering relative to this runner, not absence
+of out-of-band human analysis. Do not send data payloads to Git.
+
+Stop after 24 candidates or the first worker failure, exhausted budget,
+integrity failure or owner cancellation. Do not stop early because a result is
+positive or negative. Never retry automatically; record all remaining IDs as
+untested with a reason. Refuse an existing attempt directory and require a
+separate owner authorization and lineage for any later run. Initial external
+execution requires the delivery, an exact dataset-scoped owner start record,
+and explicit approval of the proposed 24-trial exception. Defaults stay at two;
+the base Governor file is unchanged. All datasets need an aggregate approved
+count/time envelope; never launch a 16-dataset batch under a one-dataset budget.
+
+**Dataset result.** `report.json` and `report.md`: synthetic/external provenance,
+market_evidence=false, completeness, execution status, effect_claimed boolean,
+all claimed candidate IDs/mechanical rules/event-time files, signed bps effect
+and interval, parent comparisons, gross/net distinctions, spent/unused budget,
+tested/untested space, source/data/publication identity and limitations. A
+complete `effect_claimed=false` means nothing met this procedure, not that the
+generator contained no effect. An incomplete run is never a completed null.
+
+**After owner-authorized reveal.** First freeze and push blind results. Verify
+the owner's solution commitment. Create one adjudication row per hidden effect
+and per unmatched claim: `OUTSIDE_SEARCH_SPACE`, `IN_SPACE_NOT_TESTED`,
+`MEASUREMENT_ERROR`, `BELOW_THRESHOLD`, `VISIBLE_REJECTED`,
+`RELATED_NOT_CAUSE`, `UNPLANTED_CLAIM`, `EARLY_STOP`. Preserve rule expressibility,
+candidate IDs, attempted/skipped stages, numeric contrasts/thresholds, event
+overlap, causal-parent mapping and stop reasons. Assign the earliest decisive
+failure plus secondary tags; do not force a false causal conclusion from price
+data alone. Recommend exact/mechanically equivalent rule AND timing recovery
+as the primary success count, with predictive related conditions counted
+separately. The producer's truth must decide mechanism equivalence.
+
+The informed/oracle comparison applies the true rule/events to the same
+eligible grid, horizon, costs, contrasts and uncertainty procedure; additionally
+report losses from unsupported horizons or off-grid events. It is a diagnostic
+upper reference, not necessarily a passing score. The stubborn single-feature
+baseline exhausts S01–S12 under the same measurements and reports its separate
+cost/coverage; reuse already obtained results without creating independent
+evidence. Oracle work, missing single-feature attempts and any new measurements
+need their own post-reveal approval and bounded budget. Nothing automatically
+opens a solution file or starts those comparisons.
+
 ## 1. From research question to tradable hypothesis
 
 **Both** approaches are allowed:

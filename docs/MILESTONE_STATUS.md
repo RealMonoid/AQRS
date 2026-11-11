@@ -19,6 +19,16 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 ## Experiment queue
 
+**AQRS-B01 owner-directed preparation, 2026-11-11.** Prepare the independent
+external-synthetic blind search now, outside the existing queue sequence. The
+owner selected preparation of 24 candidates, with budget approval later, and
+requested the earliest technically ready handoff. Existing rows, priority and
+start conditions are unchanged. No automatic dispatch follows this task.
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| AQRS-B01 | 2026-11-11 | ACTIVE | Freeze the input/search/registration contracts and complete one open synthetic rehearsal. | Preparation only is authorized. Blind execution remains WAITING for delivered data, explicit budget and start approval; no downloads, market or protected-day access. |
+
 **AQRS-G01 owner-directed policy correction, 2026-11-11.** ADR-051 removes mandatory data-rights and license reviews from current source/model prerequisites and milestone gates. Historical cards below retain the checks performed at the time; they do not reinstate the removed requirements. This is a deterministic documentation/configuration correction, not a new development hypothesis or market experiment. Technical access controls, causal timing, provenance, quality, free-data scope and resource limits remain in force. Verification passed: language self-test/check, current-requirement review, unchanged registry IDs/statuses/non-prose fields, all 17 owned paths in the changelog and `git diff --check`. Checkpoint 07:12:23 UTC; 11 minutes 8 seconds elapsed since the combined source/policy work started at 07:01:15 UTC. No critical contract changed; FTA not triggered. Zero market reads, fits, new dependencies or platform-runtime changes. The separately authorized free Spot data expansion follows the completed A08 integration checkpoint as AQRS-D01.
 
 Use this table for planned development, founding, and project-level research experiments. Row order is the current priority. The [dispatch and update rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution.
@@ -76,7 +86,62 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** No development loop is active. AQRS-D01 and AQRS-A06/A07/A08 are closed within their engineering scope. M2-E14 remains waiting for its research-design and execution prerequisites.
+**Status:** AQRS-B01 is the sole active preparation loop. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
+
+### AQRS-B01 Test Card: external synthetic blind-search preparation
+
+**2026-11-11, before implementation or rehearsal outcomes.** Orientation checkpoint
+07:41 UTC; source baseline `e976e8111fed7823780dc582627f2c75d5eac0eb`.
+Owner scope: two handoffs, one open rehearsal, then stop. No external payload is
+present or authorized for search. No external assistant notes or solution files
+may be sought. An accidental reveal must be reported immediately and invalidates
+blind status until the owner decides. Prior IDEA-001/002/003/004 checked; avoid
+unbounded sweeps and unnecessary documentation/services.
+
+- **Hypothesis / riskiest assumption:** existing supervision and SQLite records
+  can support a prospectively published, finite blind-search diagnostic with
+  auditable missed/untested/rejected stages, without accessing hidden answers.
+  Alternative: publication, timing or controls fail on a known-answer fixture.
+- **Backward proof / minimum slice:** validate an externally shaped minute CSV,
+  freeze all candidate definitions, publish candidate entries with empty results,
+  run two supervised candidates on one open planted fixture, and produce exact
+  event timestamps, effect intervals, controls and a truthful dataset report.
+  Support preparation only if the open volume effect is claimed with a positive
+  gross interval, a redundant conjunction fails incremental controls, and all
+  required rejection/causality/publication checks pass. A null fixture must not
+  force a positive result. These are software fixtures, not an error-rate study.
+- **Fixed search:** 24 rules, six causal features, 12 single tails and 12 fixed
+  conjunctions, one horizon, train-only quantiles, chronological evaluation,
+  matched parent controls and predetermined multiplicity/coverage thresholds.
+  Full normative procedure: `RESEARCH_PROTOCOL.md`, section 11. Input contract:
+  `CONTRACTS.md`, A2. No adaptive extra candidates or tuning.
+- **Evidence / baseline:** the existing core supports two configured candidates
+  but not blind input admission or a remotely verified preregistration barrier.
+  Reuse `governor.supervise`, `platform_guard`, `worker.run`, fit reservation,
+  `journal` and `storage`; do not change their contracts. Capture commands,
+  source/data/plan hashes, publication revision, worker budgets and reports.
+- **Acceptance / negatives:** reject out-of-root/link/unexpected inputs, bad
+  digests/cadence/OHLC/schema, missing owner authorization, over-budget plans,
+  unavailable strict memory guards, absent/changed unpublished registrations,
+  duplicate attempts and interrupted workers. Perturb future data and verify
+  prior features; assert exact next-open and horizon-exit indices and equal
+  costs. Reconcile every candidate with the finite search space and stop reason.
+- **Risk:** critical admission, chronology and evidence integrity; apply
+  FTA-AQRS-B01 before coding and request independent read-only verification.
+- **Resources / decision value:** expected 2–4 hours total preparation, below
+  the eight-hour standing limit. No packages, downloads or paid services. One
+  open rehearsal: two research trials, six quantile calibrations charged as
+  fits, zero predictive model fits/resamples, one worker, <=120 s/trial,
+  <=300 s/campaign, <=4096 MiB sampled RSS; tighter configured limits apply.
+  The 24-candidate external proposal needs explicit scoped trial-count approval;
+  all other current ceilings remain. Stop on failure, no automatic campaign
+  repetition. Unit/regression fixtures are engineering checks, not blind runs.
+- **Effort versus displacement / stop:** directly answers owner-selected test
+  readiness; no queue work is displaced or dispatched. On unmet criteria report
+  the blocker, fix routine engineering issues, and keep the blind start locked.
+  No new milestone acceptance claim. Fresh Linux verification is desirable but
+  cannot cause downloads; record it as unverified if no offline runner exists.
+
 
 ### AQRS-D01 Test Card: free Spot data expansion
 

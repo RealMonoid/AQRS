@@ -22,6 +22,35 @@ Repeated failures may lower a research family's priority, but a changing market,
 
 ## Procedure for a new risk
 
+### FTA-AQRS-B01: blind synthetic search
+
+Top event: a blind-test result is invalid or falsely attributed. OR paths are
+answer leakage (unexpected file OR link escape OR external notes), hindsight
+registration (outcomes read AND no verified remote preregistration), noncausal
+features or labels, a simpler parent masquerading as incremental discovery,
+an uncounted search, or a resource stop mislabeled as no effect. A second top
+event is unauthorized work: payload delivery AND absent start/budget checking,
+or repeated entry AND no exclusive attempt reservation.
+
+Safeguards: exact flat input allowlist and reparse rejection before reads;
+source/dataset/plan binding; remote commit verification before worker release;
+immutable preregistration plus separate results; train-only calibration and
+next-open fills; same opportunity grid/costs, complement and both-parent
+contrasts; finite candidate ledger including untested rows; explicit authorized
+trial-count override only for this test; existing worker handshake/watchdog,
+fit reservation, sampled-RSS policy and exclusive attempt directory. No code
+path searches for a solution. Operator discipline is not an OS sandbox against
+an agent with general filesystem access. Publication and final report I/O are
+bounded control-plane operations, not a strict kernel wall-clock guarantee.
+
+Negative checks follow the AQRS-B01 Test Card, including bad publication/source
+bindings, future mutation, redundant conjunction, null, missing approval and
+duplicate/timeout failures. Independent verification must inspect the actual
+entry, not just isolated helpers. Any accidental solution exposure requires an
+immediate owner report and suspended blind interpretation. No market-evidence
+status or M2 acceptance follows from this synthetic engineering test.
+
+
 Assign an ID, owner, observable trigger, budget/stop rule, proposed test and affected milestone; add it to this registry and the relevant release gate. Record evidence rather than inventing precision. Apply the [material finding rule](DEVELOPMENT_PROCESS.md#experiment-queue) when a pending action depends on the affected guarantee. If the risk requires a changed norm, add an ADR to `DECISIONS.md`.
 
 ### FTA-AQRS-D01: Spot data expansion

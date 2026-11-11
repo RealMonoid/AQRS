@@ -110,6 +110,23 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 
 ## 8. Execution scope and audit records
 
+AQRS-B01 preparation proposes 24 sequential research trials per external
+dataset, six shared quantile calibrations charged as fits, zero predictive
+model fits, seeds or resamples, and one fixed horizon. The base two-trial limit
+is unchanged: a dataset-scoped owner record must explicitly approve 24 before
+blind execution. Preserve <=120 seconds/trial, <=300 seconds/dataset, <=4096
+MiB observed RSS, concurrency one and zero retries; tighter configured limits
+apply. Budget the whole authorized dataset list, not only its first member.
+Conservative preflight uses a bounded open rehearsal or a registered per-trial
+upper limit that fits the complete plan, plus supervised validation/calibration.
+Missing estimates, unavailable guards or excess fits reject before data reads.
+Input qualification/calibration is one separately counted preparation worker;
+each candidate remains a research trial, never hidden inside a batch worker.
+Source snapshots, Git publication, journal/report finalization are control-plane
+I/O with finite subprocess timeouts, outside the worker's hard deadline. No
+network payload downloads are needed. The open two-candidate rehearsal uses
+the unchanged defaults. This is not approval of any external run.
+
 AQRS-D01's data-only preparation counts sequential data workers separately from
 research trials and performs zero fits. Worker count cannot exceed the configured
 trial-count ceiling. The entry caps itself at two symbols, 31 UTC days per symbol,
