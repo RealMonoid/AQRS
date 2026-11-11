@@ -74,7 +74,9 @@ external-synthetic delivery and fixed rule diagnostic. It reuses `config.load`,
 `governor.supervise`, `worker.run`/fit reservations, the native platform adapter,
 `journal` and atomic storage. Input qualification and six shared quantile
 calibrations run in one preparation worker; each research candidate gets its
-own supervised worker. A remotely verified preregistration barrier separates
+own supervised worker. Reuse `provenance.snapshot` to bind worker execution to
+copies of every package module, checked before and after each worker rather
+than importing the mutable working tree. A remotely verified preregistration barrier separates
 preparation from outcome measurement. It does not change the core market CLI,
 data contracts or reserved day. No generic framework or discovery service is
 introduced. The exact statistical scope is in the research protocol, section 11.

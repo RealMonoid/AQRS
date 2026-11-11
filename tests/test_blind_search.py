@@ -40,6 +40,26 @@ def test_unexpected_file_rejected_before_payload(delivery, monkeypatch):
         qualify(delivery, "D001", "internal_open")
 
 
+def test_only_authorized_payload_is_opened(delivery, monkeypatch):
+    manifest_path = delivery / "manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    second = dict(manifest["datasets"][0], id="D002", file="D002.csv")
+    manifest["datasets"].append(second)
+    manifest_path.write_text(json.dumps(manifest))
+    (delivery / "D002.csv").write_text("This payload is outside the approved dataset.")
+    original = Path.read_bytes
+
+    def guard(path):
+        assert path.name != "D002.csv"
+        return original(path)
+
+    monkeypatch.setattr(Path, "read_bytes", guard)
+    qualify(delivery, "D001", "internal_open", manifest["datasets"][0]["sha256"])
+    monkeypatch.setattr(Path, "read_bytes", lambda path: pytest.fail("No CSV bytes may be read."))
+    with pytest.raises(ValueError, match="Authorized digest"):
+        qualify(delivery, "D001", "internal_open", "0" * 64)
+
+
 @pytest.mark.parametrize("mutation", ["gap", "ohlc", "nan", "header", "calendar"])
 def test_invalid_payload_rejected_with_matching_digest(delivery, mutation):
     from hashlib import sha256
@@ -99,7 +119,8 @@ def test_positive_redundant_and_null_known_answers(delivery):
     assert positive["effect_claimed"]
     assert positive["contrasts"]["complement"]["interval_bps"][0] > 0
     assert not redundant["effect_claimed"]
-    assert redundant["decision"] == "EXPLAINED_BY_SIMPLER_CONDITION"
+    assert redundant["decision"] == "NO_INCREMENTAL_EVIDENCE"
+    assert redundant["parent_gate_failures"]
     bars[:, 1:5] = 100
     null = blind.measure(bars, blind.prepare_arrays(bars, plan), catalog["S08"], plan, 15)
     assert not null["effect_claimed"]
@@ -140,6 +161,33 @@ def test_reparse_and_path_escape_rejected(tmp_path):
         safe_under(tmp_path, tmp_path / ".." / "forbidden.csv")
 
 
+def test_real_link_rejected_before_traversal(tmp_path):
+    import sys
+
+    from aqrs.blind_input import safe_under
+
+    target = tmp_path / "target"
+    target.mkdir()
+    link = tmp_path / "link"
+    if sys.platform == "win32":
+        import _winapi
+
+        _winapi.CreateJunction(str(target), str(link))
+    else:
+        link.symlink_to(target, target_is_directory=True)
+    with pytest.raises(ValueError, match="Links and reparse"):
+        safe_under(tmp_path, link / "data.csv")
+
+
+def test_copied_attempt_registration_rejected_before_publication(tmp_path, monkeypatch):
+    directory = tmp_path / "evidence/blind/AQRS-B01-REPLAY"
+    directory.mkdir(parents=True)
+    (directory / "registration.json").write_text(json.dumps({"attempt_id": "AQRS-B01-ORIGINAL"}))
+    monkeypatch.setattr(blind, "publication", lambda *a: pytest.fail("Publication must not be consulted."))
+    with pytest.raises(ValueError, match="Registration attempt ID mismatch"):
+        blind.execute(tmp_path, "AQRS-B01-REPLAY", "0" * 40, "codex/aqrs-b01-blind-preparation", None)
+
+
 def test_publication_rejects_wrong_remote_before_outcomes(tmp_path, monkeypatch):
     monkeypatch.setattr(blind, "git", lambda *args: "1" * 40 + "\trefs/heads/codex/aqrs-b01-blind-preparation")
     with pytest.raises(ValueError, match="remote branch"):
@@ -164,6 +212,18 @@ def test_data_mutation_rejected_before_measurement(tmp_path, monkeypatch):
                                "bars_sha256": "0" * 64}, tmp_path)
 
 
+def test_execution_snapshot_detects_mutation(tmp_path):
+    from aqrs.provenance import snapshot
+
+    snapshot(tmp_path, Path(blind.__file__))
+    hashes = blind.source_hashes()
+    blind.verify_snapshot(tmp_path, hashes)
+    path = tmp_path / "source/aqrs/blind_input.py"
+    path.write_text(path.read_text() + "\n# Changed fixture.\n")
+    with pytest.raises(ValueError, match="snapshot changed"):
+        blind.verify_snapshot(tmp_path, hashes)
+
+
 def test_subcost_effect_not_removed_by_cost_gate(delivery):
     _, bars = qualify(delivery, "D001", "internal_open")
     bars[:, 1:5] = 100 + (bars[:, 1:5] - 100) / 100
@@ -174,7 +234,8 @@ def test_subcost_effect_not_removed_by_cost_gate(delivery):
     assert result["all_opportunity_net"]["interval_bps"][1] < 0
 
 
-def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch):
+@pytest.mark.parametrize("mutate_source", [False, True])
+def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch, mutate_source):
     import sqlite3
 
     original_root = blind.ROOT
@@ -193,15 +254,22 @@ def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch):
 
     def stop(*args, **kwargs):
         assert publication_checked
-        return {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
-                "peak_rss_mb": 10, "runtime_wall_seconds": 1, "started_fits": 0, "completed_fits": 0}
+        receipt = {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
+                   "peak_rss_mb": 10, "runtime_wall_seconds": 1, "started_fits": 0, "completed_fits": 0}
+        if mutate_source:
+            path = tmp_path / "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/blind_input.py"
+            path.write_text(path.read_text() + "\n# Simulated source mutation.\n")
+            receipt.update(execution_status="COMPLETED", result={"effect_claimed": True})
+        return receipt
 
     monkeypatch.setattr(blind, "supervise", stop)
     report = blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
-    assert not report["complete"] and report["execution_status"] == "TIMED_OUT"
+    expected = "FAILED" if mutate_source else "TIMED_OUT"
+    assert not report["complete"] and report["execution_status"] == expected
+    assert not report["effect_claimed"] and report["started_trials"] == 1
     assert len(report["untested_candidates"]) == 1
     db = sqlite3.connect(tmp_path / "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/research.sqlite3")
-    assert {r[0] for r in db.execute("SELECT execution_status FROM experiments")} == {"TIMED_OUT", "CANCELLED"}
+    assert {r[0] for r in db.execute("SELECT execution_status FROM experiments")} == {expected, "CANCELLED"}
     db.close()
     with pytest.raises(FileExistsError):
         blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)

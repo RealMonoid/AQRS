@@ -4,6 +4,7 @@ import argparse
 import csv
 import json
 import math
+import re
 import subprocess
 import sys
 import time
@@ -17,14 +18,13 @@ from aqrs.blind_input import qualify, safe_under, utc_stamp, write_open_fixture
 from aqrs.config import load
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
+from aqrs.provenance import snapshot
 from aqrs.storage import canonical, fingerprint, write_json, write_text
 from aqrs.worker import reserve_fit, run
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_PATHS = [
-    "src/aqrs/blind_input.py", "src/aqrs/blind_search.py", "src/aqrs/governor.py",
-    "src/aqrs/platform_guard.py", "src/aqrs/worker.py", "src/aqrs/journal.py",
-    "src/aqrs/storage.py", "src/aqrs/config.py", "configs/blind_search.json",
+SOURCE_PATHS = [f"src/aqrs/{path.name}" for path in sorted(Path(__file__).parent.glob("*.py"))] + [
+    "configs/blind_search.json", "pyproject.toml",
     "configs/research.yaml", "docs/CONTRACTS.md", "docs/RESEARCH_PROTOCOL.md",
 ]
 
@@ -178,7 +178,7 @@ def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_
         decision = "BELOW_THRESHOLD"
     elif any(not value["passes"] or value["estimate_bps"] * base["estimate_bps"] <= 0
              for value in contrasts.values()):
-        decision = "EXPLAINED_BY_SIMPLER_CONDITION"
+        decision = "NO_INCREMENTAL_EVIDENCE"
     else:
         decision = "EFFECT_CLAIMED"
     net = np.where(event, outcomes - cost_bps, 0)
@@ -193,6 +193,15 @@ def measure(bars: np.ndarray, prepared: dict, candidate: dict, plan: dict, cost_
               "all_opportunity_net": net_summary, "no_trade_bps": 0,
               "round_trip_cost_bps": cost_bps, "market_evidence": False,
               "uncertainty_assumption": "Stable, sufficiently independent two-day block means; not verified for arbitrary generators."}
+    result["parent_gate_failures"] = {
+        name: [label for label, passed in {
+            "coverage": value["coverage_pass"], "stability": value["stable"],
+            "interval_excludes_zero": value["excludes_zero"],
+            "same_direction": value["estimate_bps"] is not None and base["estimate_bps"] is not None
+            and value["estimate_bps"] * base["estimate_bps"] > 0,
+        }.items() if not passed]
+        for name, value in contrasts.items() if name != "complement"
+    }
     if detail is not None:
         with detail.open("x", encoding="utf-8", newline="") as stream:
             writer = csv.writer(stream, lineterminator="\n")
@@ -266,6 +275,22 @@ def source_hashes() -> dict:
             for name in SOURCE_PATHS}
 
 
+def verify_snapshot(output: Path, hashes: dict) -> None:
+    for name, expected in hashes.items():
+        if not name.startswith("src/aqrs/"):
+            continue
+        path = safe_under(output, output / "source/aqrs" / Path(name).name)
+        if sha256(path.read_text(encoding="utf-8").encode()).hexdigest() != expected:
+            raise ValueError("Execution source snapshot changed.")
+    entry = safe_under(output, output / "source/pilot.py")
+    if sha256(entry.read_text(encoding="utf-8").encode()).hexdigest() != hashes["src/aqrs/blind_search.py"]:
+        raise ValueError("Execution entry snapshot changed.")
+
+
+def worker_command(output: Path) -> list[str]:
+    return [sys.executable, "-B", "-E", str(output / "source/pilot.py"), "worker"]
+
+
 def publication(registration_dir: Path, revision: str, branch: str, registration: dict) -> None:
     if len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
         raise ValueError("Expected an exact publication commit.")
@@ -302,7 +327,7 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
     plan = request["plan"]
     output = Path(request["output"])
     if request["stage"] == "prepare":
-        manifest, bars = qualify(Path(request["inbox"]), request["dataset_id"], request["source"])
+        manifest, bars = qualify(Path(request["inbox"]), request["dataset_id"], request["source"], request.get("expected_digest"))
         prepared = prepare_arrays(bars, plan, directory)
         path = output / "bars.npy"
         np.save(path, bars, allow_pickle=False)
@@ -317,8 +342,6 @@ def evaluate_worker(request: dict, directory: Path) -> dict:
 
 def register(root: Path, attempt: str, source: str, dataset_id: str,
              expected_digest: str, approval_path: Path | None) -> Path:
-    import re
-
     if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
         raise ValueError("Invalid attempt ID.")
     plan, config = load_plan(), load_governor()
@@ -340,17 +363,22 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     output.mkdir(parents=True, exist_ok=False)
     registration_dir = safe_under(root, root / "evidence/blind" / attempt)
     registration_dir.mkdir(parents=True, exist_ok=False)
+    hashes = source_hashes()
+    execution_source = snapshot(output, Path(__file__))
+    verify_snapshot(output, hashes)
     if source == "internal_open":
         write_open_fixture(inbox)
     started = time.monotonic()
     receipt = supervise(output, {"stage": "prepare", "inbox": str(inbox), "output": str(output),
-                                "source": source, "dataset_id": dataset_id, "plan": plan},
+                                "source": source, "dataset_id": dataset_id, "plan": plan,
+                                "expected_digest": expected_digest if source == "external_blind" else None},
                         plan["preparation_seconds"], started + config["resource_governor"]["max_wall_seconds_per_campaign"],
                         config["resource_governor"]["max_peak_rss_mb_per_trial"],
-                        command=[sys.executable, "-B", "-m", "aqrs.blind_search", "worker"])
+                        command=worker_command(output))
     write_json(output / "preparation.json", receipt)
     if receipt["execution_status"] != "COMPLETED":
         raise ValueError("Preparation stopped; inspect preparation.json. No automatic retry.")
+    verify_snapshot(output, hashes)
     data = receipt["result"]
     entry = next(e for e in data["manifest"]["datasets"] if e["id"] == dataset_id)
     if source == "external_blind" and entry["sha256"] != expected_digest:
@@ -358,7 +386,8 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     registration = {"schema": "aqrs.blind-registration.v1", "attempt_id": attempt,
                     "dataset_id": dataset_id, "source": source, "dataset_type": "synthetic", "market_evidence": False,
                     "created_at": journal.now(), "plan": plan, "plan_sha256": fingerprint(plan),
-                    "source_hashes": source_hashes(), "dataset": entry, "prepared": data["prepared"],
+                    "source_hashes": hashes, "execution_source": execution_source,
+                    "dataset": entry, "prepared": data["prepared"],
                     "bars_sha256": data["bars_sha256"], "budget": budget, "approval": approval,
                     "preparation_wall_seconds": receipt["runtime_wall_seconds"],
                     "preparation_peak_rss_mb": receipt["peak_rss_mb"], "costs": config["costs"],
@@ -380,13 +409,27 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
 
 
 def execute(root: Path, attempt: str, revision: str, branch: str, approval_path: Path | None) -> dict:
+    if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
+        raise ValueError("Invalid attempt ID.")
     registration_dir = safe_under(root, root / "evidence/blind" / attempt)
     registration = json.loads((registration_dir / "registration.json").read_text(encoding="utf-8"))
+    if registration["attempt_id"] != attempt:
+        raise ValueError("Registration attempt ID mismatch.")
+    if registration["source"] == "internal_open" and (attempt != "AQRS-B01-OPEN" or registration["dataset_id"] != "D001"):
+        raise ValueError("Only the named open rehearsal is allowed.")
     plan = load_plan()
     approval = authorize(root, approval_path, registration["dataset_id"], registration["dataset"]["sha256"],
                          registration["source"], plan)
     if approval != registration["approval"] or registration["plan_sha256"] != fingerprint(plan):
         raise ValueError("Authorization or frozen plan changed after registration.")
+    if approval is not None and approval["attempt_id"] != attempt:
+        raise ValueError("Authorization attempt ID mismatch.")
+    expected_candidates = candidates(plan)
+    if registration["source"] == "internal_open":
+        expected_candidates = [c for c in expected_candidates if c["id"] in plan["open_rehearsal_candidates"]]
+    if (registration["candidate_ids"] != [c["id"] for c in expected_candidates]
+            or registration["full_space"] != candidates(plan)):
+        raise ValueError("Registration does not match the frozen candidate space.")
     publication(registration_dir, revision, branch, registration)
     config = load_governor()
     if approval:
@@ -408,6 +451,7 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
     started = time.monotonic()
     try:
         for candidate in selected:
+            verify_snapshot(output, registration["source_hashes"])
             metadata = {"evidence_key": fingerprint([registration["dataset"], candidate, plan]),
                         "registration_revision": revision, "dataset_type": "synthetic", "market_evidence": False}
             journal.start_experiment(db, attempt, candidate["id"], metadata)
@@ -416,7 +460,12 @@ def execute(root: Path, attempt: str, revision: str, branch: str, approval_path:
                                         "bars_sha256": registration["bars_sha256"],
                                         "cost_bps": round_trip_cost(registration["costs"])},
                                 plan["candidate_seconds"], deadline, budget["limits"]["max_peak_rss_mb_per_trial"],
-                                command=[sys.executable, "-B", "-m", "aqrs.blind_search", "worker"])
+                                command=worker_command(output))
+            try:
+                verify_snapshot(output, registration["source_hashes"])
+            except (ValueError, OSError):
+                receipt.pop("result", None)
+                receipt.update(execution_status="FAILED", stop_reason="Execution source snapshot changed; measurements discarded.")
             result = receipt.pop("result", None)
             row = {"candidate_id": candidate["id"], "effect_claimed": False,
                    "decision": "NOT_EVALUATED", "resource": receipt}

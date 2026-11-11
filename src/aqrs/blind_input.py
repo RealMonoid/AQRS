@@ -120,12 +120,16 @@ def read_manifest(inbox: Path, source: str) -> dict:
     return manifest
 
 
-def qualify(inbox: Path, dataset_id: str, source: str) -> tuple[dict, np.ndarray]:
+def qualify(inbox: Path, dataset_id: str, source: str, expected_digest: str | None = None) -> tuple[dict, np.ndarray]:
     manifest = read_manifest(inbox, source)
     if dataset_id not in {entry["id"] for entry in manifest["datasets"]}:
         raise ValueError("Requested dataset is absent.")
     selected = None
     for entry in manifest["datasets"]:
+        if entry["id"] != dataset_id:
+            continue
+        if expected_digest is not None and entry["sha256"] != expected_digest:
+            raise ValueError("Authorized digest does not match the declared dataset.")
         path = inbox / entry["file"]
         plain_path(path)
         payload = path.read_bytes()

@@ -62,7 +62,10 @@ contrast, at least four block values in each chronological half, same nonzero
 direction in both halves, and an interval excluding zero. Conjunctions must
 pass all three contrasts in the same direction. Otherwise report
 `INSUFFICIENT_COVERAGE`, `BELOW_THRESHOLD`, `UNSTABLE` or
-`EXPLAINED_BY_SIMPLER_CONDITION`, preserving the measurements. These intervals
+`NO_INCREMENTAL_EVIDENCE`, preserving measurements and each failed parent gate.
+A failed parent comparison does not prove that the simpler condition completely
+explains the signal; low coverage, low precision and instability remain distinct.
+These intervals
 assume sufficiently independent, stable two-day block means; arbitrary hidden
 long-memory or regime changes can violate that assumption. The blind exercise
 does not establish calibrated false-positive rates for all possible generators.

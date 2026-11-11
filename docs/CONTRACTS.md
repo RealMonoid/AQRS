@@ -102,7 +102,11 @@ establish transport consistency, not producer authenticity.
 Admission checks the flat name allowlist before payload access, rejects links
 and Windows reparse points, then validates schema, limits, digests, CSV header,
 numbers, OHLC, cadence, complete days and manifest endpoints/counts. Unexpected
-files are never opened. Invalid delivery is rejected as a whole. Reports carry
+files are never opened. The whole directory/manifest is checked as metadata;
+only the explicitly authorized dataset's CSV is opened and qualified, after
+its declared digest matches the approved digest. Other CSV payloads await
+their own authorization. Invalid metadata rejects delivery; an invalid selected
+CSV rejects that dataset without silently accepting the others. Reports carry
 `dataset_type=synthetic`, `source=external_blind`, `market_evidence=false`.
 The open rehearsal uses its own directory and `source=internal_open`; it never
 reads the inbox. Data delivery alone is not run authorization.

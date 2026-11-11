@@ -143,6 +143,31 @@ unbounded sweeps and unnecessary documentation/services.
   cannot cause downloads; record it as unverified if no offline runner exists.
 
 
+### AQRS-B01 review checkpoint
+
+The Test Card was published at `8c763fc` before implementation `85959bb`.
+An independent read-only reviewer identified and verified corrections before
+the canonical rehearsal: dataset approval had permitted sibling payload reads;
+worker imports had used mutable working-tree source; copied registrations lacked
+execution-time attempt identity checking. Qualification now checks the approved
+digest before opening the selected payload, worker snapshots bind every package
+module, and execution binds requested/registered/approved attempt IDs. An
+integrity stop retains started-worker accounting and discards measurements.
+The parent-gate label was corrected to `NO_INCREMENTAL_EVIDENCE` with separate
+failure reasons; numeric success criteria were not changed. No external payload
+or canonical rehearsal was exposed by those preacceptance defects.
+
+The reviewer independently passed seven selected correction tests in 6.28 s,
+including a real Windows junction, plus a separately constructed wrong-approval
+attempt test. Reviewed source blobs: input `427b50af59cac96cd7b0456e49be3b3325d7ec01`,
+search `14a16cc83fad6e979c5137be420ee5f199229f66`, tests
+`dea4c197351c59fa8fe62ccbc7f31461233d6a6b`. Root verification passed all 24 blind
+tests in 12.44 s and Ruff. The earlier whole suite passed 196 tests before the
+last corrections; it is not represented as a final-source suite. The canonical
+OPEN run, publication proof and final whole-suite/policy checks remain pending.
+No incident with real or blind data occurred; these were bounded review findings,
+not an invented production incident. Linux remains unverified for this entry.
+
 ### AQRS-D01 Test Card: free Spot data expansion
 
 **2026-11-11, before implementation and payload access.** Owner approval covers sensible additions to the free Spot data workflow; ADR-051 removes license/data-rights screening. Source/policy review started 07:01:15 UTC. Baseline source is `4fd02d9`, followed by the A08 closure record and G01 documentation correction. The existing daily importer, `Bars`, dataset writer, source snapshot, worker handshake and supervisor are the reuse baseline. Prior evidence: the public archive schema and an HTTP HEAD returned 200 and 70,262 bytes for ETHUSDT on December 1; no payload was read to select the scope.
