@@ -12,6 +12,45 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_precision_cli_is_planning_only_and_leaves_no_campaign(tmp_path):
+    command = [
+        sys.executable,
+        "-B",
+        "-m",
+        "aqrs",
+        "research",
+        "precision",
+        "--sd-bps",
+        "20",
+        "--effect-bps",
+        "2",
+        "--independent-units",
+        "18",
+    ]
+    result = subprocess.run(
+        command,
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert result.returncode == 0, result.stderr
+    plan = json.loads(result.stdout)
+    assert plan["planning_only"] is True
+    assert plan["required_independent_units"] == 619
+    assert plan["target_within_assumed_capacity"] is False
+    assert list(tmp_path.iterdir()) == []
+    invalid = subprocess.run(
+        command + ["--sd-bps", "nan"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert invalid.returncode == 2
+    assert list(tmp_path.iterdir()) == []
+
+
 def config_at(tmp_path, **limits):
     config = yaml.safe_load(
         (ROOT / "configs/research.yaml").read_text(encoding="utf-8")
@@ -42,7 +81,10 @@ def read_report(result):
     assert result.returncode == 0, result.stderr or result.stdout
     path = Path(json.loads(result.stdout)["output_dir"])
     assert (path / "dataset.csv").exists()
-    assert "No real-world alpha" in (path / "report.md").read_text(encoding="utf-8")
+    markdown = (path / "report.md").read_text(encoding="utf-8")
+    assert "No real-world alpha" in markdown
+    assert "does not establish predictability or net profitability" in markdown
+    assert "not a calibrated horizon forecast" in markdown
     return json.loads((path / "report.json").read_text(encoding="utf-8"))
 
 

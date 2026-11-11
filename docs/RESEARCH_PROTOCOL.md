@@ -63,6 +63,16 @@ continuous coverage for the lookback. Use the next eligible execution point.
 Compare with entries without a trigger from the same session time bands and
 similar prior volatility. Match on information available at entry and use the
 same fill, holding, sizing, and cost rules.
+The corrected count reference is `PRICE_DROP_V2` in `aqrs.events`: keep the
+five-minute, -50-bps crossing and 15-minute hold, but select only earlier
+same-hour controls with `control_entry + 15 <= event_entry - 5`. Choose the
+nearest eligible earlier control using the original prior-volatility criterion.
+This excludes the event-defining fall from its control return. Do not exclude
+other controls by inspecting their subsequent returns. Unmatched coverage is a
+result; do not relax the gap to obtain pairs. This retrospective contrast still
+requires a confounding assessment and does not identify a causal effect.
+`PRICE_DROP_V1` counts remain historical evidence for that old rule; neither
+their five pairs nor their coverage qualify V2 or a future outcome study.
 Use the flat policy as the zero-return reference. This rule and its controls
 require zero model fits. Report the event count, the number of non-overlapping
 holding periods, gross and net return, and the net difference versus the matched
@@ -109,6 +119,15 @@ the same execution and cost assumptions. Report opportunities skipped by
 either variant as well as those where both act.
 
 Minimum controls:
+
+For a filter or long-or-flat policy, fix the complete opportunity population
+before comparing outcomes. Include both-act, candidate-only, control-only and
+neither-act cases; flat decisions have zero net return and zero costs. Apply
+the same execution and position rules and retain the denominator even when
+one policy skips. A contrast conditional on both arms acting answers a
+different question. M2-E10 now reports both its unchanged legacy paired
+movement metric and a separate net diagnostic over all 24 clock hours; the
+new diagnostic does not silently replace the original decision rule.
 
 1. Predictive benchmark such as `y_hat=0` or a training-only historical mean return.
 2. Trading benchmark such as simple momentum and **No Trade**.
@@ -188,3 +207,31 @@ Before an outcome campaign, register each scientific variant in the [exposure in
 Commit and publish the fixed Test Card and definition separately before the first outcome run; record that revision in the receipt. A later commit does not retroactively prove preregistration, and publication does not make previously explored data independent. Changing a threshold, horizon or cost assumption creates a new registered variant. Sensitivity work needs its own counted plan.
 
 Set minimum non-overlapping coverage and coverage across days/folds before interpreting economic results, with dependence and uncertainty explicit. Zero trades are a valid flat-policy result, not a profitability finding; a minimum count alone never establishes significance. Preserve M2-E14's existing thresholds. January 6 stays protected. Define any future independent confirmation scope and authorization before access under the existing protected-evaluation gate. Do not rotate holdouts to erase exposure or interpret literal authorization fields as observed read counts.
+
+### Precision and claim admission
+
+Before an outcome run, state whether the intended decision needs a descriptive
+engineering result or evidence about an effect. For the latter, predeclare the
+effect scale, eligible population, uncertainty method and credible assumptions
+about dispersion and independent units. Raw trade counts, non-overlap and dates
+alone do not establish independence. The narrow existing holiday/weekend sample
+does not establish regime stability; no broader-market conclusion follows.
+
+`aqrs research precision --sd-bps 20 --effect-bps 2 --independent-units 18`
+provides a conditional one-sided normal-mean planning calculation, with default
+alpha 0.05 and power 0.8. These are explicit illustrative planning choices, not
+an adopted confirmation test. The dispersion must refer to the chosen unit,
+such as a paired observation or a day mean. The calculation estimates neither
+dispersion nor dependence and does not calibrate multiple comparisons or the
+joint M2-E14 gates. A favorable capacity flag never admits a campaign.
+
+Keep the movement-scale screen separate from conditional predictability,
+forecast accuracy separate from trading activity, and economic effect size
+separate from uncertainty. A longer horizon is a counted new variant, not a
+way to establish predictability by passing the screen. Sparse or flat results
+retain predictive diagnostics but support no economic claim. The raw one-bar
+momentum reference is uncalibrated for a longer horizon; retain a suitable
+matched predictor, such as M2-E14's one-feature Ridge, for a forecast claim.
+Do not lower costs or thresholds merely to obtain trades. A nonnegative input
+can have a signed linear association; the synthetic XOR check alone does not
+require an interaction term in a real-market model.

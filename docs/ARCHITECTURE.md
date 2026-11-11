@@ -91,6 +91,18 @@ manual run links to prior attempts and retains its own execution outcome.
 
 ## Implemented M1 real-data path
 
+The count-only `events.py` module provides the fixed `PRICE_DROP_V2` rule over
+caller-validated minute closes. It reads no files and evaluates no forward
+returns; a future real-data entry must reuse importer, admission and journal
+controls. The legacy scanner remains an immutable evidence input.
+
+The `research precision` CLI action reuses `planning.py` for scalar conditional
+normal-mean calculations without configuration loading, market access, model
+fits or campaign creation. It is separate from Governor admission. Current
+evaluation reports label sparse trading and screen/benchmark limitations; the
+Isolation Forest report reuses the simulator for a complete hourly opportunity
+diagnostic without changing its historical paired decision rule.
+
 The Binance Spot adapter validates a local daily archive and checksum before producing the same
 `Bars` input used by the synthetic workflow. The existing research runner uses the shared
 features, folds, evaluator, Governor and journal. For the accepted BTCUSDT scope, the next UTC

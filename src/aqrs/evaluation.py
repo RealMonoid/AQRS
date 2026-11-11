@@ -73,6 +73,16 @@ def simulate(
     return {
         "observations": len(indices),
         "trade_count": len(trades),
+        "economic_evidence": {
+            "status": "NO_TRADES"
+            if not trades
+            else "SINGLE_TRADE"
+            if len(trades) == 1
+            else "DESCRIPTIVE_ONLY",
+            "supports_economic_claim": False,
+            "independent_sample_size": None,
+            "reason": "Trade counts alone do not establish precision or economic evidence.",
+        },
         "decisions": decisions,
         "gross_pnl": sum(trade["gross_pnl"] for trade in trades),
         "net_pnl": float(equity[-1]),
@@ -121,6 +131,9 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
     feasibility = {
         "training_abs_move_p90": move,
         "required_net_margin_threshold": threshold,
+        "scope": "TRAINING_MOVEMENT_SCALE_ONLY",
+        "predictability_established": False,
+        "reason": "Absolute movement above costs does not establish a conditional net edge.",
     }
     if move <= threshold:
         screened = {
@@ -188,6 +201,10 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         "folds": folds,
         "prediction": prediction_metrics(y[indices], prediction),
         "trading": trading,
+        "benchmark_scope": {
+            "momentum": "Raw one-bar return used as a score, not a calibrated horizon forecast.",
+            "no_trade": "Flat policy; zero return is not evidence of a profitable strategy.",
+        },
         "incremental_net_pnl_vs_momentum": (
             trading["candidate"]["net_pnl"] - trading["momentum"]["net_pnl"]
         ),

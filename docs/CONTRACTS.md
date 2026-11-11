@@ -178,3 +178,16 @@ Current reports use `schema_version="2"`; records without it remain legacy evide
 `SCREENED_OUT` belongs only to `evaluation_status`; a completed screen is an execution success. A positive development screen may set a separate decision/boolean but keeps `evidence_status=INSUFFICIENT_EVIDENCE`. Literal holdout fields describe authorization (`authorized_reads=0`, `access_measurement=not_instrumented`), never measured access counts. Existing reservations remain binding. List zero-valued cost/buffer components without silently substituting costs or forbidding synthetic controls.
 
 The [exposure index](../evidence/exposure.json) links definitions to attempts, data scopes and original journals. The [manifest](../evidence/manifest.json) identifies recoverable records, including SQLite backup snapshots preserving committed WAL state. Unknown historical exposure and preregistration remain explicit. These additive report fields and audit records require no database schema migration.
+
+AQRS-A07 adds `economic_evidence` to simulations: `NO_TRADES`, `SINGLE_TRADE`
+or `DESCRIPTIVE_ONLY`, always with `supports_economic_claim=false` and unknown
+independent sample size. These are descriptive labels, not execution or alpha
+statuses. `feasibility.scope=TRAINING_MOVEMENT_SCALE_ONLY` limits the screen's
+meaning; the momentum benchmark explicitly uses an uncalibrated one-bar score.
+
+M2-E10's `common_opportunity_trading` uses all 24 fixed UTC hours per validation
+day. Each arm's net return uses the existing long-or-flat simulator, unit
+notional and frozen costs; no action contributes zero. Record every hourly
+action/skip case, summed incremental net bps and its mean divided by 24.
+Preserve the old conditional absolute-movement fields and decision rule.
+The new diagnostic cannot be used as a predeclared historical test.

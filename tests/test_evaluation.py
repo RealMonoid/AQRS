@@ -96,6 +96,9 @@ def test_fit_uses_only_training_statistics_and_controls_match_rows(tmp_path):
     assert result["prediction"]["observations"] == 40
     assert {row["observations"] for row in result["trading"].values()} == {40}
     assert result["trading"]["no_trade"]["trade_count"] == 0
+    assert result["feasibility"]["scope"] == "TRAINING_MOVEMENT_SCALE_ONLY"
+    assert result["feasibility"]["predictability_established"] is False
+    assert "not a calibrated horizon forecast" in result["benchmark_scope"]["momentum"]
     assert all(t["exit_index"] < 140 for t in result["trading"]["candidate"]["trades"])
 
 

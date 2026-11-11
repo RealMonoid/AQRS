@@ -1,11 +1,78 @@
 import platform
 import sys
+from math import ceil, isfinite, sqrt
 from pathlib import Path
+from statistics import NormalDist
 from time import monotonic
 
 from aqrs.governor import supervise
 from aqrs.market import build_folds
 from aqrs.platform_guard import capability
+
+
+def mean_precision_plan(
+    sd_bps: float,
+    effect_bps: float,
+    independent_units: int,
+    *,
+    alpha: float = 0.05,
+    power: float = 0.8,
+) -> dict:
+    """Conditional one-sided normal-mean planning, not a significance test.
+
+    Dispersion belongs to the named independent unit (for example a day mean),
+    not automatically to individual trades. No independence or SD is estimated.
+    The detectable effect is relative to a zero mean, not a joint screen gate.
+    """
+    for name, value in {
+        "sd_bps": sd_bps,
+        "effect_bps": effect_bps,
+        "alpha": alpha,
+        "power": power,
+    }.items():
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"{name} must be a finite number.")
+        if not isfinite(value):
+            raise ValueError(f"{name} must be a finite number.")
+    if sd_bps <= 0 or effect_bps <= 0:
+        raise ValueError("Dispersion and target effect must be positive.")
+    if type(independent_units) is not int or independent_units < 1:
+        raise ValueError("Assumed independent units must be a positive integer.")
+    if not 0 < alpha < 0.5 or not 0.5 < power < 1:
+        raise ValueError("Require 0 < one-sided alpha < 0.5 and 0.5 < power < 1.")
+    normal = NormalDist()
+    z_alpha, z_power = -normal.inv_cdf(alpha), normal.inv_cdf(power)
+    try:
+        se = sd_bps / sqrt(independent_units)
+        detectable = (z_alpha + z_power) * se
+        required = ((z_alpha + z_power) * sd_bps / effect_bps) ** 2
+        if not all(isfinite(x) and x > 0 for x in (se, detectable, required)):
+            raise ValueError("Assumptions exceed the supported numerical range.")
+        count = max(1, ceil(required))
+    except OverflowError as error:
+        raise ValueError("Assumptions exceed the supported numerical range.") from error
+    return {
+        "planning_only": True,
+        "method": "one_sided_normal_mean_known_sd_approximation",
+        "sd_bps": sd_bps,
+        "effect_bps": effect_bps,
+        "assumed_independent_units": independent_units,
+        "alpha": alpha,
+        "power": power,
+        "standard_error_bps": se,
+        "detectable_mean_bps": detectable,
+        "required_independent_units": count,
+        "target_within_assumed_capacity": count <= independent_units,
+        "supports_economic_claim": False,
+        "limitations": [
+            "Independence and dispersion are assumptions, not estimated evidence.",
+            "Overlapping trades, few days and estimated dispersion need separate treatment.",
+            "This does not calibrate a joint gate or correct multiple testing.",
+            "A capacity check does not authorize a campaign or establish alpha.",
+        ],
+        "additional_fits": 0,
+        "resamples": 0,
+    }
 
 
 def make_plan(

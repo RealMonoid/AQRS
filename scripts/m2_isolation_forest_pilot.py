@@ -8,6 +8,7 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from hashlib import sha256
 from math import isclose
+from numbers import Integral
 from pathlib import Path
 from time import monotonic
 from uuid import uuid4
@@ -217,6 +218,24 @@ def evaluate_worker(request, directory):
 
 def paired_day(bars, validation, returns, baseline, challenger):
     start = validation.start
+    if (
+        bars.bar_minutes != 1
+        or validation.stop != start + DAY - HORIZON - 1
+        or start < 0
+        or start + DAY > len(bars.values)
+    ):
+        raise ValueError("Expected one complete minute-data validation day.")
+    for arm in (baseline, challenger):
+        if any(
+            isinstance(index, bool)
+            or not isinstance(index, Integral)
+            or not start <= index < validation.stop
+            or (index - start) % 60 > CONFIG["last_eligible_minute"]
+            for index in arm
+        ) or list(arm) != sorted(set(arm)):
+            raise ValueError("Expected ordered, unique, in-hour alert indices.")
+        if len({(index - start) // 60 for index in arm}) != len(arm):
+            raise ValueError("At most one alert per arm and hour is permitted.")
     by_hour = [
         {(index - start) // 60: index for index in arm}
         for arm in (baseline, challenger)
@@ -239,6 +258,28 @@ def paired_day(bars, validation, returns, baseline, challenger):
                 "difference_bps": delta,
             }
         )
+    # Reuse the same fills, notional and costs as the existing trading diagnostic.
+    policies = [diagnostic(bars, arm) for arm in (baseline, challenger)]
+    net_by_hour = [
+        {
+            (trade["signal_index"] - start) // 60: trade["net_pnl"] * 10_000
+            for trade in policy["trades"]
+        }
+        for policy in policies
+    ]
+    all_hours = [
+        {
+            "hour_utc": bars.time(start + hour * 60),
+            "control_acts": hour in by_hour[0],
+            "candidate_acts": hour in by_hour[1],
+            "control_net_bps": net_by_hour[0].get(hour, 0.0),
+            "candidate_net_bps": net_by_hour[1].get(hour, 0.0),
+            "incremental_net_bps": net_by_hour[1].get(hour, 0.0)
+            - net_by_hour[0].get(hour, 0.0),
+        }
+        for hour in range(24)
+    ]
+    incremental = sum(row["incremental_net_bps"] for row in all_hours)
     return {
         "day": bars.time(start)[:10],
         "hours": hours,
@@ -253,6 +294,17 @@ def paired_day(bars, validation, returns, baseline, challenger):
         ),
         "control_only_hours": len(baseline) - len(differences),
         "challenger_only_hours": len(challenger) - len(differences),
+        "common_opportunity_trading": {
+            "opportunities": 24,
+            "control_trade_count": policies[0]["trade_count"],
+            "candidate_trade_count": policies[1]["trade_count"],
+            "sum_incremental_net_bps": incremental,
+            "mean_incremental_net_bps": incremental / 24,
+            "hours": all_hours,
+            "supports_economic_claim": False,
+            "used_for_legacy_decision": False,
+            "scope": "Descriptive long-or-flat policy contrast over all fixed UTC hours.",
+        },
     }
 
 
@@ -402,6 +454,9 @@ def compare(output, report, db, deadline):
     returns = targets(bars, HORIZON)
     screen = 10_000 * cutoff(np.abs(returns[folds[0][0]]))
     report["economic_screen_bps"] = screen
+    report["economic_screen_scope"] = (
+        "Training movement scale only; passing does not establish predictability or net edge."
+    )
     if screen <= CONFIG["screen_bps"]:
         report["stop_reason"] = (
             "Training-only 90th percentile absolute move did not exceed 27 bps."

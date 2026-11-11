@@ -113,3 +113,11 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 AQRS-A06 checks remaining time even when timing is disabled. Core data staging runs in an isolated worker after static admission and before timing/model fits; all these workers share the original campaign deadline and sampled-RSS policy. Preparation CPU/RSS is recorded separately and included in campaign totals. Source snapshot, journal/report I/O and cleanup remain outside a hard external deadline. Both pilots validate the approved configuration; their parent-side archive/report I/O also remains outside hard timeout enforcement. A new entry needs its own boundary review.
 
 Supported estimator/calibration calls reserve the fit allowance before starting. A reserved attempt remains in `started_fits` even if fitting fails; a rejected reservation starts no fit. Keep this count separate from `completed_fits`. This protects trusted AQRS workers, not hostile Python. No global lifetime budget is invented: each manual campaign requires its own authorization, and the exposure index retains repetitions. No automatic retries or budget increases are introduced.
+
+AQRS-A07's precision command performs scalar arithmetic only: zero data reads,
+fits, trials or resamples. A favorable precision-capacity flag is not Governor
+or research admission. The fixed price-drop scanner accepts exactly 1,440
+closes; it has no acquisition path. Any future real-data caller still needs
+the authorized importer, external worker deadline and journal. The hourly
+policy diagnostic adds only bounded simulation over already selected alerts
+and does not alter the existing trial, fit or campaign limits.

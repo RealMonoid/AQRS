@@ -1422,6 +1422,12 @@
       "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
       "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
       "registered_at": "2026-11-11T01:34:21.229616+00:00",
+      "research_admission": {
+        "reason": "Fix the descriptive or inferential decision, common opportunity population and justified precision assumptions before outcomes; original thresholds remain unchanged.",
+        "reference": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
+        "review": "AQRS-A07",
+        "status": "WAITING_DESIGN_REVIEW"
+      },
       "status": "PLANNED_NOT_RUN",
       "test_card": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
       "variant_id": "VOL_CONFIRM_V1",
@@ -1446,10 +1452,45 @@
       "origin": "Hypothesis stated after prior development exposure; not independent confirmation.",
       "pre_run_revision": "Must bind the separately published card revision before any outcome run.",
       "registered_at": "2026-11-11T01:34:21.230656+00:00",
+      "research_admission": {
+        "reason": "Fix the descriptive or inferential decision, common opportunity population and justified precision assumptions before outcomes; original thresholds remain unchanged.",
+        "reference": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
+        "review": "AQRS-A07",
+        "status": "WAITING_DESIGN_REVIEW"
+      },
       "status": "PLANNED_NOT_RUN",
       "test_card": "docs/MILESTONE_STATUS.md#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10",
       "variant_id": "RIDGE_INCREMENT_V1",
       "work_item": "M2-E14"
+    },
+    {
+      "coverage_rule": "One matched pair in each of the three UTC bands on three distinct dates; old V1 pairs cannot qualify V2.",
+      "data_scope": [],
+      "definition": {
+        "control": "Nearest earlier non-trigger in the same UTC hour; control_entry + 15 <= event_entry - 5",
+        "crossing": "First completed five-minute return at or below -50 bps",
+        "hold_minutes": 15,
+        "lookback_minutes": 5,
+        "maximum_volatility_ratio": 2,
+        "outcome_reads": 0,
+        "selection": "First event with an eligible control per UTC eight-hour band",
+        "volatility_minutes": 15,
+        "volatility_position": "15 close returns ending before the event lookback"
+      },
+      "execution_authorization": "No new market count or outcome run authorized by this engineering correction.",
+      "kind": "count_only",
+      "limitations": [
+        "Retrospective control matching is not causal identification.",
+        "No revised market coverage or outcomes have been evaluated."
+      ],
+      "origin": "Correction of the PRICE_DROP_V1 control-window overlap; prior count evidence informed this change.",
+      "pre_run_revision": "Bind the separately published source/card revision and approved data allowlist before a market count.",
+      "registered_at": "2026-11-11T05:51:35.915758+00:00",
+      "source": "src/aqrs/events.py",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#aqrs-a07-test-card-research-comparison-and-precision-boundaries",
+      "variant_id": "PRICE_DROP_V2",
+      "work_item": "AQRS-A07"
     }
   ],
   "manual_screens": [

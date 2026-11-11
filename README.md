@@ -155,6 +155,26 @@ There is no agreed production market, exchange, live instrument class, paid data
 
 ## Auditable evidence and execution boundaries
 
+Current reports explicitly label zero/single-trade results, the limited meaning
+of the movement-scale screen and the uncalibrated momentum reference. The
+Isolation Forest report retains its legacy paired metric and adds all-hour
+net policy differences including skipped opportunities. No higher evidence
+status follows from these diagnostics.
+
+For a data-free precision planning example, run:
+
+```bash
+python -m aqrs research precision --sd-bps 20 --effect-bps 2 --independent-units 18
+```
+
+The calculation reports assumptions and required independent units, with no
+fits, market access or campaign side effects. Its normal approximation is not
+a significance test or an estimate of actual market dependence. See the
+[claim admission rules](docs/RESEARCH_PROTOCOL.md#precision-and-claim-admission).
+The corrected count-only API is `aqrs.events.scan(validated_minute_closes)`
+under `PRICE_DROP_V2`; historical V1 counts must not qualify an outcome study.
+There is no new real-data count runner in this increment.
+
 The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
 
 Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the private Git remote carries the versioned bundle. Refresh evidence and exposure records before accepting a new campaign.

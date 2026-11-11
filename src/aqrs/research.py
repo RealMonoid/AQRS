@@ -493,6 +493,11 @@ def write_reports(output: Path, report: dict) -> None:
         if not metrics:
             continue
         lines += ["", metrics["rationale"]]
+        if metrics.get("feasibility", {}).get("scope"):
+            lines.append(
+                "The training movement screen checks scale against assumed costs; "
+                "it does not establish predictability or net profitability."
+            )
         if metrics.get("stage_wall_seconds"):
             timings = metrics["stage_wall_seconds"]
             lines.append(
@@ -527,6 +532,14 @@ def write_reports(output: Path, report: dict) -> None:
             "lower realized-equity drawdown are favorable.",
             f"Incremental net PnL against momentum was {metrics['incremental_net_pnl_vs_momentum']:.6f}.",
         ]
+        for name, value in metrics["trading"].items():
+            if value.get("economic_evidence"):
+                lines.append(
+                    f"- {name}: {value['economic_evidence']['status']}. "
+                    "Trade count is not an independent sample-size or precision estimate."
+                )
+        for name, scope in metrics.get("benchmark_scope", {}).items():
+            lines.append(f"- {name} benchmark: {scope}")
     lines += [
         "",
         "See `report.json` for fold boundaries, fit metrics and individual simulated fills.",

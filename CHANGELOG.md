@@ -2,6 +2,32 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Correct research comparison and precision boundaries
+
+AQRS-A07 corrects the price-drop control window in a separately registered count-only variant, preserves historical evidence, adds complete hourly policy diagnostics including skips, and labels sparse-trade and movement-screen limitations. Reuse the simulator, planner and CLI for conditional scalar precision planning without data access or fits. Add negative/positive synthetic tests and explicit M2-E14 design admission conditions. `events.py` is a distinct supported count API replacing use of the immutable historical scanner; no new real-data campaign runner or statistical confirmation framework is introduced.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `scripts/m2_isolation_forest_pilot.py`
+- `src/aqrs/__main__.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/events.py`
+- `src/aqrs/planning.py`
+- `src/aqrs/research.py`
+- `tests/test_cli.py`
+- `tests/test_evaluation.py`
+- `tests/test_research_logic.py`
+
 ## 2026-11-11 — Repair audit controls and preserve research evidence
 
 AQRS-A06 binds pilot admission to validated policy, supervises core data preparation, reserves fits before work, corrects status/provenance and failure reporting, and verifies a real synthetic LightGBM path. Preserve the existing research evidence as a versioned bundle, digest manifest, frozen configurations, exposure index and eight immutable scripts. These distinct machine-readable audit artifacts make prior local-only evidence recoverable; README is their canonical index. Preserve missing historical provenance and independent-registration limitations. Extend the existing CI and require separately published cards before future outcome campaigns. Close scoped F2/F5 after independent review, four successful CI jobs and restoration from the private remote; retain a small machine-readable verification record so this closure does not depend on expiring CI logs.
