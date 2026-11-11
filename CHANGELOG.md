@@ -2,6 +2,18 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-11 — Register the fixed M2-E17 training-only screen
+
+Record the owner-approved M2 evidence review and the calendar-selected
+training feasibility check before opening input. Fix the training prefix,
+30-minute target, 27 bps hurdle, evidence requirements and Governor bounds.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+
 ## 2026-11-11 — Record the M2-E14 Windows development outcome
 
 Preserve both campaign records and the exact source binding in a bounded

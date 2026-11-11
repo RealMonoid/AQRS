@@ -50,6 +50,7 @@ deferred. Revisit AQRS-SC01 when the owner reprioritizes it.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| M2-E17 | 2026-11-11 | ACTIVE | [Review remaining M2 evidence and run one training-only movement screen.](#m2-e17-test-card-training-window-feasibility) | Owner approved the evidence review and one data check. Follow-up to M2-E14. Use the fixed AQRS-D01 BTCUSDT slice and Governor preflight. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M2-E14 | 2026-11-10 | CLOSED | [Windows campaign completed. Volume gates missed and Ridge screened before fitting.](#m2-e14-windows-campaign-learning-card) | Owner-approved fixed development attempt. The missing Ridge comparison makes the conditional Ubuntu market replay ineligible. The two-family market milestone criterion stays open. |
@@ -1423,6 +1424,46 @@ About 26 minutes elapsed from 21:02:19 UTC through evidence consolidation.
 Review the remaining two-family criterion at the next M2 evidence review.
 Reopen research only with a separately registered design and justified
 development scope that can exercise the missing comparison.
+
+### M2-E17 Test Card: training window feasibility
+
+**2026-11-11, before market access.** The owner approved the M2 evidence review
+and one training data check. Use baseline `76cdfd3` and the preserved M2-E14
+record. Update the existing evidence map by identifying what the volume
+comparison adds, the missing second market comparison, the M2-E09 source
+binding gap and the completed M2-E13 model dispositions.
+
+- **Decision and baseline.** M2-E14's first training fold recorded 22.68 bps
+  against the fixed 27 bps hurdle. Test whether one other qualified calendar
+  window can clear the same early movement screen. A pass supports drafting a
+  proposal for both candidate families. A miss stops this window and defers
+  the follow-up. A pass gives no information about prediction, validation
+  outcomes, independent evidence or net profitability. Apply ADR-044 and
+  IDEA-001's bounded screen.
+- **Fixed scope.** Take the earliest ten contiguous BTCUSDT days in the
+  previously qualified AQRS-D01 calendar, December 1–10, 2025 UTC. Choose by
+  calendar before observing the movement statistic. Keep the E14 fold shape:
+  train through December 4 and validate December 5–7, then train through
+  December 7 and validate December 8–10. This check opens only the four
+  first-training-day ZIPs and their checksum files. The dates reserved for
+  possible validation remain outside the loader request.
+- **Proof and stop.** Reuse the digest-pinned importer, fold builder, 30-minute
+  target, round-trip cost helper and native supervisor. Take the 90th percentile
+  of absolute next-open simple returns on signal rows `[12, 5729)`, with
+  entry at `open[t+1]` and exit at `open[t+31]`. Require 5,717 labels, the last
+  exit at December 4 23:59 UTC, and strict improvement over the 27 bps hurdle.
+  The hurdle is the existing 25 bps illustrative round-trip cost plus 2 bps
+  buffer. Verify arithmetic and exact UTC boundary on a known-answer synthetic
+  fixture. Stop on an identity, scope, cadence, resource or comparison
+  failure. No window search or retry.
+- **Resources and risk.** Allow 20–30 minutes of one-time review and verification.
+  One data-only Windows worker, at most 30 seconds and 512 MiB sampled RSS,
+  5,760 qualified input bars, up to 1 MiB of new evidence, and zero candidate
+  trials, fits, validation reads, resamples, downloads, protected reads or
+  spend. The approved default limits remain in effect. Reuse the previously
+  verified contracts with a fixed read allowlist. No critical runtime contract
+  changes and no new FTA. Register this training-only diagnostic as an
+  additional look at the AQRS-D01 development data.
 
 ## AQRS-SC01 Test Card: Sierra Chart and ACSIL round trip, 2026-11-10
 

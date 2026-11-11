@@ -3172,6 +3172,100 @@
         "each_existing_chronological_fold"
       ],
       "work_item": "AQRS-A08"
+    },
+    {
+      "data_scope": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04"
+      ],
+      "definition": {
+        "bar_minutes": 1,
+        "comparison": "strictly_greater",
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "expected_input_rows": 5760,
+        "expected_labels": 5717,
+        "expected_last_exit_utc": "2025-12-04T23:59:00+00:00",
+        "fits": 0,
+        "horizon_bars": 30,
+        "input_archives": [
+          {
+            "checksum_sha256": "64de9a7ff715f56ffed3823b0f07d754316d18a1dd32d670787510dea50ac69f",
+            "day": "2025-12-01",
+            "name": "BTCUSDT-1m-2025-12-01.zip",
+            "sha256": "cda08bfa0f7831c02a5fc78969ee3a6f9557d131966b1e1c18a3e0c3316b3d64"
+          },
+          {
+            "checksum_sha256": "1c2706121824885f9af175c5fad73e8421e432656b018779234f131085b0c9f8",
+            "day": "2025-12-02",
+            "name": "BTCUSDT-1m-2025-12-02.zip",
+            "sha256": "55990f4bbb63927e2e6530064ab529d2db71195f04caf940aebc4a36bc494d8a"
+          },
+          {
+            "checksum_sha256": "080cb79b8e8d14b4711041d00c2e63eb0eaeb9f7b6a6fdc058eefd40f5be3d95",
+            "day": "2025-12-03",
+            "name": "BTCUSDT-1m-2025-12-03.zip",
+            "sha256": "a595afa315db1dc04b9433bd762755c447d02032fe84faa9c71ad9075e1e7359"
+          },
+          {
+            "checksum_sha256": "66d07d850e9c4e8904f591d4f02cc237de0a9a3201b7b50cf1910cb1c6cc23b8",
+            "day": "2025-12-04",
+            "name": "BTCUSDT-1m-2025-12-04.zip",
+            "sha256": "6812537ea88a44f0b012003d43c7ff6fa3aff8b4fba622a13ebe358b9ff5901d"
+          }
+        ],
+        "market_trials": 0,
+        "network_data_requests": 0,
+        "observed_rss_limit_mib": 512,
+        "prospective_window": [
+          "2025-12-01",
+          "2025-12-02",
+          "2025-12-03",
+          "2025-12-04",
+          "2025-12-05",
+          "2025-12-06",
+          "2025-12-07",
+          "2025-12-08",
+          "2025-12-09",
+          "2025-12-10"
+        ],
+        "protected_reads": 0,
+        "signal_interval": [
+          12,
+          5729
+        ],
+        "statistic": "Linear 90th percentile of absolute next-open simple returns.",
+        "symbol": "BTCUSDT",
+        "threshold_bps": 27,
+        "validation_folds_reserved_for_proposal": [
+          [
+            "2025-12-05",
+            "2025-12-06",
+            "2025-12-07"
+          ],
+          [
+            "2025-12-08",
+            "2025-12-09",
+            "2025-12-10"
+          ]
+        ],
+        "validation_reads": 0,
+        "worker_seconds": 30
+      },
+      "execution_authorization": "Owner approved one training-only check on 2026-11-11.",
+      "kind": "training_only_feasibility",
+      "origin": "Calendar-selected first ten qualified AQRS-D01 BTCUSDT days, prior to inspecting the training movement statistic.",
+      "parent": "M2-E14",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e17-test-card-training-window-feasibility",
+      "variant_id": "M2-E17-TRAIN-MOVE-P90-V1",
+      "work_item": "M2-E17"
     }
   ],
   "manual_screens": [
