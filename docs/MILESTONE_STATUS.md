@@ -31,8 +31,8 @@ Use this table for planned development, founding, and project-level research exp
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| AQRS-A08 | 2026-11-11 | ACTIVE | [Add descriptive diagnostics and preserve outcome admission boundaries.](#aqrs-a08-test-card-descriptive-signal-diagnostics) | Owner authorized useful critique follow-ups; synthetic checks only. M2-E14 still requires the biased-control self-test, justified precision and recorded diagnostic exposure before outcomes. |
-| M2-E14 | 2026-11-10 | WAITING | [Review claim, precision and opportunity population before the two-candidate campaign.](#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10) | Resolve [AQRS-A07 Q3](RISK_REGISTER.md#fta-aqrs-a07-research-logic-audit-correction); record what this small design can decide and include skipped opportunities. Publish the fixed card/source binding before named archive access and outcome execution, which retain their separate authorization and preflight requirements. |
+| AQRS-A08 | 2026-11-11 | CLOSED | [Descriptive diagnostics and additional-view accounting verified.](#aqrs-a08-learning-card-descriptive-signal-diagnostics) | SUPPORTED / PERSEVERE for the scoped engineering slice. M2-E14 still requires justified precision, its independent full-design review and a verified admission entry before outcomes. |
+| M2-E14 | 2026-11-10 | WAITING | [Review claim, precision and opportunity population before the two-candidate campaign.](#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10) | Complete the [pre-outcome design checks](RESEARCH_PROTOCOL.md#precision-and-claim-admission), register diagnostic views, and resolve [AQRS-A07 Q3](RISK_REGISTER.md#fta-aqrs-a07-research-logic-audit-correction); record what this small design can decide and include skipped opportunities. Publish the fixed card/source binding before named archive access and outcome execution, which retain their separate authorization and preflight requirements. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | AQRS-A07 | 2026-11-11 | CLOSED | [Corrected control timing and verified complete opportunity and precision diagnostics.](#aqrs-a07-learning-card-research-comparison-and-precision-boundaries) | Independent review and four exact-revision CI jobs passed. Scientific coverage, confounding and M2-E14 design admission remain open. |
@@ -73,7 +73,7 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** AQRS-A08 is active. AQRS-A06 and AQRS-A07 are closed within their engineering scope. M2-E14 remains waiting for its research-design and execution prerequisites.
+**Status:** No development loop is active. AQRS-A06, AQRS-A07 and AQRS-A08 are closed within their engineering scope. M2-E14 remains waiting for its research-design and execution prerequisites.
 
 ### AQRS-A08 Test Card: descriptive signal diagnostics
 
@@ -89,7 +89,7 @@ Use this table for planned development, founding, and project-level research exp
 **Exposure refinement before its implementation.** The owner's explicit counting requirement also needs machine-readable receipts. Each evaluated candidate will record one entry per new metric and aggregate/fold view, with a stable diagnostic definition ID, exact validation index intervals and horizon. The existing report and journal persist these entries without a schema migration; later evidence consolidation must retain them even when a model attempt is a replay. The two-fold fixture must produce 15 entries (five diagnostics times three views); a pre-fit screen produces none. No market attempt is created by registering the definitions or running synthetic fixtures.
 
 
-### AQRS-A08 verification checkpoint
+### AQRS-A08 Learning Card: descriptive signal diagnostics
 
 Local implementation passed 138 tests in 76.93 seconds on native Windows. The
 diagnostic baseline failed 15 checks before implementation; Markdown, receipt
@@ -102,8 +102,33 @@ synthetic metrics/trades and five fit reservations match the baseline. The
 additional observed RSS, below the declared bounds; this is not a strict memory
 cap. Ruff, language self-test/check (45 files) and diff checks passed. See the
 [verification receipt](../evidence/aqrs-a08-verification.json) for commands,
-synthetic examples and limitations. Independent review and exact-revision
-Windows/Linux CI remain pending; the development loop is not yet closed.
+synthetic examples and limitations.
+
+**2026-11-11 — SUPPORTED / PERSEVERE.** Independent read-only review at local
+commit `4fd02d9` returned READY with no actionable findings: 92 focused checks
+passed in 3.47 seconds, 100 deterministic rank cases agreed with SciPy 1.18.1
+(95 defined, maximum difference 1.11e-16), and old/new output, screen and legacy
+report comparisons passed. The initial default-temp setup error was environmental;
+an explicit project basetemp resolved it. No material incident or new rejected
+engineering idea was identified.
+
+Direct Git transport failed twice. The connected GitHub API published the exact
+same tree `74c63b4fd39f93bffb46b0f45381d8a173e4ae08` as commit `c4a6ff8`;
+only commit metadata differs. [CI run 42977006809](https://github.com/RealMonoid/AQRS/actions/runs/42977006809)
+passed all four Windows/Ubuntu Python 3.11/3.12 jobs, with 138 tests per job,
+synthetic CLI execution, 295 preserved evidence files, Ruff and language checks.
+Both Ubuntu jobs passed the non-root assertion. Actual working interval through
+CI evidence capture: 06:42–07:10 UTC, about 28 minutes; publication housekeeping
+after that endpoint is not included.
+
+Adopt the additive diagnostics and view receipts. No market data, market fits or
+protected access were added. The old metrics/trades and all historical exposure
+remain unchanged. Next objective remains M2-E14's claim/precision and full-design
+review under its existing limits. The V1/V2 self-test is verified; it does not
+validate the two new M2-E14 designs or resolve their empirical precision assumptions.
+Broader data, realistic execution and shared backtest/shadow decisions retain
+their later prerequisites. Source and tests are unchanged after the verified CI;
+closure documentation receives fresh documentation checks.
 
 ### AQRS-A07 Test Card: research comparison and precision boundaries
 

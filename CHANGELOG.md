@@ -4,7 +4,7 @@ The **only** changelog in this repository. Entries are in English, newest first,
 
 ## 2026-11-11 — Add descriptive signal diagnostics and research prerequisites
 
-AQRS-A08 reuses existing prediction outputs for descriptive association and dispersion, including folds and flat policies. Preserve fixed research rules and strengthen the existing pre-outcome design, precision and exposure requirements. Record broader data, execution and shared decision-code needs at their existing milestone gates. Implementation and verification are in progress.
+AQRS-A08 reuses existing prediction outputs for descriptive association and dispersion, including folds and flat policies. Preserve fixed research rules and strengthen the existing pre-outcome design, precision and exposure requirements. Record broader data, execution and shared decision-code needs at their existing milestone gates. Preserve each diagnostic view through reports, journals and consolidated exposure, including model replays. Five definitions are registered as unrun; historical exposure is unchanged. A compact verification receipt preserves synthetic examples, the known-bias self-test, local checks, independent review and four passing Windows/Linux jobs. No new market campaign or universal admission framework is introduced.
 
 **Paths**
 

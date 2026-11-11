@@ -2,8 +2,8 @@
   "schema_version": 1,
   "work_item": "AQRS-A08",
   "baseline_commit": "a52d02c745ecfc9538b497e7fa54c83fa4ab43c7",
-  "verified_code_commit": null,
-  "status": "LOCAL_CHECKS_PASSED_REVIEW_AND_CI_PENDING",
+  "verified_code_commit": "c4a6ff89dd1301f982aa12e0e46432af70b7f810",
+  "status": "SCOPED_ENGINEERING_VERIFIED",
   "local_verification": {
     "platform": "Native Windows",
     "command": "python -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a08-full",
@@ -293,5 +293,71 @@
     "M2-E14 requires justified precision assumptions, independent full-design review, diagnostic registration and a verified admission entry before its separately authorized outcome run.",
     "A universal design validator and technical M2-E14 runner are not implemented.",
     "Prospective dating does not waive M1-S or protected-evaluation controls."
-  ]
+  ],
+  "verified_tree": "74c63b4fd39f93bffb46b0f45381d8a173e4ae08",
+  "local_reviewed_commit": "4fd02d9f002016e035f8c24d9b4ebaecfbad1b5a",
+  "transport": "Two direct Git pushes failed to connect. GitHub connector published the identical full Git tree under different commit metadata.",
+  "independent_review": {
+    "result": "READY for scoped implementation; no actionable findings",
+    "command": "python -B -m pytest -q -p no:cacheprovider --tb=short --basetemp .venv/aqrs-a08-review-focused tests/test_evaluation.py tests/test_research_logic.py tests/test_audit_controls.py::test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts tests/test_cli.py::test_precision_cli_is_planning_only_and_leaves_no_campaign",
+    "passed": 92,
+    "seconds": 3.47,
+    "exit_code": 0,
+    "rank_reference": "100 deterministic cases versus installed SciPy 1.18.1; 95 defined; maximum difference 1.11e-16.",
+    "additional_checks": "Legacy metrics/trades and two fit reservations identical; screened-out exposure empty; correct bps and fold rendering; legacy report compatibility; historical exposure preservation. All exit 0."
+  },
+  "ci": {
+    "run_id": 42977006809,
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/42977006809",
+    "verified_commit": "c4a6ff89dd1301f982aa12e0e46432af70b7f810",
+    "verified_tree": "74c63b4fd39f93bffb46b0f45381d8a173e4ae08",
+    "jobs": [
+      {
+        "id": 130378306255,
+        "name": "acceptance (ubuntu-24.04, 3.12)",
+        "conclusion": "success",
+        "test_log": "2026-11-11T07:06:46.8744843Z 138 passed in 31.52s",
+        "platform_log": "2026-11-11T07:05:58.5330138Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 x86_64 3.12.16 ('EST', 'EDT')",
+        "all_steps_passed": true,
+        "evidence_archive_log": "2026-11-11T07:06:15.0655420Z Verified 295 preserved evidence files.",
+        "non_root_assertion": "Record platform step includes os.geteuid() != 0 and passed."
+      },
+      {
+        "id": 130378306467,
+        "name": "acceptance (windows-latest, 3.12)",
+        "conclusion": "success",
+        "test_log": "2026-11-11T07:07:42.3101221Z 138 passed in 50.35s\r",
+        "platform_log": "2026-11-11T07:06:03.0762959Z Windows-2025Server-10.0.26100-SP0 AMD64 3.12.10 ('Coordinated Universal Time', 'Coordinated Universal Time')\r",
+        "all_steps_passed": true,
+        "evidence_archive_log": "2026-11-11T07:06:49.4007883Z Verified 295 preserved evidence files.\r",
+        "non_root_assertion": null
+      },
+      {
+        "id": 130378306537,
+        "name": "acceptance (windows-latest, 3.11)",
+        "conclusion": "success",
+        "test_log": "2026-11-11T07:08:56.4164662Z 138 passed in 97.43s (0:01:37)\r",
+        "platform_log": "2026-11-11T07:06:09.7914827Z Windows-10-10.0.26100-SP0 AMD64 3.11.9 ('Coordinated Universal Time', 'Coordinated Universal Time')\r",
+        "all_steps_passed": true,
+        "evidence_archive_log": "2026-11-11T07:07:17.9629910Z Verified 295 preserved evidence files.\r",
+        "non_root_assertion": null
+      },
+      {
+        "id": 130378306733,
+        "name": "acceptance (ubuntu-24.04, 3.11)",
+        "conclusion": "success",
+        "test_log": "2026-11-11T07:06:50.5205946Z 138 passed in 27.61s",
+        "platform_log": "2026-11-11T07:06:03.9691765Z Linux-7.0.0-1014-aws-x86_64-with-glibc2.39 x86_64 3.11.18 ('EST', 'EDT')",
+        "all_steps_passed": true,
+        "evidence_archive_log": "2026-11-11T07:06:22.3863927Z Verified 295 preserved evidence files.",
+        "non_root_assertion": "Record platform step includes os.geteuid() != 0 and passed."
+      }
+    ]
+  },
+  "elapsed_work": {
+    "start_utc": "2026-11-11T06:42:09Z",
+    "measurement_endpoint_utc": "2026-11-11T07:10:32Z",
+    "seconds": 1703,
+    "scope": "Through CI evidence capture; excludes later publication housekeeping."
+  }
 }

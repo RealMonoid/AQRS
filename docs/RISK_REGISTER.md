@@ -28,6 +28,14 @@ Assign an ID, owner, observable trigger, budget/stop rule, proposed test and aff
 
 **Top event:** a diagnostic creates unsupported research confidence or an uncounted look at exposed data. Paths: constant predictions OR incorrect tie handling produce a false coefficient; pooled association AND hidden fold reversals imply stability; more metrics or instruments AND unchanged exposure accounting inflate evidence; a synthetic self-test OR a prospective freeze is mistaken for complete scientific admission. Reuse the prediction arrays and existing reports; do not feed diagnostics into fitting, screening, decisions or status promotion. Test known ties/signs/zero association, undefined inputs, unchanged arrays/fit counts, flat trading and fold reversals. Test the actual V1/V2 selection plus simulator against no-forward-effect and planted-effect fixtures. Require the precision/design review and recorded additional diagnostic exposure before M2-E14. Engineering owns this additive reporting slice; the future campaign retains scientific uncertainty and the protected-evaluation gate. No critical fill, data-access or compute-enforcement contract is relaxed.
 
+**AQRS-A08 verification.** The bounded reporting and exposure safeguards passed
+138 local tests, an independent read-only review and four Windows/Linux CI jobs
+on the same source tree. Null and planted fixtures reject the known V1 bias and
+preserve V2's expected response; duplicate model attempts retain their diagnostic
+views. See the [Learning Card](MILESTONE_STATUS.md#aqrs-a08-learning-card-descriptive-signal-diagnostics).
+This closes the scoped engineering actions, not the future campaign's precision,
+independent full-design review, runtime admission or protected-evaluation gates.
+
 ### FTA-AQRS-A07: research-logic audit correction
 
 **Top event:** a mechanically favored or uninformative comparison advances a research claim. Paths: a control hold includes the event-defining price fall OR only mutually selected observations enter a filter comparison OR a movement-scale screen is treated as prediction evidence OR a minimum trade count is treated as a precision guarantee. Existing causal features, fills and conservative evidence statuses do not prevent these selection and interpretation errors. Engineering owns correction under AQRS-A07; Quant Research owns the future campaign design.

@@ -168,6 +168,8 @@ No significance, stable edge or profitability follows. Each new diagnostic view
 is recorded in `diagnostic_exposure` and the journal; reruns retain their own
 views. The training cost screen still stops before prediction when it fails.
 See the [diagnostic and exposure rules](docs/RESEARCH_PROTOCOL.md#descriptive-diagnostics-and-additional-exposure).
+The [AQRS-A08 verification receipt](evidence/aqrs-a08-verification.json) records
+the synthetic examples, independent review and four passing Windows/Linux jobs.
 
 For a data-free precision planning example, run:
 
