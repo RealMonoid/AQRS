@@ -2,6 +2,18 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Stage the authorized M2-E19 Ubuntu replay
+
+Replay the completed Windows comparison on non-root Ubuntu using the
+published frozen source and the existing M2-E18 archive bundle.
+
+**Paths**
+
+- `.github/workflows/docs-language.yml`
+- `CHANGELOG.md`
+- `evidence/m2-e19-replay/admission.json`
+- `evidence/m2-e19-replay/windows.json`
+
 ## 2026-11-12 — Screen an HMM regime filter on the M2-E18 rule
 
 Register a coverage-first comparison of two gates on the positive
