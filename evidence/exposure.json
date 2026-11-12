@@ -1,6 +1,308 @@
 {
   "attempts": [
     {
+      "candidate_id": "VOL_REGIME_HMM_E19_V1",
+      "data_scope": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04",
+        "2025-12-05",
+        "2025-12-06",
+        "2025-12-07",
+        "2025-12-08",
+        "2025-12-09",
+        "2025-12-10"
+      ],
+      "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+      "diagnostic_exposure": [
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "aggregate"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "fold_1"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "fold_2"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        }
+      ],
+      "duplicate_of_in_original_journal": null,
+      "evidence_bundle": "evidence/m2-e19-acceptance.zip",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e19/ubuntu/research.sqlite3",
+      "kind": "market_development",
+      "published_revision": "ff862a631bb5429044828013add41da7a313a202",
+      "report": "artifacts/m2-e19/ubuntu/report.json",
+      "run_id": "de0aec6e3d20457081d2fa70d35937c3",
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timestamp_utc": "2026-11-12T11:07:36.590697+00:00",
+      "variant_id": "VOL_REGIME_HMM_E19_V1"
+    },
+    {
       "candidate_id": "VOL_REGIME_COVERAGE_E19_V1",
       "data_scope": [
         "2025-12-01",
@@ -15,7 +317,504 @@
         "2025-12-10"
       ],
       "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+      "diagnostic_exposure": [
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "fold_1"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "fold_2"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        }
+      ],
       "duplicate_of_in_original_journal": null,
+      "evidence_bundle": "evidence/m2-e19-acceptance.zip",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e19/ubuntu-coverage/research.sqlite3",
+      "kind": "market_development_coverage",
+      "published_revision": "ff862a631bb5429044828013add41da7a313a202",
+      "report": "artifacts/m2-e19/ubuntu-coverage/coverage.json",
+      "run_id": "6a65e2940cf94613b60b1217130f29b3",
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timestamp_utc": "2026-11-12T11:07:34.010373+00:00",
+      "variant_id": "VOL_REGIME_COVERAGE_E19_V1"
+    },
+    {
+      "candidate_id": "VOL_REGIME_HMM_E19_V1",
+      "data_scope": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04",
+        "2025-12-05",
+        "2025-12-06",
+        "2025-12-07",
+        "2025-12-08",
+        "2025-12-09",
+        "2025-12-10"
+      ],
+      "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+      "diagnostic_exposure": [
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "aggregate"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "fold_1"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "fold_2"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T00:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T08:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        },
+        {
+          "attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10T16:00:00+00:00",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_HMM_E19_V1",
+          "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+          "table": "cost_matched_volatility_gates",
+          "view": "utc_8h_band_by_day"
+        }
+      ],
+      "duplicate_of_in_original_journal": null,
+      "evidence_bundle": "evidence/m2-e19-acceptance.zip",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e19/windows/research.sqlite3",
+      "kind": "market_development",
+      "published_revision": "ff862a631bb5429044828013add41da7a313a202",
+      "report": "artifacts/m2-e19/windows/report.json",
+      "run_id": "f27ed19d922f4ee9b43369e6b5c388d6",
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timestamp_utc": "2026-11-12T11:05:37.071792+00:00",
+      "variant_id": "VOL_REGIME_HMM_E19_V1"
+    },
+    {
+      "candidate_id": "VOL_REGIME_COVERAGE_E19_V1",
+      "data_scope": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04",
+        "2025-12-05",
+        "2025-12-06",
+        "2025-12-07",
+        "2025-12-08",
+        "2025-12-09",
+        "2025-12-10"
+      ],
+      "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+      "diagnostic_exposure": [
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "fold_1"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": null,
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "fold_2"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-05",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-06",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-07",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-08",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-09",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        },
+        {
+          "attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+          "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+          "group": "2025-12-10",
+          "kind": "comparison_table",
+          "prospective_variant_id": "VOL_REGIME_COVERAGE_E19_V1",
+          "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+          "table": "volatility_gate_coverage",
+          "view": "utc_day"
+        }
+      ],
+      "duplicate_of_in_original_journal": null,
+      "evidence_bundle": "evidence/m2-e19-acceptance.zip",
       "evidence_status": "INSUFFICIENT_EVIDENCE",
       "execution_status": "COMPLETED",
       "experiment_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
@@ -8838,7 +9637,7 @@
     "M2-E06"
   ],
   "evidence_counts": {
-    "INSUFFICIENT_EVIDENCE": 81,
+    "INSUFFICIENT_EVIDENCE": 85,
     "NOT_EVALUATED": 5
   },
   "future_registrations": [
@@ -9449,11 +10248,14 @@
     }
   ],
   "schema_version": "1",
-  "scope": "Reconstruction from the 26 archived journals plus documented count-only screens; not a proof that every historical manual selection is known. Also includes the published M2-E14 Windows development attempt. Also includes the paired M2-E18 development attempts and their prospective variants.",
+  "scope": "Covers 26 archived journals, documented count screens, and published M2-E14, M2-E18, and M2-E19 development evidence. Historical manual selections may be incomplete.",
   "unknown_exposure": "Unrecorded manual inspection cannot be reconstructed. Existing development windows are exposed; no effective independent sample size or adjusted significance is claimed.",
   "variants": [
     {
-      "attempt_ids": [],
+      "attempt_ids": [
+        "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+        "de0aec6e3d20457081d2fa70d35937c3:VOL_REGIME_HMM_E19_V1"
+      ],
       "definition": {
         "budget": {
           "all_cutoff_calibrations": 4,
@@ -9530,7 +10332,10 @@
       "variant_id": "VOL_REGIME_HMM_E19_V1"
     },
     {
-      "attempt_ids": ["6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1"],
+      "attempt_ids": [
+        "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+        "6a65e2940cf94613b60b1217130f29b3:VOL_REGIME_COVERAGE_E19_V1"
+      ],
       "definition": {
         "budget": {
           "cutoff_calibrations": 2,

@@ -35,7 +35,8 @@ Use this table for planned development, founding, and project-level research exp
 
 **Priority review, 2026-11-12.** [M2-E18](#m2-e18-windows-and-ubuntu-learning-card)
 completed and matched both real-data candidate comparisons. Both scientific
-follow-ups defer. Review the remaining M2 acceptance evidence, starting with
+follow-ups defer. M2-E19 also deferred after its matched regime comparison.
+Review the remaining M2 acceptance evidence, starting with
 the M2-E09 supervised-pilot source gap. M2-E15 still needs a concrete entry
 rule where persistence could matter. AQRS-B01, AQRS-SC01 and the prior
 outcome follow-ups remain deferred.
@@ -48,9 +49,9 @@ outcome follow-ups remain deferred.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E19 | 2026-11-12 | ACTIVE | [Count coverage for a fixed HMM challenger to a rolling-volatility gate.](#m2-e19-test-card-volatility-regime-filter) | Owner authorized the December 1–10 M2-E18 inputs, the zero-estimator-fit count, and the bounded comparison only if coverage qualifies. Protected inputs are excluded. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| M2-E19 | 2026-11-12 | CLOSED | [Coverage qualified and the HMM missed the after-cost screen on both platforms.](#m2-e19-learning-card-paired-volatility-gates) | Owner authorized the fixed M2-E18 window and conditional comparison. Research `INCONCLUSIVE / DEFER`. Revisit only with a new documented mechanism and sufficient development evidence. |
 | M2-E18 | 2026-11-11 | CLOSED | [Two complete real-data comparisons matched on Windows and non-root Ubuntu.](#m2-e18-windows-and-ubuntu-learning-card) | Owner approved on 2026-11-12. Both candidates defer on the fixed development screens. The separate M2 acceptance review remains open. |
 | M2-E17 | 2026-11-11 | CLOSED | [Reviewed M2 evidence and cleared the training movement screen at 61.51 bps.](#m2-e17-learning-card-training-window-feasibility) | One owner-approved training-only data check. Follow-up to M2-E14. |
 | M2-E14 | 2026-11-10 | CLOSED | [Windows campaign completed. Volume gates missed and Ridge screened before fitting.](#m2-e14-windows-campaign-learning-card) | Owner-approved fixed development attempt. The missing Ridge comparison makes the conditional Ubuntu market replay ineligible. The two-family market milestone criterion stays open. |
@@ -184,6 +185,46 @@ breakdowns are descriptive, recorded as exposure, and do not select a
 threshold or new variant. Actual runtime and memory are measured in the
 15-second synthetic timing worker and bounded by a 60-second comparison
 worker and a 512 MiB sampled ceiling. No new market data are acquired.
+
+### M2-E19 Learning Card: paired volatility gates
+
+**2026-11-12.** Technical `SUPPORTED / PERSEVERE` for the bounded pilot.
+Research `INCONCLUSIVE / DEFER`. Both coverage runs qualified two of three
+and three of three UTC days in the respective folds, with zero estimator
+fits. The HMM and simple filter disagreed on 8 and 29 of the 4,296 eligible
+signals across the two folds. The HMM executed 77 trades versus 78 for the
+simple gate and 265 for the unfiltered rule. Net bps per eligible
+opportunity were -0.3836, -0.4043, -1.5266 respectively. The HMM's incremental
+net effect was +0.0290 and +0.0127 bps per opportunity by fold and +0.0207
+overall. Both folds missed the +0.10 bps hurdle and the aggregate HMM
+result missed flat. The policy activity floor passed. The data were reused
+and the costs were illustrative. This result supplies no independent
+estimate of a trading edge and does not justify adoption.
+
+The frozen source `ff862a6` passed 78 focused synthetic tests on Windows
+and an independent review of the exact published revision. The first
+synthetic outcome fixture failed on missing fold/date binding. The
+corrected fixture passed through selection and the decision rule. The
+[acceptance matrix](https://github.com/RealMonoid/AQRS/actions/runs/43205967812)
+passed on Windows and non-root Ubuntu for Python 3.11 and 3.12, with
+249 tests per job. The [market replay](https://github.com/RealMonoid/AQRS/actions/runs/43206317516)
+ran the coverage and comparison CLI on non-root Ubuntu 24.04 with the same
+Python 3.12.12 and numerical dependencies as native Windows. Both platform
+sequences used two coverage calibrations, one synthetic timing fit, two
+market fits and two HMM cutoff calibrations. Coverage, timing and comparison
+worker totals were 18.69 seconds on Windows and 22.48 seconds on Ubuntu.
+Peak sampled RSS was 132.36 and 146.70 MiB. Zero retries, market downloads,
+protected reads or spend. About 16 minutes elapsed from initial scope and
+resource inspection through the paired receipt check.
+
+`python -B artifacts/m2-e19/verify_evidence.py` verified all four SQLite
+journals, exact source bindings, the 420 per-platform trade receipts and
+6,588 outcome and coverage values, with a maximum absolute numeric
+difference of `1.82e-11`. See the [verification receipt](../evidence/m2-e19-verification.json)
+and [evidence bundle](../evidence/m2-e19-acceptance.zip). Keep the HMM
+conditional in the catalog. Revisit a new design only on evidence of a
+named gap and adequate development coverage. The next M2 acceptance review
+starts with the unresolved M2-E09 source binding.
 
 ### AQRS-B01 evidence amendment Test Card
 

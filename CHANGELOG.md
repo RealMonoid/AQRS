@@ -4,8 +4,9 @@ The **only** changelog in this repository. Entries are in English, newest first,
 
 ## 2026-11-12 — Screen an HMM regime filter on the M2-E18 rule
 
-Register a coverage-first comparison of two gates on the positive
-five-minute rule using the existing development window.
+Register and execute a coverage-first comparison of two gates on the
+positive five-minute rule. Preserve the matched Windows and Ubuntu evidence
+and defer the HMM after it misses the fixed after-cost screen.
 
 **Paths**
 
@@ -14,7 +15,9 @@ five-minute rule using the existing development window.
 - `docs/MILESTONE_STATUS.md`
 - `docs/RISK_REGISTER.md`
 - `evidence/exposure.json`
+- `evidence/m2-e19-acceptance.zip`
 - `evidence/m2-e19-coverage.json`
+- `evidence/m2-e19-verification.json`
 - `src/aqrs/m2_e19.py`
 - `tests/test_m2_e19.py`
 
