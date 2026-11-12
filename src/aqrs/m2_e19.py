@@ -433,9 +433,13 @@ def run_pilot(archives, output, admission_path=None, windows_report=None):
             min_delta_bps=MIN_DELTA_BPS,
             horizon_bars=HORIZON,
         )
+    if output.exists():
+        raise FileExistsError(output)
+    run_id = uuid4().hex
+    if outcome_stage:
+        claim_market_attempt(ROOT, allowlist, run_id, campaign=PILOT)
     output.mkdir(parents=True, exist_ok=False)
     source = snapshot(output, Path(__file__), (ROOT / "configs/research.yaml",))
-    run_id = uuid4().hex
     stamp = datetime.now(UTC).isoformat()
     config["research"]["candidates"] = [{"id": candidate}]
     command = [
@@ -475,8 +479,6 @@ def run_pilot(archives, output, admission_path=None, windows_report=None):
                 "stop_reason": "The representative timing stage did not qualify the market fit.",
             }
         else:
-            if outcome_stage:
-                claim_market_attempt(ROOT, allowlist, run_id, campaign=PILOT)
             outcome = supervise(
                 output, request, trial_seconds, deadline, 512, command=command
             )
