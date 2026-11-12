@@ -1,6 +1,35 @@
 {
   "attempts": [
     {
+      "candidate_id": "VOL_REGIME_COVERAGE_E19_V1",
+      "data_scope": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04",
+        "2025-12-05",
+        "2025-12-06",
+        "2025-12-07",
+        "2025-12-08",
+        "2025-12-09",
+        "2025-12-10"
+      ],
+      "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+      "independent_confirmation": false,
+      "journal": "artifacts/m2-e19/windows-coverage/research.sqlite3",
+      "kind": "market_development_coverage",
+      "published_revision": null,
+      "report": "evidence/m2-e19-coverage.json",
+      "run_id": "6f11037d5485462f95f7c99fc7b7f8ff",
+      "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+      "timestamp_utc": "2026-11-12T10:56:10.473449+00:00",
+      "variant_id": "VOL_REGIME_COVERAGE_E19_V1"
+    },
+    {
       "candidate_id": "C_LAG",
       "data_scope": [
         "synthetic"
@@ -9425,6 +9454,83 @@
   "variants": [
     {
       "attempt_ids": [],
+      "definition": {
+        "budget": {
+          "all_cutoff_calibrations": 4,
+          "market_fits": 2,
+          "max_wall_seconds": 105,
+          "sampled_rss_mib": 512,
+          "timing_fits": 1
+        },
+        "candidate": {
+          "id": "VOL_REGIME_HMM_E19_V1"
+        },
+        "costs": {
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "coverage_attempt_id": "6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1",
+        "cutoff_quantile": 0.75,
+        "data_window_utc": [
+          "2025-12-01",
+          "2025-12-10"
+        ],
+        "execution": {
+          "entry": "next_open",
+          "exit": "30_bars_after_entry",
+          "long_or_flat": true,
+          "notional": 1
+        },
+        "features": [
+          "12_return_rolling_volatility"
+        ],
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": 1,
+          "source": "binance_vision_spot",
+          "symbol": "BTCUSDT"
+        },
+        "metrics": [
+          "eligible_count",
+          "trade_and_skip_counts",
+          "gross_and_net_bps",
+          "turnover",
+          "net_delta_bps_per_all_opportunities"
+        ],
+        "min_delta_bps_per_eligible_opportunity_each_fold": 0.1,
+        "minimum_policy_activity": "At least four trades per arm on at least two UTC entry days per validation fold.",
+        "model_parameters": {
+          "covariance_type": "diag",
+          "hmmlearn": "0.3.3",
+          "implementation": "scaling",
+          "input_scale": 10000,
+          "n_components": 2,
+          "n_iter": 100,
+          "seed": 42,
+          "tol": 0.01
+        },
+        "policies": [
+          "hmm",
+          "rolling_volatility",
+          "unfiltered",
+          "flat"
+        ],
+        "registered_variant": "M2-E19",
+        "required_positive_hmm_net_total": true,
+        "test_card": "docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter",
+        "views": [
+          "aggregate",
+          "fold",
+          "utc_day",
+          "utc_8h_band_by_day"
+        ]
+      },
+      "registration": "prospective_market_definition",
+      "variant_id": "VOL_REGIME_HMM_E19_V1"
+    },
+    {
+      "attempt_ids": ["6f11037d5485462f95f7c99fc7b7f8ff:VOL_REGIME_COVERAGE_E19_V1"],
       "definition": {
         "budget": {
           "cutoff_calibrations": 2,

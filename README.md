@@ -30,6 +30,22 @@ Read [`AGENTS.md`](AGENTS.md), [`CODEX_START.md`](CODEX_START.md) and the curren
 checksum manifest are historical inputs. The checked-out source and the current project documents
 govern development.
 
+## M2-E19 volatility regime pilot
+
+The [registered pilot](docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter)
+uses only the ten qualified M2-E18 BTCUSDT Spot archives. Run the isolated
+coverage count with `python -B -m aqrs.m2_e19 --archives ARCHIVE_DIRECTORY
+--output NEW_OUTPUT_DIRECTORY`. The count calibrates two thresholds without
+training a model or calculating trade outcomes. Its report records the
+per-day coverage floor and decision.
+
+The conditional comparison requires the published, clean reviewed revision,
+the qualifying count, a matching review receipt supplied with `--admission`,
+and the pilot-local `hmmlearn==0.3.3` dependency. Use a new output directory
+for the comparison. A non-root Ubuntu replay also requires the qualifying
+Windows report supplied with `--windows-report`. The pilot uses the existing
+simulator and the original illustrative costs.
+
 ## Repository map
 
 | Find | Location |

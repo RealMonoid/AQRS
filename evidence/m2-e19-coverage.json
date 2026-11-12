@@ -1,0 +1,193 @@
+{
+  "work_item": "M2-E19",
+  "run_id": "6f11037d5485462f95f7c99fc7b7f8ff",
+  "timestamp_utc": "2026-11-12T10:56:10.473449+00:00",
+  "plan": {
+    "candidate_id": "VOL_REGIME_COVERAGE_E19_V1",
+    "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+    "training_id": "84b5179bc227facbfab46cf5c786f7c7a432c412f7d9186295787cf2bad470c9",
+    "input_archives": [
+      {
+        "name": "BTCUSDT-1m-2025-12-01.zip",
+        "day": "2025-12-01",
+        "sha256": "cda08bfa0f7831c02a5fc78969ee3a6f9557d131966b1e1c18a3e0c3316b3d64",
+        "checksum_sha256": "64de9a7ff715f56ffed3823b0f07d754316d18a1dd32d670787510dea50ac69f"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-02.zip",
+        "day": "2025-12-02",
+        "sha256": "55990f4bbb63927e2e6530064ab529d2db71195f04caf940aebc4a36bc494d8a",
+        "checksum_sha256": "1c2706121824885f9af175c5fad73e8421e432656b018779234f131085b0c9f8"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-03.zip",
+        "day": "2025-12-03",
+        "sha256": "a595afa315db1dc04b9433bd762755c447d02032fe84faa9c71ad9075e1e7359",
+        "checksum_sha256": "080cb79b8e8d14b4711041d00c2e63eb0eaeb9f7b6a6fdc058eefd40f5be3d95"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-04.zip",
+        "day": "2025-12-04",
+        "sha256": "6812537ea88a44f0b012003d43c7ff6fa3aff8b4fba622a13ebe358b9ff5901d",
+        "checksum_sha256": "66d07d850e9c4e8904f591d4f02cc237de0a9a3201b7b50cf1910cb1c6cc23b8"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-05.zip",
+        "day": "2025-12-05",
+        "sha256": "7c2b58fa030ff46229e4addf34710691b43d6242408da641cbdbd075a90cc4db",
+        "checksum_sha256": "ab9cd0b37760146d66101cc85f382172bddccea4a5e1cff1aa041fedf1978e54"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-06.zip",
+        "day": "2025-12-06",
+        "sha256": "6d7f82dd107b76074443f138c3e21528af18279cf872834118f454af26ade2fb",
+        "checksum_sha256": "16900617f04445f777f5af7f91f551550c86733cca90f8dfc3a79911104c1e5f"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-07.zip",
+        "day": "2025-12-07",
+        "sha256": "347f817989165682afe3298212e472908f3915c97c28b5f5e76ff2f83b87b38f",
+        "checksum_sha256": "0ede143d993a0bf49e2ff0b1bb7042b1dd8975e1e00e12837b1eed1a7e6e5f5b"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-08.zip",
+        "day": "2025-12-08",
+        "sha256": "3319f4f4cd1332afaa30b12fe8db5f0b4da1c10a43a9fdff7621bea82b8fc7a0",
+        "checksum_sha256": "cc25fa1ddd624bba16a6ae7c94fba142330d33593339a21443bb69fe12a3c4e5"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-09.zip",
+        "day": "2025-12-09",
+        "sha256": "89d10cc401ee38d141f3f6450b9d0fb82300dfc485ab6d1f450bd24cc140e7a9",
+        "checksum_sha256": "941041caecd804e03d13582afb8ea5c3770bda034b74f1284c10fb43705ca262"
+      },
+      {
+        "name": "BTCUSDT-1m-2025-12-10.zip",
+        "day": "2025-12-10",
+        "sha256": "c556406c576249f8bd80fef750d6d9e53583d30a8c9f6906387f77ca15763c8c",
+        "checksum_sha256": "5be81603ac7e7bc5bc66b496179b5d7ebe651d668a30b86b81adb24bfeea66c3"
+      }
+    ],
+    "planned_trials": 1,
+    "estimator_fits": 0,
+    "calibrations": 2,
+    "max_wall_seconds": 30,
+    "max_rss_mib": 512,
+    "memory_mode": "observed_rss",
+    "min_days_per_fold": 2,
+    "min_entries_per_arm_per_day": 4,
+    "quantile": 0.75
+  },
+  "source": {
+    "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+    "files": {
+      "source/pilot.py": "dcd2ed742d5ab34cc39516a592cf7351481757b80549cd2bb12be41a7387d8e9",
+      "source/research.yaml": "fee88cc035176dad0f2db1ddebb4b251a26ff158121681a3b1feb14a1117f531",
+      "source/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+      "source/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+      "source/aqrs/binance_spot_pilot.py": "62fa200924c538c1346119a95d4c177b615e4675ff07a8ea13f4b1374c894f81",
+      "source/aqrs/blind_evidence.py": "3363653a3b3568097783ad99d7d1313e5f467d76fed516428c0406e33753e580",
+      "source/aqrs/blind_input.py": "5acd59c5ef38682903e4387f19db8dd8ddd5db2943762c68cb698a3b40cd5ba6",
+      "source/aqrs/blind_search.py": "bc3cd3b5b21cb41f6a73f7449dc5e5ecb5e4740280dbad9fd9dbd177535c8a1e",
+      "source/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "source/aqrs/discovery.py": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e",
+      "source/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+      "source/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+      "source/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+      "source/aqrs/journal.py": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+      "source/aqrs/m2_e14.py": "4e2ee2ba377c981c9b6ccd80641f0c9b6d9296e6e6cb9101a5fa047b683ec74c",
+      "source/aqrs/m2_e19.py": "dcd2ed742d5ab34cc39516a592cf7351481757b80549cd2bb12be41a7387d8e9",
+      "source/aqrs/market.py": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+      "source/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+      "source/aqrs/platform_guard.py": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+      "source/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+      "source/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+      "source/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+      "source/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+      "source/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc"
+    },
+    "git": {
+      "commit": "c3d2e690fc340dc6a6422d1a97c37e5a30a7c425",
+      "dirty": false
+    },
+    "python": "3.12.12",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "dependencies": {
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "aqrs": "0.1.0",
+      "cloudpickle": "3.1.2",
+      "colorama": "0.4.6",
+      "iniconfig": "2.3.1",
+      "joblib": "1.6.0",
+      "lightgbm": "4.6.0",
+      "narwhals": "2.28.0",
+      "numpy": "2.5.4",
+      "packaging": "26.3",
+      "pip": "26.3",
+      "pluggy": "1.7.0",
+      "psutil": "7.2.2",
+      "pytest": "9.2.0",
+      "pywin32": "312",
+      "ruff": "0.17.4",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "threadpoolctl": "3.8.0"
+    }
+  },
+  "outcome": {
+    "execution_status": "COMPLETED",
+    "stop_reason": null,
+    "started": true,
+    "peak_rss_mb": 132.35546875,
+    "sampled_cpu_seconds": 1.59375,
+    "completed_fits": 2,
+    "started_fits": 2,
+    "runtime_wall_seconds": 1.75,
+    "result": {
+      "folds": [
+        {
+          "cutoff": 0.0008193818037118406,
+          "eligible": 2108,
+          "days": {
+            "2025-12-05": {
+              "accepted": 9,
+              "rejected": 35
+            },
+            "2025-12-06": {
+              "accepted": 0,
+              "rejected": 44
+            },
+            "2025-12-07": {
+              "accepted": 7,
+              "rejected": 36
+            }
+          },
+          "qualified_days": 2
+        },
+        {
+          "cutoff": 0.0007331143081952256,
+          "eligible": 2188,
+          "days": {
+            "2025-12-08": {
+              "accepted": 10,
+              "rejected": 36
+            },
+            "2025-12-09": {
+              "accepted": 9,
+              "rejected": 35
+            },
+            "2025-12-10": {
+              "accepted": 9,
+              "rejected": 35
+            }
+          },
+          "qualified_days": 3
+        }
+      ],
+      "passes": true,
+      "estimator_fits": 0
+    }
+  },
+  "decision": "QUALIFIED"
+}

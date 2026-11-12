@@ -10,9 +10,11 @@ five-minute rule using the existing development window.
 **Paths**
 
 - `CHANGELOG.md`
+- `README.md`
 - `docs/MILESTONE_STATUS.md`
 - `docs/RISK_REGISTER.md`
 - `evidence/exposure.json`
+- `evidence/m2-e19-coverage.json`
 - `src/aqrs/m2_e19.py`
 - `tests/test_m2_e19.py`
 

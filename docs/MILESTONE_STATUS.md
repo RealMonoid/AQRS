@@ -160,6 +160,31 @@ and IDEA-001/004 support one fixed challenger and an early stop.
   spend or recurring work. Stop on a coverage, source, timing or guard
   failure. No displacement of the M2 evidence review beyond this item.
 
+**Coverage checkpoint, 2026-11-12.** The isolated Windows count qualified
+at revision `c3d2e69`. Of the 4,296 positive entries eligible before
+position occupancy, 265 were non-overlapping under the unfiltered rule.
+The simple gate accepted 9, 0 and 7 of the day-level entries in the first
+fold and 10, 9 and 9 in the second. The respective rejected counts were
+35, 44, 36 and 36, 35, 35. The fixed floor qualified 2 of 3 days and 3 of 3
+days. The worker completed in 1.75 s at 132.36 MiB sampled RSS with two
+cutoff calibration charges and zero estimator fits or forward-outcome
+computations. See the [coverage receipt](../evidence/m2-e19-coverage.json).
+
+**Outcome freeze.** Use `hmmlearn==0.3.3` as a pilot-local dependency.
+Scale the existing volatility values to basis points for numerical
+conditioning. Use diagonal variance, seed 42, scaling-based EM, at most
+100 iterations and a log-likelihood gain tolerance of 0.01. Require a
+finite final gain within tolerance and reject a material decrease.
+Update forward probabilities through the purge gap using observations
+available by each decision. Estimate neither parameters nor cutoffs from
+validation rows. The observed floor counts are reused as a fixed input
+receipt; the comparison verifies its simple-gate counts before fitting.
+The primary decision uses fold and aggregate views. Daily and eight-hour
+breakdowns are descriptive, recorded as exposure, and do not select a
+threshold or new variant. Actual runtime and memory are measured in the
+15-second synthetic timing worker and bounded by a 60-second comparison
+worker and a 512 MiB sampled ceiling. No new market data are acquired.
+
 ### AQRS-B01 evidence amendment Test Card
 
 **2026-11-11, 20:21:18 UTC orientation checkpoint; before implementation.**
