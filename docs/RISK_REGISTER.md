@@ -139,6 +139,20 @@ Preserve the previous scope's CLI and attempt identities. Independent review
 and a frozen-revision platform comparison are required before closing the
 [Test Card](MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
 
+### FTA-M2-E19: regime filter
+
+The top event is a false after-cost advantage or access outside the approved
+window. Credible paths include future-smoothed state scores or test-fold
+calibration, unfair fills or costs, outcome access before qualified coverage,
+and a wrong or redirected input path. Reuse E18's exact archive allowlist,
+verified dataset identity and simulator. Verify that deleting or changing
+future observations leaves earlier scores and decisions unchanged, reject a
+planted future-dependent scorer, and exercise the null and planted cost-aware
+comparisons. An incomplete count or outcome admission must fail before outcome
+access. Run with the existing isolated workers and explicit fit and time caps.
+The reused days support descriptive evidence with unresolved dependence and
+cost uncertainty. See the [Test Card](MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter).
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.

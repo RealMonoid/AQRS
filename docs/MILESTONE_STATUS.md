@@ -48,6 +48,7 @@ outcome follow-ups remain deferred.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| M2-E19 | 2026-11-12 | ACTIVE | [Count coverage for a fixed HMM challenger to a rolling-volatility gate.](#m2-e19-test-card-volatility-regime-filter) | Owner authorized the December 1–10 M2-E18 inputs, the zero-estimator-fit count, and the bounded comparison only if coverage qualifies. Protected inputs are excluded. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M2-E18 | 2026-11-11 | CLOSED | [Two complete real-data comparisons matched on Windows and non-root Ubuntu.](#m2-e18-windows-and-ubuntu-learning-card) | Owner approved on 2026-11-12. Both candidates defer on the fixed development screens. The separate M2 acceptance review remains open. |
@@ -97,6 +98,67 @@ outcome follow-ups remain deferred.
 is recorded. No development loop is active.
 AQRS-B01 preparation is complete and its external search is waiting.
 AQRS-D01 and AQRS-A06/A07/A08 remain closed.
+
+### M2-E19 Test Card: volatility regime filter
+
+**2026-11-12, before market access.** Baseline `e26e65e`. The owner
+requested the count followed by the comparison if it qualifies. Reuse
+M2-E18's pinned December 1–10, 2025 BTCUSDT Spot minutes, two chronological
+folds and 31-row purge. The M2-E18 positive five-minute rule produced 265
+simulated trades on 4,296 eligible opportunities and was negative net. Its
+broader coverage than the one-minute benchmark makes this a development
+screen for a decision filter. The prior results and ADR-043/044/048/049
+and IDEA-001/004 support one fixed challenger and an early stop.
+
+- **Hypothesis and rival.** High-volatility episodes might identify
+  worthwhile continuation opportunities after costs. A causal HMM's state
+  persistence may add value over the current rolling volatility alone.
+  The riskiest assumption is enough distributed coverage to compare the
+  gates. Use the same causal 12-return rolling volatility in both arms.
+- **Count before fitting.** Use the existing positive five-minute event
+  and all M2-E18 eligible rows. Per fold calibrate the 75th percentile of
+  rolling volatility among positive training events. With no outcome
+  computation, greedily take the earliest available unfiltered entries,
+  at most one position for 30 minutes. Classify those non-overlapping
+  entries by whether the simple filter accepts or rejects them. Each
+  validation fold needs at least two UTC entry days with at least four
+  accepted and four rejected entries on each qualifying day. This is a
+  workflow floor adapted from E10, with coverage on multiple days in each
+  fold. If it fails, defer without any HMM fit. Treat the result as
+  development coverage; the days and entries can be dependent.
+- **Conditional comparison.** Use one two-state univariate Gaussian HMM,
+  one fixed seed, the higher-mean volatility state, and a forward-only
+  filter. Train on the training prefix and calibrate the posterior's 75th
+  percentile among positive training events. Apply both fixed cutoffs to
+  the same validation opportunities. Compare with the unfiltered and flat
+  references. Reuse the simulator, next-open entry, 30-minute exit, one
+  position of unit notional, and the E18 illustrative 25 bps cost. Record
+  daily/fold and overall gross/net, trade counts and turnover. The primary
+  contrast is HMM minus simple volatility net bps per all eligible
+  opportunities, including skips. Advance only to a follow-up proposal if
+  both filters execute at least four trades per day on at least two days
+  per fold, the paired contrast is at least +0.10 bps per opportunity in
+  both folds, and the HMM aggregate is above flat. The effect floor is a
+  descriptive hurdle equal to one modeled full spread per ten opportunities.
+  Six reused days and unknown dependence support no confirmatory claim.
+  Defer on insufficient activity or a missed hurdle; no retuning.
+- **Evidence and risk.** Apply [FTA-M2-E19](RISK_REGISTER.md#fta-m2-e19-regime-filter).
+  Pin the authorized digests and dataset identity before evaluation. Check
+  known-answer null and planted effects, reject a future-dependent scoring
+  path and verify disallowed archive or incomplete admission rejection.
+  Before market outcomes publish the frozen card, source and exposure,
+  verify the source binding and obtain independent design review. A valid
+  Windows result permits a non-root Ubuntu replay of the same comparison.
+- **Budget and stop.** Up to three hours once, one sequence per platform.
+  Coverage charges two cutoff calibrations and zero estimator fits. If it
+  qualifies, reserve one synthetic timing fit, two HMM fits and two HMM
+  cutoff calibrations per platform, at most seven total charges and two
+  research trials. Use one sequential worker at a time under the existing
+  120/300-second and 4,096 MiB sampled RSS ceilings. Bound coverage to 30
+  seconds and time the representative fit and scoring before market model
+  work. Zero market-data downloads, resamples, retries, protected reads,
+  spend or recurring work. Stop on a coverage, source, timing or guard
+  failure. No displacement of the M2 evidence review beyond this item.
 
 ### AQRS-B01 evidence amendment Test Card
 

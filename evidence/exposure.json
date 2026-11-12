@@ -9424,6 +9424,39 @@
   "unknown_exposure": "Unrecorded manual inspection cannot be reconstructed. Existing development windows are exposed; no effective independent sample size or adjusted significance is claimed.",
   "variants": [
     {
+      "attempt_ids": [],
+      "definition": {
+        "budget": {
+          "cutoff_calibrations": 2,
+          "estimator_fits": 0,
+          "sampled_rss_mib": 512,
+          "worker_wall_seconds": 30
+        },
+        "candidate": {
+          "id": "VOL_REGIME_COVERAGE_E19_V1"
+        },
+        "data_window_utc": [
+          "2025-12-01",
+          "2025-12-10"
+        ],
+        "decision": "Count accept and reject among non-overlapping positive five-minute entries. Require at least four of each on two UTC entry days per fold.",
+        "horizon": 30,
+        "market_semantics": {
+          "bar_minutes": 1,
+          "source": "binance_vision_spot",
+          "symbol": "BTCUSDT"
+        },
+        "registered_variant": "M2-E19",
+        "test_card": "docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter",
+        "views": [
+          "utc_day",
+          "fold"
+        ]
+      },
+      "registration": "prospective_market_definition",
+      "variant_id": "VOL_REGIME_COVERAGE_E19_V1"
+    },
+    {
       "attempt_ids": [
         "fb0c868d2e244e9a90ad7f861a0737ee:C_LAG",
         "d2d63163941c40629950b5bb42ba1277:C_LAG",

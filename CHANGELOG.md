@@ -2,6 +2,20 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Screen an HMM regime filter on the M2-E18 rule
+
+Register a coverage-first comparison of two gates on the positive
+five-minute rule using the existing development window.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `src/aqrs/m2_e19.py`
+- `tests/test_m2_e19.py`
+
 ## 2026-11-12 — Close the matched M2-E18 market comparison
 
 Preserve the two complete platform runs, candidate outcomes, replay setup
