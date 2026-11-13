@@ -106,15 +106,144 @@ Choose the next **smallest decision-changing uncertainty**, not the most excitin
 
 ### Experiment queue
 
-Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonical list of planned tests. Give each planned experiment a stable ID and its original addition date in YYYY-MM-DD format. Record the decision, minimum test or card link, start conditions, and any parent ID. Project-level market research plans may link to the Research Journal for trial details.
+Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonical work plan for concrete development, founding and project-level research work. Give each planned work item a stable ID and its original addition date in YYYY-MM-DD format. Record the decision or required outcome, minimum check or card link, start conditions, and any parent ID. Project-level market research plans may link to the Research Journal for trial details. Apply [completion reconciliation](#completion-reconciliation) when follow-up affects the plan.
 
-1. **Order and start.** Dispatch only within the current authorized work item, sequence, or queue mandate. Resume the single `ACTIVE` experiment if it is covered and its start conditions still hold. If an experiment's authorization or start conditions lapse, move it to `WAITING` and record why. When no experiment is active, work from the top and mark the first eligible `READY` row `ACTIVE` before starting it. Eligibility requires satisfied prerequisites, scope authorization, and budget. After closing a row, apply the same rule to the next eligible row within the authorized sequence or queue mandate without waiting for another start signal. A standalone work item ends at its agreed boundary. Order rows by the expected value of better evidence for the next decision, weighed against effort, waiting time, and work displaced. A long or costly test can rank first when the expected decision improvement justifies that cost and delay. Mark a row `READY` only when its Test Card and start conditions are complete. Keep unmet conditions in `WAITING`. If nothing within the mandate is eligible, report the first unresolved start condition if one remains.
+1. **Order and start.** Apply the [Definition of Ready](#work-authorization-and-definition-of-ready) and [Sequence Preflight](#sequence-preflight) to the intended work. Resume the single covered `ACTIVE` item while its conditions hold. Otherwise record the failed condition, move affected work to `WAITING`, and pull the first eligible `READY` row in priority order. Mark it `ACTIVE` before starting. After completion or a blocker, follow [next dispatch](#work-item-definition-of-done-and-next-dispatch) within the recorded authorization. Order rows by expected decision value against effort, waiting time and displaced work.
 2. **Update after learning.** Record the result, evidence link, and next decision in the row or its linked Learning Card. Close evaluated tests. Add a follow-up with a new ID, addition date, and parent ID only when it can change a remaining decision within budget. Reorder the queue after each result. For a deferral, apply rule 5. A deferred test that has not run stays `WAITING`. After an evaluated test, keep its result closed and use a separate row for any justified follow-up. Mark obsolete or superseded tests `CANCELLED` with a reason or replacement ID. Keep closed and cancelled entries or links to their records below the pending rows.
 
 3. **Material findings.** A verified violation or missing required evidence is material for dispatch when it invalidates a planned action, use of evidence, or gate. Before the next dependent action, Engineering records the finding ID, the affected guarantee, evidence or execution path, and the observable resumption check in the existing risk record, Test/Learning Card, or issue. For every pending row that depends on it directly or through another prerequisite, link the finding in the start conditions and set it to `WAITING`, including rows that were `READY` or `ACTIVE`. Apply the same check before marking a new row eligible or choosing or changing its execution path.
 4. **Resume affected work.** Keep a row in `WAITING` while any linked material finding is open. Close each condition only when the named check passes and its evidence is recorded, with independent verification where required. Set the row to `READY` only when all other start conditions and authorization also hold. Follow rule 1 for dispatch. Independent rows retain their status and eligibility. Keep closed attempts and original evidence intact. Record any change in the eligibility of that evidence or the affected gate in the existing record.
 
 5. **Revisit deferred decisions.** Use `DEFER` when missing decision-relevant evidence can change a named decision and obtaining it now is impractical or outside authorized scope. In the existing decision record or Learning Card, record why, the observable revisit condition, the default until it occurs, and who checks it in which existing workflow. Link any dependent work. A date or milestone can prompt a review. Reopening requires the recorded condition. For pending work in `WAITING`, name the missing approval or prerequisite, the technical obstacle and affected path, or the evidence needed to justify the work. When qualifying new data, reviewing candidate evidence, or checking an acceptance gate, check the relevant linked decisions at their named observation points. On a trigger match, reassess the decision and priority before proposing new work. Meeting a trigger does not authorize execution or change the status of the closed attempt. Apply rules 1–4 to any justified follow-up. Stop an unchanged comparison when the evidence supports that decision within the tested scope. When sufficient evidence leaves a material choice reserved to the owner, present the choice and a recommendation for decision.
+
+### Work authorization and Definition of Ready
+
+Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the
+repository entry point for resuming AQRS work across chats. Follow the row
+to its governing card or queue record for the current mandate and next
+eligible action. The record must be usable without searching past chats.
+
+When the owner grants, changes, or withdraws authorization in chat, update
+the governing card or queue record and its queue reference in the same
+session, before acting on the decision or handing off. Retain a faithful
+English account with the decision date and source, confirmed objective,
+covered work, completion boundary, reserved approvals and cumulative effort
+estimate. For a chat decision, include the chat or message reference when
+available for audit. Update affected scope and start conditions so a later
+change takes effect for the next chat.
+
+A multi-item objective covers necessary derived work that fits its confirmed
+requirements and limits. Each covered row can link to the same authorization.
+An explicitly standalone mandate ends at its stated outcome. Queue membership
+and priority alone grant no authority. If the repository records leave a
+material authorization gap, apply the
+[permission-boundary check](#permission-boundary-before-stopping-or-asking-the-owner).
+Continue independent authorized work and identify the exact missing approval
+for the affected action. A general search of previous chats is unnecessary.
+
+Mark an item `READY` only when all applicable conditions hold.
+
+1. The proposed outcome is covered by the recorded owner authorization.
+2. The next action and required inputs are available, dependencies are satisfied,
+   and relevant material findings have their verified closure evidence.
+3. The [Test Card](#1-write-a-compact-test-card-before-implementation) fixes the
+   decision, baseline, evidence, threshold basis, budget and stop rule.
+   A routine correction uses the existing ordinary change-record exception.
+4. [Sequence Preflight](SEQUENCE_PREFLIGHT.md) explains why this item comes now.
+5. Required owner, data, holdout, resource and release permissions for the action
+   are present. The estimate includes analysis, implementation, tests, routine
+   corrections, verification, records and reconciliation for the entire item
+   or authorized sequence. Apply [standing approval](../AGENTS.md#working-method)
+   to time already spent plus all remaining work. At eight hours or more,
+   obtain approval for that effort. Splitting cards, rows or chats does not
+   reset the estimate. An already approved larger effort follows its recorded limit.
+
+Use `WAITING` for dependent work when a required condition fails. Apply the
+[permission-boundary check](#permission-boundary-before-stopping-or-asking-the-owner)
+before reporting that status.
+
+### Permission boundary before stopping or asking the owner
+
+Before stopping or requesting owner input, Codex must check the active item
+and the entire [canonical queue](MILESTONE_STATUS.md#experiment-queue) against recorded
+authorization. Identify the remaining work in two parts:
+
+1. **Authorized work.** Identify and complete all available authorized
+   preparation before reporting the work item as `WAITING`. This includes
+   analysis, research design, Test/Learning Cards, existing evidence checks and
+   other necessary steps with available inputs, permissions and budgets.
+2. **Dependent work.** Identify the affected action and the specific reserved
+   decision, permission, data access, budget approval or external prerequisite
+   it requires. `WAITING` applies only to the work that depends on the missing
+   prerequisite. Record the missing requirement and observable resumption
+   condition in the existing queue row or card.
+
+Continue preparation in the active item when it can proceed there. If the
+queue needs to track a separate eligible slice, link it to the waiting
+parent and apply the normal readiness and pull rules. Check the queue
+for the first eligible covered action, including preparation under waiting
+parents. End autonomous dispatch only when no covered eligible action remains
+in the active item or the queue. Request only the owner input that unblocks
+the named action, or report the specific external prerequisite.
+
+### Continuous execution and decision boundaries
+
+| Event | Required action |
+|---|---|
+| Checkpoint, completed substep or progress update | Report meaningful progress and immediately continue the next necessary authorized step. A reply is required only for a named reserved decision. |
+| Decision within the approved plan | Apply the predeclared criteria, record the result and continue the authorized consequence. Closing a Test/Learning Card triggers dispatch review. |
+| Ordinary implementation or test defect | Diagnose, correct and rerun the affected checks within the work item's budget and stop rule. Research campaign retries retain their separate authorization and counting rules. |
+| Material verification finding or blocker | Record the finding and resumption check. Apply queue rules 3–4 to dependent work and evidence. Complete an authorized in-scope correction when feasible. Otherwise select independent eligible work through rule 1. |
+| Owner-reserved decision | Apply the [permission-boundary check](#permission-boundary-before-stopping-or-asking-the-owner), persist the choice in the canonical record, and ask only for the missing decision. |
+| Work-item completion | Apply the Definition of Done, reconcile follow-up, reevaluate the queue and execute the next eligible item covered by the mandate. |
+
+Owner decisions are required for reserved product choices, requirement or scope
+changes, increased budgets, additional data or holdout access, owner-reserved
+scientific choices, materially irreversible architecture decisions, expressly
+reserved release or milestone gates, and effort beyond standing or explicit
+approval. Identify the actual reservation when escalating. When a genuine
+blocker leaves no independent authorized work, report what must change to
+resume and request only the input or decision needed. Routine implementation
+choices use the existing engineering authority.
+
+### Work-item Definition of Done and next dispatch
+
+A work item is `DONE` only when its agreed outcome is evidenced, required
+implementation, tests, routine corrections and retests are complete, required
+independent verification is recorded, and documentation and evidence are
+current. Apply [completion reconciliation](#completion-reconciliation) and
+resolve all in-scope obligations before closure. A valid negative experiment
+can complete its declared investigation. A feature with unmet acceptance
+criteria remains incomplete. Record its blocked or stopped disposition
+explicitly.
+
+Retain the existing queue statuses. Record a finished attempt as `CLOSED`
+with its result. State explicitly when an attempt closes `BLOCKED`, `DEFER`
+or `REJECTED` while the requested capability remains open, and link its
+remaining work. Use `CANCELLED` for abandoned unrun work with a reason.
+The scientific and execution statuses keep their existing meanings.
+
+After each Learning Card, new finding, blocker resolution or completion,
+update the affected state and priority before another dispatch. When the
+active item ends or cannot proceed, scan pending rows in priority order.
+Start the first item satisfying the Definition of Ready within the recorded
+mandate by setting it `ACTIVE`. This pull is mandatory even when it has a
+different work-item ID. Skip ineligible rows and continue independent covered
+work. Recheck stale `READY` labels against current evidence.
+
+Before ending the session, apply the
+[permission-boundary check](#permission-boundary-before-stopping-or-asking-the-owner)
+and record the dispatch outcome in the current card or queue record.
+Identify the next item actually started or the exact condition that prevents
+further authorized work. An explicit owner instruction to pause still
+governs. A new chat follows the [handoff rule](../AGENTS.md#working-method)
+and carries the same authorization and cumulative estimate.
+
+### Sequence preflight
+
+Follow the binding [Sequence Preflight procedure](SEQUENCE_PREFLIGHT.md).
+Its [decision record](SEQUENCE_PREFLIGHT.md#decision-record) holds material
+changes to work order and eligibility.
 
 ### 1. Write a compact Test Card **before implementation**
 
@@ -123,6 +252,26 @@ Use a GitHub issue if available; otherwise update the **current-loop section of 
 For a routine correction with a known outcome and no change to a critical contract, use the ordinary change record and targeted checks. Use a Test Card when a plausible result could change the approach, scope, safeguard, or acceptance decision. Keep one Test Card across setup attempts that seek the same proof. Record each attempt, its outcome, and its resource use separately under the existing stop and authorization rules. A material change to the question or criteria requires a new bounded loop.
 
 Record the complete Test Card before implementation begins and before collecting or inspecting the first contributing result for the decision. A complete earlier plan in the same record can serve as the card. Include exact decision thresholds and comparison tolerances where applicable, and state what changes if the result passes, fails, or remains inconclusive. For a test based on existing records, identify prior evidence used to plan it. Label later additions and preserve the original criteria and attempts. Treat criteria chosen after seeing an affected result as exploratory for that result.
+
+For each material threshold, record the decision, baseline, measured quantity,
+comparison population or workload, and the smallest difference that would
+change the decision. Seek applicable academic primary literature first. Cite
+the source and explain which assumptions transfer. When the source supports
+the method only, derive the value from the applicable requirement, risk,
+baseline, or measurements. State the basis for any heuristic. If the value
+cannot yet be justified, scope a bounded calibration with an observable output
+and stop rule. Label its evidence as calibration and qualify the resulting
+threshold on a separately fixed validation case before using it for acceptance.
+
+- **Research benefit.** Relate the smallest worthwhile net effect to costs,
+  action frequency and the common opportunity population. Check whether
+  sample size, dependence and measurement uncertainty let the test distinguish
+  that effect. State how a result close to the threshold affects advancement.
+- **Technical performance.** For a performance decision, measure the baseline
+  and change on representative typical and upper workloads on the relevant
+  platforms. Use an appropriate clock and record run-to-run variation. Where
+  startup matters, distinguish cold and warm startup, import, worker handshake
+  and fit from the external safety deadline. Keep safety limits in force.
 
 ```text
 Loop ID / milestone:
@@ -134,7 +283,7 @@ Backward-derived release outcome and proof:
 Risk severity / FTA top event (or reason not triggered):
 Prior similar rejected ideas checked:
 Baseline or existing behavior:
-Predetermined success and failure criteria:
+Predetermined pass, fail and inconclusive criteria, with threshold basis and applicability:
 Evidence to capture (commands, artifacts, measurements):
 Expected decision value versus effort, waiting time, and work displaced:
 Development timebox and research compute budget:
@@ -191,10 +340,11 @@ Consequential approach rejection recorded in DECISIONS.md: ID | NOT_APPLICABLE
 Conclusion: SUPPORTED | REFUTED | INCONCLUSIVE | BLOCKED
 Action: PERSEVERE | PIVOT | STOP | DEFER
 Which assumption changed or remains unresolved, and which queued tests are now unnecessary?
+Material follow-up and affected queue changes, with links to their canonical records:
 Next action, any required authorization or prerequisite, estimated effort, and how to verify it:
 ```
 
-If the full interval is unavailable, state the measurement endpoint. Report concrete avoided work separately from measured savings.
+If the full interval is unavailable, state the measurement endpoint. Report concrete avoided work separately from measured savings. Apply [completion reconciliation](#completion-reconciliation) to the consequences of each Learning Card.
 
 #### Diagnosis in existing records
 
@@ -205,6 +355,11 @@ Use the short diagnosis fields above in the existing Learning Card for developme
 
 - **Expected benefit not observed.** For a valid test, record the baseline, result, and missed criterion. Mark the hypothesis refuted only when the evidence rules out the declared benefit within the tested scope.
 - **Inconclusive.** Record what evidence is missing and what could resolve it. Use this outcome when a valid result falls short but the evidence cannot rule out the declared benefit.
+
+For any material unresolved outcome, state the open claim, the specific reason
+the evidence cannot decide it, the decision that applies now, and the smallest
+observable check or trigger that could change it. Use the existing deferral
+rules when that check is unavailable or would cost more than the decision merits.
 
 If a run both stops and violates a requirement, record both diagnoses under the same attempt or link the two records.
 
@@ -217,6 +372,50 @@ If a run both stops and violates a requirement, record both diagnoses under the 
 ### 5. Close the loop, not just the ticket
 
 Close any triggered FTA or postmortem action with a reproducible prevention test before accepting the affected gate. Update the **existing** `docs/MILESTONE_STATUS.md` current-loop record and the sole root `CHANGELOG.md` for substantive repository changes (date, purpose and **every changed path**). Keep the current system usable; run applicable policy checks; state what was actually verified and what is still unknown. No per-loop Markdown reports, separate progress trackers or multiple changelogs. Git commits/issues provide detailed historical traceability; the milestone status captures the current loop and acceptance evidence.
+
+#### Completion reconciliation
+
+Chat output is communication. The repository holds project state. As soon as
+a material unresolved follow-up is identified, record it in its canonical
+location. Before reporting any material work item complete or handing off
+unfinished work, reconcile the original scope and newly discovered follow-up.
+
+1. Check what was completed against its evidence. Review Learning Cards,
+   verification and audit findings, and decisions made during the work.
+   Identify work that became necessary, changed priority, lost a prerequisite,
+   became obsolete, or needs a decision or revisit. Complete and verify a
+   necessary small fix within the current authorization as part of the same
+   work item.
+2. Keep a follow-up as open work only when it serves a confirmed requirement
+   or acceptance gate, reduces a concrete relevant risk, enables a prioritized
+   decision, follows necessarily from a Test/Learning result, fixes a confirmed
+   defect, has been confirmed as work by the owner, or has a concrete revisit
+   trigger. Assign each point one primary category and canonical record. Use
+   an existing ID or a stable entry ID or section anchor. Link related records
+   where they affect readiness, eligibility, or a gate.
+
+| Category | Canonical record and required detail |
+|---|---|
+| Ready / planned work | [Experiment queue](MILESTONE_STATUS.md#experiment-queue). Give separate work a stable ID, addition date, scope, evidence or minimum check, and any parent ID. Use `READY` when the dispatch rules permit it. |
+| Waiting | Queue row in `WAITING`. State the missing prerequisite and the observable condition for resuming. |
+| Blocked | Record the obstacle and affected work in the governing card, risk record, or linked issue. Link the resumption check in each dependent row's start conditions and keep those rows `WAITING` under rules 3–4. Use `BLOCKED` for the affected work outcome where applicable. |
+| Deferred | Existing decision record or Learning Card under rule 5. Record current status, reason, concrete revisit trigger, default until then, and who checks it and when. Link from the queue when it affects planned work. Keep a planned but deferred row in `WAITING`. |
+| Owner decision required | [Project Open Questions](OPEN_QUESTIONS.md) or [Open Requirements Questions](requirements/OPEN_QUESTIONS.md). Reuse the existing record if present. State the choice, what it affects, and the current default. Record it before asking the owner and link any dependent work. On resolution, link the confirmed decision in the appropriate decision register. |
+| Quality or risk finding | Existing [Risk Register](RISK_REGISTER.md), verification record, or linked card or issue under rules 3–4. Record evidence and the observable closure check. Update the affected gate, evidence eligibility, and dependent start conditions as applicable. |
+| Rejected | Close obsolete or rejected work in its existing record, with reason or replacement. Record consequential rejected engineering approaches in [DECISIONS.md](DECISIONS.md) with revisit criteria. Record tested financial candidates in the Research Journal or its linked evidence. |
+| Information only | Keep incidental ideas out of the queue. Label any such suggestion in the report as an optional idea outside the work plan. |
+
+3. Update the affected canonical records. Close completed entries and cancel
+   or close obsolete ones with their reason or replacement. Recheck that
+   every remaining material point raised during the work, in a report, or in
+   chat has a live reference. Use the updated records in [Sequence Preflight](SEQUENCE_PREFLIGHT.md)
+   to reassess priority and eligibility when follow-up changes the plan.
+4. Derive the next recommendation from the current work plan after applying
+   dispatch rules. Cite the ID, status and canonical location for each
+   material next step in the report. If nothing is eligible within the
+   mandate, identify the recorded prerequisite. Continue the next eligible
+   action within existing authorization. Recording a point, changing its
+   priority, or satisfying a revisit trigger grants no new authorization.
 
 ## Measurement: minimal innovation accounting
 

@@ -1,6 +1,6 @@
 # AQRS — Milestone status and acceptance evidence
 
-**Current status:** M0/v0.1 and M1/v0.2 are accepted. M1 covers the documented local BTCUSDT spot research workflow on native Windows and headless Ubuntu. M2 is in progress. M2-E09 and M2-E10 completed the supervised and unsupervised pilots on both platforms. Both missed their prespecified research follow-up criteria. The price-drop outcome exercise remains deferred after M2-E12.
+**Current status:** M0/v0.1 and M1/v0.2 are accepted. M1 covers the documented local BTCUSDT spot research workflow on native Windows and headless Ubuntu. M2 remains in progress. E18 establishes the two-family workflow. The [current M2 evidence review](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions) records the remaining acceptance gaps. The price-drop outcome exercise remains deferred after M2-E12.
 
 Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`. `ACCEPTED` is permitted only after satisfying the relevant `MILESTONE_DOD.md` tests and referencing auditable evidence here. Existing documents are not proof of completion.
 
@@ -8,7 +8,7 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 |---|---|---|---|---|
 | M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Local paired runs and [four successful GitHub Actions jobs](https://github.com/RealMonoid/AQRS/actions/runs/42275704043) | — |
 | M1 / v0.2 | Real data and market feasibility | ACCEPTED | [Criterion review](#m1-e07-learning-card-acceptance-evidence-review-2026-11-09), [clean Windows replay and acceptance](#m1-e11-learning-card-and-m1-acceptance-2026-11-09), and [fresh Ubuntu campaign](#m1-e06-learning-card-complete-real-data-campaign-2026-11-09) | Acceptance covers local, personal, non-production BTCUSDT spot research. Broader market suitability and scientific evidence remain open. |
-| M2 / v0.3 | Discovery and matched controls | IN_PROGRESS | [Synthetic decision probe](#m2-e01-learning-card-one-event-research-decision-2026-11-09), [development data coverage](#m2-e03-learning-card-extended-development-data-coverage-2026-11-09), [synthetic interaction probe](#m2-e04-learning-card-synthetic-interaction-comparison-2026-11-09), causal checks for [momentum](#m2-e05-learning-card-decision-time-causality-2026-11-09) and [Ridge](#m2-e06-learning-card-fitted-candidate-causality-2026-11-09), and [supervised pilot](#m2-e09-learning-card-corrected-supervised-pilot-replay-2026-11-09), and [unsupervised pilot](#m2-e10-learning-card-isolation-forest-pilot-2026-11-09) | Broader discovery criteria and M2 acceptance remain open. |
+| M2 / v0.3 | Discovery and matched controls | IN_PROGRESS | [Current criterion-by-criterion evidence review](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions) | Supervised pilot source binding, effective independent event counts, and final release verification. |
 | M3 / v0.4 | Adaptive research management | NOT_STARTED | — | — |
 | M4 / v0.5 | Statistics and final-test candidate gates | NOT_STARTED | — | — |
 | M5 / v0.6 | Net-cost/risk decisions and simulation | NOT_STARTED | — | — |
@@ -19,21 +19,40 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 ## Experiment queue
 
+**Priority review for AQRS-G02.** Add M4-E01 after the existing pending work:
+its decision value depends on a defined statistical claim and adequate series.
+It does not displace AQRS-B01, M2-E14 or their start conditions and does not
+authorize queue dispatch. Walk-forward and matched attribution/controls remain
+the first layer; the conditional tests are not a mandatory serial checklist.
+
 **AQRS-B01 owner-directed preparation, 2026-11-11.** Prepare the independent
 external-synthetic blind search now, outside the existing queue sequence. The
 owner selected preparation of 24 candidates, with budget approval later, and
 requested the earliest technically ready handoff. Existing rows, priority and
 start conditions are unchanged. No automatic dispatch follows this task.
 
-| ID | Added | Status | Decision and minimum test | Start condition / origin |
-|---|---|---|---|---|
-| AQRS-B01 | 2026-11-11 | WAITING | [Preparation complete on verified Windows; one open rehearsal and independent evidence review passed.](#aqrs-b01-learning-card-ready-for-owner-data-and-start) | Wait for delivered data, explicit dataset-scoped 24-trial budget exception and start approval. No automatic search or queue dispatch; no downloads, market or protected-day access. |
+### AQRS-B01 capability benchmark deferral
+
+**Owner decision, 2026-11-11.** Defer B01 and prioritize the M2-E14 claim
+review. The fixed-rule rehearsal and the later order-flow and reporting checks
+establish bounded engineering behavior. The current blind plan would primarily
+diagnose that finite rule set. At a relevant discovery-capability review,
+Engineering and Quant Research should revisit B01 when the capability under
+test runs end to end and a prospectively scored, independent benchmark can
+change a concrete development decision. Define the baseline and budget, verify
+the intended execution path, and make correct detections, false claims,
+misses and effects outside the tested capability distinguishable. Until then,
+keep external execution parked. The existing evidence remains historical.
 
 **AQRS-G01 owner-directed policy correction, 2026-11-11.** ADR-051 removes mandatory data-rights and license reviews from current source/model prerequisites and milestone gates. Historical cards below retain the checks performed at the time; they do not reinstate the removed requirements. This is a deterministic documentation/configuration correction, not a new development hypothesis or market experiment. Technical access controls, causal timing, provenance, quality, free-data scope and resource limits remain in force. Verification passed: language self-test/check, current-requirement review, unchanged registry IDs/statuses/non-prose fields, all 17 owned paths in the changelog and `git diff --check`. Checkpoint 07:12:23 UTC; 11 minutes 8 seconds elapsed since the combined source/policy work started at 07:01:15 UTC. No critical contract changed; FTA not triggered. Zero market reads, fits, new dependencies or platform-runtime changes. The separately authorized free Spot data expansion follows the completed A08 integration checkpoint as AQRS-D01.
 
-Use this table for planned development, founding, and project-level research experiments. Row order is the current priority. The [dispatch and update rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution.
+This queue is the canonical work plan for concrete development, founding, and project-level research work. Row order is the current priority. The [dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution. The [completion rules](DEVELOPMENT_PROCESS.md#completion-reconciliation) give the canonical locations for other follow-up. Follow the linked records for findings, revisit conditions, and owner decisions that affect readiness.
 
-**Priority review, 2026-11-11.** AQRS-D01 completed the owner-authorized free-data qualification after A08. The broader development inputs are available; no new outcome campaign follows automatically. M2-E14 remains the next campaign proposal, waiting for the biased-design self-test, justified precision plan, independent design review, registered diagnostic views, verified campaign admission and published source/card binding before named outcome access. Its run authorization and Governor limits remain separate. The owner deferred AQRS-SC01; revisit scheduling when the owner reprioritizes it. Two-way Sierra Chart and ACSIL interoperability remains a v1.0 requirement. The price-drop outcome exercise and both completed model pilot follow-ups remain deferred.
+**Priority review, 2026-11-12.** E14, E18 and E19 are closed as recorded
+below. The remaining M2 acceptance review has priority under M2-E20. The
+owner added the bounded Scout pilot next in priority and ahead of the B01
+benchmark review. The Scout can use a qualified synthetic path independently
+of the E09 source gap. Other deferred follow-ups retain their start conditions.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -41,11 +60,37 @@ Use this table for planned development, founding, and project-level research exp
 
 **M2-E09 research follow-up.** Stop the fixed LightGBM comparison on the same evidence. Reconsider a new proposal only if a materially new observation from authorized development evidence shows a recurring forecast or decision gap that LightGBM could plausibly address. Quant Research checks this during relevant candidate diagnostics. Keep the [original pilot decision](#m2-e09-learning-card-corrected-supervised-pilot-replay-2026-11-09) and the distinct M2 acceptance records for outcome parity and source reproducibility.
 
+**M2-E18 and M2-E19 research follow-up.** The completed attempts stay closed.
+E18 deferred both candidates after the [fixed screens missed](https://github.com/RealMonoid/AQRS/blob/e26e65e7b98496c44ff464e7a0fa44c10a7d6694/docs/MILESTONE_STATUS.md#m2-e18-windows-and-ubuntu-learning-card).
+Quant Research checks during M2-E20 whether a named candidate-specific gap
+and a development sample with a defensible count of independent observations
+would justify a new comparison. E19 keeps the HMM conditional after it missed
+the after-cost hurdle. At a relevant regime-filter review, Quant Research
+checks for a newly documented mechanism addressing a named gap and adequate
+development coverage, as specified in the
+[E19 decision](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/docs/MILESTONE_STATUS.md#m2-e19-learning-card-paired-volatility-gates).
+Until those conditions are met, keep both E18 candidates deferred and keep the
+HMM out of the active workflow. Any new campaign follows the existing
+authorization and preflight rules.
+
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E14 | 2026-11-10 | WAITING | [Review claim, precision and opportunity population before the two-candidate campaign.](#m2-e14-test-card-two-interpretable-real-data-candidates-2026-11-10) | Complete the [pre-outcome design checks](RESEARCH_PROTOCOL.md#precision-and-claim-admission), register diagnostic views, and resolve [AQRS-A07 Q3](RISK_REGISTER.md#fta-aqrs-a07-research-logic-audit-correction); record what this small design can decide and include skipped opportunities. Publish the fixed card/source binding before named archive access and outcome execution, which retain their separate authorization and preflight requirements. |
-| M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
+| M2-E20 | 2026-11-12 | WAITING | Resolve the [remaining M2 evidence questions](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions). The [effective-count design](#m2-e20-p02-learning-card-effective-count-design) specifies the E18 matched-volume contrast and its variance comparison. | An eligible ordered comparison with defensible dependence evidence and adequate precision is needed. The present fixed path supplies six validation days. Any additional outcome access or execution needs its applicable authorization and admission. E09 has [replay verification preparation](#m2-e20-p03-learning-card-supervised-replay-readiness) and awaits the [owner's replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay). |
+| M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
+| AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
+| M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. The [count-only Test Card](#m2-e15-p01-test-card-state-persistence-count-design) fixes the same setup, invalidation, trigger and eligibility for 5- and 30-minute lifetimes. | The [preparation](#m2-e15-p01-learning-card-state-persistence-count-design) is complete. The [named D01 data access and count](OPEN_QUESTIONS.md#m2-e15-state-persistence-count) require separate owner authorization and a verified count entry and Governor preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
+| M2-E20-P03 | 2026-11-13 | CLOSED | [Prepared source and receipt verification](#m2-e20-p03-learning-card-supervised-replay-readiness). | SUPPORTED / PERSEVERE for the bounded preparation. Parent: M2-E20. The replay remains reserved. |
+| M2-E15-P01 | 2026-11-13 | CLOSED | [Designed the count-only state-persistence comparison](#m2-e15-p01-learning-card-state-persistence-count-design). | SUPPORTED / PERSEVERE for the design and its synthetic boundary checks. Parent: M2-E15. |
+| M2-E20-P02 | 2026-11-13 | CLOSED | [Designed the effective-count comparison](#m2-e20-p02-learning-card-effective-count-design). | SUPPORTED / PERSEVERE for design. DEFER the market calculation pending decision-changing evidence. Parent: M2-E20. |
+| M2-E20-P01 | 2026-11-12 | CLOSED | [Checked effective-observation readiness](#m2-e20-p01-learning-card-effective-observation-readiness). | REFUTED / DEFER for estimating a defensible count from the existing E18 evidence. Parent: M2-E20. |
+| AQRS-A12 | 2026-11-12 | CLOSED | [Operationalize autonomous work management](#aqrs-a12-test-card--autonomous-work-management) against the owner's 19 checks and ten cases. | Owner correction on 2026-11-12 authorizes this standalone audit, minimal governance fixes and verification. Completed under the 60-minute estimate. See the card for authority, stop boundary and resource scope. |
+| AQRS-A10 | 2026-11-12 | CLOSED | [M2 evidence review and threshold guidance](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions). | Documentation and evidence review completed. Follow the E20 start conditions and the separate E09 approval boundary. |
+| M2-E19 | 2026-11-12 | CLOSED | [Paired volatility-gate comparison](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/evidence/m2-e19-verification.json). | Technical pilot completed on Windows and Ubuntu. Research `INCONCLUSIVE / DEFER`. See the [revisit conditions above](#experiment-queue). |
+| M2-E18 | 2026-11-11 | CLOSED | [Paired two-family workflow](https://github.com/RealMonoid/AQRS/blob/e26e65e7b98496c44ff464e7a0fa44c10a7d6694/evidence/m2-e18-verification.json). | Two candidate comparisons completed. Both research follow-ups deferred. See the [revisit conditions above](#experiment-queue). M2 acceptance remains open. |
+| M2-E17 | 2026-11-11 | CLOSED | [Training-only feasibility receipt](https://github.com/RealMonoid/AQRS/blob/eb8ed5c/evidence/m2-e17-verification.json). | Qualified the E18 training prefix. No evidence of predictive benefit. |
+| M2-E14 | 2026-11-10 | CLOSED | [Fixed Windows comparison](https://github.com/RealMonoid/AQRS/blob/76cdfd3d1b59e81eb5f51ae633a3875ec28b5f39/evidence/m2-e14-verification.json). | Volume evaluated. Ridge stopped at the training movement screen. The conditional market replay did not start. |
 | AQRS-D01 | 2026-11-11 | CLOSED | [Qualified 48 free Spot archives and 69,120 minute bars with retained activity fields.](#aqrs-d01-learning-card-qualified-free-spot-development-data) | SUPPORTED / PERSEVERE for data preparation after independent review and four Windows/Linux CI jobs. M2-E14 outcome admission remains separate. |
 | AQRS-A08 | 2026-11-11 | CLOSED | [Descriptive diagnostics and additional-view accounting verified.](#aqrs-a08-learning-card-descriptive-signal-diagnostics) | SUPPORTED / PERSEVERE for the scoped engineering slice. M2-E14 still requires justified precision, its independent full-design review and a verified admission entry before outcomes. |
 | AQRS-A07 | 2026-11-11 | CLOSED | [Corrected control timing and verified complete opportunity and precision diagnostics.](#aqrs-a07-learning-card-research-comparison-and-precision-boundaries) | Independent review and four exact-revision CI jobs passed. Scientific coverage, confounding and M2-E14 design admission remain open. |
@@ -86,7 +131,954 @@ Use this table for planned development, founding, and project-level research exp
 
 ## Current Build–Measure–Learn development loop
 
-**Status:** No development loop is active. AQRS-B01 preparation is complete and its external search is WAITING for the owner's data, budget and start. AQRS-D01 and AQRS-A06/A07/A08 remain closed. M2-E14 and the remaining queue retain their existing conditions.
+### M2-E20-P03 Test Card: supervised replay readiness
+
+**2026-11-13. Authority and order.** The owner requested continuation of
+currently authorized queue work. The standing approval covers preparation for
+the open M2 reproducibility criterion. Sequence Preflight: `ALLOW` for the
+zero-fit readiness checks. The separate [replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay)
+still governs execution. The effective-count path has no eligible new evidence.
+
+**Decision and baseline.** M2-E16 already tested historical source recovery.
+AQRS-A06 qualified a later source-snapshot entry on its own revision. Test the
+riskiest remaining preparation assumption: the checked-out entry still binds
+recoverable source, enforces the frozen input and budget, and can supply a
+usable parity check for a future replay. A historical result or verifier may
+look suitable while referring to an earlier report contract.
+
+**Minimum proof and stop.** Bind the candidate entry, source files and configs
+to the current revision. Trace the date allowlist and four digests to existing
+checksum metadata, the two 30-minute folds to the M2-E08 card, and the fit
+ceiling to the effective Governor. Reuse the existing admission and snapshot
+tests with synthetic inputs or tripwires before archive or fit calls. Exercise
+the historical verifier's report assumption against a current-format synthetic
+receipt and state the needed comparison for both platforms. Advance the
+recommendation only if the preparation supports the fixed comparison and
+defines any remaining technical checks. Stop before market reads, execution of
+the proposed replay, fresh historical recovery, or a change to a critical
+contract.
+
+**Budget and risk.** Up to 20 minutes of one-time work plus the recorded
+M2-E20 preparation, within standing approval. Zero market or protected payload
+reads, new outcome calculations, estimator fits, campaign trials, resamples,
+dependencies, downloads, spend or recurring work. This is a read-only path
+check and documentation update. No critical contract changes and no FTA is
+triggered. IDEA-001 rules out repeated campaigns as a recovery method.
+
+**Verification follow-through.** The legacy verifier rejects the new receipt
+format, and source snapshots preserve working-copy bytes. Reuse the evidence
+archive command for one read-only check on the new format. Its minimum proof is
+one synthetic Windows/Ubuntu receipt pair. Reject changed source bytes even if
+the two reports agree, inconsistent journal rows, incomplete comparisons, and
+changed decisions or numeric metrics outside the existing `1e-8` tolerance.
+The baseline command cannot verify these receipts. The check earns no release
+or market evidence. Keep this slice within the same timebox and zero-fit budget.
+See [FTA-M2-E20-P03](RISK_REGISTER.md#fta-m2-e20-p03-supervised-replay-evidence).
+
+### M2-E20-P03 Learning Card: supervised replay readiness
+
+**2026-11-13. SUPPORTED / PERSEVERE for preparation.** The four January 1–4
+BTCUSDT Spot archive sizes and checksum sidecars match the preserved M2-E03
+metadata. The fixed comparison has two validation folds of 1,409 observations,
+a 31-row gap and six planned fits per platform. The native Windows Python
+3.12.12 environment reports LightGBM 4.6.0 and an available Job Object.
+
+**Reproduced gaps and evidence check.** An exact comparison of 24 source and
+configuration files to `044363c` found four working-copy CRLF differences.
+The same 24 paths restored via `git archive` matched the selected Git bytes.
+Stage both execution trees from the same Git revision and confirm the import
+path before market access. The historical verifier rejected the holdout fields
+in a synthetic schema 2 receipt. The evidence archive command now checks a
+completed Windows receipt before Ubuntu and compares the resulting pair. It
+checks the fixed configuration, snapshot bytes, dataset identity, terminal
+journal, worker charges, exact decisions and numeric tolerance. The command
+operates on existing evidence and emits the selected source and run IDs.
+
+**Verification.** `.venv/Scripts/python.exe -B -m pytest -q
+tests/test_audit_controls.py tests/test_cli.py -k 'supervised_replay_verification
+or supervised_actual_entry or supervised_screen_is_evaluation_state or
+supervised_pilot_receipt or reserved_spot_day or evidence_bundle_checks_integrity'
+--tb=short` passed 18 checks on Windows. The new CLI's positive test first
+failed with an unknown argument and passed after implementation. The temporary
+synthetic `report.json`, `development.npy` and `research.sqlite3` fixtures
+exercised successful receipts, source/configuration substitutions, a journal
+mismatch, an incomplete result, unequal dataset bytes, decision divergence and
+metrics outside `1e-8`. The inline `python -B -` source, scope and receipt
+checks passed after correcting an expected checksum-size sum. Ruff lint and
+format checks passed. About 18 minutes elapsed from the recorded baseline
+through the first complete documentation and dispatch checks. Zero market or protected payload
+reads, new outcome calculations, trials, estimator fits, spend or fresh Linux
+execution. The Linux runtime, actual receipts and independent gate review
+remain part of the proposed replay.
+
+**Completion and next dispatch.** Close P03. The new checks prepare the
+[owner's replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay). E20's
+effective-count route still needs an eligible ordered comparison with a
+defensible dependence and precision basis. The historical source recovery
+route reopens only on original run-linked source evidence. M2 remains
+`IN_PROGRESS`. The [queue rescan](SEQUENCE_PREFLIGHT.md#m2-e20-p03-completion-and-next-dispatch)
+records the independent preparation and remaining start conditions.
+
+### M2-E20-P01 Test Card: effective observation readiness
+
+**Authority and dispatch, 2026-11-12, 21:31 UTC.** The owner requested
+continuation of currently authorized queue work. M2-E20 and the A10 Learning
+Card specify methods and evidence scoping first. This linked preparation
+uses the existing standing approval. Sequence Preflight: allow the methods
+check ahead of dependent outcome work. It addresses the first remaining M2
+evidence question. The E09 replay and Scout pilot retain their own gates.
+Stop at the evidence-based readiness decision.
+
+**Assumption and baseline.** The current E18 receipts may contain enough
+independent-unit information to replace the null effective counts. The
+alternative is that overlapping outcomes, common market shocks and reused
+days can yield different effective counts for the same nominal coverage.
+The current A10 review records descriptive counts and unknown effective
+counts. The earlier E19 precision note in its evidence worktree is a
+conditional planning calculation for another candidate.
+
+**Smallest proof and decision.** Check the frozen candidate definitions,
+validation boundaries, saved evidence structure and recorded exposure. Trace
+each M2-E18 contrast to its observation unit and the evidence needed to
+estimate variance with dependence. Use primary literature and one exact
+synthetic counterexample with identical nominal coverage and different
+mean variance. Pass for readiness only if the preserved inputs support a
+claim-specific estimate under defensible dependence assumptions. If those
+inputs or assumptions are missing, retain the null counts and record what
+new evidence would change the decision. If an identity or evidence check
+fails, stop the affected assessment and record the reason. A raw count or
+platform replay cannot substitute for evidence of dependence. No numerical
+market-effect threshold is selected here.
+
+**Budget and risk.** Up to 30 minutes total for review, checks and closeout.
+Zero new market outcome calculations, market payload or protected reads,
+downloads of market data, fits, research trials, resamples, dependencies,
+spend or recurring work. Stop before any such action or any critical
+contract change. This is a readiness review, so no fault tree is triggered.
+Reuse the existing precision planner only for conditional planning. Avoid
+unbounded calibration under IDEA-001. This decision has priority over
+testing another discovery path because it addresses the current M2 gate
+without displacing an eligible experiment.
+
+### M2-E20-P01 Learning Card: effective observation readiness
+
+**2026-11-12. REFUTED / DEFER for estimation from the existing E18 evidence.**
+The source-bound E18 runner writes `effective_independent_units: null` for
+both candidates. Non-overlap limits shared holding intervals. It supplies no
+estimate of dependence from common market moves, overlapping forecast targets,
+or reused training and validation histories. The [E18 receipt](https://github.com/RealMonoid/AQRS/blob/e26e65e7b98496c44ff464e7a0fa44c10a7d6694/evidence/m2-e18-verification.json)
+and [E19 receipt](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/evidence/m2-e19-verification.json)
+bind their comparisons to the same date scope. Cross-platform agreement
+supplies engineering evidence. It adds no market observation.
+
+| E18 contrast | Observation unit and evidence |
+|---|---|
+| `VOL_CONFIRM_V1` matched event versus below-cutoff event | Use the after-cost difference within each frozen pair. The report retains matches and UTC band/day summaries. A day can contain several dependent pairs. An analysis would preserve time order and account for grouping and cross-day dependence. |
+| `VOL_CONFIRM_V1` filtered policy versus positive-move baseline, and `RIDGE_INCREMENT_V1` policy versus one-feature Ridge | For each policy comparison, use the net difference over the same eligible opportunities, including flat decisions. Keep each group's total paired difference and eligible count. Use the ratio of summed differences to summed counts for the opportunity-weighted claim. An unweighted mean of daily rates changes the target when counts differ. |
+| `RIDGE_INCREMENT_V1` forecast versus zero and versus one-feature Ridge | Use aligned paired absolute-error differences at each eligible forecast origin, separately for each reference. Retain the reference loss too if estimating relative MAE reduction. The saved forecast block has pooled and fold metrics. It omits the ordered per-origin loss inputs. Trade records cannot reconstruct errors at flat opportunities. |
+
+**Exact counterexample.** Enumerate six independent equally likely sign
+draws, then three independent sign draws each repeated across two days.
+Both cases have six dates and the same marginal variance of one. The
+variance of the six-day mean is 1/6 and 1/3, respectively. Thus the
+variance-equivalent counts are six and three in the two known cases.
+The archived counts alone cannot distinguish these possibilities. The
+pilot's short reused time window also gives no credible basis for choosing
+a dependence length from the data. The E19 worktree precision note conditions
+on assumed independent groups and another candidate's dispersion. It does
+not estimate the dependence length or supply E18 forecast loss inputs.
+
+**Method and revisit.** For any future fixed claim, use the same paired
+contrast, population, and weighting as the intended decision. An effective
+count would compare the variance of that estimator under an explicit
+independent-unit reference with its variance under dependence. There is no
+single interchangeable count across the contrasts above. First establish
+the availability of chronological contrast inputs and a defensible group
+or lag design over an eligible span. Reuse the scalar precision planner
+for conditional feasibility once the dispersion, effect scale and units are
+justified. Potential primary references for qualification are
+[Newey and West](https://www.nber.org/papers/t0055) for long-run variance and
+[Ibragimov and Muller](https://doi.org/10.1198/jbes.2009.08046) for inference
+with suitably independent group estimates. External source retrieval timed
+out in this review. Verify applicability against the primary papers before
+admitting any such method. No method, lag, group length, minimum sample size
+or economic hurdle was adopted. Quant Research revisits this at the next
+candidate-specific design or M2 acceptance review when an eligible,
+adequately scoped ordered series is identified. Keep the effective counts
+unknown and the E18 candidate dispositions deferred until then.
+
+**Dispatch reconciliation.** The evidence review permits no new E18
+outcome calculation or precision campaign. As independent readiness work,
+Engineering traced the [versioned E09 pilot](../scripts/m2_supervised_pilot.py)
+and checked existing entry tests without executing it. The source snapshot
+and guarded worker path can address the prospective reproducibility gap
+once the exact path, data and Governor are qualified. The original run's
+source identity can only be restored with new original run-linked evidence.
+The [E09 replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay)
+requires owner authorization. M2-E21 remains independently eligible for
+consideration after its own benchmark, isolation and resource prerequisites
+and implementation authority. The recorded owner action approved design
+and queue placement. AQRS-B01, M2-E15, AQRS-SC01 and M4-E01 retain the start
+conditions in their rows. There is no eligible next dispatch under the
+current mandate. This records the first continuation check after AQRS-A12:
+the authorized preparation was pulled, closed and reconciled against all
+six remaining rows.
+
+**Verification.** `python -B -` verified the exact synthetic variances and
+traced the frozen source definitions and receipt identities. On native
+Windows with Python 3.12.12, `python -B -m pytest -q -p no:cacheprovider
+tests/test_audit_controls.py -k "supervised_actual_entry or supervised_screen"`
+passed four cases (13 deselected). The cases reject a tighter fit limit,
+strict memory mode and duplicate configuration before archive access or
+worker launch, and preserve frozen costs in the mocked screening path.
+The language self-test, language audit, `git diff --check` and focused
+queue, link, changelog and preservation checks passed. No fresh Linux
+verification, market payload or protected reads, outcome calculations,
+campaigns, fits, resamples or spend. About nine minutes elapsed from the
+Test Card through the readiness decision and closeout edits.
+
+### M2-E20-P02 Test Card: effective count design
+
+**Authority and dispatch.** The 2026-11-13 owner request directs completion
+of already authorized preparation under AQRS-A12. Apply the standing
+approval to the M2-E20 design and metadata work. Keep P01 closed. Start
+P02 before lower-priority items because it addresses the unresolved M2
+evidence gate without needing any outcome access. Sequence Preflight:
+allow this preparation and keep the dependent calculations waiting.
+
+**Decision and baseline.** Can one of the fixed E18 contrasts supply an
+auditable path to an effective independent event count? P01 establishes
+that the available evidence cannot justify a count. The riskiest assumption
+now is that selecting a specific contrast, defining the variance reference
+and inspecting qualified calendar metadata will identify a usable next
+measurement. Another plausible result is that the frozen path or qualified
+span cannot supply a defensible denominator even after a new market look.
+
+**Minimum proof and stop.** Select one candidate and comparison before
+inspecting any outcome. Specify the estimand, observation and grouping,
+precision rationale, archived evidence input, exposure and next decision.
+Trace the input and larger-window limitations to pinned definitions and
+qualification receipts. Use one exact synthetic weighted-mean check to
+challenge an unweighted day-average shortcut and evaluate known independent
+and dependent group structures. Review primary methods or record any
+access gap. Preparation passes when the design and actual execution
+boundary are reviewable. Advance an outcome calculation only if it could
+change the stated decision, satisfies existing admission and has the
+required authorization. Otherwise give a concrete data or evidence trigger.
+Keep the original candidate definitions and thresholds.
+
+**Budget and risk.** Up to 30 minutes in this increment including closeout,
+plus nine minutes already recorded for P01. Zero market or protected
+payload reads, additional calculations on outcomes, trials, model fits,
+resamples, data downloads, dependencies, spend and recurring work. Use
+published source, receipts and date metadata. Stop before any change to
+runtime or scientific contracts. No FTA is triggered by this paper design
+and synthetic arithmetic. Check IDEA-001 and ADR-052 before considering
+any broader method or calibration.
+
+### M2-E20-P02 Learning Card: effective count design
+
+**2026-11-13. SUPPORTED / PERSEVERE for design.** The earlier dispatch
+stopped after P01 treated the missing claim and methods plan as reasons for
+the whole item to wait. AQRS-A12 allows Quant Research to supply both before
+requesting any data permission. P02 supplies them below. The failure to
+produce an effective count in P01 remains valid.
+
+**Fixed question and comparison.** How many independent matched pairs
+would give the same precision as the mean net high-volume minus
+below-cutoff contrast for `VOL_CONFIRM_E18_V1`, the E18 registration of
+the fixed volume rule? The contrast is per retained pair, in basis points,
+conditional on the frozen match rule. Use the same 30-minute holds, 25 bps
+round-trip costs per leg and one pair per UTC eight-hour band. This asks
+about the precision of a conditional development comparison. The all-
+opportunity policy and both Ridge contrasts answer other questions. Their
+counts remain unknown. The historical +2 bps paired follow-up screen is
+preserved. This design makes no new market claim or acceptance threshold.
+
+**Exact inputs and proposed calculation.** The first possible calibration
+input is the match rows in `artifacts/m2-e18/windows/report.json` in the
+E18 evidence bundle at `e26e65e`. The verification receipt binds the member
+digest and the executable revision `54fb864`. Use the band start, pair
+identity and paired net difference, retain calendar gaps and exclude the
+Ubuntu replay as a second sample. For day or block \(g\), let \(S_g\) be
+the sum of pair differences and \(N_g\) the pair count. The estimand is
+`theta = sum(S_g) / sum(N_g)`. Center the block contribution as
+`S_g - N_g * theta`. Compare an independent-pair variance reference
+`s_pair^2 / N` with a between-block variance of the same weighted mean.
+For a planning diagnostic with independently justified blocks, use
+`G/(G-1) * sum((S_g - N_g * theta)^2) / N^2`, where `N` is the
+total pairs and `G` the number of nonempty blocks. The equivalent count
+is `s_pair^2 / V_block`. A missing or degenerate variance, too few
+informative groups or unsupported independence leaves the count unknown.
+Keep pair counts and empty days visible. The formula is a conditional
+variance comparison. It does not establish the grouping assumption.
+
+**Primary-source transfer and limits.** A cluster sandwich can represent
+correlation within groups if there is a basis for independence between
+groups. A serial covariance estimate needs a defensible lag model and
+enough ordered observations. A group t-test also needs approximately
+independent, suitably behaved group estimates. These papers justify
+examining the assumptions. They supply no AQRS block length, finite-sample
+guarantee or numeric cutoff. See [Liang and Zeger (1986)](https://doi.org/10.1093/biomet/73.1.13),
+[Newey and West (1987)](https://users.ssc.wisc.edu/~behansen/718/NeweyWest1987.pdf)
+and [Ibragimov and Muller (2010)](https://www.tandfonline.com/doi/abs/10.1198/jbes.2009.08046).
+The synthetic check got a pair-weighted mean of 7/2 versus 7/3 for an
+unweighted day mean. For four independent unit-variance pairs it got
+mean variance 1/4. With one observation in one day and three sharing a
+shock in the next day, it got 5/8 and an equivalent 8/5 pairs.
+
+**Scope and decision.** The E18 fixed entry accepts ten UTC days, December
+1–10, 2025. Its six validation days, December 5–10, allow at most 18
+pairs, six one-day groups or three disjoint two-day groups. These are
+calendar capacities. One- and two-day partitions anchored on December 5
+would only illustrate sensitivity on those reused dates. D01 qualifies
+14 further BTCUSDT dates, December 11–24, outside the E18 and E19 window.
+The frozen entry does not accept them. Data qualification is not
+experimental admission or evidence of independence.
+
+**DEFER the additional market look.** Another calculation on the archived
+six days would not resolve dependence, change either candidate's decision,
+or meet the effective-count criterion. Retain the existing evidence.
+If an eligible longer chronological series or independently supported
+dependence evidence makes the count decision-changing, scope the comparison
+before access, verify its time order and exposure, and independently check
+the block or lag assumptions and precision. Use the prior exposure on
+both platform runs and register any new report diagnostic before reading
+the member. A strictly report-only planning look would be one member
+and one contrast, zero fits, trials, resamples, downloads, spend or
+recurrence, and would need specific authorization. There is no
+decision-changing reason to request that look now. New market execution
+would need its own authorization and Governor preflight.
+
+**Verification and dispatch.** `python -B -` verified the synthetic
+values, the receipt's report-member digest reference, frozen scope,
+variant ID, qualification metadata and prior exposure. No report-member
+outcomes, data payload, protected data or runtime campaign was accessed.
+The first metadata inspection assumed that the D01 symbol rows formed a
+mapping. The corrected list check passed. About four minutes elapsed from
+the scope checkpoint through the design decision. E09 still requires its
+separate execution approval. M2-E21 already records its authorized design.
+The actual independent benchmark and launch are beyond its recorded design
+scope. B01 remains deferred. Pull the independent E15 design preparation
+because the E15 row already calls for that design before its named count
+permission.
+
+### M2-E15-P01 Test Card: state persistence count design
+
+**2026-11-13. Authority and decision.** The E15 queue entry calls for
+selecting a concrete rule and writing a Test Card before requesting access
+for the count. Standing approval covers this design step. The E14
+positive-five-minute-move baseline supplies a setup mechanism. E14 does
+not provide evidence that persistence adds value. The next count would
+only decide whether the two lifetimes differ often enough to consider a
+separately scoped outcome study. Select the same setup, trigger,
+invalidation and common entry opportunities for both arms. The comparison
+must vary only the lifetime. Prefer the existing timing and fold
+contracts over adding a new library or entry point.
+
+**Minimum design proof and stop.** Trace the setup to the frozen E14 rule
+and the 30-minute contract. Set two fixed lifetimes and a workflow coverage
+gate before checking a synthetic event sequence. Confirm a fresh
+trigger qualifies for both arms, a delayed trigger qualifies only for
+the persistent arm, and invalidation or expiry denies both, including on
+the trigger bar. Confirm reset and single-use behavior. Pass if the
+rule is mechanically reproducible with an exact dataset, coverage rule,
+cost and permission boundary. Otherwise keep the parent waiting and
+give the missing prerequisite. Up to 20 minutes of design, checks and
+closeout. Zero market or protected reads, outcome calculations, fits,
+trials, resamples, dependencies, downloads, spend or recurring work.
+No critical contract changes and no FTA triggered by this design.
+Stop before production implementation or any actual count.
+
+**Fixed comparison to check.** Use only the existing D01 BTCUSDT spot
+minute data for December 1–10, 2025 UTC, with E18's two purged folds and
+eligible signal indices. Start with no setup at each validation boundary.
+Use completed bars only. A setup starts when the five-minute close return
+crosses from nonpositive to positive. Store that setup bar and the close
+five bars earlier as the invalidation level. Wait for a later
+nonpositive five-minute return and then the first positive one-minute
+close return on a strictly later bar. This is the common recovery trigger.
+Invalidate when a later completed low reaches or crosses the stored level,
+including on a trigger bar. Expire after age 30. Process expiry and
+invalidation before a trigger. A trigger consumes the episode once.
+A new setup can start when no episode remains, with triggers eligible
+only on later bars. An active episode retains its original setup.
+Use the same episode and trigger stream for both arms. The rolling
+baseline allows a trigger at ages 1–5 and the persistent rule at
+ages 1–30, in completed minutes. Count the 6–30 age difference only
+when the common eligibility conditions hold. Check possible exit index
+bounds without reading any forward prices.
+
+The 5-minute lookback and 30-minute maximum use E14's declared event and
+evaluation scales as fixed engineering probes. They are uncalibrated
+lifetimes. Report all disagreements and their days/folds. For the
+coverage decision, cap credit at one disagreement per UTC eight-hour
+band per day. Require at least 12 such bands across at least four days
+and at least four bands per fold. This reuses E14's operational spread
+of matches as a feasibility screen. It supplies neither independence nor
+profit evidence. A miss defers the study. A pass permits considering a
+separate outcome proposal. Stop without changing a threshold, date,
+lifetime or trigger.
+
+**Governor for the proposed count.** One registered local count on one
+10-day slice (14,400 bars), two rule flags on the same stream, zero
+estimator fits, outcome trials, resamples, downloads, protected reads
+or recurring jobs. Plan up to 45 minutes of one-time qualification,
+execution and closeout after the current design. Estimate up to 20
+seconds and 512 MiB sampled RSS for one worker, subject to the actual
+count preflight. Use existing supervision and the default ceilings.
+Stop before file access without the separate named authorization and
+scope checks. Stop on failed timing, coverage or enforcement. A small
+reproduction on synthetic events qualifies the written mechanics only.
+
+### M2-E15-P01 Learning Card: state persistence count design
+
+**2026-11-13. SUPPORTED / PERSEVERE for design.** The count has a named
+market scope, fixed comparison and decision. `python -B -` checked a
+synthetic reference sequence against the written rule. Ages 5 and 6
+distinguish the arms. Ages 30 and 31 distinguish valid persistence from
+expiry. Same-bar invalidation at equality denies entry, cooling and
+triggering need separate bars, and a later trigger cannot consume an
+episode again. A new setup can qualify after invalidation. The checks
+also reject a training-side setup, an exit at the fold boundary and
+duplicate or uneven band coverage. The E18 source and D01 receipt
+supply the frozen input scope. The synthetic check is an oracle for a
+future implementation. It does not qualify an actual count entry.
+About three minutes elapsed through the design and checks. Zero market
+or protected reads, trials, fits, downloads, spend or runtime changes.
+
+**Queue rescan.** Close P01. M2-E15 awaits the named data and count
+authorization. E20 has its technical design and needs decision-relevant
+ordered evidence to justify further outcome work. E09 awaits its separate
+replay approval. E21 lacks the independently committed synthetic inputs
+and a qualified isolated execution path within an approved implementation
+scope. The fixed B01 search entry does not supply this Scout path. B01's
+reassessment remains dependent on E21. External B01 use also retains its
+own delivery, 24-trial exception, start and independent risk-closure
+requirements. SC01 remains owner-deferred and M4-E01 remains contingent
+on authorized M4 planning. No pending row has an eligible next action
+within the current mandate. See [Sequence Preflight](SEQUENCE_PREFLIGHT.md#m2-e20-and-m2-e15-dispatch-correction).
+
+### AQRS-A12 Test Card — autonomous work management
+
+**2026-11-12. Owner authorization.** The current owner correction requests a
+19-point work-management gap audit and the minimum necessary implementation,
+followed by ten explicit behavioral cases. This standalone mandate ends after
+the process corrections, checks, reconciliation and report. It covers existing
+governance documents and their records. Estimated total effort is 60 minutes,
+including review, edits, routine corrections and verification. Elapsed time is
+tracked from the fresh repository review through the recorded decision.
+
+**Baseline and hypothesis.** A03 already requires continuation and cross-item
+dispatch. A11 already persists material follow-up. The owner reports recurring
+requests to continue, and the preceding response addressed a role audit.
+The repository records establish prior rule checks, with future adherence
+explicitly unmeasured. The remaining risk is that an undocumented mandate or a
+premature completion report turns an authorized next action into a suggestion.
+A repository-recoverable authorization record and explicit readiness,
+completion and continuation decisions should close that operational gap.
+
+**Predeclared proof.** Audit all 19 requested points against current sources.
+Pass when all ten owner cases have a direct rule and determinate action,
+including automatic pull within a covered multi-item objective and waiting
+for separately reserved data access. Additionally check the exact eight-hour
+boundary, a standalone mandate, a stale READY label and available independent
+work. Validate onboarding by recovering this item's authority and next action
+from repository records alone. Fail if any case needs a fresh discretionary
+permission choice or if the change grants new research or release authority.
+Keep each existing queue row, order and start condition intact.
+
+**Budget, risk and stop.** Zero research trials, fits, market-data access,
+downloads, spend, dependencies or recurring runtime. The change operationalizes
+existing development authority. Scientific, runtime, protection and numerical
+acceptance contracts are outside this increment, so FTA is not triggered.
+Use focused document/link/preservation checks, language check and self-test,
+and diff checks. Stop after the acceptance walkthrough and reconciliation.
+Evidence supports a documented workflow only. Future-session adherence needs
+observation during ordinary authorized work.
+
+### AQRS-A12 Learning Card — autonomous work management
+
+**2026-11-12. `SUPPORTED / PERSEVERE` for the documented operating contract.**
+507 seconds elapsed from the fresh repository review through this decision, including tool waits and the edit-tool correction, excluding final rechecks.
+The baseline review below preceded the lifecycle edits. SUFFICIENT means
+the existing rule already determines the relevant action. PARTIAL means the
+rule exists but its operational use or recovery at the dispatch boundary
+needed clarification. No absent role or second backlog was identified.
+
+| Check | Baseline status | Evidence or gap |
+|---|---|---|
+| 1. Canonical work plan | SUFFICIENT | The experiment queue already names its canonical ownership. |
+| 2. Definition of Ready | PARTIAL | Eligibility existed, but mandate recovery and readiness evidence were dispersed. |
+| 3. Definition of Done | PARTIAL | Milestone gates existed without a compact item-level completion and next-dispatch contract. |
+| 4. READY pull | PARTIAL | Rule 1 required pull but the session closeout lacked a recorded dispatch outcome. |
+| 5. Continuous execution | PARTIAL | Root instructions required continuation, while the reported repeated pauses showed unverified adherence. |
+| 6. Checkpoint / decision / blocker / completion | PARTIAL | Individual concepts existed without one operative action table. |
+| 7. Completion reconciliation | SUFFICIENT | A11 already defines scope and follow-up reconciliation. |
+| 8. Persistent material follow-up | SUFFICIENT | A11 maps work, choices, findings and deferrals to canonical records. |
+| 9. Queue reevaluation | PARTIAL | Events were named, but the chosen action before session exit was not required as a record. |
+| 10. Sequence / why now | SUFFICIENT | Sequence Preflight defines triggers, dependencies and decision value. |
+| 11. Threshold check | SUFFICIENT | The Test Card and Sequence Preflight require a defensible threshold or bounded calibration. |
+| 12. Test/Learning Cards | SUFFICIENT | Existing cards and their timing, evidence and exception rules are operational records. |
+| 13. Waiting / blocked / deferred / rejected | SUFFICIENT | Queue and reconciliation rules define reasons, triggers, evidence eligibility and destinations. |
+| 14. Owner decision boundary | PARTIAL | Reservations were distributed across rules and lacked one dispatch-facing account. |
+| 15. Eight-hour rule | SUFFICIENT | The root already applies spent plus remaining time to the entire item or authorized sequence. |
+| 16. Chat handoff | SUFFICIENT | Root instructions limit handoff to materially separate goals or inadequate context. |
+| 17. Progress without waiting | PARTIAL | The instruction existed but lacked a closeout control exposing an avoidable wait. |
+| 18. Cross-item autonomy | PARTIAL | Mandate scope and the mandatory next action needed an explicit recoverable record. |
+| 19. Repository-only onboarding | PARTIAL | Entry links existed, but authority and the current next action were not uniformly recoverable. |
+
+**Scope-mismatch review.** The preceding response delivered a role-boundary
+audit. The owner then restated the active objective as autonomous work
+management with 19 checks and ten cases. The missing closeout safeguard was
+reconciliation against that intended deliverable. A03 had checked continuation
+rules and A11 had checked persistent follow-up, while both left future-session
+adherence unmeasured. The owner reports repeated requests to continue. The
+review does not establish the frequency or cause of every historical pause.
+Existing continuation rules already require action when authority and readiness
+hold. The added authorization record and dispatch outcome make that obligation
+recoverable and make an avoidable final recommendation observable.
+
+**Behavioral walkthrough.** Manual source review mapped every case to the
+revised rules. The focused Node.js check confirmed that each cited rule exists
+at its reported source location. This is a document-conformance check.
+
+| Owner case | Required action | Governing rule |
+|---|---|---|
+| 1 | Continue from analysis to implementation | Continuous execution, checkpoint row |
+| 2 | Fix the ordinary bug and rerun affected tests | Continuous execution, ordinary-defect row |
+| 3 | Pause dependent work, correct within scope or pull independent work | Queue rules 3–4 and material-finding row |
+| 4 | Start the next covered READY item automatically | Definition of Done and next dispatch |
+| 5 | Keep the new-data-dependent item waiting and inspect independent covered work | Definition of Ready, permission condition |
+| 6 | Record necessary separate follow-up in the queue with a stable ID and parent | Completion reconciliation |
+| 7 | Keep the incidental idea outside the queue | Completion reconciliation, information-only category |
+| 8 | Continue after a progress message | Continuous execution, checkpoint row |
+| 9 | Use cumulative sequence effort without per-substep permission | Definition of Ready, effort condition |
+| 10 | Continue when only chat organization favors a handoff | Definition of Done and next dispatch |
+
+The four additional boundary cases require effort approval at exactly eight
+hours, respect an explicitly standalone completion boundary, recheck stale
+READY labels and skip waiting rows when independent covered work is available.
+Repository-only onboarding reached this active card through CODEX_START and
+the queue and recovered its authority, 60-minute estimate and remaining checks.
+
+**Verification.** On Windows, both language checks and git diff --check
+passed with exit 0. Inline Node.js checks verified local links and anchors,
+exact six-path changelog coverage, all 44 prior queue rows and their order,
+unchanged unrelated tracked differences and the existing untracked inventory.
+Manual review covered English prose, authorization boundaries and the ten
+cases. An initial edit-tool string had a parse error before mutation. The
+corrected edit proceeded without an owner prompt. This was a tooling correction
+within the active item. No runtime tests or fresh Linux acceptance ran.
+
+**Completion reconciliation and dispatch.** All requested governance checks,
+minimal fixes and behavioral cases are complete. Close AQRS-A12. The remaining
+six pending rows are WAITING. M2-E20 lacks its registered claim, observation
+units and bounded plan for outcome calculations. M2-E21 lacks its frozen
+benchmark, isolated handoff proof and bounded execution path. The other four
+rows retain their named prerequisites or owner deferrals. This owner mandate
+ends with the work-management audit and fixes, so no further queue item is
+covered for dispatch by it. The final report follows this recorded boundary.
+
+Future adherence remains unverified. During the next ordinary authorized
+multi-item assignment, Codex checks actual pull and session-exit behavior
+against this rule and records any recurrence here. This observation uses the
+existing workflow and grants no new experiment or research authorization.
+No separate follow-up work item is needed for the completed correction.
+
+**Observed recurrence and correction, 2026-11-13.** After P01, the M2-E20
+stop treated the unmade claim, series selection and methods plan as
+reasons to end the session. Those were authorized preparatory actions.
+The owner requested the stop review. Under the existing pull rule,
+[M2-E20-P02](#m2-e20-p02-learning-card-effective-count-design) completed
+the design, and [M2-E15-P01](#m2-e15-p01-learning-card-state-persistence-count-design)
+completed the independent count preparation. The subsequent queue rescan
+waits on external evidence or reserved scope and run decisions. The
+existing A12 contract governs this correction.
+
+**Owner clarification, 2026-11-13.** The
+[permission-boundary check](DEVELOPMENT_PROCESS.md#permission-boundary-before-stopping-or-asking-the-owner)
+now applies before each stop or request for owner input. Complete available
+authorized preparation first and apply `WAITING` only to dependent work.
+The M2-E20 and M2-E15 cases above show how a blocked calculation or count
+can coexist with eligible preparation. A queue scan must also consider
+eligible work elsewhere before dispatch ends. This clarification uses the
+existing queue and cards. It adds no runtime work, data access, fits, spend,
+or critical contract change. FTA is not triggered. About one minute elapsed
+from the baseline checkpoint through the rule edits.
+
+**Owner clarification and check plan, 2026-11-14.** The owner asked for a
+repository-wide continuation record that avoids searching other chats.
+Baseline: the queue links to authorization records, but the process does not
+say when to persist a decision made in chat or how a new chat should handle
+missing authority. The smallest documentation check starts at the queue and
+walks through a recorded authorization, a missing authorization and a later
+scope change. It passes if a fresh chat can recover the operative scope and
+next step from the linked records, apply existing readiness rules, and pursue
+independent work when a specific approval remains unresolved. Use at most 15
+minutes and zero data access, trials, fits or spend. Stop if the fix requires
+an additional tracker or changes to substantive approval rules. Routine
+governance clarification. No critical runtime or research contract changes,
+so FTA is not triggered.
+
+**Result.** `SUPPORTED / PERSEVERE` for the documented handoff. Starting at
+the queue recovered the closed M2-E20-P03 preparation and the separate
+M2-E09 replay decision. The rule also traces a changed or withdrawn grant
+to the affected scope and start conditions. The focused `python -B -`
+document check passed on Windows after aligning an assertion with the
+existing P03 authorization wording. The checks concern the written workflow. Actual
+execution in a separate chat and a fresh Linux run were not exercised.
+About three minutes elapsed from the initial repository review to the
+focused verification. This clarification is complete. The six pending rows
+retain their recorded start conditions and the replay still requires its
+separate approval. No research execution was started.
+
+**Queue handoff snapshot, 2026-11-14.** The owner requested a focused commit
+of the current queue and its authorization records. This is a routine
+documentation handoff. The six pending rows retain their start conditions.
+M2-E20's M2-E09 replay decision is the first reserved approval. The
+[dispatch rescan](SEQUENCE_PREFLIGHT.md#m2-e20-p03-completion-and-next-dispatch)
+records the other pending conditions. Execution and runtime changes are
+outside this handoff, so no fault tree is triggered. About three minutes
+elapsed from the scope checkpoint to the first successful staged-tree
+check on native Windows. The language checks, queue and link checks, and
+changelog path check passed. No platform runtime acceptance was evaluated.
+
+### AQRS-A11 Test Card: persistent work item follow-up
+
+**2026-11-12, before editing the process.** The owner requested that all
+material unresolved follow-up be recoverable from the repository. The
+existing queue owns work order and readiness. Its finding and deferral rules,
+cards, and decision records cover specific cases, but the current closeout
+has no universal check for newly discovered follow-up. Prior evidence:
+[AQRS-A02](#current-buildmeasurelearn-development-loop),
+[AQRS-A05](#aqrs-a05-learning-card-observable-deferral), and
+[AQRS-A09](#aqrs-a09-sequence-audit-and-dispatch-check).
+
+**Assumption and proof.** A single closeout step and links from the normal
+entry points can make follow-up traceable using current records. A separate
+tracker would add duplicate state. The risk is a rule that still lets a
+recommendation escape or turns tentative ideas into work. Pass if a
+repository-only walkthrough handles all seven cases: an in-scope fix is
+completed directly, separate necessary work is queued, an owner choice is
+recorded, deferral has a trigger and default, an incidental idea stays out of
+the queue, a finding changes dependent readiness, and the normal handoff
+reveals completed, pending, deferred, blocked and owner-gated work. A queued
+recommendation must resolve to a current ID, status and canonical location.
+Fail if any required route is missing, a known dependency is lost, or the
+change grants new dispatch authority. Mark actual future adherence unverified.
+
+**Budget and stop.** One session of up to 45 minutes for the repository
+review, focused walkthrough and documentation gates. Zero research trials,
+fits, downloads, spend or recurring runtime. FTA and incident postmortem
+triggers are absent because the change governs development records and
+preserves critical contracts. Stop after the focused and language checks,
+or narrow the change if it requires a second tracker or runtime enforcement.
+
+### AQRS-A11 Learning Card: persistent work item follow-up
+
+**2026-11-12.** 6 minutes 19 seconds elapsed from the Test Card through this
+recorded decision, excluding initial orientation and final rechecks.
+`SUPPORTED / PERSEVERE` for the documented closeout procedure.
+
+**Historical evidence.** A02 found separate finding and dispatch records
+without a required dependency link or resumption check. A05 found deferrals
+without a named observation point after completed attempts. A09 found stale
+E14 priority and a missing B01 capability condition across revisions. A02,
+A05 and A10 addressed those respective gaps in the current checkout. E19
+kept its revisit condition in its evidence branch, while the current E19
+row exposed only the deferred outcome. E18 recorded the two screen misses
+without an explicit revisit condition in its paired Learning Card. The
+current queue now points to both dispositions and their review conditions.
+The sampled repository records establish these traceability gaps. They
+cannot establish whether any particular chat-only recommendation was lost.
+
+**Scenario review.** A small authorized fix stays in its work item (A).
+Separate work is tracked with its conditions, as in M2-E20 (B). A provisional
+product choice routes to the existing open requirements register before
+escalation (C). The E18/E19 dispositions have reasons, triggers and defaults
+(D). An incidental tooling idea stays outside the queue (E). AQRS-A10-F1
+is linked from the waiting B01 row before external execution (F). A
+repository-only walkthrough from `CODEX_START.md` reaches the closed
+evidence, six waiting rows, their prerequisites and the owner decision
+records. No current row is ready or active. M2-E20 ranks first (G).
+
+**Checks.** The focused inline Node.js check confirmed the baseline
+gap, scenarios A–G, 17 added link references, and all six changed paths in
+the changelog. The first check stopped early because it cut the queue at a
+nested heading. The corrected check used the full section. On native
+Windows with Python 3.12.12, `python scripts/check_language_policy.py --self-test`,
+`python scripts/check_language_policy.py`, and `git diff --check` each exited
+0. Manual English and dispatch review passed. Zero research runs, fits,
+downloads or spend. No fresh Linux run or milestone acceptance was required.
+The walkthrough establishes that the route is documented and navigable.
+Actual adherence by future sessions remains unverified. No new work item
+was generated. The current queue retains its order and prerequisites.
+
+### AQRS-A10 Test Card: M2 evidence and threshold decisions
+
+**2026-11-12, before editing the process.** The owner authorized a complete
+M2 evidence review followed by the literature rule and the audit improvements.
+Any new E09 execution requires separate approval. The baseline is the local
+`044363c` working tree, the existing M2 evidence map, and the published E18 and
+E19 receipts at `e26e65e` and `96df879`. The riskiest assumption is that a
+concise threshold check can stop weak acceptance decisions while still letting
+an authorized calibration start. A generic completeness check can miss an
+irrelevant threshold or treat legitimate uncertainty as a blocker.
+
+**Proof and stop.** Map every M2-specific and universal criterion to existing
+evidence or an explicit gap. Walk through the E18 follow-up hurdle, the E09
+missing-source case, the B01 coverage and interrupted-result counterexamples,
+and the Windows cold-start case. Pass if the new guidance distinguishes each
+decision, requires applicable literature or a documented basis, permits a
+bounded calibration, and gives each material gap a resumption check. Verify
+paths, links, language and preservation of prior changes and frozen evidence.
+Stop at the documented decision or if runtime changes or a new execution are
+needed. Allow one documentation and evidence-review session of up to 60
+minutes, zero trials, fits, resamples, downloads, raw market or protected reads,
+spend and recurring compute. Documentation and dispatch clarification only.
+No critical runtime contract changes. FTA not triggered.
+
+**Status:** No development loop is active. AQRS-B01 is deferred pending the
+[capability benchmark revisit](#aqrs-b01-capability-benchmark-deferral).
+The [A10 review](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions)
+reconciles the completed M2-E14/E17/E18/E19 work and records the remaining gates.
+AQRS-D01 and AQRS-A06/A07/A08 remain closed.
+
+### AQRS-A10 Learning Card: M2 evidence and threshold decisions
+
+**2026-11-12. M2 remains `IN_PROGRESS`.** The review uses the
+[M2 DoD](MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls),
+the earlier [E11 evidence map](#m2-e11-learning-card-m2-evidence-review-2026-11-09),
+the preserved E09/E10 reports in [acceptance.zip](../evidence/acceptance.zip),
+and the E18/E19 receipts linked in the queue. Evidence applies to its recorded
+revision, platform and scope. Both E18 candidates were evaluated and deferred.
+
+| M2-specific criterion | Status and evidence |
+|---|---|
+| Two interpretable, versioned real-data candidates in one campaign | **MET.** E18 executed `VOL_CONFIRM_E18_V1` and `RIDGE_INCREMENT_E18_V1` on the same pinned BTCUSDT Spot scope. Both reports bind source and dataset IDs and contain two completed trials. |
+| Reproducible LightGBM and Isolation Forest baseline pilots | **OPEN in part.** [E10](#m2-e10-learning-card-isolation-forest-pilot-2026-11-09) binds the Isolation Forest versus simple volatility comparison to matching source and outcome receipts. [E09](#m2-e09-learning-card-corrected-supervised-pilot-replay-2026-11-09) matches LightGBM versus Ridge outcomes within `1e-8`. Both journals are intact and their run rows match the archived snapshots. Original run-linked AQRS and pilot bytes are missing. [E16](#m2-e16-learning-card-historical-source-binding-2026-11-10) documents the gap. |
+| Five `EVALUATE` model dispositions | **MET.** [E13](#m2-e13-learning-card-five-model-assessments-2026-11-10) records XGBoost, Random Forest, HDBSCAN and autoencoder deferrals and a PCA data blocker, with revisit triggers. |
+| Origin, horizon, inputs and availability for each candidate | **MET for E18.** Published revision `54fb864` defines both hypotheses before their E18 outcomes, fixes a 30-minute horizon and uses completed-minute inputs. The reused development window and earlier views remain recorded. |
+| Observable event, detection rule and cadence | **MET for E18.** Positive five-minute move plus a training-only volume cutoff, and the completed-minute Ridge score with the same cost-plus-buffer action rule as its fitted control. |
+| Cost-aware matched rule-based screen | **MET.** E14 and E18 evaluate the volume rule with matched below-cutoff events and 25 bps modeled round-trip costs. E18 preserves both the paired and all-opportunity comparisons and records `DEFER`. The separate price-drop V2 question remains deferred. |
+| Trivial and simple forecast baselines on the same chronological folds | **MET.** E18 compares zero and one-feature Ridge on the same purged folds. E09 also recorded the zero/Ridge/LightGBM comparison. |
+| Descriptive diagnostics, flat/fold views, counted exposure and pre-outcome design review | **MET for the scoped descriptive comparison.** [A08](#aqrs-a08-learning-card-descriptive-signal-diagnostics) verifies the reporting path. E18 preserves flat and fold views, 230 recorded views over both platform runs, known-answer checks and an independent pre-outcome review. Its precision assessment limits the result to descriptive use. |
+| Candidate-to-decision control against a known filter | **MET.** E18 compares positive moves with and without the volume condition on the same opportunities. E10 compares volatility-plus-anomaly with volatility alone. E19 corroborates the workflow using a simple gate and Flat as references. |
+| Negative control detects a deliberately misleading association | **MET for the software control.** [E01](#m2-e01-learning-card-one-event-research-decision-2026-11-09) removes the apparent advantage from a shared rebound. A08 reproduces and catches the biased V1 control. |
+| Per-candidate costs, turnover, effective independent event count and variant count | **OPEN in part.** E18 records costs, turnover, opportunity and event counts, registered variants and replay exposure. Both candidate reports explicitly set `effective_independent_units` to null. Overlapping targets and a few reused days prevent treating rows or fills as independent units. |
+| Adversarial causal features and decisions | **MET for the tested paths.** [E05](#m2-e05-learning-card-decision-time-causality-2026-11-09), [E06](#m2-e06-learning-card-fitted-candidate-causality-2026-11-09), and the E18 entry tests cover future-only perturbations of event inputs, decisions and fitted scores. |
+| Null and planted-effect separation | **MET for software.** [E04](#m2-e04-learning-card-synthetic-interaction-comparison-2026-11-09) distinguishes XOR from its null. A08 and E18 known-answer checks distinguish shared or absent effects from planted ones. Real-data comparisons can return `DEFER`. |
+| Declared Windows/Linux CPU and resource scope for both pilots | **MET for recorded execution.** E09 and E10 completed under their declared budgets on both platforms. The E09 source gap remains open under the reproducibility criterion. |
+
+The [universal release criteria](MILESTONE_DOD.md#universal-dod-for-every-milestone-all-items-mandatory)
+also apply. The following is an evidence review of the named increments.
+
+| Universal criterion group | Evidence and remaining scope |
+|---|---|
+| Test and Learning Cards, backward planning, predeclared criteria, scoped work and visible outcomes | E18/E19 published plans and learning records support the completed increments. Earlier historical exceptions, including E09 source binding, remain visible. |
+| Risk-based FTA, positive/negative/boundary/adversarial tests, incidents and rejected ideas | E18/E19 link relevant fault trees and verified negative cases. E18 records the rejected replay setup and exact-byte transport correction. Prior engineering dispositions remain in [Decisions](DECISIONS.md#rejected-and-deferred-engineering-ideas-durable-decision-memory). Recheck incident and risk closure against the final release revision. |
+| Working end-to-end path, real test and lint evidence, native unprivileged Windows and headless Linux CPU | E18/E19 have archived four-job CI and paired market receipts. E09/E10 also record native Windows and headless Ubuntu execution. Fresh end-to-end and independent platform acceptance of the final M2 revision remain required. |
+| Time, costs, holdout, traces, journal, attempts and simple baselines | E18 binds data, source, configuration and candidates, records matched baselines, costs, exposure, stops and no protected access within its reviewed path. E09's source gap remains. Relevant final-revision contracts and artifacts require an independent acceptance check. |
+| Budget preflight and enforced limits, simulation-only scope | Archived M0 guard proofs and M2 receipts support the tested entry points. E18 records seven charges per platform and explicit guarded scope. Final review must cover the selected M2 entry points and confirm the live-order boundary. |
+| Current implemented documentation, English, canonical changelog and status | The receipts record applicable policy checks on their revisions. The final release must reconcile branch-specific evidence and docs, check changed-path coverage and English, and retain `IN_PROGRESS` until the independent gate closes. |
+
+**Decision and next check.** The evidence review supports the scoped workflow
+and defers M2 acceptance. E20 first identifies a defensible observation unit
+and whether the existing development evidence can support an effective-count
+estimate. Record the reason and a specific new-evidence trigger if it cannot.
+No follow-up effect claim uses these estimates as independent confirmation.
+For E09, reopen historical recovery only if original run-linked material
+appears. If a new LightGBM replay is needed, propose a source-bound Windows run
+and conditional Ubuntu replay under the existing Governor, with separately
+approved scope and a fixed test card. No execution is authorized by A10.
+
+**Threshold walkthrough.** The [Test Card rule](DEVELOPMENT_PROCESS.md#1-write-a-compact-test-card-before-implementation)
+requires primary literature where applicable, an explicit transfer basis,
+and separate calibration and validation. [Lakens](https://doi.org/10.1525/collabra.33267)
+supports matching precision to the smallest effect of interest.
+[White](https://doi.org/10.1111/1468-0262.00152) supports accounting for
+selection across tried models. Neither source sets AQRS's opportunity-level
+economic hurdle. In E18, 2 bps across 8,578 opportunities implies 17,156 bps
+of total incremental return. A new proposal needs an action-frequency and
+cost basis for that decision. Preserve the historical E18 screen. The
+[Windows cold-start incident](#m1-e10-learning-card-cached-windows-wheels-and-replay-2026-11-09)
+needs bounded phase measurements when startup admission becomes the decision.
+The [B01 findings](RISK_REGISTER.md#open-execution-path-quality-debt) gate only
+external B01 use. The [Learning Card diagnosis](DEVELOPMENT_PROCESS.md#diagnosis-in-existing-records)
+now gives unresolved results a decision and an observable next check.
+
+**Verification.** `SUPPORTED / PERSEVERE` for the evidence map and written
+process. The Windows `python -B -` checks verified the 60 E18 and 10 E19 bundle
+members against the pinned Git receipts, both platform records per campaign,
+the E09/E10 parity and source-status distinction, and all 14 M2-specific rows.
+Early inspection checks assumed a shared bundle layout and identical receipt
+status tokens. Reading the preserved formats and checking them separately
+resolved those check failures. `python -B scripts/evidence_archive.py --verify`
+verified 295 historical files. The policy checker with and without `--self-test`,
+`git diff --check`, the focused link and changelog check, and manual English
+review passed. The byte comparison verified preservation of the 91 baseline
+paths outside this change. About 6 minutes 38 seconds elapsed from the
+19:14:12 UTC evidence checkpoint through the first passing focused checks.
+No fresh Linux execution, research runs, data payload reads or fits. The written
+dispatch rule was checked on the recorded scenarios. Its use in a future
+dispatch remains unmeasured.
+
+### M2-E21 Scout pilot feature preflight
+
+**2026-11-12. Decision: narrow and queue.** The owner approved placing a
+bounded pilot in the work plan and incorporating the related design lessons.
+Test whether one agent can derive a new executable event from a development
+view. The baseline is B01's frozen 24-rule search space. Verify that the
+planted event lies outside that space using the benchmark construction and
+a known-answer check. No B01 campaign is needed for that check. The rival
+explanation is that a generic rule or chance selection can pass.
+
+**Minimum proof.** An independent benchmark producer commits the generator,
+expected event and scoring specification before either Scout invocation. Use
+two identically formatted synthetic cases with independent random streams
+from one fixed campaign seed. One has a causal, detectable planted pattern
+outside the B01 rule space. The other retains comparable inputs and opportunity
+frequency without that relationship. Separate Scout sessions receive only
+their permitted development prefixes. Each may submit one candidate or
+abstain. Freeze the [candidate handoff](MODEL_EVALUATION_PROTOCOL.md#agent-discovery-handoff)
+before evaluating the later synthetic segment. Reuse existing event timing,
+matched controls, cost accounting, journal and Governor where their contracts
+fit. Record the proposed rule, implementation identity and independent result
+in the existing records. The pilot uses one generation per case.
+
+**Pass and stop.** Before either Scout sees data, freeze the admissible fields,
+event-mask agreement threshold, direction, horizon tolerance, minimum eligible
+events, net contrast floor against a matched control and null decision rule.
+Verify that the planted construction can meet these criteria and that a
+generic rule cannot. Pass only if the frozen candidate matches the planted
+event and meets the independent timing and net-contrast checks, and the null
+case produces no claimed effect. Record abstention, miss, unsupported proposal,
+false claim and execution failure distinctly. Stop after both cases or the
+first protection or budget failure. A miss or false claim triggers redesign
+or deferral. A pass supports reviewing B01's benchmark and establishes
+bounded synthetic behavior.
+
+**Resource Governor review.** Estimate two to four hours of one-time work,
+including verification, and at most two sequential Scout invocations and two
+deterministic trials total. Zero estimator fits, tuning, seed sweeps, resamples,
+market or protected reads, and recurring jobs. Estimate up to 30 seconds and
+512 MiB sampled peak RSS per evaluator and up to 5 MiB total retained evidence.
+Keep the default 120-second trial and 300-second campaign limits and count
+Scout calls under the planned wall-time and usage limits. Trial and fit counts
+fit the defaults. Confirm the usage cap, startup time, memory and platform
+support on the selected path before launch. Count any synthetic qualification
+or technical replay in its applicable budget before dispatch. Stop on
+unavailable enforcement or resource overage. No spend increase is approved.
+
+**Risk and readiness.** Apply [FTA-M2-E21](RISK_REGISTER.md#fta-m2-e21-scout-pilot)
+before implementation and verify the actual handoff before blind execution.
+The feature review supports the design and queue placement. Benchmark
+thresholds, artifact isolation and measured resource estimates remain open.
+This planning increment changes documentation only and performs zero trials,
+fits or data reads.
+About 8 minutes elapsed from the baseline snapshot through verification
+of the edits, including the wait for host access.
+
+#### Scout preparation and remaining start conditions
+
+**2026-11-13.** Read-only path review under ADR-053. The fixed B01 generator
+produces 24 predefined candidates with one or two same-tail conditions and a
+fixed three-minute horizon. This holds with no activity fields and with all
+supported activity fields. Its registration selects from that set before
+execution. Use this rule space as the benchmark baseline. The B01 entry
+cannot accept an original Scout proposal. The existing timing and cost
+simulation, journal and worker supervision are reuse candidates. Worker
+containment controls termination and sampled RSS. The planned Scout handoff
+still needs evidence of isolation from the later segment and benchmark truth.
+
+For independent delivery, give the Scout only the permitted development
+prefix. The producer supplies a dated commitment to the generator, expected
+event and scoring criteria before either session. Reserve the later segment
+and truth for the evaluator. Use the existing [handoff contract](MODEL_EVALUATION_PROTOCOL.md#agent-discovery-handoff)
+and the preflight above to qualify the selected path. No benchmark arrived
+with the recorded design decision. Implementation and launch remain within
+the separately agreed scope. This review added zero invocations, trials,
+fits, outcome reads or dependencies. The existing pilot limits still apply.
+
+### AQRS-A09 sequence audit and dispatch check
+
+**Read-only audit completed 2026-11-12.** Targeted sequence gaps. The M0
+causal-data and supervised-execution proofs, M1 source-to-campaign path, and
+M2 synthetic controls, coverage screens and bounded challengers follow the
+milestone dependencies. M3 through M9 retain their staged acceptance gates.
+Independent engineering can proceed within authorization when its path does
+not consume a missing scientific or execution guarantee.
+
+| Category | Observed order and consequence | Minimum prevention |
+|---|---|---|
+| `LATE_SAFEGUARD` | M2-E08/E09 used the supervised pilot before its effective-policy admission and recoverable source binding were verified. A06 corrected the admission path. E16 established that E09's outcome parity still cannot prove source reproducibility. | Exercise the effective policy and bind both runs to recoverable source before market use. |
+| `REWORK_FROM_ORDERING` | M2-E08's LightGBM result construction stopped after market work. The corrected bounded replay was separately authorized as E09. The failure could have been exercised with a fitted synthetic report. | Exercise the actual estimator-to-report path before market admission. |
+| `LATE_SAFEGUARD` | M2-E02/E03/E12 counted V1 controls before a planted timing check exposed overlapping returns. A07 required a new V2 count before any outcome study. No V1 outcome evaluation was recorded. | Verify comparator timing on a known-answer case before counting eligibility. |
+| `SEQUENCE_INVERSION` | M2-E14 built and qualified the two-family entry before a cheap training-only check established whether its first window could exercise the Ridge branch. The entry and volume evidence remained useful. Ridge screened out and the conditional Ubuntu market replay could not start. E17 then used the cheap screen before E18. | Use an authorized training-only feasibility check before full campaign qualification when the milestone proof needs both comparisons. |
+| `REWORK_FROM_ORDERING` | The first E18 Ubuntu launch stopped before input because the staged Windows report bytes differed from the verified local file. The replay transport was corrected at `1eebbfa` before the successful launch. | Verify the staged artifact digest before dispatching the dependent replay. |
+| `DEPENDENCY_GAP` | The working tree at `044363c` still places E14 first for campaign planning. The newer `e26e65e` evidence already closes E14, E17 and E18 and records a two-family paired proof. Its B01 queue row also lacks the capability revisit condition recorded in this working tree. A single checkout can misstate either prerequisite. | Reconcile the relevant owner decision and evidence against the intended execution path before dispatch. |
+
+The E18 receipt and 60-member bundle at `e26e65e` record paired Windows and
+non-root Ubuntu execution, seven charges on each platform, and two deferred
+research follow-ups. M2 acceptance remains open. The next decision is an
+evidence-only review of the remaining M2 criteria, starting with E09 source
+reproducibility. B01 has an independent fixed-rule technical rehearsal.
+Using it as a product discovery benchmark waits for the recorded capability
+and benchmark revisit, in addition to external data, budget and start gates.
+
+**Test Card, 2026-11-12, 00:05:59 UTC.** The baseline dispatch rules already
+link material findings, protect independent work and govern deferrals, but
+leave sequence decisions implicit outside queue dispatch and across revisions.
+One short preflight in the existing dispatch rules should identify
+the next evidence-producing action without creating a second tracker or a
+permission boundary. The riskiest assumption is that a missing guarantee can
+pause its consumers without stopping independent authorized work. Pass if the
+rule resolves a stale E14 row, the E09 acceptance dependency, independent E14
+engineering, a blocked B01 benchmark, an authorized successor step and a
+higher-value authorized prerequisite. Verify all seven review events and four
+decisions, the existing deferral and finding rules, exact paths and links, and
+byte preservation of pre-existing work. One documentation increment up to 45
+minutes. Zero campaigns, fits, market or protected reads, spend or additional
+runtime. Stop after the walkthrough and documentation checks, or if the change
+would require a runtime control or change any scientific, data, execution or
+authorization contract. Governance risk screen only. FTA not triggered.
+
+**Learning Card, 2026-11-12.** `SUPPORTED / PERSEVERE` for the binding
+[sequence preflight](DEVELOPMENT_PROCESS.md#sequence-preflight). In the
+walkthrough, the stale E14 row could not start a duplicate campaign. The E09
+source gap blocked use for M2 acceptance while its recorded outcome parity
+could be cited with a note. The gap did not block the separately authorized
+E14 synthetic entry. B01's external benchmark stayed parked. An eligible
+verification step inside the same approved item continued. An eligible
+training-only check with more decision value than qualifying the full entry
+took priority within its authorized scope. A material finding still blocks
+only dependent work, and a revisit trigger still requires reassessment and
+applicable authorization.
+
+The inline `python -B -` baseline check identified four implicit rules
+with exit 1. The revised check verified all seven events and four decisions,
+prior dispatch rules, exact changelog coverage and byte preservation with
+exit 0 after correcting an assertion about line wrapping. It verified both
+E14/E18 evidence bundles and report digests, and matched the status and
+dispatch documents in four linked worktrees to their committed revisions.
+The language checker and its self-test, the archive verifier for 295
+historical files, manual English review, and `git diff --check` passed on
+Windows. About four minutes elapsed from the Test Card checkpoint through
+the first successful focused verification. No work item was dispatched.
+The checks exercised the written process on recorded cases. Adoption across
+branches and its effect on future dispatch remain unmeasured. No platform
+runtime or milestone acceptance was evaluated in this increment.
+
+**Documentation follow-up, 2026-11-12.** The owner requested a dedicated
+[Sequence Preflight document](SEQUENCE_PREFLIGHT.md). It holds the binding
+procedure and short records of material changes to sequencing. The existing
+queue and cards retain operative start conditions and evidence. The focused
+inline `python -B -` check verified the relocated rules, local links, exact
+changelog coverage, and preservation of the queue and prior changes. The
+check passed after its initial heading pattern was corrected. Elapsed time
+from the 00:27:25 UTC baseline checkpoint through the first passing focused
+check was about two minutes. Routine documentation change. FTA not triggered.
 
 ### AQRS-B01 sequential delivery Test Card
 

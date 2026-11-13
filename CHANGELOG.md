@@ -2,6 +2,27 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-14 — Version the AQRS queue and authorization handoff
+
+Preserve the current queue, readiness rules, and linked owner decisions for
+a fresh checkout. Keep the Sequence Preflight procedure and dispatch record
+in one linked document. Record the pending replay decision and the separate
+receipt-verifier implementation needed for the later evidence checks.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/DECISIONS.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
 ## 2026-11-11 — Enforce sequential AQRS-B01 deliveries and auditable verdicts
 
 Bind the next dataset to a published exclusive start and the previous immutable

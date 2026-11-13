@@ -2,7 +2,23 @@
 
 **English-only repository policy (permanent):** All documentation and all future Codex additions and revisions MUST be in English, without milestone or version exceptions. Read `docs/LANGUAGE_POLICY.md` first. Before reporting completion, execute `python scripts/check_language_policy.py --self-test` and `python scripts/check_language_policy.py`. Never weaken this rule without explicit owner authorization.
 
-Start with [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for current acceptance evidence, experiment priority and start conditions. The M0 walking-skeleton brief below remains a reference for the implemented baseline.
+Start with [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for current
+acceptance evidence and the [canonical work plan](docs/MILESTONE_STATUS.md#experiment-queue).
+Read pending rows in priority order and follow their links to the governing
+cards, findings and deferrals. Check [project open questions](docs/OPEN_QUESTIONS.md)
+and [open requirements questions](docs/requirements/OPEN_QUESTIONS.md) for
+unresolved owner choices. Use the [dispatch rules](docs/DEVELOPMENT_PROCESS.md#experiment-queue)
+to identify the next eligible action in scope. Recover the owner authorization,
+completion boundary, reserved approvals and cumulative effort from the linked
+card under the [readiness rules](docs/DEVELOPMENT_PROCESS.md#work-authorization-and-definition-of-ready).
+If an eligible action is covered, start or resume it. Use
+[next dispatch](docs/DEVELOPMENT_PROCESS.md#work-item-definition-of-done-and-next-dispatch)
+after each completed item or blocker. Before stopping or requesting owner
+input, apply the [permission-boundary check](docs/DEVELOPMENT_PROCESS.md#permission-boundary-before-stopping-or-asking-the-owner).
+Apply
+[completion reconciliation](docs/DEVELOPMENT_PROCESS.md#completion-reconciliation)
+before reporting completion or handing off material work. The M0 brief below
+remains a reference for the implemented baseline.
 
 ## Documentation and change control (mandatory)
 

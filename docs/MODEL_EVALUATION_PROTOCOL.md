@@ -30,6 +30,93 @@ Store a versioned model card for each new algorithm:
 9. **Economic evaluation:** net of fees, spread, slippage and relevant funding; include turnover, drawdown, risk constraints, size/capacity and sensitivity. Do not adopt based only on accuracy/F1.
 10. **Resource review:** is incremental benefit over baseline large and robust enough to justify additional CPU, RAM, data and maintenance costs?
 
+### Agent discovery handoff
+
+Apply the following design in the [M2-E21 Scout pilot](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight).
+The agent supplies a hypothesis or abstains. A proposal records the data view,
+dated observations, the suggested mechanism or exploratory origin, a rival
+explanation, the event and eligibility rule, direction, horizon, availability,
+and a falsifier. The evaluator rechecks the cited observations, fixes the
+executable rule and its identity before evaluation, and uses the existing
+matched controls. Resolve material differences between the idea and its
+formalization before registration. Keep the proposal, executable rule,
+and resulting evidence linked in the candidate and attempt records.
+
+Compare exact event and decision outputs on the same eligible development
+opportunities to flag differently written rules with identical behavior.
+Retain their proposal history and count searches already performed. Agreement
+on a bounded slice only identifies duplicates on that slice. Add broader
+behavioral similarity or automated filtering only if repeated proposals
+justify their measured cost. In a later M3 feedback design, reuse eligible
+development results and failed attempts in the research journal; keep protected
+results outside the adaptive loop. These patterns are drawn from
+[Strat Hunter's Scout](https://github.com/mohdhd/strat-hunter/blob/00c94a6/templates/GENERATE.md.j2),
+[RD-Agent's workflow](https://github.com/microsoft/RD-Agent/blob/484776c/rdagent/components/workflow/rd_loop.py)
+and [Alpha Foundry's behavior checks](https://github.com/Huang-Hg/alpha-foundry/blob/614378f/foundry/search/evaluator.py).
+
+### Validation method selection
+
+**Owner direction, 2026-11-11 (ADR-052):** consider the methods below in future
+research design. This is a method-selection guide, not implementation approval
+or a requirement to pass every test. The existing research protocol, frozen
+campaigns and acceptance thresholds remain authoritative. None of these
+methods establishes profitability or repairs leaked data, missing search
+history, unrealistic fills or an exhausted final holdout.
+
+| Method | Question and prerequisites | AQRS placement and current boundary |
+|---|---|---|
+| Walk-forward | Does a fixed training/selection procedure work on later observations? Refit preprocessing and models only on earlier training data; isolate overlapping labels. | Existing baseline: expanding chronological folds with a horizon gap. Freeze window, refit and selection rules; any later rolling-window alternative is a counted variant. |
+| Performance attribution | What part of gross/net performance is associated with market exposure, known factors, signal decisions and costs? Use matched opportunities, sizing and execution; disclose factor and return-accounting conventions. | Begin with existing M2 controls, ablations and cost decomposition. Formal market/factor attribution is conditional on suitable data at M4/M5. An unexplained residual is not automatically alpha or a causal effect. |
+| PBO via CSCV | How often does the in-sample winner rank below the out-of-sample median within the declared candidate family? Requires synchronized, comparable candidate return series, a fixed ranking metric and an even number of time blocks. | Conditional M4 selection-risk diagnostic. CSCV forms complementary equal-sized block selections; it is not chronological deployment replay. PBO of 60% describes those split-wise selection failures, not a 60% probability of losing money. [PBO paper](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf) |
+| Deflated Sharpe Ratio (DSR) | Is a selected Sharpe convincing after accounting for search and non-normal returns? Record sample length, frequency, skewness/kurtosis, trial Sharpe dispersion and a justified treatment of dependent trials. | Conditional M4 Sharpe-specific assessment, not a general correction for any discovered effect. Report assumptions and missing exposure; do not treat correlated trials or serially dependent returns as independent without justification. [DSR paper](https://doi.org/10.3905/jpm.2014.40.5.094), [implementation assumptions](https://skfolio.org/generated/skfolio.measures.deflated_sharpe_ratio.html) |
+| CPCV | How sensitive is performance to combinations of train/test blocks after removing overlapping information intervals and applying a justified embargo? Requires explicit label intervals and train-only preprocessing in every fit. | Conditional M4 robustness extension. Training can include blocks later than a test block; therefore CPCV is not a substitute for chronological walk-forward or fresh confirmation. Its recombined paths are dependent. [CPCV documentation](https://skfolio.org/generated/skfolio.model_selection.CombinatorialPurgedCV.html) |
+| White's Reality Check | Can the joint null that no member of the declared family beats a fixed benchmark be rejected? Requires aligned performance/loss differences and dependence-preserving resampling. | Conditional M4 family-level test. Rejection does not independently certify the selected winner; non-rejection is not proof that every candidate lacks value. [White (2000)](https://doi.org/10.1111/1468-0262.00152) |
+| Hansen's SPA | The same family-versus-benchmark question, with studentization and a null construction less sensitive to poor alternatives. | Conditional M4 alternative to Reality Check, not an additional mandatory certificate. Select and justify the procedure before results, rather than choosing whichever p-value passes. [Hansen (2005)](https://doi.org/10.1198/073500105000000063) |
+
+**Priority and evidence.** Keep chronological validation, credible costs and
+matched attribution/controls first. At the existing M4 gate, select diagnostics
+for the actual claim: DSR for Sharpe selection, PBO/CSCV for family selection
+instability, SPA or Reality Check for family superiority, and CPCV when extra
+split robustness could change the decision. There is no universal order among
+those conditional methods. PBO and DSR are not interchangeable significance
+tests; agreement among methods on reused data is not independent confirmation.
+Synthetic known-answer/null checks must qualify the chosen implementation
+before scientific use under the existing M4 requirements.
+
+In the existing Test Card and Research Journal, fix the candidate family,
+benchmark, return/loss definition, observation frequency, complete opportunity
+population, costs, selection rule, partitions, dependence assumptions, missing
+data/tie treatment, decision thresholds and resampling plan before outcomes.
+Preserve unsuccessful/manual variants and distinguish unknown historical
+exposure from zero exposure. Retain aligned candidate/control series and their
+timestamps/hashes when the approved method needs them; summary Sharpes or a
+winner's equity curve alone are insufficient for family validation. Do not
+retroactively invent unavailable series or silently rerun archived campaigns.
+Any additional view influencing selection consumes research exposure.
+
+**Resource Governor assessment.** Recording this guide adds zero research
+trials, fits, resamples, dependencies or recurring computation. Implementation
+effort and actual runtime remain unmeasured until a specific bounded Test Card.
+With reusable series, DSR is mainly moment calculation and attribution may need
+small regressions. CSCV can reuse a fixed return matrix but still evaluates
+`C(S, S/2)` selections for S blocks. CPCV entails `C(N, k)` train/test splits
+per candidate/seed, with every preprocessing/model/baseline fit counted.
+Reality Check/SPA require a declared number of joint bootstrap resamples,
+preserving both temporal dependence and cross-candidate alignment. Reuse of
+metrics is not permission to skip any refits required by the chosen design.
+
+Before integration, bound the complete workload, peak memory and series storage
+per family/campaign; use a representative supervised pilot if estimates are
+missing. No fit-free method is exempt from wall-time or memory controls. The
+existing defaults remain two trials, twelve fits, one seed, one worker,
+120 seconds/trial, 300 seconds/campaign and 4096 MiB sampled RSS. A simple CPCV
+plan with six blocks and two test blocks already has fifteen splits for one
+candidate, exceeding twelve fits before baselines. Reduce the declared scope
+or request a separate budget; do not silently truncate after seeing results.
+Quant Research revisits [M4-E01](MILESTONE_STATUS.md#experiment-queue) when an
+authorized M4 claim and adequate inputs exist. Until then, retain the existing
+workflow and report unavailable diagnostics explicitly.
+
 ## 3. Model adoption state machine
 
 `REGISTERED → PRECHECKED → PILOT_RUNNING → {ADOPTED | REJECTED | DEFERRED | BLOCKED_*}`.

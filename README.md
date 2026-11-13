@@ -29,6 +29,9 @@ Read [`AGENTS.md`](AGENTS.md), [`CODEX_START.md`](CODEX_START.md) and the curren
 [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md). The original handoff archive and its
 checksum manifest are historical inputs. The checked-out source and the current project documents
 govern development.
+Codex uses the recorded owner authorization and the
+[work-item lifecycle](docs/DEVELOPMENT_PROCESS.md#work-authorization-and-definition-of-ready)
+to complete necessary steps and pull the next eligible covered queue item.
 
 ## Repository map
 
@@ -40,6 +43,7 @@ govern development.
 | Milestone acceptance criteria | [MILESTONE_DOD.md](docs/MILESTONE_DOD.md) |
 | Decisions, open questions, and file changes | [DECISIONS.md](docs/DECISIONS.md), [OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md), and [CHANGELOG.md](CHANGELOG.md) |
 | Development process and research rules | [DEVELOPMENT_PROCESS.md](docs/DEVELOPMENT_PROCESS.md) and [RESEARCH_PROTOCOL.md](docs/RESEARCH_PROTOCOL.md) |
+| Work-order checks and material sequencing decisions | [SEQUENCE_PREFLIGHT.md](docs/SEQUENCE_PREFLIGHT.md) |
 | Python code and component responsibilities | [src/aqrs/](src/aqrs/) and [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Run settings and model registry | [configs/](configs/) |
 | Tests, maintenance checks, and CI | [tests/](tests/), [scripts/](scripts/), and [.github/workflows/](.github/workflows/) |

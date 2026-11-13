@@ -144,10 +144,41 @@ Actual logical AND dependencies and minimal single-point paths should be derived
 
 The top event is a signal displayed against an earlier or wrong bar. It can follow an active or future bar being exported **OR** an incorrect UTC conversion, chart identity or bar key **OR** stale or duplicate output being accepted after replay or full recalculation. Reuse FTA-M0-A and FTA-M1-A. Require a completed-bar check at export, separate open and availability timestamps, strict key checks at both ends and deterministic recomputation. In [AQRS-SC01](MILESTONE_STATUS.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10), change an active and a later bar, plant a shifted timestamp and a duplicate or wrong chart key, and compare stepped replay with full recalculation. Require the earlier signal prefix to remain identical or the invalid exchange to be rejected. Review source and runtime evidence before adoption. The first fixture covers fixed one-minute UTC bars only. Cross-timeframe joins and session or daylight-saving transitions require separate evidence if introduced.
 
+### FTA-M2-E21: Scout pilot
+
+The top event is a false capability pass. It can follow the Scout having a
+route to later data or benchmark truth **AND** that material being reachable;
+an evaluator accepting a changed rule **OR** timing beyond the available
+prefix; or the null case being dropped **OR** a partial result being promoted.
+Bind the allowed inputs, benchmark commitment, and exact candidate before
+evaluation. Accept data-only candidate definitions through the bounded
+evaluator. Through the chosen entry, reject a substituted or later input,
+a changed rule, and a planted lookahead. Verify that null, abstention and
+interruption stay visible and that the complete planted fixture can pass.
+
+Reuse FTA-M0-B to prevent unbounded invocations and charge each attempted
+call and trial under its declared limit. Test an over-limit request and an
+interruption before blind execution. The [M2-E21 card](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight)
+owns readiness. Qualify the actual isolation and supervision path before
+dispatch. B01's open findings still govern its own admission flow.
+
+### FTA-M2-E20-P03: supervised replay evidence
+
+The top event is acceptance of an unbound or unequal replay. It can follow
+both platform reports agreeing on the same wrong source **OR** a valid-looking
+report and an inconsistent journal **OR** a partial comparison or changed
+decision passing the parity check. Verify snapshot bytes against the exact
+selected Git objects and their report digests, require terminal journal rows
+bound to those results, and compare complete model outputs with exact decision
+identity and the frozen numeric tolerance. Exercise these failures with
+synthetic receipts. Platform identity and the actual run scope still require
+the independent acceptance review under the [replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay).
+
 ## Open execution-path quality debt
 
 Engineering owns closure. The affected entry is a prerequisite under the [queue rules](DEVELOPMENT_PROCESS.md#experiment-queue) whenever a planned task uses or carries forward that entry's admission flow. Use the minimum authorized verification needed for closure and record the independent check before campaign reuse. Shared helpers remain eligible when the selected entry does not inherit the affected admission flow.
 
+- **AQRS-A10-F1 · OPEN · B01 threshold application and reporting.** At `044363c`, the contrast passed with 60 matched observations per arm although only 16 per arm entered the interval. A positive completed trial followed by a timeout also produced a local dataset report with `complete=false` and `effect_claimed=true`. The published verdict correctly withheld the dataset claim. Before external B01 execution, independently verify three cases through the affected entry: discarded days cannot supply the coverage minimum for an interval, a positive trial followed by a stop preserves candidate evidence and withholds the dataset claim, and a mismatch between registered and executed horizon, stride, warmup, block length or trial count is rejected or impossible by construction. Use synthetic fixtures under a separately scoped correction. The existing capability, delivery, budget and start gates also apply. See the [A10 review](MILESTONE_STATUS.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
 - **AQRS-A02-F2 · CLOSED 2026-11-11 · Supervised replay admission.** The former fixed-limit path now loads the effective validated Governor policy. The real entry rejects tighter fit limits, unsupported strict memory mode and malformed configuration before archive access or fitting; a compatible configuration completes the real synthetic comparison with unchanged research costs. A separate read-only reviewer and all four Windows/Linux CI jobs verified the correction at `70005cc`. See the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). This does not make historical source linkage complete or make pilot parent I/O externally supervised.
 - **AQRS-A02-F5 · CLOSED 2026-11-11 · Core CLI campaign deadline.** Expired admission now rejects before staging even with timing disabled. Core preparation, timing and candidate workers share the original campaign deadline; the blocked-preparation regression and existing watchdog tests pass on Windows and Linux. The independent reviewer verified the corrected boundary at `70005cc`; see the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). Source/report persistence, journal finalization and cleanup remain outside the external worker watchdog. This is a bounded compute guarantee, not a hard end-to-end I/O deadline. Future entries must preserve or explicitly qualify this boundary before reuse.
 
