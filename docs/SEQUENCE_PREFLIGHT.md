@@ -234,19 +234,26 @@ It closes the autonomously solvable research-design wait.
 **Subsequent owner approval: `ALLOW` for the single P06 diagnostic after entry verification.**
 The [P06 packet](OPEN_QUESTIONS.md#m2-e20-p06-report-only-calibration) is one
 archived-report planning diagnostic, not a new period or model campaign.
-P02 explicitly reserved that additional look. The owner supplied that approval in this reset session. Publish
+P02 explicitly reserved that additional look. The owner supplied approval
+in this reset session. The published freeze and pre-read checks completed.
+The original execution order was: publish
 its frozen diagnostic/exposure registration, verify the exact calculation
 on synthetic inputs and bind A16-P01 before the single authorized read.
 Calibration leaves independence unknown and does not close M2. No data
 expansion or repeated look follows automatically.
 
-**Queue rescan.** E20 now advances to the specifically approved P06 diagnostic. E21
+**Completion: P06 executed once and verified.** Its fixed branch is
+`DEFER_LOCAL_OUTCOME_EXPANSION`; inferential sufficiency stays unknown.
+No further data access or count is eligible on that branch.
+
+**Queue rescan.** E21 is the next proposed research objective and
 separately needs owner scope, an independent benchmark/scoring commitment
 and verified isolation; B01 depends on a credible new discovery path, but
 E21 does not depend on B01 success. A16-P01 observes a host and cannot block
 it. SC01 is owner-deferred; M4-E01 awaits its milestone and fixed claim;
-H01 awaits its recorded trigger. No cyclic dependency was found. No independent authorized READY execution remains beside P06 and the
-reset's normal closeout. Reassess after the P06 result.
+H01 awaits its recorded trigger. No cyclic dependency was found. A16-P01
+closed its P06 observation and H01 is 2/3. No independent authorized READY
+execution remains after the reset's normal closeout.
 The governance freeze leaves existing verification and follow-ups active.
 
 ### M2-E15 count authorization and dispatch

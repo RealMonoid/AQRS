@@ -28,11 +28,15 @@ of interrupted rows is outside the current restart contract.
 
 ## M2-E20-P06 report-only calibration
 
-**Approved 2026-11-14.** The owner authorized the single planning diagnostic
-below through the explicit P06 decision. Execution is bounded by the
-[registered Card](MILESTONE_STATUS.md#m2-e20-p06-test-card-one-archived-report-calibration). Quant Research recommends the bounded
-look because the [P05 sensitivity](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
-shows that dispersion can change whether local longitudinal evidence is even
+**Resolved 2026-11-14.** The owner authorized and AQRS executed the single
+planning diagnostic below through the explicit P06 decision. The
+[verified result](MILESTONE_STATUS.md#m2-e20-p06-learning-card-local-expansion-deferred)
+is DEFER for a local outcome expansion; no larger data request is justified.
+The original scope is preserved below and is bounded by the
+[registered Card](MILESTONE_STATUS.md#m2-e20-p06-test-card-one-archived-report-calibration).
+Quant Research recommended the bounded look because the
+[P05 sensitivity](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
+showed that dispersion can change whether local longitudinal evidence is even
 plausible. P02 explicitly reserves specific authorization for a new report
 diagnostic; ordinary design, arithmetic and verification are already complete.
 This is not a request for new dates, a rerun, or 6–12 months of data.

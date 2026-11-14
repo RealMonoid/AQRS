@@ -5,7 +5,11 @@
 Carry out the owner-directed Execution Reset with preserved history and dirty
 work, tested ordinary integration, a freeze of untriggered general audits, and
 a decision-specific E20 calibration rather than an assumed data duration.
-The final integration and verification record is AQRS-ER01.
+The final integration and verification record is AQRS-ER01. The separately
+approved, prospectively published P06 diagnostic deferred the local E20
+outcome expansion under its fixed assumptions; original evidence and all
+prior exposure records remain intact. Historical cards use stable links
+instead of duplicate bodies. No new model or general forecast export was built.
 
 
 - `CHANGELOG.md`

@@ -21,21 +21,21 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 This queue is the canonical work plan for concrete development, founding, and project-level research work. Row order is the current priority. The [dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution. The [completion rules](DEVELOPMENT_PROCESS.md#completion-reconciliation) give the canonical locations for other follow-up. Follow the linked records for findings, revisit conditions, and owner decisions that affect readiness.
 
-**Execution Reset:** [AQRS-ER01](#aqrs-er01-execution-reset) is active. The
+**Execution Reset:** [AQRS-ER01](#aqrs-er01-execution-reset) is complete. The
 [governance freeze](DEVELOPMENT_PROCESS.md#experiment-queue) applies.
 
-**Current scientific bottleneck, 2026-11-14.** M2-E20 lacks an eligible
-ordered contrast with defensible dependence and precision for the fixed
-decision. [Calendar capacity](#m2-e20-capacity-and-forecast-evidence-follow-up)
-cannot close that gap. Reassess it when qualifying decision-specific
-development evidence or reviewing M2 acceptance. The separate synthetic
-Scout decision retains its own benchmark, scope and isolation prerequisites.
+**Current scientific bottleneck, 2026-11-14.** M2-E20 still lacks defensible
+independent information and precision for its fixed contrast. The approved
+[P06 calibration](#m2-e20-p06-learning-card-local-expansion-deferred) found
+that no fixed observed-SD planning case fits the local capacity ceiling;
+the local expansion is deferred. This is not an alpha verdict or a request
+for a longer period. No research execution is currently READY.
 
-**Priority review, 2026-11-12.** E14, E18 and E19 are closed as recorded
-below. The remaining M2 acceptance review has priority under M2-E20. The
-owner added the bounded Scout pilot next in priority and ahead of the B01
-benchmark review. The Scout can use a qualified synthetic path independently
-of the E09 source gap. Other deferred follow-ups retain their start conditions.
+**Priority review after P06.** The next proposed research objective is the
+existing bounded M2-E21 synthetic Scout test, with its owner scope,
+independent benchmark and isolation prerequisites. It can proceed independently
+of the deferred E20 local route and B01. E20 remains the M2 scientific
+acceptance bottleneck; revisit only on the evidence trigger below.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -58,14 +58,15 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| AQRS-ER01 | 2026-11-14 | ACTIVE | [Execution Reset](#aqrs-er01-execution-reset): preserve and consolidate the current repository, freeze untriggered general audits, and derive E20's next decision-changing evidence step. | Explicit owner request in this chat; regular integration and verification are authorized. No new model trials, market-outcome looks, protected access, remote deletion or history rewrite. |
-| AQRS-A16-P01 | 2026-11-14 | WAITING | [Observe actual literature behavior in the next practical research test](#aqrs-a16-p01-test-card-observed-literature-behavior), using the owner's seven checks. | Parent: AQRS-A16. Planning and companion observation are authorized; bind to the next otherwise authorized practical research test before it starts. No standalone campaign or added data/model work. Does not block or reorder its host. |
-| M2-E20 | 2026-11-12 | ACTIVE | [P05 evidence design](#m2-e20-p05-learning-card-decision-specific-evidence-design) completed. Execute the owner-approved [single P06 calibration](#m2-e20-p06-test-card-one-archived-report-calibration), then apply its fixed planning branch. | The owner approved one archived Windows report diagnostic; prospective publication, synthetic checks and independent pre-read review precede access. No new dates, models or further outcome look. Effective independence remains unknown. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
+| M2-E20 | 2026-11-12 | DEFERRED | [P06](#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
-| AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| AQRS-SC01 | 2026-11-10 | DEFERRED | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
 | AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](#aqrs-h01-research-harness-enforcement-review): assess reliable adherence to existing research rules and evidence for targeted technical enforcement. | Owner-directed follow-up. Revisit after the next three material, genuine research work items or immediately after the first observed material research-governance violation, whichever occurs first. Existing research priorities and start conditions remain unchanged. |
+| AQRS-ER01 | 2026-11-14 | CLOSED | [Execution Reset](#aqrs-er01-learning-card-canonical-integration-and-research-dispatch): main consolidated and verified; governance freeze active; E20 calibrated through its approved stop. | SUPPORTED / PERSEVERE for canonical state and bounded scientific preparation. No independent covered READY item remains. |
+| M2-E20-P06 | 2026-11-14 | CLOSED | [One report calibration](#m2-e20-p06-learning-card-local-expansion-deferred), published before access and independently verified. | Valid diagnostic; DEFER_LOCAL_OUTCOME_EXPANSION. Inference INCONCLUSIVE; no new market data or models. |
+| AQRS-A16-P01 | 2026-11-14 | CLOSED | [P06 host observation](#aqrs-a16-p01-learning-card-p06-observation). | INCONCLUSIVE for unprompted seven-check adherence; actual observed behavior and absent triggers recorded. No standalone follow-up launched. |
 | M2-E20-P05 | 2026-11-14 | CLOSED | [Decision-specific evidence design](#m2-e20-p05-learning-card-decision-specific-evidence-design): sensitivity and metadata support one bounded calibration, not a fixed data duration. | SUPPORTED / PERSEVERE for preparation; owner subsequently approved P06. |
 | AQRS-A16 | 2026-11-14 | CLOSED | [Audited and closed confirmed literature-process gaps](#aqrs-a16-learning-card-literature-process-audit). | Owner-authorized standalone audit and documentation correction; A–H and three protection/stop cases verified. No research campaign, variant registration or wider dispatch. |
 | M2-E15 | 2026-11-10 | CLOSED | [Authorized state-persistence count](#m2-e15-learning-card-state-persistence-count) completed and passed the coverage gate. | A separate outcome proposal requires a fixed decision, defensible precision basis and scoped approval. |
@@ -194,11 +195,14 @@ is actual scientific work with a research question/hypothesis and evidence;
 documentation, audits, bug fixes and routine engineering do not count.
 
 **Observation and responsibility.** Count prospectively from this entry:
-**1/3 qualifying work items recorded**: [M2-E20-P05](#m2-e20-p05-learning-card-decision-specific-evidence-design),
+**2/3 qualifying work items recorded**: [M2-E20-P05](#m2-e20-p05-learning-card-decision-specific-evidence-design),
 2026-11-14, asked a concrete scientific design question and executed
 capacity/sensitivity calculations against verified metadata. This is an
 analytical design observation, not evidence of outcome admission or unprompted
-rule adherence. The reset's Git, documentation and engineering work do not
+rule adherence. [M2-E20-P06](#m2-e20-p06-learning-card-local-expansion-deferred),
+2026-11-14, is the second: an authorized empirical report calibration with
+a frozen decision and retained evidence. Neither establishes general
+behavioral adherence. The reset's Git, documentation and engineering work do not
 count. Quant Research checks the trigger at
 existing research-work-item closeouts and immediately upon observing a material
 violation. Retain qualifying work-item IDs and evidence references in this
@@ -438,7 +442,7 @@ closes the design wait. P06 was subsequently approved for one additional report 
 its execution is the next authorized slice. A16-P01 attaches to that
 practical test. E21 has scope/external-benchmark/isolation waits, B01 a
 research-capability dependency, SC01 an owner deferral and M4-E01 a future
-milestone wait. H01 is 1/3 and has not triggered. No cyclic dependency or
+milestone wait. H01 was 1/3 after P05 and is 2/3 after P06; it has not triggered. No cyclic dependency or
 other covered READY execution was found. Forecast retention remains a
 minimal contract for a future named comparison: aligned prediction/target
 or paired losses, baseline, timestamp/fold and eligibility/execution only
@@ -647,6 +651,123 @@ reservation, formulas and units. Its separate synthetic checks covered SD
 5/20, zero variance and the 32/33-day branch boundary; all passed. The
 reviewer opened no report member. Entry remains gated on published freeze
 and the external 30-second timeout.
+
+### M2-E20-P06 Learning Card: local expansion deferred
+
+**2026-11-14. Valid calibration; `DEFER_LOCAL_OUTCOME_EXPANSION`.** The
+prospective Card, exact calculation source and exposure registration were
+published as `393ce480a09880e2d7a163cefe37c5c921843667` before access.
+The independently reviewed source ran exactly once under external
+`subprocess.run(..., timeout=30)`: exit 0, **0.203 seconds**. The one-use
+reservation preceded the report read at 10:43:17 UTC. Source, member bytes,
+run, dataset, definition, 18 unique pairs and all six UTC dates/bands passed.
+No other contrast was inspected and no report was rerun on another platform.
+
+| Registered result | Observation and interpretation |
+|---|---|
+| Pair dispersion | Sample SD **38.1695456073 bps**, 18 pairs; an estimate on six exposed days, not a population bound |
+| Existing pair-weighted mean | -8.8904868088 bps, consistent with the historical -8.89 summary; no new effect claim |
+| Yield | Three retained pairs on each of six days, one per UTC eight-hour band; future yield remains unknown |
+| Fixed 1/2/3-day partitions | 6/3/2 groups; conditional mean-variance diagnostics 52.4177109 / 70.0405584 / 38.3054187 bps squared |
+| Independent count | `UNKNOWN`; none of the partitions establishes independence and the smallest variance is not selected |
+| Conditional normal planning | At this SD, gap 2, one-sided alpha .05 and power .80: 2,252 assumed independent pairs; 95% half-width 2: 1,400. Neither number is a requirement |
+| Fixed calendar branch | All nine `(D,y)` cells miss 32 validation days / 96 optimistic slots. Even `D=1,y=3` gives 751 validation days under the power approximation |
+
+The result refutes local feasibility **within the frozen observed-SD planning
+matrix**, not the existence of alpha. It does not justify requesting 751 days,
+six months, twelve months or a second asset. Six-day dispersion, selection,
+nonstationarity, dependence and joint-screen error rates remain unresolved.
+The prescribed no-fit branch applies: defer a local outcome expansion,
+request no new raw data and start no December 11–24 count. The historical
+E18/E19 candidates remain deferred. M2's effective-information criterion and
+final release verification remain open.
+
+**Retention and reproducibility.** `evidence/exposure.json` contains one
+new manual analysis, six explicitly named component views, all 18 selected
+pair rows, every frozen sensitivity result, exact calculation source/hash,
+registration revision and execution timestamps. Result data occupy 6,012
+serialized bytes; the complete record is 17,772 bytes, below 100 KB.
+All pre-existing index fields/records are unchanged. The journal projection
+still has 95 attempts, 15 variants and 345 views; the six new manual components
+are additional and are not concealed in that journal-derived count.
+No model variant, trial, fit, resample, raw-market read, protected read,
+download or paid service was added. The report-only look is additional
+development exposure, not confirmation evidence.
+
+**Revisit and dispatch.** E20 remains the scientific acceptance bottleneck,
+but this particular local expansion is `DEFERRED`. Revisit on a concrete,
+authorized candidate-specific mechanism or independently supported change
+to the dispersion/dependence/yield basis that can make a bounded comparison
+decision-changing. Do not reopen unchanged variants or collect a longer
+period merely to meet an illustrative count. Quant Research checks that
+trigger when reviewing new authorized candidate evidence. The next proposed
+research objective is the existing bounded E21 synthetic Scout capability
+test, subject to its owner scope, independent benchmark and isolation gates.
+E21 does not require B01 execution or a favorable E20 result. No further
+authorized market execution is READY in this reset. Close A16-P01 after
+its host observation; H01 now records two genuine research work items.
+
+**Independent result verification.** A separate read-only reviewer recomputed
+the frozen quantities from the retained 18 rows, including every power,
+half-width, block and calendar cell. All matched. It verified unchanged
+historical JSON and unchanged registration fields other than execution
+status, with source/data binding retained. It opened no archive member and
+generated no new diagnostic. The bounded result is verified; M2 is not
+accepted by this work.
+
+### AQRS-A16-P01 Learning Card: P06 observation
+
+**2026-11-14. INCONCLUSIVE for the complete seven-check behavior claim.**
+The independent reviewer inspected the visible main-session trace, P06's
+published freeze and retained calculation. Checklist exposure preceded the
+host; unprompted recognition cannot be inferred. Actual NIST and Palm source
+access preceded freeze `393ce480`. No paper was newly encountered after the
+freeze, no new model was introduced and no search followed the observed
+capacity shortage. The host required no additional research for observation.
+
+| Existing check | Observed result |
+|---|---|
+| 1. Independent need recognition | NOT_OBSERVED: the session already saw the checklist and case-specific instructions |
+| 2. Sources, counterevidence and transfer | NOT_OBSERVED for the full claim: primary access and the limited transfer were verified; a new targeted counterevidence search was not observed. P02/A16 sources were referenced as prior support, not counted as a newly verified search |
+| 3. Evidence separation | PASS in this host: external formulas, exposed development estimates and absent confirmation remained distinct |
+| 4. New methodological INCONCLUSIVE trigger | NOT_OBSERVED: no new decision-relevant method question arose after the frozen design |
+| 5. Clear data shortage | PASS in the observed response: identified the capacity miss and did not launch a literature search to fill missing observations |
+| 6. Paper encountered after freeze | NOT_OBSERVED: no such trigger occurred |
+| 7. No automatic model shopping | PASS in this host: the method paper caused no method adoption or model trial |
+
+These observations neither prove all future behavior nor justify another
+audit to fill absent triggers. Close the bounded companion observation.
+Its evidence is available to the existing H01 revisit at 2/3 qualifying
+research items; that trigger has not yet fired.
+
+### AQRS-ER01 completion reconciliation
+
+**2026-11-14, 10:49:42 UTC.** The complete reset mandate and approved
+P06 slice are complete. Measured elapsed work through this checkpoint:
+56.7 minutes from 09:53:01 UTC; P06 including
+registration, independent review, execution and documentation took
+12.6 minutes, within its 30-minute cap. Final
+Git publication and routine checks follow this measured checkpoint.
+
+All 17 task-changed paths are listed in the sole changelog. The complete
+integrated runtime tree remains byte-identical to tested `fbba811`.
+Fresh archive/exposure checks passed; all seven original dirty linked-
+worktree files remain byte-identical to the intake snapshots. Main retains
+all integrated histories and preservation commits. The exact final revision
+is the final closeout commit; publish it normally and confirm clean root
+status and main/origin ahead/behind 0/0 before reporting completion.
+No protected data or new raw-market outcome was used. One approved
+report-only diagnostic is retained and verified. The remaining scientific
+uncertainty and deferred local route are explicit. No independent authorized
+READY item remains; E21 is the concrete next proposal with its existing
+owner/benchmark/isolation prerequisites. H01 has not reached its trigger.
+
+Final closeout checks passed: language self-test/check (58 files), Ruff,
+whitespace, 364 local file/anchor links, all 17 changelog paths, original
+exposure preservation, P06 source/result identity and the absence of an
+unhandled authorized READY item. Archive checks passed for 295/29/60 members
+and the retained E18 replay revision. These supplement the already passed
+324-test native suite and four-job Windows/Linux CI on the unchanged runtime.
 
 ### Integration publication checkpoint, 2026-11-14
 
@@ -893,8 +1014,8 @@ Use the first suitable authorized research test, including a synthetic test;
 do not wait specifically for E20 if another host becomes eligible first.
 P01 has first priority for attachment, adds no independent research execution
 and leaves the relative research queue order intact. Its missing prerequisite
-is an eligible host, not another approval of this observation plan. No current
-host meets its start conditions. WIP remains the host's single work item.
+is an eligible host, not another approval of this observation plan. The baseline had no eligible host; the approved
+P06 diagnostic subsequently supplied one. WIP remains the host's single work item.
 
 **Observation method.** Keep normal canonical instructions available. Give no
 case-specific literature reminder before Codex's first relevant action.
