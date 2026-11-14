@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-14 — Require evidence-based blocker explanations
+
+At the owner's request, require every blocker report to identify the affected
+action, specific rule and reported reason, explicitly disclose missing rule
+or reason information, and avoid speculation. Documentation-only instruction;
+no runtime or safety-control change.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
 ## 2026-11-14 — Separate current status from history and apply research learning
 
 Owner-requested one-time cleanup, not an audit or a research campaign. Move
