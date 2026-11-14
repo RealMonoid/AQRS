@@ -58,13 +58,13 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| AQRS-GIT01 | 2026-11-14 | ACTIVE | [Autonomous repository completion](#aqrs-git01-autonomous-repository-completion): define the normal commit/integrate/publish/verify path and apply safe cleanup. | Owner's attached 27-part request explicitly authorizes this standalone change, ordinary publication to the existing remote and safe cleanup. No research or wider governance work. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | AQRS-SC01 | 2026-11-10 | DEFERRED | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
 | AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](#aqrs-h01-research-harness-enforcement-review): assess reliable adherence to existing research rules and evidence for targeted technical enforcement. | Owner-directed follow-up. Revisit after the next three material, genuine research work items or immediately after the first observed material research-governance violation, whichever occurs first. Existing research priorities and start conditions remain unchanged. |
+| AQRS-GIT01 | 2026-11-14 | CLOSED | [Autonomous repository completion](#aqrs-git01-autonomous-repository-completion): normal Git closure defined, published and exercised on the current repository. | SUPPORTED / PERSEVERE for the owner's standalone scope. Nine scenarios and four CI jobs passed; obsolete refs/worktrees removed and historical/dirty work preserved. No wider research authorization. |
 | AQRS-ER01 | 2026-11-14 | CLOSED | [Execution Reset](#aqrs-er01-learning-card-canonical-integration-and-research-dispatch): main consolidated and verified; governance freeze active; E20 calibrated through its approved stop. | SUPPORTED / PERSEVERE for canonical state and bounded scientific preparation. No independent covered READY item remains. |
 | M2-E20-P06 | 2026-11-14 | CLOSED | [One report calibration](#m2-e20-p06-learning-card-local-expansion-deferred), published before access and independently verified. | Valid diagnostic; DEFER_LOCAL_OUTCOME_EXPANSION. Inference INCONCLUSIVE; no new market data or models. |
 | AQRS-A16-P01 | 2026-11-14 | CLOSED | [P06 host observation](#aqrs-a16-p01-learning-card-p06-observation). | INCONCLUSIVE for unprompted seven-check adherence; actual observed behavior and absent triggers recorded. No standalone follow-up launched. |
@@ -332,6 +332,100 @@ dummy file through explicit staging. I preserved the original source-bound
 receipt. These are procedural scenarios, not a new automatic Git enforcement
 service or proof of every future agent's adherence. The one-shot script and
 command/result JSON remain in the session's temporary directory.
+
+**Learning Card and publication evidence.** The permanent change uses five
+existing documents, with all five paths in `CHANGELOG.md`. The old rules
+already covered authorization, validation and reconciliation; normal commit,
+merge, publication, live SHA comparison and safe cleanup were not part of
+the ongoing DoD. The new [canonical flow](DEVELOPMENT_PROCESS.md#autonomous-git-completion)
+closes that gap without a new Git service, tracker, PR requirement or owner
+approval for routine publication. No milestone or scientific claim changes.
+
+The initial branch was `main`; both local and live remote main were
+`3e85eb28d4ab64df623cea25a710b0502e861818`. Work used
+`codex/aqrs-git01-autonomous-closeout`. Commit
+`fd34dec4960bc4842a8f811cd3455406f93db698` was integrated with
+`git merge --ff-only`, checked on main and published with
+`git push origin main:main`. `git rev-parse refs/heads/main` and fresh
+`git ls-remote origin refs/heads/main` returned that same SHA; root was clean
+and ahead/behind was 0/0. The final evidence-only closeout follows the same
+gate; its actual final SHA is identified by Git, avoiding a self-reference.
+
+**Cleanup actually performed.** All ten obsolete remote tips were confirmed
+main ancestors against live remote heads, with no open PR or dependent active
+worktree, before one ordinary atomic deletion: `audit/aqrs-a06`,
+`audit/aqrs-a07`, `codex/aqrs-a08-signal-diagnostics`,
+`codex/aqrs-b01-blind-preparation`, `codex/aqrs-d01-spot-data`,
+`codex/aqrs-execution-reset`, `codex/m2-e09-source-bound-replay`,
+`codex/m2-e14`, `codex/m2-e18`, and `codex/m2-e19-regime-filter`.
+The local `codex/aqrs-execution-reset` was deleted with `git branch -d`.
+Three inactive clean worktrees were removed with `git worktree remove`:
+E18 replay at `1eebbfa`, E19 replay at `376eb42`, and the detached E09
+registration at `0a8199f`. Each had no untracked/ignored files and retained
+reachable source history. No force, reset, clean, rebase, tag replacement,
+repository-security change or research rerun was used.
+
+| Remaining relevant branch | Disposition and reason |
+|---|---|
+| `main` (local/remote) | ACTIVE; canonical published project state. |
+| `codex/m2-e14-evidence` (local/remote) | FULLY_MERGED; retain its clean linked worktree and ignored research artifacts. |
+| `codex/m2-e17` (local) | FULLY_MERGED; retain its clean linked worktree and ignored research artifacts. |
+| `codex/m2-e18-evidence` (local/remote) | FULLY_MERGED; retain the linked worktree, four dirty files and ignored artifacts. The earlier reset already preserved/integrated the changes. |
+| `codex/m2-e19-evidence` (local/remote) | FULLY_MERGED; retain the linked worktree, three dirty files and ignored artifacts, already preserved/integrated by the reset. |
+| `codex/aqrs-a08-local-verification` (local) | Intentionally retained: exact historical review commit `4fd02d9`, referenced by A08/D01 verification; `git cherry` confirms patch equivalence, which is not commit identity. |
+| `codex/m2-e18-ubuntu-replay` (local/remote) | Intentionally retained: two unique historical replay/receipt commits ending at `1eebbfa`, referenced by evidence verification. No active worktree remains. |
+| `codex/m2-e19-ubuntu-replay` (local/remote) | Intentionally retained: unique historical replay commit `376eb42`, referenced by E19 verification. No active worktree remains. |
+
+The temporary GIT01 branch remains active only through this closeout and is
+removed after final publication. Of eight original worktrees, five remain:
+the main checkout and the four intentionally preserved E14/E17/E18/E19
+worktrees above. The historical refs have known purposes; none represents
+unreviewed new development awaiting integration. No repository ambiguity or
+Git owner decision remains. The four retained worktrees are not claimed clean.
+
+**Verification already observed, all exit 0.** On native Windows Python
+3.12.12, the focused command
+`.venv/Scripts/python.exe -m pytest -q tests/test_audit_controls.py
+-k 'evidence or exposure or source_snapshot' --tb=short`
+passed 27 tests (44 deselected), then passed again on resulting main in
+5.61 seconds. `scripts/evidence_archive.py --verify` checked 295 preserved
+files; `--verify-exposure` confirmed 95 attempts, 15 variants and 345 diagnostic
+views, with 85 historically unknown inventories unchanged. `python
+scripts/check_language_policy.py --self-test`, its normal check (58 files),
+Ruff, `git diff --check` and the integrated diff check passed. The read-only
+temporary `verify_repository.py` checked all five changelog paths, 265 local
+links/anchors, a bounded secret-pattern scan, and byte-identical hashes for
+79 tracked runtime/evidence/configuration files and all seven foreign dirty
+files, including after cleanup. Manual staged-diff review found only the five
+authorized English documentation paths. The scan is not a complete secret audit.
+
+**CI, decision and measured endpoint, 2026-11-14.** All four jobs of
+[run 43588687409](https://github.com/RealMonoid/AQRS/actions/runs/43588687409)
+passed on `fd34dec4960bc4842a8f811cd3455406f93db698`: Windows and headless
+non-root Ubuntu 24.04, Python 3.11/3.12. Each passed 324 behavioral tests,
+synthetic CLI plan/run, archive/exposure checks, Ruff and language checks.
+Windows test times were 196.62/180.10 seconds; Ubuntu 76.08/86.66 seconds.
+The [Ubuntu 3.12 artifact](https://github.com/RealMonoid/AQRS/actions/runs/43588687409/artifacts/14111677075)
+is one example of the retained synthetic acceptance outputs. This final
+evidence-only closeout uses `[skip ci]` to avoid repeating the four unchanged
+runtime campaigns; fresh local documentation, preservation and SHA checks
+still apply to the resulting main before completion is reported.
+
+**SUPPORTED / PERSEVERE:** adopt the documented normal flow. Execution and
+procedural checks passed; future unprompted adherence is not established by
+this one task. No scientific benefit was tested, no material incident occurred
+and no new rejected engineering method needs an IDEA entry. Measured elapsed
+work was 17 minutes 15 seconds from 10:57:54 through 11:15:09 UTC, excluding
+earlier intake and subsequent final documentation/publication checks; within
+the 90-minute total estimate. The remaining boundary is intentional retention
+of historical refs and local artifacts, not an unresolved ownership question.
+
+**Final dispatch.** The standalone mandate does not authorize the waiting
+Scout pilot or additional research. M2-E21 remains the next concrete proposed
+objective, requiring owner implementation/execution scope, an independent
+synthetic benchmark/scoring commitment and verified isolation/runtime bounds.
+Its existing entry preparation is complete; no independent covered READY
+item remains. E20's deferral and H01's unmet trigger remain unchanged.
 
 ### AQRS-ER01 Execution Reset
 
