@@ -10,6 +10,8 @@ Preserve all attempts and evidence; keep Governor limits and the governance
 freeze unchanged. No new documentation file or separate process audit.
 Canonical main verification, publication and task-branch cleanup are recorded
 in the existing milestone card and verification receipt.
+Record the owner's follow-up: research methodological questions, including
+holdout sufficiency, before fixing future periods or thresholds.
 
 - `AGENTS.md`
 - `CHANGELOG.md`

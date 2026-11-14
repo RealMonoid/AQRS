@@ -18,6 +18,13 @@ open, summarize or evaluate either scope. Only the owner may release it;
 the existing protected-evaluation admission gates still apply afterward.
 This reservation does not claim technical isolation against every external tool.
 
+**Owner correction, 2026-11-14.** Apply the existing decision-linked literature
+check to methodological choices, including holdout duration, before fixing
+periods or thresholds. Research a question-specific power/precision basis,
+relevant effect size and temporal dependence using suitable primary sources;
+record the evidence and remaining uncertainty before the design freeze.
+The current locked dates remain unchanged.
+
 **Predictive-first staging.** For the newly authorized candidate research,
 measure predictive value against a suitable simple baseline before applying
 an economic hurdle. Do not filter predictions through a cost or trading gate.
