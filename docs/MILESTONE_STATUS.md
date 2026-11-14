@@ -220,14 +220,16 @@ mixed findings motivated a falsifiable fixed rule, not a direction search.
 **Implementation verification before acquisition.** Independent read-only
 review reproduced timing/HAC/cost calculations and found three defects before
 market access: a legacy importer could open a protected filename under a
-different declared day; Windows CRLF registration bytes differed from the
-Git LF blob; failed monthly acquisitions lacked their attempted month/cause.
+different declared day; Windows CRLF registration/source bytes differed from
+Git LF blobs; failed monthly acquisitions lacked their attempted month/cause.
 Regression tests first reproduced each defect, then passed after correction.
 The focused Windows suite passed 70 tests (24 E22 checks plus market/import
 coverage). All diagnostic views are explicit (1,104 prediction views and 12
 conditional economic views); these are not independent trials. The first
 full suite had 332 passes and 11 source-replay fixture failures because the
 new module was not yet in HEAD; rerun those checks after committing it.
+All 11 source-replay checks passed after the source commit. Publication now
+checks all registered hashes against both local bytes and published Git blobs.
 Runtime review and Linux evidence remain prerequisites before acquisition.
 
 ### Historical queue decisions

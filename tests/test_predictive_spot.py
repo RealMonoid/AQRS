@@ -33,6 +33,38 @@ def test_registration_file_matches_git_lf_bytes(tmp_path, monkeypatch):
     assert b"\r\n" not in payload
 
 
+def test_publication_rejects_local_only_source_bytes(tmp_path, monkeypatch):
+    revision = "a" * 40
+    name = "src/aqrs/journal.py"
+    path = tmp_path / name
+    path.parent.mkdir(parents=True)
+    path.write_bytes(b"pass\r\n")
+    registration = {
+        "definition": study.definition(),
+        "files": {name: sha256(path.read_bytes()).hexdigest()},
+    }
+    payload = (json.dumps(registration, indent=2) + "\n").encode()
+    (tmp_path / "evidence").mkdir()
+    (tmp_path / "evidence/m2-e22-preregistration.json").write_bytes(payload)
+    monkeypatch.setattr(study, "register", lambda root: registration)
+
+    def git(command, **kwargs):
+        args = command[1:]
+        if args[0] == "rev-parse":
+            return revision.encode()
+        if args[0] == "remote":
+            return b"https://github.com/RealMonoid/AQRS.git"
+        if args[0] == "ls-remote":
+            return (revision + "\trefs/heads/codex/example\n").encode()
+        if args[1].endswith("preregistration.json"):
+            return payload
+        return b"pass\n"
+
+    monkeypatch.setattr(study.subprocess, "check_output", git)
+    with pytest.raises(ValueError, match="published source"):
+        study.published_registration(tmp_path, revision)
+
+
 def fixture_bars(pattern=(1, -1)):
     n = 456 * 48
     signs = np.resize(pattern, n)

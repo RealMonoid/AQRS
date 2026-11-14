@@ -649,6 +649,8 @@ def published_registration(root: Path, revision: str) -> dict:
     for name, digest in registration["files"].items():
         if sha256((root / name).read_bytes()).hexdigest() != digest:
             raise ValueError(f"Frozen source changed: {name}")
+        if sha256(git("show", f"{revision}:{name}")).hexdigest() != digest:
+            raise ValueError(f"Registration differs from published source: {name}")
     return registration | {
         "published_revision": revision,
         "verified_utc": journal.now(),
