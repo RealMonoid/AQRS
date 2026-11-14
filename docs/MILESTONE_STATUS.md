@@ -132,6 +132,48 @@ authorization and preflight rules.
 
 ## Current Build–Measure–Learn development loop
 
+### M2-E20-P04 Test Card: source-bound E09 replay
+
+**Owner authorization and pre-start, 2026-11-14T01:55:23.454148+00:00.** One native Windows
+run of the fixed M2-E08/1 Ridge/LightGBM comparison on the existing Binance
+BTCUSDT Spot archives for January 1–4, 2026 UTC, and one headless non-root
+Ubuntu replay only after a complete and independently verified Windows
+receipt. The owner approved these exact limits and the existing holdout
+boundary on 2026-11-14. Sequence Preflight: allow this source-reproducibility
+slice before E20 effective-count outcome work. Source revision: `2d3469d40079582406d938c11b0274f27d0ed267`.
+Stage exact Git bytes on both platforms and record this published registration
+revision in the execution records. The original E09 result and the source
+recovery gap remain historical evidence.
+
+**Assumption and minimum proof.** The frozen current entry can bind source
+and reproduce the fixed comparison on the two platforms. Keep the original
+model definitions, seed 42, features, two 1,409-row validation folds, 30-minute
+horizon, next-open fills, long/flat policy, 25 bps costs and 2 bps decision
+buffer. Keep the original advancement rule: positive LightGBM incremental
+MAE and net PnL on both days and positive aggregate LightGBM net PnL. The
+new run is a software reproduction using exposed development data. No
+scientific promotion follows. Require the four registered archive digests,
+the expected historical dataset identity, exact source and configuration
+bytes, full fold and trade-decision identity, complete metrics and journal
+integrity, and absolute numeric agreement within 1e-8. Verify platform,
+runtime identities, dependency versions and actual charges separately.
+Register the existing five descriptive diagnostics for the aggregate and
+two folds of each model (30 views per platform). The view records are
+additional exposure on the same variant.
+
+**Budget and stop.** Up to two hours total including verification and
+closeout. Per platform: two sequential trials, six fits including two
+timing fits, one seed, 120 seconds per trial, 300 seconds per campaign and
+4,096 MiB sampled worker-tree RSS. Existing limits and supervision apply.
+The January 6 holdout is outside both staging trees. No new market
+downloads, protected access, tuning, resampling, spend or automatic
+retries. Stop on rejected preflight, failed scope, source or budget check,
+incomplete Windows evidence or platform mismatch. Apply
+[FTA-M2-E20-P03](RISK_REGISTER.md#fta-m2-e20-p03-supervised-replay-evidence).
+An independent exact-path review and the 18 focused Windows checks
+qualified the receipt and admission path before the launch. Start the
+Ubuntu replay only after the independent Windows result review.
+
 ### Historical evidence reconciliation
 
 **2026-11-14. Authority and check plan.** The owner authorized making the

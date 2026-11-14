@@ -2,6 +2,17 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+
+## 2026-11-14 — Register the authorized source-bound E09 replay
+
+Freeze the one Windows comparison and conditional non-root Ubuntu replay
+before outcomes. Record the original variant, exact source, admitted scope,
+limits and existing diagnostic exposure.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+
 ## 2026-11-14 — Reconcile archived AQRS evidence and an open requirement
 
 Index the E14/E18 archive check as AQRS-A13 and retain AQRS-A10 for the M2

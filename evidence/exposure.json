@@ -1404,6 +1404,112 @@
   },
   "future_registrations": [
     {
+      "budget_per_platform": {
+        "campaign_wall_seconds": 300,
+        "fits_including_timing": 6,
+        "sampled_peak_rss_mib": 4096,
+        "seeds": 1,
+        "trial_wall_seconds": 120,
+        "trials": 2
+      },
+      "data_scope": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-01-03",
+        "2026-01-04"
+      ],
+      "definition": {
+        "archive_digests": [
+          "5065b4a0412fcf952a1384a140217e3ec4f0497edc5528289f198589d0736a17",
+          "7ad5ae21dafe8c77150676144a9537bf975c660cfd7048114fb5300750f328fa",
+          "ed939ed8dec11c5465ea0a8289255b7b1b70c72f55452ee6c6d8540b07662d8b",
+          "2e7d3ed70432fc17187325ae5b8c5c7066cb5d8c9283c54f1514f109a1b06906"
+        ],
+        "costs": {
+          "decision_buffer_bps": 2,
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "days": [
+          "2026-01-01",
+          "2026-01-02",
+          "2026-01-03",
+          "2026-01-04"
+        ],
+        "features": [
+          "past_return",
+          "relative_volume",
+          "rolling_volatility"
+        ],
+        "horizon": 30,
+        "lightgbm_parameters": {
+          "deterministic": true,
+          "force_col_wise": true,
+          "learning_rate": 0.05,
+          "max_depth": 3,
+          "min_child_samples": 50,
+          "n_estimators": 32,
+          "n_jobs": 1,
+          "num_leaves": 7,
+          "random_state": 42,
+          "verbosity": -1
+        },
+        "lightgbm_version": "4.6.0",
+        "research": {
+          "candidates": [
+            {
+              "id": "ridge"
+            },
+            {
+              "id": "lightgbm"
+            }
+          ]
+        },
+        "seed": 42,
+        "variant": "M2-E08/1"
+      },
+      "diagnostic_plan": {
+        "metrics": [
+          "AQRS-DIAG-RANK-V1",
+          "AQRS-DIAG-PREDICTION-MEAN-V1",
+          "AQRS-DIAG-PREDICTION-SD-V1",
+          "AQRS-DIAG-TARGET-MEAN-V1",
+          "AQRS-DIAG-TARGET-SD-V1"
+        ],
+        "models": [
+          "ridge",
+          "lightgbm"
+        ],
+        "validation_intervals": [
+          [
+            2880,
+            4289
+          ],
+          [
+            4320,
+            5729
+          ]
+        ],
+        "views": [
+          "aggregate",
+          "fold_1",
+          "fold_2"
+        ],
+        "views_per_platform": 30
+      },
+      "execution_authorization": "One native Windows run. One non-root Ubuntu replay only after valid Windows evidence.",
+      "independent_confirmation": false,
+      "kind": "source_bound_platform_reproduction",
+      "origin": "Existing E08/E09 comparison on exposed development dates.",
+      "registered_at": "2026-11-14T01:55:23.454148+00:00",
+      "source_revision": "2d3469d40079582406d938c11b0274f27d0ed267",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e20-p04-test-card-source-bound-e09-replay",
+      "variant_id": "M2-E08/1",
+      "work_item": "M2-E20-P04"
+    },
+    {
       "data_scope": [
         "2025-12-25",
         "2025-12-26",
