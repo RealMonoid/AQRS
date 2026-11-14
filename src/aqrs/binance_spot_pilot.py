@@ -7,7 +7,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from datetime import UTC, date, datetime, time
+from datetime import UTC, date, datetime, time, timedelta
 from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,14 +16,15 @@ from zlib import error as CompressionError
 
 import numpy as np
 
+from aqrs.admission import M1_HOLDOUT_DAY as M1_HOLDOUT_DAY
+from aqrs.admission import SPOT_HOLDOUT_END as SPOT_HOLDOUT_END
+from aqrs.admission import SPOT_HOLDOUT_START as SPOT_HOLDOUT_START
+from aqrs.admission import check_unlocked
 from aqrs.market import Bars, validate, write_dataset
 
 ARCHIVE_BASE = "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m"
 SYMBOL = "BTCUSDT"
 M1_DEVELOPMENT_DAY = date(2026, 1, 5)
-M1_HOLDOUT_DAY = date(2026, 1, 6)
-SPOT_HOLDOUT_START = date(2026, 9, 1)
-SPOT_HOLDOUT_END = date(2026, 11, 1)  # Exclusive; owner-only release.
 MINUTES_PER_DAY = 1440
 MICROSECONDS_PER_SECOND = 1_000_000
 MINUTE_US = 60 * MICROSECONDS_PER_SECOND
@@ -50,8 +51,8 @@ def require_spot_identity(symbol: str, day: date) -> None:
         raise ValueError("Expected an uppercase alphanumeric Spot symbol.")
     if type(day) is not date:
         raise ValueError("Expected a UTC calendar date.")
-    if day == M1_HOLDOUT_DAY or SPOT_HOLDOUT_START <= day < SPOT_HOLDOUT_END:
-        raise ValueError(f"{day} UTC is reserved and cannot be opened.")
+    start = datetime.combine(day, time.min, UTC)
+    check_unlocked(start, start + timedelta(days=1))
 
 
 def load_spot_day(

@@ -27,6 +27,13 @@ CREATE TABLE IF NOT EXISTS experiments (
     UNIQUE (run_id, candidate_id)
 );
 CREATE INDEX IF NOT EXISTS experiments_evidence ON experiments(evidence_key);
+CREATE TABLE IF NOT EXISTS variant_reservations (
+    period_start TEXT NOT NULL,
+    period_end TEXT NOT NULL,
+    variant_key TEXT NOT NULL,
+    first_experiment_id TEXT NOT NULL REFERENCES experiments(experiment_id),
+    PRIMARY KEY (period_start, period_end, variant_key)
+);
 """
 
 
@@ -46,14 +53,29 @@ def connect(path: Path) -> sqlite3.Connection:
     return db
 
 
-def begin(db, run_id: str, config_hash: str, config: dict, manifest: dict) -> None:
+def begin(
+    db,
+    run_id: str,
+    config_hash: str,
+    config: dict,
+    manifest: dict,
+    *,
+    rejection: dict | None = None,
+) -> None:
     with db:
         db.execute(
-            "INSERT INTO campaigns VALUES (?, ?, 'RUNNING', ?, ?, ?)",
-            (run_id, now(), config_hash, canonical(config), canonical(manifest)),
+            "INSERT INTO campaigns VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                run_id,
+                now(),
+                "REJECTED_PREFLIGHT" if rejection else "RUNNING",
+                config_hash,
+                canonical(config),
+                canonical(manifest),
+            ),
         )
         db.executemany(
-            "INSERT INTO experiments VALUES (?, ?, ?, ?, 'PROPOSED', 'NOT_EVALUATED',"
+            "INSERT INTO experiments VALUES (?, ?, ?, ?, ?, 'NOT_EVALUATED',"
             " NULL, NULL, ?, NULL)",
             [
                 (
@@ -61,11 +83,45 @@ def begin(db, run_id: str, config_hash: str, config: dict, manifest: dict) -> No
                     run_id,
                     candidate["id"],
                     now(),
-                    canonical(candidate),
+                    "REJECTED_PREFLIGHT" if rejection else "PROPOSED",
+                    canonical(candidate | rejection if rejection else candidate),
                 )
                 for candidate in config["research"]["candidates"]
             ],
         )
+
+
+def reserve_variants(
+    db, run_id: str, period: tuple[str, str], variants: dict[str, str], limit: int
+) -> dict:
+    """Check and reserve the entire campaign atomically before data access."""
+    with db:
+        db.execute("BEGIN IMMEDIATE")
+        used = {
+            key
+            for (key,) in db.execute(
+                "SELECT variant_key FROM variant_reservations "
+                "WHERE period_start = ? AND period_end = ?",
+                period,
+            )
+        }
+        new = set(variants.values()) - used
+        requested_new = len(new)
+        allowed = not new or len(used) + requested_new <= limit
+        if allowed:
+            for candidate_id, key in variants.items():
+                if key in new:
+                    db.execute(
+                        "INSERT INTO variant_reservations VALUES (?, ?, ?, ?)",
+                        (*period, key, f"{run_id}:{candidate_id}"),
+                    )
+                    new.remove(key)
+        return {
+            "limit": limit,
+            "used_before": len(used),
+            "requested_new": requested_new,
+            "allowed": allowed,
+        }
 
 
 def finish_experiment(db, run_id: str, trial: dict, metadata: dict) -> None:

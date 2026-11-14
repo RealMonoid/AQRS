@@ -1,9 +1,11 @@
 from datetime import date
+from importlib.resources import files
 from math import isfinite
 from pathlib import Path
 
 import yaml
 
+from aqrs.admission import SOURCES, AdmissionRejected, data_scope
 from aqrs.binance_spot_pilot import MINUTES_PER_DAY, SYMBOL, require_m1_development_day
 from aqrs.market import FEATURE_NAMES
 
@@ -68,6 +70,13 @@ def string(section: dict, key: str) -> None:
 
 
 def load(path: Path) -> tuple[dict, Path]:
+    config, base, rejection = load_request(path)
+    if rejection is not None:
+        raise rejection
+    return config, base
+
+
+def load_request(path: Path) -> tuple[dict, Path, AdmissionRejected | None]:
     try:
         config = yaml.load(path.read_text(encoding="utf-8"), Loader=UniqueKeysLoader)
     except (yaml.YAMLError, TypeError) as error:
@@ -76,26 +85,36 @@ def load(path: Path) -> tuple[dict, Path]:
     for section, keys in SECTIONS.items():
         optional = {
             "project": "path_base",
-            "market": "day archive_dir retrieved_on csv_path",
+            "market": "day archive_dir retrieved_on csv_path start_at",
             "research": "final_holdout_fraction",
-            "resource_governor": "memory_mode",
+            "resource_governor": "memory_mode max_variants_per_evaluation_period",
         }.get(section, "")
         fields(config[section], keys, optional)
 
     project, market, research = (
         config[key] for key in ("project", "market", "research")
     )
+    for key in ("start_at", "day", "retrieved_on"):
+        if isinstance(market.get(key), date):
+            market[key] = market[key].isoformat()
     project.setdefault("path_base", ".")
     for key in ("name", "artifact_dir", "path_base"):
         string(project, key)
+    string(config["journal"], "sqlite_path")
+    base = (path.resolve().parent / project["path_base"]).resolve()
     integer(project, "seed", 0, 2**32 - 1)
     exact(market, "timezone", "UTC")
     validate_candidates(research["candidates"])
-    if any(c["model"] == "bar_reversal" for c in research["candidates"]):
-        if market["source"] not in ("synthetic", "synthetic_csv"):
-            raise ValueError("bar_reversal requires an explicitly synthetic source.")
-        if type(research["horizon_bars"]) is not int or research["horizon_bars"] != 1:
-            raise ValueError("bar_reversal requires horizon_bars=1.")
+    for key in ("horizon_bars", "train_bars", "validation_bars", "walk_forward_folds"):
+        integer(research, key, 1, 100_000)
+    string(market, "symbol")
+    integer(market, "n_bars", 20, 100_000)
+    integer(market, "bar_minutes", 1, 1440)
+    validate_governor(config["resource_governor"])
+    try:
+        validate_data_admission(config)
+    except AdmissionRejected as rejection:
+        return config, base, rejection
     real_spot = market["source"] == "binance_vision_spot"
     if real_spot:
         fields(market, SECTIONS["market"] + " day archive_dir retrieved_on")
@@ -109,7 +128,6 @@ def load(path: Path) -> tuple[dict, Path]:
             raise ValueError(
                 "The research day must precede retrieval and use the microsecond archive format."
             )
-        require_m1_development_day(market["day"])
         exact(market, "symbol", SYMBOL)
         exact(market, "bar_minutes", 1)
         exact(market, "n_bars", MINUTES_PER_DAY)
@@ -117,7 +135,7 @@ def load(path: Path) -> tuple[dict, Path]:
     else:
         fields(research, SECTIONS["research"] + " final_holdout_fraction")
         if market["source"] == "synthetic_csv":
-            fields(market, SECTIONS["market"] + " csv_path")
+            fields(market, SECTIONS["market"] + " csv_path start_at")
             string(market, "csv_path")
             string(market, "scenario")
         else:
@@ -125,13 +143,6 @@ def load(path: Path) -> tuple[dict, Path]:
             exact(market, "source", "synthetic")
             exact(market, "scenario", "null")
         number(research, "final_holdout_fraction", 0.01, 0.90)
-    string(market, "symbol")
-    integer(market, "n_bars", 20, 100_000)
-    integer(market, "bar_minutes", 1, 1440)
-    for key in ("horizon_bars", "train_bars", "validation_bars", "walk_forward_folds"):
-        integer(research, key, 1, 100_000)
-    validate_governor(config["resource_governor"])
-
     execution = config["execution_simulation"]
     exact(execution, "price_reference", "next_bar_open")
     exact(execution, "exit_after_horizon_bars", True)
@@ -145,10 +156,29 @@ def load(path: Path) -> tuple[dict, Path]:
     number(execution, "notional_per_trade", 1e-12, 1e9)
     for key in config["costs"]:
         number(config["costs"], key, 0, 10_000)
-    string(config["journal"], "sqlite_path")
     for key in config["reporting"]:
         exact(config["reporting"], key, True)
-    return config, (path.resolve().parent / project["path_base"]).resolve()
+    return config, base, None
+
+
+def validate_data_admission(config: dict) -> None:
+    market = config["market"]
+    if market["source"] not in SOURCES:
+        raise AdmissionRejected("UNKNOWN_SOURCE", "Unknown data source.")
+    if any(c["model"] == "bar_reversal" for c in config["research"]["candidates"]):
+        if market["source"] not in ("synthetic", "synthetic_csv"):
+            raise AdmissionRejected(
+                "SOURCE_NOT_ALLOWED_FOR_CANDIDATE",
+                "bar_reversal requires an explicitly synthetic source.",
+            )
+        if config["research"]["horizon_bars"] != 1:
+            raise ValueError("bar_reversal requires horizon_bars=1.")
+    data_scope(market)
+    if market["source"] == "binance_vision_spot":
+        try:
+            require_m1_development_day(market["day"])
+        except ValueError as error:
+            raise AdmissionRejected("SOURCE_SCOPE_NOT_ALLOWED", str(error)) from error
 
 
 def validate_candidates(candidates: object) -> None:
@@ -194,6 +224,8 @@ def validate_governor(limits: dict) -> None:
         integer(limits, key)
     for key in ("max_wall_seconds_per_trial", "max_wall_seconds_per_campaign"):
         number(limits, key, 0.01, 86_400)
+    if "max_variants_per_evaluation_period" in limits:
+        integer(limits, "max_variants_per_evaluation_period")
     number(limits, "max_peak_rss_mb_per_trial", 1, 1e6)
     preflight = limits["preflight"]
     fields(
@@ -210,3 +242,16 @@ def validate_governor(limits: dict) -> None:
     if type(preflight["measure_representative_pilot"]) is not bool:
         raise ValueError("measure_representative_pilot must be boolean.")
     number(preflight, "runtime_estimate_safety_factor", 1, 100)
+
+
+def variant_limit(limits: dict) -> int:
+    """Use the packaged configuration when an older config omits the field."""
+    if "max_variants_per_evaluation_period" not in limits:
+        defaults = yaml.safe_load(
+            files("aqrs")
+            .joinpath("admission_defaults.yaml")
+            .read_text(encoding="utf-8")
+        )
+        limits = limits | defaults
+    integer(limits, "max_variants_per_evaluation_period")
+    return limits["max_variants_per_evaluation_period"]

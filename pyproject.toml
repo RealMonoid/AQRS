@@ -17,6 +17,9 @@ supervised = ["lightgbm==4.6.0"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+aqrs = ["admission_defaults.yaml"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

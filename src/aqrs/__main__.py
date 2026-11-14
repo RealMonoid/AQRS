@@ -4,7 +4,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
-from aqrs.config import load
+from aqrs.config import load_request
 from aqrs.planning import mean_precision_plan
 from aqrs.research import run
 
@@ -41,8 +41,10 @@ def main() -> int:
             )
             code = 0
         else:
-            config, base = load(args.config)
-            result, code = run(config, base, plan_only=args.action == "plan")
+            config, base, rejection = load_request(args.config)
+            result, code = run(
+                config, base, plan_only=args.action == "plan", rejection=rejection
+            )
     except ValueError as error:
         print(f"AQRS configuration or data error: {error}", file=sys.stderr)
         return 2

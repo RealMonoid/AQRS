@@ -2,6 +2,7 @@ import json
 import sqlite3
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
@@ -97,8 +98,9 @@ def reversal_config(
         validation_bars=validation_bars,
         candidates=[{"id": "REVERSAL", "model": "bar_reversal"}],
     )
-    path.write_text(yaml.safe_dump(config), encoding="utf-8")
     start = datetime(year, 1, 7, 12, tzinfo=UTC)
+    config["market"]["start_at"] = start.isoformat()
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
     rows = ["bar_open_time,open,high,low,close,volume,dataset_type"]
     for i in range(n_bars):
         opened = start + timedelta(minutes=i * bar_minutes)
@@ -227,11 +229,166 @@ def test_reversal_rejects_foreign_source_before_campaign(tmp_path, source):
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     result = cli("run", path)
     assert result.returncode == 2
-    assert "bar_reversal requires an explicitly synthetic source" in result.stderr
-    assert {p.name for p in tmp_path.iterdir()} == {path.name}
+    assert_admission_rejection(
+        result,
+        tmp_path,
+        config,
+        "UNKNOWN_SOURCE" if source == "unknown" else "SOURCE_NOT_ALLOWED_FOR_CANDIDATE",
+    )
 
 
-@pytest.mark.parametrize("defect", ["timestamp", "marker", "fit_budget"])
+def assert_admission_rejection(result, base, config, reason_code):
+    assert result.returncode == 2, result.stderr or result.stdout
+    summary = json.loads(result.stdout)
+    assert summary["execution_status"] == "REJECTED_PREFLIGHT"
+    assert summary["reason_code"] == reason_code
+    with sqlite3.connect(base / config["journal"]["sqlite_path"]) as db:
+        (manifest,) = db.execute(
+            "SELECT manifest_json FROM campaigns WHERE run_id = ?",
+            (summary["run_id"],),
+        ).fetchone()
+        attempts = db.execute(
+            "SELECT execution_status, evidence_status, metadata_json "
+            "FROM experiments WHERE run_id = ?",
+            (summary["run_id"],),
+        ).fetchall()
+    manifest = json.loads(manifest)
+    assert "preparation" not in manifest
+    assert manifest["stop_reason"] == summary["stop_reason"]
+    assert len(attempts) == len(config["research"]["candidates"])
+    for status, evidence, metadata in attempts:
+        assert (status, evidence) == ("REJECTED_PREFLIGHT", "NOT_EVALUATED")
+        assert json.loads(metadata)["reason_code"] == reason_code
+    return summary
+
+
+@pytest.mark.parametrize("model", ["ridge", "bar_reversal"])
+@pytest.mark.parametrize(
+    "defect", ["protected", "protected_later", "unknown", "missing_scope"]
+)
+def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect):
+    path = reversal_config(tmp_path, "PROTECTED_TEST", 5, 2024, (1, -1))
+    path.with_name("input.csv").unlink()
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if model == "ridge":
+        config["research"]["candidates"] = [
+            {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
+        ]
+    if defect == "protected":
+        # The interval crosses midnight into the protected day. The
+        # training/input scope alone is sufficient for rejection.
+        config["market"]["start_at"] = "2026-01-05T23:55:00Z"
+    elif defect == "protected_later":
+        config["market"]["start_at"] = "2026-10-31T23:55:00+00:00"
+    elif defect == "unknown":
+        config["market"]["source"] = "unknown"
+    else:
+        del config["market"]["start_at"]
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    assert_admission_rejection(
+        cli("run", path),
+        tmp_path,
+        config,
+        {
+            "protected": "LOCKED_PERIOD",
+            "protected_later": "LOCKED_PERIOD",
+            "unknown": "UNKNOWN_SOURCE",
+            "missing_scope": "INVALID_DATA_SCOPE",
+        }[defect],
+    )
+
+
+def test_common_cli_counts_variants_across_invocations_and_output_directories(tmp_path):
+    path = reversal_config(tmp_path, "COUNTING_TEST", 5, 2024, (1, -1))
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
+
+    def launch():
+        path.write_text(yaml.safe_dump(config), encoding="utf-8")
+        return cli("run", path)
+
+    # A reversal and three groups of three Ridge feature sets. Each group
+    # uses another horizon inside the same scheduled validation window.
+    first = launch()
+    assert first.returncode == 0, first.stderr or first.stdout
+    first_summary = json.loads(first.stdout)
+    for horizon in (1, 2, 3):
+        config["research"]["horizon_bars"] = horizon
+        for feature in ("past_return", "relative_volume", "rolling_volatility"):
+            config["research"]["candidates"] = [
+                {"id": "RIDGE", "model": "ridge", "features": [feature]}
+            ]
+            outcome = launch()
+            assert outcome.returncode == 0, outcome.stderr or outcome.stdout
+
+    config["project"]["artifact_dir"] = "fresh output"
+    config["research"].update(
+        horizon_bars=1,
+        candidates=[{"id": "RENAMED", "model": "bar_reversal"}],
+    )
+    rerun = launch()
+    assert rerun.returncode == 0, rerun.stderr or rerun.stdout
+    second_summary = json.loads(rerun.stdout)
+    assert first_summary["run_id"] != second_summary["run_id"]
+    assert first_summary["output_dir"] != second_summary["output_dir"]
+
+    path.with_name("input.csv").unlink()
+    config["research"]["candidates"] = [
+        {
+            "id": "ELEVENTH",
+            "model": "ridge",
+            "features": ["past_return", "relative_volume"],
+        }
+    ]
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+
+    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
+        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
+            10,
+        )
+        assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (12,)
+        first_meta, rerun_meta = [
+            json.loads(
+                db.execute(
+                    "SELECT metadata_json FROM experiments WHERE run_id = ?",
+                    (run_id,),
+                ).fetchone()[0]
+            )
+            for run_id in (first_summary["run_id"], second_summary["run_id"])
+        ]
+    assert first_meta["variant_key"] == rerun_meta["variant_key"]
+
+
+def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
+    first = reversal_config(tmp_path, "RACE_TEST", 5, 2024, (1, -1))
+    config = yaml.safe_load(first.read_text(encoding="utf-8"))
+    config["resource_governor"].update(max_variants_per_evaluation_period=1)
+    config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
+    first.write_text(yaml.safe_dump(config), encoding="utf-8")
+    second = first.with_name("second.yaml")
+    config["research"]["candidates"] = [
+        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
+    ]
+    second.write_text(yaml.safe_dump(config), encoding="utf-8")
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(cli, ("run", "run"), (first, second)))
+    assert sorted(r.returncode for r in results) == [0, 2], [
+        r.stderr or r.stdout for r in results
+    ]
+    rejected = next(r for r in results if r.returncode == 2)
+    rejected_config = yaml.safe_load(
+        (first if rejected is results[0] else second).read_text(encoding="utf-8")
+    )
+    assert_admission_rejection(rejected, tmp_path, rejected_config, "VARIANT_LIMIT")
+    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
+        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
+            1,
+        )
+
+
+@pytest.mark.parametrize(
+    "defect", ["timestamp", "marker", "declared_start", "fit_budget"]
+)
 def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
     path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
     csv_path = path.with_name("input.csv")
@@ -240,6 +397,10 @@ def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
         text = text.replace("T12:05:00+00:00", "T12:04:00+00:00", 1)
     elif defect == "marker":
         text = text.replace(",synthetic\n", ",real\n", 1)
+    elif defect == "declared_start":
+        config = yaml.safe_load(path.read_text(encoding="utf-8"))
+        config["market"]["start_at"] = "2024-01-07T12:05:00Z"
+        path.write_text(yaml.safe_dump(config), encoding="utf-8")
     if defect == "fit_budget":
         csv_path.unlink()
         config = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -259,6 +420,8 @@ def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
         assert "Synthetic CSV" in plan["stop_reason"]
     assert plan["started_trials"] == plan["started_fits"] == 0
     assert not (output / "dataset.csv").exists()
+    if defect == "declared_start":
+        assert "outside the declared UTC cadence" in plan["stop_reason"]
 
 
 def test_reversal_scores_and_identity_exclude_reserved_csv_rows(tmp_path):
@@ -409,8 +572,10 @@ def test_reserved_spot_day_is_rejected_before_io(tmp_path):
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     result = cli("run", path)
     assert result.returncode == 2
-    assert "2026-01-05" in result.stderr
-    assert not (tmp_path / "output").exists()
+    assert_admission_rejection(result, tmp_path, config, "LOCKED_PERIOD")
+    assert {child.name for child in (tmp_path / "output").iterdir()} == {
+        "journal.sqlite3"
+    }
 
     with pytest.raises(ValueError, match="reserved"):
         import_day(
@@ -509,6 +674,9 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
         assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
         assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone() == (2,)
         assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (4,)
+        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
+            2,
+        )
         for (stored,) in db.execute("SELECT metrics_json FROM experiments"):
             exposure = json.loads(stored)["diagnostic_exposure"]
             assert len(exposure) == 15

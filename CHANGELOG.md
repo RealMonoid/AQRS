@@ -1,5 +1,59 @@
 # Changelog
 
+## 2026-11-14 — Reserve variants and enforce data locks in the common command
+
+The owner accepted the uncertainty fix at `9fc3e96` after an independent
+94-file check: no false advantage in 60 nulls, 10/10 medium effects and 11/15
+small effects detected, and short series reported as inconclusive.
+
+`python -m aqrs research run --config FILE` now checks source and declared UTC
+input bounds, then reserves variant slots before starting data preparation for
+any candidate. Unknown sources, locked periods and quota failures return exit
+2 with a reason in the CLI response, campaign journal and candidate attempts.
+A declared source or period rejection creates journal entries without starting
+a worker. The existing synthetic-only rule for reversal also applies.
+
+Variant reservations live in `variant_reservations` in the SQLite file selected
+by `journal.sqlite_path`, resolved from `project.path_base` as before. Keep using
+that file when changing the output directory. The period is the exact
+scheduled UTC validation envelope, from the first validation bar to the
+exclusive end of the last configured window before horizon-specific purges.
+Equal endpoints share one budget across candidates and sources in that
+journal. The variant key derives from the declared data scope, cadence, model,
+features, fold design and horizon, plus generator seed or applicable Ridge
+execution and costs. Run and candidate names, output paths and file paths do
+not mint new variants. Each call gets its own journal attempt. Reservations
+persist even if a later stage fails, because admission precedes data exposure.
+Existing journal rows are retained. The reservation table counts admissions
+from this revision onward; historical study records remain separate.
+
+The default cap is in `src/aqrs/admission_defaults.yaml`. The run configuration
+can specify `resource_governor.max_variants_per_evaluation_period`; the shipped
+default applies to older configurations. A batch that would overfill the
+window is rejected in full. SQLite serializes competing reservations.
+
+For `market.source: synthetic_csv`, set `market.start_at` to the UTC open of the
+first row (for example, `"2024-01-07T12:00:00Z"`). Together with `n_bars` and
+`bar_minutes` it declares the entire input interval. The shared reservation
+list in `src/aqrs/admission.py` is checked against that interval before opening
+the file. The loader then verifies the actual cadence and the declared start
+before exposing bars to evaluation. A synthetic marker is a caller declaration.
+This is an application gate on input scope, not a filesystem access boundary.
+No new market research or protected-data reads were authorized.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `pyproject.toml`
+- `src/aqrs/__main__.py`
+- `src/aqrs/admission.py`
+- `src/aqrs/admission_defaults.yaml`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/config.py`
+- `src/aqrs/journal.py`
+- `src/aqrs/market.py`
+- `src/aqrs/research.py`
+- `tests/test_cli.py`
+
 ## 2026-11-14 — Require uncertainty bounds for synthetic reversal
 
 The owner's independent review of `1c3701c` reported clean technical execution

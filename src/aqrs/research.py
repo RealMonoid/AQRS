@@ -11,6 +11,7 @@ from uuid import uuid4
 import numpy as np
 
 from aqrs import __version__, journal, worker
+from aqrs.admission import AdmissionRejected, data_scope
 from aqrs.binance_spot_pilot import (
     IMPORT_ERRORS,
     M1_HOLDOUT_DAY,
@@ -18,6 +19,7 @@ from aqrs.binance_spot_pilot import (
     import_manifest,
     require_m1_development_day,
 )
+from aqrs.config import validate_data_admission, variant_limit
 from aqrs.governor import supervise
 from aqrs.market import generate, read_synthetic_csv, validate, write_dataset
 from aqrs.planning import preflight
@@ -37,11 +39,26 @@ def spot_holdout(market: dict) -> dict:
     }
 
 
-def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
+def run(
+    config: dict,
+    base: Path,
+    *,
+    plan_only: bool,
+    rejection: AdmissionRejected | None = None,
+) -> tuple[dict, int]:
     started = monotonic()
     run_id = uuid4().hex
     output = base / config["project"]["artifact_dir"] / run_id
     market = config["market"]
+    database = (base / config["journal"]["sqlite_path"]).resolve()
+    try:
+        if rejection is not None:
+            raise rejection
+        validate_data_admission(config)
+    except AdmissionRejected as denial:
+        if plan_only:
+            raise denial
+        return reject_data_request(config, database, run_id, denial)
     real_spot = market["source"] == "binance_vision_spot"
     holdout = spot_holdout(market) if real_spot else None
     output.mkdir(parents=True, exist_ok=False)
@@ -58,7 +75,6 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
         write_json(output / "plan.json", plan)
         return plan, 0 if plan["preflight_status"] == "ADMITTED" else 2
 
-    database = base / config["journal"]["sqlite_path"]
     report = {
         "run_id": run_id,
         "schema_version": "2",
@@ -138,7 +154,87 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
         "evaluation_status": report["evaluation_status"],
         "output_dir": str(output),
         "stop_reason": report["plan"]["stop_reason"],
+        "reason_code": report["plan"].get("reason_code"),
     }, {"COMPLETED": 0, "REJECTED_PREFLIGHT": 2, "CANCELLED": 130}.get(status, 1)
+
+
+def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRejected):
+    manifest = {
+        "run_id": run_id,
+        "execution_status": "REJECTED_PREFLIGHT",
+        "evaluation_status": "NOT_COMPLETED",
+        "output_dir": None,
+        "journal_path": str(database),
+        "reason_code": denial.code,
+        "stop_reason": str(denial),
+    }
+    with closing(journal.connect(database)) as db:
+        journal.begin(
+            db,
+            run_id,
+            fingerprint(config),
+            config,
+            manifest,
+            rejection={"reason_code": denial.code, "stop_reason": str(denial)},
+        )
+    return manifest, 2
+
+
+def reserve_campaign_variants(config, db, report, plan):
+    """Bind the scheduled evaluation window and variants from config alone."""
+    start, step = data_scope(config["market"])
+    research = config["research"]
+    evaluation_start = start + research["train_bars"] * step
+    evaluation_end = evaluation_start + (
+        research["validation_bars"] * research["walk_forward_folds"] * step
+    )
+    period = (evaluation_start.isoformat(), evaluation_end.isoformat())
+    market = config["market"]
+    variant_scope = {
+        "source": market["source"],
+        "symbol": market["symbol"].upper(),
+        "input_start": start.isoformat(),
+        "n_bars": market["n_bars"],
+        "bar_minutes": market["bar_minutes"],
+        "seed": config["project"]["seed"] if market["source"] == "synthetic" else None,
+        "research": {
+            k: research[k]
+            for k in (
+                "horizon_bars",
+                "train_bars",
+                "validation_bars",
+                "walk_forward_folds",
+            )
+        },
+    }
+    variants = {
+        c["id"]: fingerprint(
+            variant_scope
+            | {
+                "model": c["model"],
+                "features": sorted(c.get("features", [])),
+                "costs": config["costs"] if c["model"] == "ridge" else None,
+                "execution": config["execution_simulation"]
+                if c["model"] == "ridge"
+                else None,
+            }
+        )
+        for c in research["candidates"]
+    }
+    limit = variant_limit(config["resource_governor"])
+    admission = journal.reserve_variants(db, report["run_id"], period, variants, limit)
+    report["variant_admission"] = {
+        "evaluation_start_at": period[0],
+        "evaluation_end_at": period[1],
+        "variant_keys": variants,
+        **admission,
+    }
+    if not admission["allowed"]:
+        plan.update(
+            preflight_status="REJECTED_PREFLIGHT",
+            reason_code="VARIANT_LIMIT",
+            stop_reason=f"Variant limit of {limit} reached for the UTC evaluation period.",
+        )
 
 
 def execute(
@@ -151,6 +247,8 @@ def execute(
     limits = config["resource_governor"]
     deadline = started + limits["max_wall_seconds_per_campaign"]
     prepared = None
+    if plan["preflight_status"] == "ADMITTED":
+        reserve_campaign_variants(config, db, report, plan)
     if plan["preflight_status"] == "ADMITTED":
         preparation = supervise(
             output,
@@ -273,6 +371,9 @@ def execute(
         plan["stop_reason"] = next(
             trial["stop_reason"] for trial in trials if trial["stop_reason"]
         )
+        report["stop_reason"] = plan["stop_reason"]
+        if plan.get("reason_code"):
+            report["reason_code"] = plan["reason_code"]
     if report["execution_status"] == "COMPLETED":
         screened_out = all(
             trial.get("metrics", {}).get("feasibility", {}).get("status")
@@ -299,6 +400,7 @@ def prepare_data(request: dict) -> dict:
     """Prepare the research prefix under the same external campaign deadline."""
     config = request["config"]
     market, research = config["market"], config["research"]
+    start_at, _ = data_scope(market)
     output, base = Path(request["output"]), Path(request["base"])
     real_spot = market["source"] == "binance_vision_spot"
     result = {}
@@ -338,6 +440,7 @@ def prepare_data(request: dict) -> dict:
                 market["n_bars"],
                 market["bar_minutes"],
                 market["symbol"],
+                start_at=start_at,
             )
             result["data_manifest"] = {
                 "source": "synthetic_csv",
@@ -436,6 +539,14 @@ def run_candidate(
         metadata["workflow_question"] = (
             "Can a synthetic reversal rule use the shared preflight, budget and journal?"
         )
+    if admission := report.get("variant_admission"):
+        metadata.update(
+            variant_key=admission["variant_keys"][candidate_id],
+            evaluation_start_at=admission["evaluation_start_at"],
+            evaluation_end_at=admission["evaluation_end_at"],
+        )
+    if plan.get("reason_code"):
+        metadata["reason_code"] = plan["reason_code"]
     outcome = {
         "execution_status": (
             plan.get("admission_execution_status", "CANCELLED")

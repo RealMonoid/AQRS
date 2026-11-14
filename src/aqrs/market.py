@@ -1,5 +1,4 @@
 import csv
-import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
@@ -8,6 +7,8 @@ from pathlib import Path
 
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
+
+from aqrs.admission import SYNTHETIC_START, utc_timestamp
 
 FEATURE_NAMES = ("past_return", "relative_volume", "rolling_volatility")
 WARMUP = 12
@@ -48,14 +49,14 @@ def generate(seed: int, n_bars: int, bar_minutes: int, symbol: str) -> Bars:
     highs = np.maximum(opens, closes) * (1 + np.abs(shocks[2]))
     lows = np.minimum(opens, closes) / (1 + np.abs(shocks[3]))
     volumes = rng.lognormal(2, 0.4, n_bars)
-    seconds = datetime(2024, 1, 1, tzinfo=UTC).timestamp()
+    seconds = SYNTHETIC_START.timestamp()
     timestamps = seconds + 60 * bar_minutes * np.arange(n_bars)
     values = np.column_stack([timestamps, opens, highs, lows, closes, volumes])
     return Bars(values, symbol, bar_minutes)
 
 
 def read_synthetic_csv(
-    path: Path, n_bars: int, bar_minutes: int, symbol: str
+    path: Path, n_bars: int, bar_minutes: int, symbol: str, *, start_at: datetime
 ) -> tuple[Bars, str]:
     """Read declared synthetic OHLCV and bind the exact bytes used."""
     if not path.is_file():
@@ -68,21 +69,17 @@ def read_synthetic_csv(
     if tuple(next(rows, ())) != SYNTHETIC_CSV_FIELDS:
         raise ValueError("Unexpected CSV header.")
     values = np.empty((n_bars, 6), dtype=float)
+    first_open = start_at.timestamp()
+    step_seconds = 60 * bar_minutes
     count = 0
     for count, row in enumerate(rows, 1):
         if count > n_bars:
             raise ValueError("CSV row count exceeds n_bars.")
         if len(row) != len(SYNTHETIC_CSV_FIELDS) or row[-1] != "synthetic":
             raise ValueError(f"CSV row {count} must be marked synthetic.")
-        if (
-            re.fullmatch(
-                r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:Z|\+00:00)",
-                row[0],
-            )
-            is None
-        ):
-            raise ValueError(f"CSV row {count} requires a UTC bar-open timestamp.")
-        opened = datetime.fromisoformat(row[0]).timestamp()
+        opened = utc_timestamp(row[0]).timestamp()
+        if opened != first_open + (count - 1) * step_seconds:
+            raise ValueError(f"CSV row {count} is outside the declared UTC cadence.")
         values[count - 1] = [opened, *map(float, row[1:6])]
     if count != n_bars:
         raise ValueError("CSV row count does not match n_bars.")
