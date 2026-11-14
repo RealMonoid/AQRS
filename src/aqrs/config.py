@@ -76,7 +76,7 @@ def load(path: Path) -> tuple[dict, Path]:
     for section, keys in SECTIONS.items():
         optional = {
             "project": "path_base",
-            "market": "day archive_dir retrieved_on",
+            "market": "day archive_dir retrieved_on csv_path",
             "research": "final_holdout_fraction",
             "resource_governor": "memory_mode",
         }.get(section, "")
@@ -90,6 +90,12 @@ def load(path: Path) -> tuple[dict, Path]:
         string(project, key)
     integer(project, "seed", 0, 2**32 - 1)
     exact(market, "timezone", "UTC")
+    validate_candidates(research["candidates"])
+    if any(c["model"] == "bar_reversal" for c in research["candidates"]):
+        if market["source"] not in ("synthetic", "synthetic_csv"):
+            raise ValueError("bar_reversal requires an explicitly synthetic source.")
+        if type(research["horizon_bars"]) is not int or research["horizon_bars"] != 1:
+            raise ValueError("bar_reversal requires horizon_bars=1.")
     real_spot = market["source"] == "binance_vision_spot"
     if real_spot:
         fields(market, SECTIONS["market"] + " day archive_dir retrieved_on")
@@ -109,17 +115,21 @@ def load(path: Path) -> tuple[dict, Path]:
         exact(market, "n_bars", MINUTES_PER_DAY)
         exact(market, "scenario", "historical")
     else:
-        fields(market, SECTIONS["market"])
         fields(research, SECTIONS["research"] + " final_holdout_fraction")
-        exact(market, "source", "synthetic")
-        exact(market, "scenario", "null")
+        if market["source"] == "synthetic_csv":
+            fields(market, SECTIONS["market"] + " csv_path")
+            string(market, "csv_path")
+            string(market, "scenario")
+        else:
+            fields(market, SECTIONS["market"])
+            exact(market, "source", "synthetic")
+            exact(market, "scenario", "null")
         number(research, "final_holdout_fraction", 0.01, 0.90)
     string(market, "symbol")
     integer(market, "n_bars", 20, 100_000)
     integer(market, "bar_minutes", 1, 1440)
     for key in ("horizon_bars", "train_bars", "validation_bars", "walk_forward_folds"):
         integer(research, key, 1, 100_000)
-    validate_candidates(research["candidates"])
     validate_governor(config["resource_governor"])
 
     execution = config["execution_simulation"]
@@ -143,22 +153,26 @@ def load(path: Path) -> tuple[dict, Path]:
 
 def validate_candidates(candidates: object) -> None:
     if not isinstance(candidates, list) or not candidates:
-        raise ValueError("Configure at least one explicit Ridge candidate.")
+        raise ValueError("Configure at least one explicit candidate.")
     seen = set()
     for candidate in candidates:
-        fields(candidate, "id model features")
+        fields(candidate, "id model", "features")
         string(candidate, "id")
-        exact(candidate, "model", "ridge")
-        features = candidate["features"]
-        if (
-            not isinstance(features, list)
-            or not features
-            or any(name not in FEATURE_NAMES for name in features)
-            or len(features) != len(set(features))
-        ):
-            raise ValueError(
-                "Candidate features must be a unique subset of supported names."
-            )
+        if candidate["model"] == "bar_reversal":
+            fields(candidate, "id model")
+        else:
+            fields(candidate, "id model features")
+            exact(candidate, "model", "ridge")
+            features = candidate["features"]
+            if (
+                not isinstance(features, list)
+                or not features
+                or any(name not in FEATURE_NAMES for name in features)
+                or len(features) != len(set(features))
+            ):
+                raise ValueError(
+                    "Candidate features must be a unique subset of supported names."
+                )
         if candidate["id"] in seen:
             raise ValueError("Candidate IDs must be unique.")
         seen.add(candidate["id"])

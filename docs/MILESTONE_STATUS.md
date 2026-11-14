@@ -68,37 +68,26 @@ work is below. The archive and `CHANGELOG.md` are not mandatory intake reading.
 ## Experiment queue
 
 Priority order and existing [dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue)
-apply. The owner authorized AQRS-W01 on 2026-11-14: build an asset-independent
-research workflow that learns from its trials. New research runs remain stopped,
-including E26. Public engineering checks are authorized. The first delivery is
-the selection format and exactly five public cases, without a selection program.
-Then implement workflow questions per run (1), central attempt accounting (2),
-general data locks (4), the bounded selector, and combined study inputs/shared
-orchestration (3+5). The selector may start only after 1, 2 and 4 pass their checks.
-Hidden cases remain encrypted outside agent access; the owner tests a frozen
-version while Codex is inactive. See [ADR-055](DECISIONS.md#adr-055-workflow-growth-and-bounded-selection).
-Existing E23-E25 evidence and the unfinished E26 draft remain in the separate
-`codex/research-standing-authorization` working tree; this delivery does not
-review, publish, replace or execute those changes.
+apply. The owner authorized AQRS-W01 on 2026-11-14 and moved the common
+synthetic reversal trial ahead of central counting and general data locks.
+The [selection contract](CONTRACTS.md#f3-structured-next-question-selection-format-only)
+is retained for later use. New market studies remain stopped. Public engineering
+checks are authorized. The next handoff is the owner's independent check of
+the frozen common run, using files outside Codex access.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| AQRS-W01-P01 | 2026-11-14 | READY | Require a workflow question and observable proof per run (proposal 1). | Authorized after the requested P00 delivery checkpoint. Reconcile preserved study work without changing historical results; retain justified no-change findings. |
-| AQRS-W01-P02 | 2026-11-14 | WAITING | Reserve variants before admission; reject the eleventh; retain separate rerun attempts (proposal 2). | Authorized after P01; public fixtures, no research runs. |
+| AQRS-W01-P01 | 2026-11-14 | WAITING | Shared preflight/supervision/journal verified for `bar_reversal` on two synthetic CSV instruments (5/30 minutes, known effect/null). CSV provenance, input rejection, budget and reserved-row checks passed. Windows 3.12: 359 tests passed. | Owner's independent check on the published commit comes next. Public runs took about 2.4 s and at most 115 MiB sampled RSS, with two calibrations each. Implementation and local verification checkpoint: 20m 59s of the eight-hour cap. E23–E25 saved at `eab4d72`; E26 parked at `b523bb7`. |
+| AQRS-W01-P02 | 2026-11-14 | WAITING | Reserve variants in the common path before admission; reject the eleventh; retain separate rerun attempts (proposal 2). | After P01 independent handoff; public fixtures, no market studies. |
 | AQRS-W01-P03 | 2026-11-14 | WAITING | Apply common source-aware data locks; reject unknown policy before I/O (proposal 4). | Authorized after P02; no new market/source authorization. |
-| AQRS-W01-P04 | 2026-11-14 | WAITING | Implement and freeze the bounded selector against public tests, then hand off for the owner's hidden test. | Authorized after P01-P03; central outcome/action maps, qualified rules and explicit STOP. No selector in P00. |
-| AQRS-W01-P05 | 2026-11-14 | WAITING | Combine configurable study inputs and shared orchestration (proposals 3+5). | Authorized after the preceding implementation slices; preserve historical sources/results. Research stop remains in force. |
+| AQRS-W01-P04 | 2026-11-14 | DEFERRED | Bounded selector and independent comparison. | Revisit when multiple admissible procedure questions compete for the same budget. |
+| AQRS-W01-P05 | 2026-11-14 | WAITING | Continue configurable inputs and shared orchestration when justified (proposals 3+5 began with P01). | After P02 and P03; preserve historical evidence and the research stop. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](MILESTONE_ARCHIVE.md#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](MILESTONE_ARCHIVE.md#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | AQRS-SC01 | 2026-11-10 | DEFERRED | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](MILESTONE_ARCHIVE.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
 | AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](MILESTONE_ARCHIVE.md#aqrs-h01-research-harness-enforcement-review): the three-work-item observation trigger is now met through E22. | Owner-directed follow-up retained. The current owner instruction excludes a separate audit in this policy-and-study task; no new audit is dispatched here. Research-first governance freeze remains binding. |
-
-Latest delivery: [AQRS-W01-P00A sequence and comparison contract](MILESTONE_ARCHIVE.md#aqrs-w01-p00a-sequence-contract), extending the accepted [P00 format and five public cases](MILESTONE_ARCHIVE.md#aqrs-w01-p00-selection-format-and-public-cases).
-No selector or independent quality result exists yet. The owner requested this
-documentation-only delivery before implementation; P01 is authorized next
-without a new gate. P01/P02/P03 still precede selector code and all research stays stopped.
 
 ## Research and backtesting learning
 

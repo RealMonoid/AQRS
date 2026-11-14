@@ -1,3 +1,4 @@
+import csv
 import os
 from contextlib import closing
 from dataclasses import replace
@@ -18,7 +19,7 @@ from aqrs.binance_spot_pilot import (
     require_m1_development_day,
 )
 from aqrs.governor import supervise
-from aqrs.market import generate, validate, write_dataset
+from aqrs.market import generate, read_synthetic_csv, validate, write_dataset
 from aqrs.planning import preflight
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json, write_text
@@ -52,6 +53,8 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
         )
         if real_spot:
             plan.update(holdout=holdout, source_data_validated=False)
+        elif market["source"] == "synthetic_csv":
+            plan["source_data_validated"] = False
         write_json(output / "plan.json", plan)
         return plan, 0 if plan["preflight_status"] == "ADMITTED" else 2
 
@@ -192,6 +195,10 @@ def execute(
             holdout=report["holdout"],
             source_data_validated=bool(prepared and not prepared.get("input_error")),
         )
+    elif market["source"] == "synthetic_csv":
+        plan["source_data_validated"] = bool(
+            prepared and not prepared.get("input_error")
+        )
     report["plan"] = plan
     write_json(output / "plan.json", plan)
     research = config["research"]
@@ -320,6 +327,30 @@ def prepare_data(request: dict) -> dict:
         }
         result["data_manifest"] = manifest
         write_json(output / "data_manifest.json", manifest)
+    elif market["source"] == "synthetic_csv":
+        try:
+            bars, digest = read_synthetic_csv(
+                base / market["csv_path"],
+                market["n_bars"],
+                market["bar_minutes"],
+                market["symbol"],
+            )
+            result["data_manifest"] = {
+                "source": "synthetic_csv",
+                "dataset_type": "synthetic",
+                "input_sha256": digest,
+                "symbol": bars.symbol,
+                "bar_minutes": bars.bar_minutes,
+                "observations": len(bars.values),
+                "start_at": bars.time(0),
+                "end_at": bars.time(-1, close=True),
+            }
+        except (OSError, ValueError, OverflowError, csv.Error) as error:
+            detail = (
+                str(error) if isinstance(error, ValueError) else type(error).__name__
+            )
+            return {"input_error": f"Synthetic CSV rejected: {detail}"}
+        write_json(output / "data_manifest.json", result["data_manifest"])
     else:
         bars = generate(
             config["project"]["seed"],
@@ -363,14 +394,22 @@ def run_candidate(
 ):
     run_id = report["run_id"]
     candidate_id = candidate["id"]
+    reversal = candidate["model"] == "bar_reversal"
+    features = candidate.get("features", [])
     metadata = {
         "candidate_id": candidate_id,
-        "family": "linear",
+        "family": "rule_based" if reversal else "linear",
         "version": "1",
-        "hypothesis": "The configured trailing features may predict the next-open horizon return.",
-        "feature_list": candidate["features"],
+        "hypothesis": (
+            "The next bar direction may reverse the last completed bar."
+            if reversal
+            else "The configured trailing features may predict the next-open horizon return."
+        ),
+        "feature_list": features,
         "model_type": candidate["model"],
-        "model_params": {"alpha": 1.0, "solver": "svd", "transform": "StandardScaler"},
+        "model_params": {"flat_signal": "training_majority", "majority_tie": "up"}
+        if reversal
+        else {"alpha": 1.0, "solver": "svd", "transform": "StandardScaler"},
         "seed": report["seed"],
         "scenario": report["scenario"],
         "priority": priority,
@@ -385,12 +424,14 @@ def run_candidate(
         "artifacts": ["plan.json", "report.json", "report.md"]
         + (["dataset.csv"] if research_id else [])
         + (["data_manifest.json"] if "data_manifest" in report else []),
-        "evidence_key": fingerprint(
-            [research_id, candidate["model"], candidate["features"]]
-        )
+        "evidence_key": fingerprint([research_id, candidate["model"], features])
         if research_id
         else None,
     }
+    if reversal:
+        metadata["workflow_question"] = (
+            "Can a synthetic reversal rule use the shared preflight, budget and journal?"
+        )
     outcome = {
         "execution_status": (
             plan.get("admission_execution_status", "CANCELLED")
@@ -416,7 +457,7 @@ def run_candidate(
         journal.start_experiment(db, run_id, candidate_id, metadata)
         outcome = supervise(
             output,
-            request | {"features": candidate["features"]},
+            request | {"features": features, "model": candidate["model"]},
             plan["max_wall_seconds_per_trial"],
             deadline,
             plan["max_memory_mb"],
@@ -426,12 +467,20 @@ def run_candidate(
         "experiment_id": f"{run_id}:{candidate_id}",
         "candidate_id": candidate_id,
         "priority": priority,
-        "features": candidate["features"],
+        "features": features,
         **outcome,
         "evidence_status": "INSUFFICIENT_EVIDENCE" if metrics else "NOT_EVALUATED",
     }
     if metrics:
         trial["metrics"] = metrics
+    if reversal:
+        trial["workflow_question"] = metadata["workflow_question"]
+        learning = (
+            "The common preflight, supervised worker and journal handled the synthetic reversal rule."
+            if outcome["execution_status"] == "COMPLETED" and metrics
+            else "No workflow conclusion: the synthetic reversal trial did not complete."
+        )
+        metadata["workflow_learning"] = trial["workflow_learning"] = learning
     journal.finish_experiment(db, run_id, trial, metadata | outcome)
     return trial
 
@@ -493,6 +542,16 @@ def write_reports(output: Path, report: dict) -> None:
         if not metrics:
             continue
         lines += ["", metrics["rationale"]]
+        if directional := metrics.get("directional_reversal"):
+            lines += [
+                "",
+                f"Workflow question: {trial['workflow_question']}",
+                trial["workflow_learning"],
+                f"**{directional['decision']}** on {directional['observations']} observations. "
+                f"Reversal accuracy {directional['accuracy']:.2%}, always up "
+                f"{directional['always_up_accuracy']:.2%}, always down "
+                f"{directional['always_down_accuracy']:.2%}.",
+            ]
         if metrics.get("feasibility", {}).get("scope"):
             lines.append(
                 "The training movement screen checks scale against assumed costs; "

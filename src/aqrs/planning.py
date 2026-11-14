@@ -129,7 +129,8 @@ def preflight(
     trial_limit = limits["max_wall_seconds_per_trial"]
     campaign_limit = limits["max_wall_seconds_per_campaign"]
     memory_limit = limits["max_peak_rss_mb_per_trial"]
-    pilot_fits = int(settings["measure_representative_pilot"])
+    ridge = [c for c in research["candidates"] if c["model"] == "ridge"]
+    pilot_fits = int(settings["measure_representative_pilot"] and bool(ridge))
     factor = settings["runtime_estimate_safety_factor"]
     plan = make_plan(
         len(research["candidates"]),
@@ -212,9 +213,7 @@ def preflight(
                 ),
                 "fit_limit": 1,
                 "pilot_rows": largest_train.stop - largest_train.start,
-                "pilot_columns": max(
-                    len(c["features"]) for c in research["candidates"]
-                ),
+                "pilot_columns": max(len(c["features"]) for c in ridge),
             },
             min(5, trial_limit),
             started + campaign_limit,

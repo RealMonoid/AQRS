@@ -1,7 +1,9 @@
 import csv
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
+from io import StringIO
 from pathlib import Path
 
 import numpy as np
@@ -9,6 +11,16 @@ from numpy.lib.stride_tricks import sliding_window_view
 
 FEATURE_NAMES = ("past_return", "relative_volume", "rolling_volatility")
 WARMUP = 12
+SYNTHETIC_CSV_FIELDS = (
+    "bar_open_time",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "dataset_type",
+)
+MAX_SYNTHETIC_CSV_BYTES = 32 * 1024**2
 
 
 @dataclass(frozen=True)
@@ -40,6 +52,53 @@ def generate(seed: int, n_bars: int, bar_minutes: int, symbol: str) -> Bars:
     timestamps = seconds + 60 * bar_minutes * np.arange(n_bars)
     values = np.column_stack([timestamps, opens, highs, lows, closes, volumes])
     return Bars(values, symbol, bar_minutes)
+
+
+def read_synthetic_csv(
+    path: Path, n_bars: int, bar_minutes: int, symbol: str
+) -> tuple[Bars, str]:
+    """Read declared synthetic OHLCV and bind the exact bytes used."""
+    if not path.is_file():
+        raise ValueError("Expected a regular local CSV file.")
+    with path.open("rb") as stream:
+        payload = stream.read(MAX_SYNTHETIC_CSV_BYTES + 1)
+    if len(payload) > MAX_SYNTHETIC_CSV_BYTES:
+        raise ValueError("CSV exceeds 32 MiB.")
+    rows = csv.reader(StringIO(payload.decode("utf-8-sig"), newline=""), strict=True)
+    if tuple(next(rows, ())) != SYNTHETIC_CSV_FIELDS:
+        raise ValueError("Unexpected CSV header.")
+    values = np.empty((n_bars, 6), dtype=float)
+    count = 0
+    for count, row in enumerate(rows, 1):
+        if count > n_bars:
+            raise ValueError("CSV row count exceeds n_bars.")
+        if len(row) != len(SYNTHETIC_CSV_FIELDS) or row[-1] != "synthetic":
+            raise ValueError(f"CSV row {count} must be marked synthetic.")
+        if (
+            re.fullmatch(
+                r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:Z|\+00:00)",
+                row[0],
+            )
+            is None
+        ):
+            raise ValueError(f"CSV row {count} requires a UTC bar-open timestamp.")
+        opened = datetime.fromisoformat(row[0]).timestamp()
+        values[count - 1] = [opened, *map(float, row[1:6])]
+    if count != n_bars:
+        raise ValueError("CSV row count does not match n_bars.")
+    bars = Bars(values, symbol, bar_minutes)
+    validate(bars)
+    return bars, sha256(payload).hexdigest()
+
+
+def bar_reversal_predictions(
+    bars: Bars, train: slice, evaluation: slice
+) -> tuple[int, np.ndarray, np.ndarray]:
+    signs = np.sign(bars.values[:, 4] - bars.values[:, 1]).astype(int)
+    majority = 1 if np.sum(signs[train]) >= 0 else -1
+    prediction = -signs[evaluation.start - 1 : evaluation.stop - 1].copy()
+    prediction[prediction == 0] = majority
+    return majority, prediction, signs[evaluation]
 
 
 def validate(bars: Bars) -> None:

@@ -2,6 +2,7 @@ import json
 import sqlite3
 import subprocess
 import sys
+from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
 from zipfile import ZipFile
@@ -75,6 +76,153 @@ def cli(action, path):
         encoding="utf-8",
         timeout=45,
     )
+
+
+def reversal_config(tmp_path, symbol, bar_minutes, year, pattern):
+    path = config_at(tmp_path)
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["market"].update(
+        source="synthetic_csv",
+        csv_path="input.csv",
+        symbol=symbol,
+        bar_minutes=bar_minutes,
+        n_bars=160,
+    )
+    config["research"].update(
+        horizon_bars=1,
+        train_bars=40,
+        validation_bars=34,
+        candidates=[{"id": "REVERSAL", "model": "bar_reversal"}],
+    )
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    start = datetime(year, 1, 7, 12, tzinfo=UTC)
+    rows = ["bar_open_time,open,high,low,close,volume,dataset_type"]
+    for i in range(160):
+        opened = start + timedelta(minutes=i * bar_minutes)
+        close = 100 + pattern[i % len(pattern)]
+        rows.append(f"{opened.isoformat()},100,102,98,{close},1,synthetic")
+    path.with_name("input.csv").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    return path
+
+
+@pytest.mark.parametrize(
+    "symbol,minutes,year,pattern,decision,accuracy",
+    [
+        ("TEST_ALPHA", 5, 2024, (1, -1), "REVERSAL_ADVANTAGE", 1.0),
+        ("TEST_BETA", 30, 2025, (1, 1, -1, -1), "NO_REVERSAL_ADVANTAGE", 0.5),
+    ],
+)
+def test_common_run_scores_synthetic_csv_reversal(
+    tmp_path, symbol, minutes, year, pattern, decision, accuracy
+):
+    path = reversal_config(tmp_path, symbol, minutes, year, pattern)
+    result = cli("run", path)
+    assert result.returncode == 0, result.stderr or result.stdout
+    output = Path(json.loads(result.stdout)["output_dir"])
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    plan = report["plan"]
+    assert report["dataset_type"] == "synthetic"
+    assert report["timeframe_minutes"] == minutes
+    assert report["data_manifest"]["symbol"] == symbol
+    assert report["data_manifest"]["start_at"].startswith(str(year))
+    assert (
+        report["data_manifest"]["input_sha256"]
+        == sha256(path.with_name("input.csv").read_bytes()).hexdigest()
+    )
+    assert report["holdout"]["observations"] == 32
+    assert plan["preflight_status"] == "ADMITTED" and plan["started_trials"] == 1
+    assert plan["source_data_validated"] is True
+    assert plan["planned_pilot_fits"] == 0
+    assert plan["planned_fits"] == plan["started_fits"] == plan["completed_fits"] == 2
+    assert (output / "report.md").read_text(encoding="utf-8").count(decision) == 1
+    with sqlite3.connect(output / report["journal_path"]) as db:
+        status, evidence, metadata, metrics = db.execute(
+            "SELECT execution_status, evidence_status, metadata_json, metrics_json FROM experiments"
+        ).fetchone()
+    assert status == "COMPLETED" and evidence == "INSUFFICIENT_EVIDENCE"
+    metadata = json.loads(metadata)
+    assert metadata["model_type"] == "bar_reversal"
+    assert metadata["workflow_question"] == report["trials"][0]["workflow_question"]
+    assert metadata["workflow_learning"] == report["trials"][0]["workflow_learning"]
+    directional = json.loads(metrics)["directional_reversal"]
+    assert directional["decision"] == decision
+    assert directional["accuracy"] == accuracy
+    assert directional["observations"] == 64
+    assert (
+        directional["always_up_accuracy"] == directional["always_down_accuracy"] == 0.5
+    )
+
+
+@pytest.mark.parametrize("source", ["binance_vision_spot", "unknown"])
+def test_reversal_rejects_foreign_source_before_campaign(tmp_path, source):
+    path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
+    path.with_name("input.csv").unlink()
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["market"]["source"] = source
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    result = cli("run", path)
+    assert result.returncode == 2
+    assert "bar_reversal requires an explicitly synthetic source" in result.stderr
+    assert {p.name for p in tmp_path.iterdir()} == {path.name}
+
+
+@pytest.mark.parametrize("defect", ["timestamp", "marker", "fit_budget"])
+def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
+    path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
+    csv_path = path.with_name("input.csv")
+    text = csv_path.read_text(encoding="utf-8")
+    if defect == "timestamp":
+        text = text.replace("T12:05:00+00:00", "T12:04:00+00:00", 1)
+    elif defect == "marker":
+        text = text.replace(",synthetic\n", ",real\n", 1)
+    if defect == "fit_budget":
+        csv_path.unlink()
+        config = yaml.safe_load(path.read_text(encoding="utf-8"))
+        config["resource_governor"]["max_model_fits_per_campaign"] = 1
+        path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    else:
+        csv_path.write_text(text, encoding="utf-8")
+    result = cli("run", path)
+    assert result.returncode == 2, result.stderr or result.stdout
+    summary = json.loads(result.stdout)
+    output = Path(summary["output_dir"])
+    plan = json.loads((output / "plan.json").read_text(encoding="utf-8"))
+    if defect == "fit_budget":
+        assert "Fit count exceeds the campaign limit" in plan["stop_reason"]
+        assert plan["planned_fits"] == 2
+    else:
+        assert "Synthetic CSV" in plan["stop_reason"]
+    assert plan["started_trials"] == plan["started_fits"] == 0
+    assert not (output / "dataset.csv").exists()
+
+
+def test_reversal_scores_and_identity_exclude_reserved_csv_rows(tmp_path):
+    path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
+
+    def run():
+        result = cli("run", path)
+        assert result.returncode == 0, result.stderr or result.stdout
+        output = Path(json.loads(result.stdout)["output_dir"])
+        return json.loads((output / "report.json").read_text(encoding="utf-8"))
+
+    before = run()
+    csv_path = path.with_name("input.csv")
+    rows = csv_path.read_text(encoding="utf-8").splitlines()
+    for i in range(129, len(rows)):
+        timestamp = rows[i].split(",")[0]
+        rows[i] = f"{timestamp},200,202,198,201,1,synthetic"
+    csv_path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+    after = run()
+    assert before["dataset_fingerprint"] != after["dataset_fingerprint"]
+    assert before["holdout"] == after["holdout"]
+    assert before["trials"][0]["metrics"] == after["trials"][0]["metrics"]
+    with sqlite3.connect(
+        tmp_path / after["configuration"]["journal"]["sqlite_path"]
+    ) as db:
+        first, second = db.execute(
+            "SELECT experiment_id, duplicate_of FROM experiments ORDER BY rowid"
+        ).fetchall()
+    assert second[1] == first[0]
 
 
 def read_report(result):

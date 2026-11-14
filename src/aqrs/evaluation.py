@@ -6,7 +6,7 @@ from sklearn.linear_model import Ridge
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from aqrs.market import FEATURE_NAMES, Bars, features, targets
+from aqrs.market import FEATURE_NAMES, Bars, bar_reversal_predictions, features, targets
 from aqrs.storage import write_json
 from aqrs.worker import reserve_fit
 
@@ -237,6 +237,44 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
     if real_spot:
         result["stage_wall_seconds"] = timings
     return result
+
+
+def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
+    """Compare next-bar direction on the shared chronological folds."""
+    bars = Bars(
+        np.load(request["prefix"], allow_pickle=False),
+        request["symbol"],
+        request["bar_minutes"],
+    )
+    totals = np.zeros(3)
+    observations = 0
+    for fit_count, (tr_start, tr_end, va_start, va_end) in enumerate(
+        request["folds"], 1
+    ):
+        reserve_fit(request, directory, len(request["folds"]))
+        _, pred, truth = bar_reversal_predictions(
+            bars, slice(tr_start, tr_end), slice(va_start, va_end)
+        )
+        totals += [
+            np.where(truth == 0, 0.5, pred == truth).sum(),
+            np.where(truth == 0, 0.5, truth == 1).sum(),
+            np.where(truth == 0, 0.5, truth == -1).sum(),
+        ]
+        observations += len(truth)
+        write_json(directory / "fits.json", fit_count)
+    accuracy, up, down = (totals / observations).tolist()
+    return {
+        "rationale": "Synthetic next-bar direction check. No inference or execution simulation.",
+        "directional_reversal": {
+            "decision": "REVERSAL_ADVANTAGE"
+            if accuracy > max(up, down)
+            else "NO_REVERSAL_ADVANTAGE",
+            "observations": observations,
+            "accuracy": accuracy,
+            "always_up_accuracy": up,
+            "always_down_accuracy": down,
+        },
+    }
 
 
 def prediction_metrics(actual: np.ndarray, prediction: np.ndarray) -> dict:

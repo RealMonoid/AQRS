@@ -47,6 +47,10 @@ def evaluate(request: dict, directory: Path) -> dict:
         from aqrs.research import prepare_data
 
         return prepare_data(request)
+    if request.get("model") == "bar_reversal":
+        from aqrs.evaluation import evaluate_bar_reversal
+
+        return evaluate_bar_reversal(request, directory)
     from aqrs.evaluation import evaluate as evaluate_trial
 
     return evaluate_trial(request, directory)

@@ -24,7 +24,7 @@ from aqrs import journal
 from aqrs.binance_spot_pilot import require_spot_identity
 from aqrs.config import load
 from aqrs.governor import supervise
-from aqrs.market import Bars, validate
+from aqrs.market import Bars, bar_reversal_predictions, validate
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.spot_dataset import NoRedirect
@@ -175,11 +175,9 @@ def check_bars(bars: Bars) -> None:
 
 def predictions(bars: Bars) -> tuple[int, np.ndarray, np.ndarray]:
     check_bars(bars)
-    signs = np.sign(bars.values[:, 4] - bars.values[:, 1]).astype(int)
-    baseline = 1 if np.sum(signs[:TRAIN]) >= 0 else -1
-    pred = -signs[TRAIN - 1 : -1].copy()
-    pred[pred == 0] = baseline
-    return baseline, pred, signs[TRAIN:]
+    return bar_reversal_predictions(
+        bars, slice(0, TRAIN), slice(TRAIN, len(bars.values))
+    )
 
 
 def hac(values: np.ndarray, lags: int) -> dict:

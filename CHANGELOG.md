@@ -1,5 +1,49 @@
 # Changelog
 
+## 2026-11-14 — Run synthetic reversal through the common research command
+
+`python -m aqrs research run --config FILE` can run a `bar_reversal` candidate
+through shared preflight, supervision, reports and the SQLite journal. Configure
+the candidate with `id` and `model: bar_reversal` and use `horizon_bars: 1`.
+The rule predicts the opposite direction of the last completed bar. A flat
+signal uses the training-only majority. The report compares directional
+accuracy with always up and always down on the same validation rows. These
+are synthetic comparisons with no execution simulation or significance claim.
+
+For file input set `market.source: synthetic_csv` and `market.csv_path` (relative
+to `project.path_base` or an absolute local path). Use a UTF-8 comma-separated
+file with exact header `bar_open_time,open,high,low,close,volume,dataset_type`.
+Each row contains the start of a completed bar in UTC as
+`YYYY-MM-DDTHH:MM:SSZ` or `YYYY-MM-DDTHH:MM:SS+00:00`, finite valid OHLC prices,
+nonnegative volume and the literal `synthetic` in the final field. Rows match
+`n_bars` and increase without gaps at `bar_minutes` intervals. Set `symbol` and
+the scenario label in the configuration. The last configured holdout fraction
+is excluded from scoring. Files are limited to 32 MiB. A synthetic marker is
+a declaration by the caller. The reversal candidate rejects real or unknown
+source types before opening data.
+
+The owner moved this slice ahead of central attempt counting and general data
+locks. The selector and its blind comparison are deferred. E23–E25 evidence is
+on the separate published branch `codex/e23-e25-evidence` at `eab4d72`. The
+unexecuted E26 draft is parked locally at `b523bb7`. No new market study ran.
+
+Public CLI cases use distinct synthetic symbols, calendar periods and five-
+or thirty-minute bars. They check the expected effect and null, source refusal,
+invalid timestamps and markers, a fit-budget rejection, and holdout invariance.
+All 359 Windows tests passed. The independent check uses unseen files after
+publication. The scope is one additional candidate type.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `src/aqrs/config.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/market.py`
+- `src/aqrs/planning.py`
+- `src/aqrs/predictive_spot.py`
+- `src/aqrs/research.py`
+- `src/aqrs/worker.py`
+- `tests/test_cli.py`
+
 ## 2026-11-14 — Complete the selection sequence and comparison contract
 
 Extend the owner-accepted individual-decision format in place. Specify all
