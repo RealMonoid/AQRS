@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-14 — Authorize continuing Spot research and protect future data
+
+Implement the owner's approved continuing research mandate, cumulative
+eight-hour notification, ten-variant exploration limit and provisional
+December 2026 onward lock. Remove the forced per-run procedure change and
+repeated no-change approval gate. Prepare the three separately counted E22
+filter questions under the existing data, source, journal and Governor guards.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/binance_spot_pilot.py`
+- `tests/test_predictive_spot.py`
+- `src/aqrs/reversal_filters.py`
+- `tests/test_reversal_filters.py`
+- `README.md`
+
 ## 2026-11-14 — Require evidence-based blocker explanations
 
 At the owner's request, require every blocker report to identify the affected

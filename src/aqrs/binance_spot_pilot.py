@@ -24,6 +24,7 @@ M1_DEVELOPMENT_DAY = date(2026, 1, 5)
 M1_HOLDOUT_DAY = date(2026, 1, 6)
 SPOT_HOLDOUT_START = date(2026, 9, 1)
 SPOT_HOLDOUT_END = date(2026, 11, 1)  # Exclusive; owner-only release.
+SPOT_FUTURE_LOCK_START = date(2026, 12, 1)  # No end date until owner decision.
 MINUTES_PER_DAY = 1440
 MICROSECONDS_PER_SECOND = 1_000_000
 MINUTE_US = 60 * MICROSECONDS_PER_SECOND
@@ -50,7 +51,11 @@ def require_spot_identity(symbol: str, day: date) -> None:
         raise ValueError("Expected an uppercase alphanumeric Spot symbol.")
     if type(day) is not date:
         raise ValueError("Expected a UTC calendar date.")
-    if day == M1_HOLDOUT_DAY or SPOT_HOLDOUT_START <= day < SPOT_HOLDOUT_END:
+    if (
+        day == M1_HOLDOUT_DAY
+        or SPOT_HOLDOUT_START <= day < SPOT_HOLDOUT_END
+        or day >= SPOT_FUTURE_LOCK_START
+    ):
         raise ValueError(f"{day} UTC is reserved and cannot be opened.")
 
 

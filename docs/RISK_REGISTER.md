@@ -21,6 +21,26 @@ synthetic sizing regression does not close its empirical confirmation question.
 | [M1-E06](MILESTONE_ARCHIVE.md#m1-e06-learning-card-complete-real-data-campaign-2026-11-09) | A zero stage timer can mean below clock resolution, not zero work; a future timing/report fixture should preserve that distinction. |
 | [A03/A11/A12](MILESTONE_ARCHIVE.md#aqrs-a12-learning-card--autonomous-work-management), [A16-P01](MILESTONE_ARCHIVE.md#aqrs-a16-p01-learning-card-p06-observation) | Passing document walkthroughs does not demonstrate future agent behavior or time savings; actual adherence can only be checked on ordinary authorized work at existing observation triggers, without inventing another audit. |
 
+## M2-E23 to E25 filter research and future-data lock
+
+**2026-11-14, before implementation.** Extend the existing E22 path for the
+owner-approved large-move, relative-volume and taker-imbalance questions;
+reuse its archives, timing, source snapshots, journal and supervisor. Top
+event: future protected data reach research OR a selected subgroup is called
+independently confirmed. Paths: missing new date boundary OR bypassed scope
+check; outcome-fitted filter OR mismatched denominators/controls OR treating
+adaptive views as fresh evidence. Add the December 1 onward guard to the
+existing Spot identity check, before I/O. Preserve train-only calibration,
+same-opportunity controls and full calendar-day dependence calculations;
+label all reused-year findings exploratory. Negative tests: future dates on
+multiple pairs, hidden protected names, future perturbation, changed evaluation
+values not changing thresholds, sparse/empty selection, null and planted
+conditional effects, cost-stage exclusion after a predictive miss, tighter
+Governor limits, failed/duplicate attempts and changed source/input hashes.
+Existing FTA-M0-A/M1-B safeguards remain applicable. No guard limit or
+scientific confirmation contract is relaxed; this is the required bounded
+change review, not a process audit.
+
 ## M2-E22 predictive study and holdout
 
 **2026-11-14, before implementation.** Critical research-path change, bounded

@@ -154,6 +154,15 @@ material authorization gap, apply the
 Continue independent authorized work and identify the exact missing approval
 for the affected action. A general search of previous chats is unnecessary.
 
+**Standing research mandate, owner approval 2026-11-14:** the owner's
+"Freigabe" in this AQRS chat adopts the revised research proposal and the
+subsequent eight-hour notice and future-data protection corrections. The
+[canonical mandate](RESEARCH_PROTOCOL.md#standing-research-authorization)
+covers derived free Binance Spot questions and directly necessary code and
+checks across sessions. A finished run, a queue update or repeated justified
+no-change findings do not require another start signal. Keep ordinary
+technical admission checks; do not turn them into new owner approval gates.
+
 Mark an item `READY` only when all applicable conditions hold.
 
 1. The proposed outcome is covered by the recorded owner authorization.
@@ -166,10 +175,12 @@ Mark an item `READY` only when all applicable conditions hold.
 5. Required owner, data, holdout, resource and release permissions for the action
    are present. The estimate includes analysis, implementation, tests, routine
    corrections, verification, records and reconciliation for the entire item
-   or authorized sequence. Apply the [eight-hour effort safeguard](../AGENTS.md#working-method)
-   to time already spent plus all remaining work. At eight hours or more,
-   obtain approval for that effort. Splitting cards, rows or chats does not
-   reset the estimate. An already approved larger effort follows its recorded limit.
+   or authorized sequence. Apply the [eight-hour effort notice](../AGENTS.md#working-method)
+   to time already spent plus all remaining work. Cumulative eight-hour effort
+   requires a progress notice, not a new start approval for covered work.
+   An individual eight-hour run/calculation still needs advance approval and
+   cannot bypass stricter Governor limits. Splitting cards, rows or chats does
+   not reset cumulative time. An explicitly agreed effort limit still applies.
 
 Use `WAITING` for dependent work when a required condition fails. Apply the
 [permission-boundary check](#permission-boundary-before-stopping-or-asking-the-owner)
@@ -213,8 +224,10 @@ the named action, or report the specific external prerequisite.
 Owner decisions are required for reserved product choices, requirement or scope
 changes, increased budgets, data outside the [free Binance Spot authorization](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout) or any holdout access, owner-reserved
 scientific choices, materially irreversible architecture decisions, expressly
-reserved release or milestone gates, and effort reaching eight hours without an
-explicit effort decision. Time below that limit grants no new work authorization.
+reserved release or milestone gates, and an individual run/calculation expected
+to reach eight hours or an expressly agreed effort cap. Cumulative eight-hour
+work requires a notice, not a new approval for already covered work. The time
+rule grants no new scope authorization and does not relax Governor limits.
 Identify the actual reservation when escalating. When a genuine
 blocker leaves no independent authorized work, report what must change to
 resume and request only the input or decision needed. Routine implementation
@@ -446,7 +459,7 @@ Examples of acceptable questions: *Can Windows and Linux each reject a 75,000-fi
 - Preserve existing contracts and the last working end-to-end path.
 - Prefer **one coherent vertical slice**, one active task, minimal modified files and no speculative abstractions.
 - Implement a cheaper test/probe/prototype first when it can answer the question without a full feature.
-- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. For longer experiments, state the budget before starting and apply the [eight-hour effort safeguard](../AGENTS.md#working-method). The **enforced research runtime limits** are defined in `docs/RESOURCE_GOVERNOR.md`.
+- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. For longer experiments, state the budget before starting and apply the [eight-hour effort notice](../AGENTS.md#working-method). The **enforced research runtime limits** are defined in `docs/RESOURCE_GOVERNOR.md`.
 - Do not launch new model sweeps, large recalibrations or repeat tests autonomously when the original plan exceeds budget. Escalating budgets/scope requires owner approval.
 
 ### 3. MEASURE: evidence versus preregistered criteria

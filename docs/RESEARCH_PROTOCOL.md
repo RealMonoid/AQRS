@@ -1,5 +1,54 @@
 # Research protocol — scientific and economic integrity
 
+## Standing research authorization
+
+**Owner approval, 2026-11-14:** "Freigabe" adopts the revised proposal in this
+AQRS chat, including the later eight-hour notice and future-data lock. Select,
+prepare and execute free Binance Spot research and directly necessary code
+and verification without repeated approval, across runs and sessions. Derive
+the next question from the finding; a completed run or queue entry does not
+end the mandate. No general infrastructure project or process audit is covered.
+
+Before outcome access, register the question, population, horizon, signal
+threshold or training-only calibration rule, comparison, data amount,
+uncertainty method, success criterion and stop rule. Existing standards may
+be referenced in one compact card. Reuse suitable methodological evidence;
+research a concrete unresolved design question rather than rereading literature
+for every run. A changed feature, threshold, combination or horizon is a new
+variant; retain failed attempts, repeats and manual selection exposure.
+
+At most **ten scientific variants per evaluation period**, including prior
+variants, are allowed. This is an exploration limit, not an error guarantee.
+Predeclare treatment of multiplicity and adaptive selection; reused-data
+findings remain exploratory. A new justified period or Spot pair does not
+erase prior search history or create independent confirmation. Choose data
+to answer a question, never merely to obtain a positive result. For the E22
+evaluation year, E22 is slot 1 and the three owner-selected filters are slots
+2–4, provided no additional variants are introduced. Governor campaign limits
+remain separate and unchanged.
+
+After three technically valid attempts in a direction without decision-relevant
+progress, change direction autonomously and explain why in one sentence.
+This is a priority decision, not proof that the direction cannot work. Keep
+negative evidence, insufficient precision and technical failures distinct.
+
+**Reserved owner decisions:** further examination of a candidate with positive
+estimated net return under its fixed costs (report it as unconfirmed and stop
+that candidate); use or alteration of locked data; paid data, other sources
+or markets; an individual run/calculation expected to reach eight hours; or a
+change to agreed causality, cost, execution, holdout, journal-integrity or
+resource-limit contracts. Fix defects within those contracts autonomously.
+Cumulative eight-hour work requires a notice and continued covered work unless
+the owner objects, under `AGENTS.md`; it does not relax shorter run limits.
+Stop invalid data, unsafe execution and technical failures on the affected
+path, correct what can be corrected within scope, and report unresolved
+blockers without inventing approvals. Continue independent authorized work.
+
+Use the existing learning table as the running record, without a full owner
+report after every run. At session close, briefly report question, cases and
+days, accuracy and comparator, uncertainty interval, gross and net per trade,
+elapsed time, market learning and next question; mark unmeasured fields.
+
 ## Owner data authorization and fixed holdout
 
 **Owner decision, 2026-11-14.** Within authorized research, Codex may acquire
@@ -17,6 +66,14 @@ The existing 2026-01-06 UTC reservation also remains locked. Do not download,
 open, summarize or evaluate either scope. Only the owner may release it;
 the existing protected-evaluation admission gates still apply afterward.
 This reservation does not claim technical isolation against every external tool.
+
+**Additional provisional lock, owner approval 2026-11-14:** until the owner
+decides the future confirmation scope, do not acquire, open or analyze data
+with timestamps **on or after 2026-12-01 00:00:00 UTC**, for any Binance Spot
+pair, including derived summaries. No end date or power sufficiency is implied.
+Prepare only a proposal for a future-data confirmation interval, with the
+candidate, duration and complete test plan fixed before that interval starts.
+Do not change or release any locked scope without the owner.
 
 **Owner correction, 2026-11-14.** Apply the existing decision-linked literature
 check to methodological choices, including holdout duration, before fixing
@@ -42,17 +99,19 @@ close of each research run:
    negative result; the most important procedural weakness it exposed in
    measurement, controls, costs, simulation or data; and elapsed time from
    the fixed question to the result. Label any unmeasured interval honestly.
-2. **Change.** Derive exactly one concrete change to code, a test or a research
-   rule from that weakness. Implement and verify it before the next research
-   run. A one-sentence reason may justify no change, but two consecutive
-   no-change decisions require the owner's approval.
+2. **Change.** Correct a concrete procedural defect or justified improvement
+   need before dependent research. Do not require a code or rule change for a
+   clean negative market finding. Repeated justified no-change decisions are
+   allowed without owner approval; this supersedes the former two-run gate.
 3. **Proof.** First verify each procedural change on artificial data with
    known answers: recover a planted pattern and report no pattern in the
    known null case. Only then may the change apply to real data. These are
    software checks; they do not establish market power or guarantee zero
    false positives in random samples (see [claim admission](#precision-and-claim-admission)).
-4. **Effect.** The following run states in one sentence whether the previous
-   change helped. If it did not help, roll it back or replace it.
+4. **Effect.** The following run states whether the previous change addressed
+   its intended weakness. A negative market result alone does not disprove a
+   procedural improvement. Roll back or replace an ineffective change where
+   justified, retaining the evidence and original results.
 5. **Next question.** Derive the next research question from the finding,
    fix its data amount and success criterion before execution, and register
    it as a new counted attempt under the existing authorization and Governor.

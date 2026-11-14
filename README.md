@@ -23,6 +23,15 @@ passed the predictive screen but lost under the fixed illustrative costs.
 Artifacts are under `artifacts/m2-e22/run-01/` (report, journal, raw archive
 checksums and recoverable source). D01's legacy preparation scope is unchanged.
 
+The [standing research mandate](docs/RESEARCH_PROTOCOL.md#standing-research-authorization)
+starts three separately counted E22 filters: large moves, calendar-relative
+volume and taker imbalance. The bounded offline entry is
+`python -m aqrs.reversal_filters --key large_move --smoke NEW_OUTPUT` for
+synthetic verification; registered market runs use `--run PUBLISHED_SHA`.
+Keys `relative_volume` and `taker_imbalance` select the other fixed questions.
+All Binance Spot data from December 1, 2026 onward are additionally locked
+until the owner's decision; no automatic holdout enlargement is authorized.
+
 The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
 
 - **Product vision / end state:** [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md)

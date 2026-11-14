@@ -123,6 +123,17 @@ def test_holdout_guard(day):
         require_spot_identity("BTCUSDT", date.fromisoformat(day))
 
 
+@pytest.mark.parametrize("symbol", ["BTCUSDT", "ETHUSDT", "SOLUSDT"])
+@pytest.mark.parametrize("day", ["2026-12-01", "2027-01-01"])
+def test_provisional_future_lock_applies_to_every_spot_pair(symbol, day):
+    with pytest.raises(ValueError, match="reserved"):
+        require_spot_identity(symbol, date.fromisoformat(day))
+
+
+def test_provisional_future_lock_keeps_previous_day_available():
+    require_spot_identity("BTCUSDT", date(2026, 11, 30))
+
+
 @pytest.mark.parametrize("named_day", ["2026-09-01", "2026-10-31"])
 def test_legacy_import_rejects_protected_name_before_open(named_day, monkeypatch):
     def forbidden(*args, **kwargs):
