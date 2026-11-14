@@ -1,11 +1,13 @@
 # Changelog
 
-## 2026-11-14 — Apply owner data and effort decisions; preregister predictive study
+## 2026-11-14 — Apply owner data and effort decisions; execute predictive-first study
 
 Authorize question-driven free Binance Spot acquisition within approved work,
 clarify the eight-hour safeguard, reserve September–October 2026 plus the
-existing January 6 holdout, and predeclare one 456-day predictive-first study.
-Keep Governor limits, prior evidence and the governance freeze unchanged.
+existing January 6 holdout, and execute one preregistered 456-day study.
+The fixed reversal passed prediction first but lost under illustrative costs.
+Preserve all attempts and evidence; keep Governor limits and the governance
+freeze unchanged. No new documentation file or separate process audit.
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -22,6 +24,8 @@ Keep Governor limits, prior evidence and the governance freeze unchanged.
 - `tests/test_predictive_spot.py` (new synthetic/negative checks)
 - `evidence/m2-e22-preregistration.json` (new machine-readable frozen registration)
 - `evidence/exposure.json`
+- `evidence/m2-e22-acceptance.zip` (new bounded evidence bundle)
+- `evidence/m2-e22-verification.json` (new verification receipt)
 
 ## 2026-11-14 — Make routine repository completion autonomous
 

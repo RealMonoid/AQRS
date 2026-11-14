@@ -32,10 +32,11 @@ the local expansion is deferred. This is not an alpha verdict or a request
 for a longer period for that E18 volume contrast. The owner's subsequent
 data and effort decisions authorize the new M2-E22 study below.
 
-**Priority review, 2026-11-14.** Execute the owner-authorized M2-E22 predictive
-screen first. It addresses a new, simple candidate with question-driven time
-coverage. E21 retains its scope, independent benchmark and isolation gates;
-E20's old contrast remains deferred. This does not close M2 acceptance gaps.
+**Priority review, 2026-11-14.** The owner-authorized [M2-E22 study](#m2-e22-learning-card-prediction-before-costs)
+completed: predictive screen passed; the fixed illustrative trading policy
+lost after costs. No additional sample, variant or repeat is dispatched.
+E21 retains its scope, independent benchmark and isolation gates; E20's old
+contrast remains deferred. This does not close M2 acceptance gaps.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -58,13 +59,13 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E22 | 2026-11-14 | IN_PROGRESS | [Predictive-first Spot reversal study](#m2-e22-test-card-predictive-first-spot-reversal): one fixed candidate, 91 training days and 365 evaluation days; costs only after predictive pass. | Direct owner instruction in this chat: implement data/effort decisions and choose, acquire and execute the first research question. Locked holdout, preregistration, verification and unchanged Governor required. |
+| M2-E22 | 2026-11-14 | CLOSED | [Prediction before costs](#m2-e22-learning-card-prediction-before-costs): 51.93% accuracy versus 50.63%/49.37% constant controls; predictive pass, negative illustrative economics. | Direct owner instruction completed with 456 fixed days, one acquisition and one analysis, unchanged Governor and no holdout access. No automatic enlargement or retry. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | AQRS-SC01 | 2026-11-10 | DEFERRED | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
-| AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](#aqrs-h01-research-harness-enforcement-review): assess reliable adherence to existing research rules and evidence for targeted technical enforcement. | Owner-directed follow-up. Revisit after the next three material, genuine research work items or immediately after the first observed material research-governance violation, whichever occurs first. Existing research priorities and start conditions remain unchanged. |
+| AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](#aqrs-h01-research-harness-enforcement-review): the three-work-item observation trigger is now met through E22. | Owner-directed follow-up retained. The current owner instruction excludes a separate audit in this policy-and-study task; no new audit is dispatched here. Research-first governance freeze remains binding. |
 | AQRS-GIT01 | 2026-11-14 | CLOSED | [Autonomous repository completion](#aqrs-git01-autonomous-repository-completion): normal Git closure defined, published and exercised on the current repository. | SUPPORTED / PERSEVERE for the owner's standalone scope. Nine scenarios and four CI jobs passed; obsolete refs/worktrees removed and historical/dirty work preserved. No wider research authorization. |
 | AQRS-ER01 | 2026-11-14 | CLOSED | [Execution Reset](#aqrs-er01-learning-card-canonical-integration-and-research-dispatch): main consolidated and verified; governance freeze active; E20 calibrated through its approved stop. | SUPPORTED / PERSEVERE for canonical state and bounded scientific preparation. No independent covered READY item remains. |
 | M2-E20-P06 | 2026-11-14 | CLOSED | [One report calibration](#m2-e20-p06-learning-card-local-expansion-deferred), published before access and independently verified. | Valid diagnostic; DEFER_LOCAL_OUTCOME_EXPANSION. Inference INCONCLUSIVE; no new market data or models. |
@@ -232,6 +233,78 @@ All 11 source-replay checks passed after the source commit. Publication now
 checks all registered hashes against both local bytes and published Git blobs.
 Runtime review and Linux evidence remain prerequisites before acquisition.
 
+### M2-E22 Learning Card: prediction before costs
+
+**2026-11-14.** Fixed source and registration:
+[`c7fd68f`](https://github.com/RealMonoid/AQRS/commit/c7fd68f74f6758efbda431cfb894fc332abc5579).
+All four [CI jobs](https://github.com/RealMonoid/AQRS/actions/runs/43594353217)
+passed 349 tests each on Windows and non-root Ubuntu, Python 3.11/3.12, before
+market access. Local final E22 tests: 25 passed. Independent pre-run review
+verified all 29 source bindings and closed the recorded defects; the existing
+`INSUFFICIENT_EVIDENCE` journal status was retained under CONTRACTS section E.
+
+**Run `m2-e22-20261114-01`:** native Windows, 12:26:29.939–12:27:02.648 UTC,
+32.703 seconds elapsed; acquisition 31.890 seconds, analysis 0.437 seconds,
+peak sampled RSS 55.586 MiB. One charged baseline calibration, zero predictive
+model fits, two sequential workers, no retry. Fifteen ZIP/checksum pairs
+supplied all 456 days/21,888 bars; 1,259,036 bytes downloaded. The source
+allowlist and receipts contain no January 6 or September–October 2026 data.
+No protected evaluation took place; cross-process access is not instrumented.
+SQLite integrity is `ok`; both attempts are terminal and retained.
+
+| Registered measurement | Result |
+|---|---|
+| Evaluation population | 365 complete UTC days, 17,520 targets; six zero returns scored 0.5 |
+| Reversal accuracy | 51.9349315% |
+| Always-up / training-majority accuracy | 50.6278539% |
+| Always-down accuracy | 49.3721461% |
+| Advantage over up; HAC7 / HAC14 one-sided 95% lower bounds | +1.30708 pp; +0.39256 / +0.38709 pp |
+| Advantage over down; corresponding lower bounds | +2.56279 pp; +1.85669 / +1.89742 pp |
+| Predictive decision | `PREDICTIVE_PASS`: all four lower bounds >0, without a cost gate |
+| Conditional long-or-flat policy | 8,651 entries and 8,868 flat opportunities; 17,519 shared opportunities with an observed next-open exit |
+| Reversal gross / net per entered trade | +0.55376 / -24.44624 bps at the preregistered illustrative 25-bps round trip |
+| Reversal / baseline net per common opportunity | -12.07172 / -24.97548 bps; cash is zero |
+
+**Learning: `SUPPORTED` for the narrow predictive screen; `STOP` for economic
+promotion of this fixed implementation under these assumptions.** The 2-pp
+value was a sample-planning effect, not a post-outcome pass condition; its
+removal as a point-estimate hurdle and addition of both constant controls
+preceded code and market access. The smaller observed advantage remains
+visible. This is exploratory evidence under HAC assumptions, not protected
+confirmation, calibrated family-wide significance, a causal mechanism or
+realistic net execution value. Unknown effective independent count and
+unmeasured spread/fill/latency variation limit the claim. No retuning, data
+extension or extra market replay follows from this result.
+
+**Evidence and checks.** [Verification receipt](../evidence/m2-e22-verification.json),
+[30-file evidence bundle](../evidence/m2-e22-acceptance.zip),
+[immutable preregistration](../evidence/m2-e22-preregistration.json), and
+[consolidated exposure](../evidence/exposure.json). Raw ZIPs and `bars.npy`
+remain locally under `artifacts/m2-e22/run-01/`; the published bundle binds
+their digests but cannot by itself replay prices. Existing 95 attempts were
+preserved, with one acquisition and one research attempt added (97 total);
+1,116 declared views were retained, not treated as independent samples.
+Commands actually run: `python -m pytest -q` (initial 332 pass/11 uncommitted
+source-fixture failures), the 11 affected replay checks (all passed after
+commit), final `python -m pytest -q tests/test_predictive_spot.py` (25 passed),
+`python -m ruff check .`, language checker and `--self-test`, evidence archive
+`--verify`, `--consolidate-exposure`, `--verify-exposure`, and
+`python -m aqrs.predictive_spot --run c7fd68f74f6758efbda431cfb894fc332abc5579`.
+The first global-Python test command lacked pytest; all actual local tests
+used `.venv/Scripts/python.exe` (3.12.12). Linux ran synthetic verification,
+not a second market attempt. Independent report review and final Git closure
+are recorded in the verification receipt and closeout below. Independent
+stored-result review passed: all four HAC contrasts and cost arithmetic,
+publication/source bindings, terminal journal and exposure index agree.
+It did not reopen raw prices, independently rederive gross returns from raw
+bars or establish the market assumptions; those boundaries remain explicit.
+
+**Completion boundary.** The requested policy changes and first research
+study are complete. H01 reaches its third qualifying work item; preserve that
+observation below without launching a separate audit in this explicitly
+no-audit task. E20, E21, B01, SC01 and M4 retain their specific scope or evidence
+prerequisites. The time rule supplies no authorization for another study.
+
 ### Historical queue decisions
 
 These dated decisions retain their original scope; the current queue above
@@ -305,14 +378,20 @@ is actual scientific work with a research question/hypothesis and evidence;
 documentation, audits, bug fixes and routine engineering do not count.
 
 **Observation and responsibility.** Count prospectively from this entry:
-**2/3 qualifying work items recorded**: [M2-E20-P05](#m2-e20-p05-learning-card-decision-specific-evidence-design),
+**3/3 qualifying work items recorded**: [M2-E20-P05](#m2-e20-p05-learning-card-decision-specific-evidence-design),
 2026-11-14, asked a concrete scientific design question and executed
 capacity/sensitivity calculations against verified metadata. This is an
 analytical design observation, not evidence of outcome admission or unprompted
 rule adherence. [M2-E20-P06](#m2-e20-p06-learning-card-local-expansion-deferred),
 2026-11-14, is the second: an authorized empirical report calibration with
 a frozen decision and retained evidence. Neither establishes general
-behavioral adherence. The reset's Git, documentation and engineering work do not
+behavioral adherence. [M2-E22](#m2-e22-learning-card-prediction-before-costs),
+2026-11-14, is the third: fixed predictive-first research on 456 new development
+days, with an independently reviewed source and retained results. The trigger
+is now met; this task's explicit no-separate-audit instruction prevents a new
+audit dispatch here. Preserve the trigger without inferring general autonomy
+from prompted and independently corrected behavior. The reset's Git,
+documentation and engineering work do not
 count. Quant Research checks the trigger at
 existing research-work-item closeouts and immediately upon observing a material
 violation. Retain qualifying work-item IDs and evidence references in this

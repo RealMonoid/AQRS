@@ -10,6 +10,15 @@ their separate scopes remain waiting. Before acquisition: publish fixed
 holdout, card and source registration, pass guarded synthetic/negative checks
 and independent verification. No general audit is dispatched.
 
+**M2-E22 EXPERIMENT COMPLETION — `STOP` this fixed economic implementation.**
+The [completed study](MILESTONE_STATUS.md#m2-e22-learning-card-prediction-before-costs)
+passed the preregistered predictive test, then failed to produce positive net
+value under its illustrative costs. Keep both results; no extra data, retune
+or replay. The requested first study is complete. H01's observation trigger is
+met and recorded, but the owner's current no-separate-audit instruction
+precludes launching it here. Other rows retain their specific prerequisites;
+the eight-hour safeguard does not create another mandate.
+
 This is the binding procedure for sequencing material AQRS work under the
 [development dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue).
 

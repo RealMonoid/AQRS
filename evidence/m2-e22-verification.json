@@ -1,0 +1,202 @@
+{
+  "work_item": "M2-E22",
+  "source_revision": "c7fd68f74f6758efbda431cfb894fc332abc5579",
+  "bundle_sha256": "c9f9e9e63d738e1bd8a07ce0d486dcf2cb45194afcb64fcbb4eb6ffc051b9498",
+  "files": {
+    "m2-e22/run-01/acquisition.json": {
+      "sha256": "3c54380a794dc53952c8ff4abd9577923651d95c17f4b3dda865964541c9a31f",
+      "bytes": 9964
+    },
+    "m2-e22/run-01/registration.json": {
+      "sha256": "54cb2b1d12f5f71dd319af477d5c6c96b85bd0e1328f00a0e8b4a586a8103d65",
+      "bytes": 4812
+    },
+    "m2-e22/run-01/report.json": {
+      "sha256": "07d4ac186e76d1db75b040f1f1501f2e654aaba8084dce9f6e16a53b4fd3a627",
+      "bytes": 439545
+    },
+    "m2-e22/run-01/research.sqlite3": {
+      "sha256": "3a77e62cdddd52c0279e20331c06c3dfae839f99b97002c27b74eb33fcf9b572",
+      "bytes": 446464
+    },
+    "m2-e22/run-01/source/aqrs/__init__.py": {
+      "sha256": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+      "bytes": 61
+    },
+    "m2-e22/run-01/source/aqrs/__main__.py": {
+      "sha256": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+      "bytes": 2219
+    },
+    "m2-e22/run-01/source/aqrs/binance_spot_pilot.py": {
+      "sha256": "a547beeea42667b849a7941ffaf70d61ffb71a0abcbb15a1595c35d4d3729c1e",
+      "bytes": 9777
+    },
+    "m2-e22/run-01/source/aqrs/blind_audit.py": {
+      "sha256": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+      "bytes": 10392
+    },
+    "m2-e22/run-01/source/aqrs/blind_evidence.py": {
+      "sha256": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+      "bytes": 2579
+    },
+    "m2-e22/run-01/source/aqrs/blind_input.py": {
+      "sha256": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+      "bytes": 11098
+    },
+    "m2-e22/run-01/source/aqrs/blind_search.py": {
+      "sha256": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+      "bytes": 54845
+    },
+    "m2-e22/run-01/source/aqrs/blind_sequence.py": {
+      "sha256": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+      "bytes": 6769
+    },
+    "m2-e22/run-01/source/aqrs/config.py": {
+      "sha256": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "bytes": 8075
+    },
+    "m2-e22/run-01/source/aqrs/discovery.py": {
+      "sha256": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e",
+      "bytes": 13244
+    },
+    "m2-e22/run-01/source/aqrs/evaluation.py": {
+      "sha256": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+      "bytes": 10923
+    },
+    "m2-e22/run-01/source/aqrs/events.py": {
+      "sha256": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+      "bytes": 3756
+    },
+    "m2-e22/run-01/source/aqrs/governor.py": {
+      "sha256": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+      "bytes": 6786
+    },
+    "m2-e22/run-01/source/aqrs/journal.py": {
+      "sha256": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+      "bytes": 4153
+    },
+    "m2-e22/run-01/source/aqrs/m2_e14.py": {
+      "sha256": "4e2ee2ba377c981c9b6ccd80641f0c9b6d9296e6e6cb9101a5fa047b683ec74c",
+      "bytes": 35079
+    },
+    "m2-e22/run-01/source/aqrs/m2_e19.py": {
+      "sha256": "7d1534ce5c4c8164e131845bebc7ba88798c02fb54ef222371d580818178ed19",
+      "bytes": 19724
+    },
+    "m2-e22/run-01/source/aqrs/market.py": {
+      "sha256": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+      "bytes": 4758
+    },
+    "m2-e22/run-01/source/aqrs/planning.py": {
+      "sha256": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+      "bytes": 9803
+    },
+    "m2-e22/run-01/source/aqrs/platform_guard.py": {
+      "sha256": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+      "bytes": 3614
+    },
+    "m2-e22/run-01/source/aqrs/predictive_spot.py": {
+      "sha256": "fb43bcfa668c98678b7f3e47b58e97b525b1ad1fcbdccd4ba1fadddb5420dd44",
+      "bytes": 27355
+    },
+    "m2-e22/run-01/source/aqrs/provenance.py": {
+      "sha256": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+      "bytes": 1799
+    },
+    "m2-e22/run-01/source/aqrs/research.py": {
+      "sha256": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+      "bytes": 24553
+    },
+    "m2-e22/run-01/source/aqrs/spot_dataset.py": {
+      "sha256": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+      "bytes": 15153
+    },
+    "m2-e22/run-01/source/aqrs/storage.py": {
+      "sha256": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+      "bytes": 620
+    },
+    "m2-e22/run-01/source/aqrs/worker.py": {
+      "sha256": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+      "bytes": 1742
+    },
+    "m2-e22/run-01/source/pilot.py": {
+      "sha256": "fb43bcfa668c98678b7f3e47b58e97b525b1ad1fcbdccd4ba1fadddb5420dd44",
+      "bytes": 27355
+    }
+  },
+  "scope": "Frozen source, preregistration, acquisition receipts, complete report and SQLite journal. Raw ZIPs and bars.npy remain local, bound by digests; this bundle alone cannot replay raw prices.",
+  "ci": {
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "c7fd68f74f6758efbda431cfb894fc332abc5579",
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/43594353217",
+    "createdAt": "2026-11-14T12:20:44Z",
+    "updatedAt": "2026-11-14T12:25:54Z"
+  },
+  "platform_jobs": [
+    {
+      "name": "acceptance (windows-latest, 3.12)",
+      "conclusion": "success",
+      "url": "https://github.com/RealMonoid/AQRS/actions/runs/43594353217/job/132445576564"
+    },
+    {
+      "name": "acceptance (ubuntu-24.04, 3.11)",
+      "conclusion": "success",
+      "url": "https://github.com/RealMonoid/AQRS/actions/runs/43594353217/job/132445576788"
+    },
+    {
+      "name": "acceptance (windows-latest, 3.11)",
+      "conclusion": "success",
+      "url": "https://github.com/RealMonoid/AQRS/actions/runs/43594353217/job/132445576823"
+    },
+    {
+      "name": "acceptance (ubuntu-24.04, 3.12)",
+      "conclusion": "success",
+      "url": "https://github.com/RealMonoid/AQRS/actions/runs/43594353217/job/132445576958"
+    }
+  ],
+  "tests_per_ci_job": 349,
+  "local_e22_tests": 25,
+  "market_execution": {
+    "platform": "native Windows, Python3.12",
+    "execution_status": "COMPLETED",
+    "elapsed_seconds": 32.703000000008615,
+    "completed_calibrations": 1,
+    "model_fits": 0,
+    "archive_count": 15,
+    "predictive_status": "PREDICTIVE_PASS",
+    "economics_status": "COMPLETED_ILLUSTRATIVE"
+  },
+  "independent_result_review": {
+    "status": "PASS",
+    "reviewer": "separate read-only e22_review agent",
+    "source_revision": "c7fd68f74f6758efbda431cfb894fc332abc5579",
+    "checks": [
+      "All 30 bundle member hashes",
+      "All 29 registered source hashes and 26 archived source files",
+      "365 daily scores and 17,520 targets",
+      "Four HAC contrasts reproduced from stored daily hits",
+      "Conditional cost arithmetic",
+      "Terminal journal states, one calibration, zero model fits and resource receipts",
+      "97-attempt exposure projection"
+    ],
+    "unverified": [
+      "Raw prices and raw-file hashes were not reopened by the reviewer",
+      "Gross returns were checked arithmetically, not independently rederived from raw bars",
+      "HAC stability/dependence and real execution economics"
+    ],
+    "additional_market_attempts": 0,
+    "additional_model_fits": 0
+  },
+  "limitations": [
+    "Exploratory development screen; no protected confirmation or calibrated family-wide error rate.",
+    "HAC7/14 relies on limited dependence and stability; effective independent count remains unknown.",
+    "Cost model is illustrative; no quotes, fill/latency or realized execution validation.",
+    "Actual market study ran on Windows once; Linux validation used synthetic fixtures."
+  ],
+  "temporary_review_cleanup": {
+    "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+    "reason": "blocked by policy",
+    "scope": "One reviewer-created temporary directory outside the repository; no repository cleanup is blocked."
+  }
+}

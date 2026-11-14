@@ -18,6 +18,8 @@ any cost or trading gate. September–October 2026 and January 6 remain
 `python -m aqrs.predictive_spot --smoke NEW_OUTPUT` exercises synthetic data
 only. The single market attempt uses `--run PUBLISHED_SHA` after source-bound
 registration, publication and verification; it refuses an existing output.
+The [completed study](docs/MILESTONE_STATUS.md#m2-e22-learning-card-prediction-before-costs)
+passed the predictive screen but lost under the fixed illustrative costs.
 Artifacts are under `artifacts/m2-e22/run-01/` (report, journal, raw archive
 checksums and recoverable source). D01's legacy preparation scope is unchanged.
 

@@ -61,6 +61,16 @@
         "M2-E15-COUNT-V1": "M2-E15-COUNT-V1"
       },
       "work_item": "M2-E15"
+    },
+    {
+      "attempt_kinds": {
+        "REVERSAL_30M_E22_V1": "development_predictive_screen",
+        "acquisition": "data_acquisition"
+      },
+      "bundle": "evidence/m2-e22-acceptance.zip",
+      "receipt": "evidence/m2-e22-verification.json",
+      "sha256": "c9f9e9e63d738e1bd8a07ce0d486dcf2cb45194afcb64fcbb4eb6ffc051b9498",
+      "work_item": "M2-E22"
     }
   ],
   "attempts": [
@@ -10236,6 +10246,6542 @@
       "source_id": "422ad921bd4c497e2fad19768985d640a097ef6b6b90dfaff82fe76048a91687",
       "timestamp_utc": "2026-11-14T07:10:59.537872+00:00",
       "variant_id": "M2-E15-COUNT-V1"
+    },
+    {
+      "archive_source": "M2-E22",
+      "candidate_id": "REVERSAL_30M_E22_V1",
+      "data_scope": [
+        "2024-09-01",
+        "2024-09-02",
+        "2024-09-03",
+        "2024-09-04",
+        "2024-09-05",
+        "2024-09-06",
+        "2024-09-07",
+        "2024-09-08",
+        "2024-09-09",
+        "2024-09-10",
+        "2024-09-11",
+        "2024-09-12",
+        "2024-09-13",
+        "2024-09-14",
+        "2024-09-15",
+        "2024-09-16",
+        "2024-09-17",
+        "2024-09-18",
+        "2024-09-19",
+        "2024-09-20",
+        "2024-09-21",
+        "2024-09-22",
+        "2024-09-23",
+        "2024-09-24",
+        "2024-09-25",
+        "2024-09-26",
+        "2024-09-27",
+        "2024-09-28",
+        "2024-09-29",
+        "2024-09-30",
+        "2024-10-01",
+        "2024-10-02",
+        "2024-10-03",
+        "2024-10-04",
+        "2024-10-05",
+        "2024-10-06",
+        "2024-10-07",
+        "2024-10-08",
+        "2024-10-09",
+        "2024-10-10",
+        "2024-10-11",
+        "2024-10-12",
+        "2024-10-13",
+        "2024-10-14",
+        "2024-10-15",
+        "2024-10-16",
+        "2024-10-17",
+        "2024-10-18",
+        "2024-10-19",
+        "2024-10-20",
+        "2024-10-21",
+        "2024-10-22",
+        "2024-10-23",
+        "2024-10-24",
+        "2024-10-25",
+        "2024-10-26",
+        "2024-10-27",
+        "2024-10-28",
+        "2024-10-29",
+        "2024-10-30",
+        "2024-10-31",
+        "2024-11-01",
+        "2024-11-02",
+        "2024-11-03",
+        "2024-11-04",
+        "2024-11-05",
+        "2024-11-06",
+        "2024-11-07",
+        "2024-11-08",
+        "2024-11-09",
+        "2024-11-10",
+        "2024-11-11",
+        "2024-11-12",
+        "2024-11-13",
+        "2024-11-14",
+        "2024-11-15",
+        "2024-11-16",
+        "2024-11-17",
+        "2024-11-18",
+        "2024-11-19",
+        "2024-11-20",
+        "2024-11-21",
+        "2024-11-22",
+        "2024-11-23",
+        "2024-11-24",
+        "2024-11-25",
+        "2024-11-26",
+        "2024-11-27",
+        "2024-11-28",
+        "2024-11-29",
+        "2024-11-30",
+        "2024-12-01",
+        "2024-12-02",
+        "2024-12-03",
+        "2024-12-04",
+        "2024-12-05",
+        "2024-12-06",
+        "2024-12-07",
+        "2024-12-08",
+        "2024-12-09",
+        "2024-12-10",
+        "2024-12-11",
+        "2024-12-12",
+        "2024-12-13",
+        "2024-12-14",
+        "2024-12-15",
+        "2024-12-16",
+        "2024-12-17",
+        "2024-12-18",
+        "2024-12-19",
+        "2024-12-20",
+        "2024-12-21",
+        "2024-12-22",
+        "2024-12-23",
+        "2024-12-24",
+        "2024-12-25",
+        "2024-12-26",
+        "2024-12-27",
+        "2024-12-28",
+        "2024-12-29",
+        "2024-12-30",
+        "2024-12-31",
+        "2025-01-01",
+        "2025-01-02",
+        "2025-01-03",
+        "2025-01-04",
+        "2025-01-05",
+        "2025-01-06",
+        "2025-01-07",
+        "2025-01-08",
+        "2025-01-09",
+        "2025-01-10",
+        "2025-01-11",
+        "2025-01-12",
+        "2025-01-13",
+        "2025-01-14",
+        "2025-01-15",
+        "2025-01-16",
+        "2025-01-17",
+        "2025-01-18",
+        "2025-01-19",
+        "2025-01-20",
+        "2025-01-21",
+        "2025-01-22",
+        "2025-01-23",
+        "2025-01-24",
+        "2025-01-25",
+        "2025-01-26",
+        "2025-01-27",
+        "2025-01-28",
+        "2025-01-29",
+        "2025-01-30",
+        "2025-01-31",
+        "2025-02-01",
+        "2025-02-02",
+        "2025-02-03",
+        "2025-02-04",
+        "2025-02-05",
+        "2025-02-06",
+        "2025-02-07",
+        "2025-02-08",
+        "2025-02-09",
+        "2025-02-10",
+        "2025-02-11",
+        "2025-02-12",
+        "2025-02-13",
+        "2025-02-14",
+        "2025-02-15",
+        "2025-02-16",
+        "2025-02-17",
+        "2025-02-18",
+        "2025-02-19",
+        "2025-02-20",
+        "2025-02-21",
+        "2025-02-22",
+        "2025-02-23",
+        "2025-02-24",
+        "2025-02-25",
+        "2025-02-26",
+        "2025-02-27",
+        "2025-02-28",
+        "2025-03-01",
+        "2025-03-02",
+        "2025-03-03",
+        "2025-03-04",
+        "2025-03-05",
+        "2025-03-06",
+        "2025-03-07",
+        "2025-03-08",
+        "2025-03-09",
+        "2025-03-10",
+        "2025-03-11",
+        "2025-03-12",
+        "2025-03-13",
+        "2025-03-14",
+        "2025-03-15",
+        "2025-03-16",
+        "2025-03-17",
+        "2025-03-18",
+        "2025-03-19",
+        "2025-03-20",
+        "2025-03-21",
+        "2025-03-22",
+        "2025-03-23",
+        "2025-03-24",
+        "2025-03-25",
+        "2025-03-26",
+        "2025-03-27",
+        "2025-03-28",
+        "2025-03-29",
+        "2025-03-30",
+        "2025-03-31",
+        "2025-04-01",
+        "2025-04-02",
+        "2025-04-03",
+        "2025-04-04",
+        "2025-04-05",
+        "2025-04-06",
+        "2025-04-07",
+        "2025-04-08",
+        "2025-04-09",
+        "2025-04-10",
+        "2025-04-11",
+        "2025-04-12",
+        "2025-04-13",
+        "2025-04-14",
+        "2025-04-15",
+        "2025-04-16",
+        "2025-04-17",
+        "2025-04-18",
+        "2025-04-19",
+        "2025-04-20",
+        "2025-04-21",
+        "2025-04-22",
+        "2025-04-23",
+        "2025-04-24",
+        "2025-04-25",
+        "2025-04-26",
+        "2025-04-27",
+        "2025-04-28",
+        "2025-04-29",
+        "2025-04-30",
+        "2025-05-01",
+        "2025-05-02",
+        "2025-05-03",
+        "2025-05-04",
+        "2025-05-05",
+        "2025-05-06",
+        "2025-05-07",
+        "2025-05-08",
+        "2025-05-09",
+        "2025-05-10",
+        "2025-05-11",
+        "2025-05-12",
+        "2025-05-13",
+        "2025-05-14",
+        "2025-05-15",
+        "2025-05-16",
+        "2025-05-17",
+        "2025-05-18",
+        "2025-05-19",
+        "2025-05-20",
+        "2025-05-21",
+        "2025-05-22",
+        "2025-05-23",
+        "2025-05-24",
+        "2025-05-25",
+        "2025-05-26",
+        "2025-05-27",
+        "2025-05-28",
+        "2025-05-29",
+        "2025-05-30",
+        "2025-05-31",
+        "2025-06-01",
+        "2025-06-02",
+        "2025-06-03",
+        "2025-06-04",
+        "2025-06-05",
+        "2025-06-06",
+        "2025-06-07",
+        "2025-06-08",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-06-11",
+        "2025-06-12",
+        "2025-06-13",
+        "2025-06-14",
+        "2025-06-15",
+        "2025-06-16",
+        "2025-06-17",
+        "2025-06-18",
+        "2025-06-19",
+        "2025-06-20",
+        "2025-06-21",
+        "2025-06-22",
+        "2025-06-23",
+        "2025-06-24",
+        "2025-06-25",
+        "2025-06-26",
+        "2025-06-27",
+        "2025-06-28",
+        "2025-06-29",
+        "2025-06-30",
+        "2025-07-01",
+        "2025-07-02",
+        "2025-07-03",
+        "2025-07-04",
+        "2025-07-05",
+        "2025-07-06",
+        "2025-07-07",
+        "2025-07-08",
+        "2025-07-09",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-12",
+        "2025-07-13",
+        "2025-07-14",
+        "2025-07-15",
+        "2025-07-16",
+        "2025-07-17",
+        "2025-07-18",
+        "2025-07-19",
+        "2025-07-20",
+        "2025-07-21",
+        "2025-07-22",
+        "2025-07-23",
+        "2025-07-24",
+        "2025-07-25",
+        "2025-07-26",
+        "2025-07-27",
+        "2025-07-28",
+        "2025-07-29",
+        "2025-07-30",
+        "2025-07-31",
+        "2025-08-01",
+        "2025-08-02",
+        "2025-08-03",
+        "2025-08-04",
+        "2025-08-05",
+        "2025-08-06",
+        "2025-08-07",
+        "2025-08-08",
+        "2025-08-09",
+        "2025-08-10",
+        "2025-08-11",
+        "2025-08-12",
+        "2025-08-13",
+        "2025-08-14",
+        "2025-08-15",
+        "2025-08-16",
+        "2025-08-17",
+        "2025-08-18",
+        "2025-08-19",
+        "2025-08-20",
+        "2025-08-21",
+        "2025-08-22",
+        "2025-08-23",
+        "2025-08-24",
+        "2025-08-25",
+        "2025-08-26",
+        "2025-08-27",
+        "2025-08-28",
+        "2025-08-29",
+        "2025-08-30",
+        "2025-08-31",
+        "2025-09-01",
+        "2025-09-02",
+        "2025-09-03",
+        "2025-09-04",
+        "2025-09-05",
+        "2025-09-06",
+        "2025-09-07",
+        "2025-09-08",
+        "2025-09-09",
+        "2025-09-10",
+        "2025-09-11",
+        "2025-09-12",
+        "2025-09-13",
+        "2025-09-14",
+        "2025-09-15",
+        "2025-09-16",
+        "2025-09-17",
+        "2025-09-18",
+        "2025-09-19",
+        "2025-09-20",
+        "2025-09-21",
+        "2025-09-22",
+        "2025-09-23",
+        "2025-09-24",
+        "2025-09-25",
+        "2025-09-26",
+        "2025-09-27",
+        "2025-09-28",
+        "2025-09-29",
+        "2025-09-30",
+        "2025-10-01",
+        "2025-10-02",
+        "2025-10-03",
+        "2025-10-04",
+        "2025-10-05",
+        "2025-10-06",
+        "2025-10-07",
+        "2025-10-08",
+        "2025-10-09",
+        "2025-10-10",
+        "2025-10-11",
+        "2025-10-12",
+        "2025-10-13",
+        "2025-10-14",
+        "2025-10-15",
+        "2025-10-16",
+        "2025-10-17",
+        "2025-10-18",
+        "2025-10-19",
+        "2025-10-20",
+        "2025-10-21",
+        "2025-10-22",
+        "2025-10-23",
+        "2025-10-24",
+        "2025-10-25",
+        "2025-10-26",
+        "2025-10-27",
+        "2025-10-28",
+        "2025-10-29",
+        "2025-10-30",
+        "2025-10-31",
+        "2025-11-01",
+        "2025-11-02",
+        "2025-11-03",
+        "2025-11-04",
+        "2025-11-05",
+        "2025-11-06",
+        "2025-11-07",
+        "2025-11-08",
+        "2025-11-09",
+        "2025-11-10",
+        "2025-11-11",
+        "2025-11-12",
+        "2025-11-13",
+        "2025-11-14",
+        "2025-11-15",
+        "2025-11-16",
+        "2025-11-17",
+        "2025-11-18",
+        "2025-11-19",
+        "2025-11-20",
+        "2025-11-21",
+        "2025-11-22",
+        "2025-11-23",
+        "2025-11-24",
+        "2025-11-25",
+        "2025-11-26",
+        "2025-11-27",
+        "2025-11-28",
+        "2025-11-29",
+        "2025-11-30"
+      ],
+      "dataset_id": "fa1e3ce44f342c462f80859ff06007a04fd1a14342e9558eb72caebb3fa48d30",
+      "definition_id": null,
+      "diagnostic_exposure": [
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "aggregate"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "aggregate"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "aggregate"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "accuracy",
+          "view": "aggregate"
+        },
+        {
+          "metric": "zero_target_count",
+          "view": "aggregate"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2024-12-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2024-12-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2024-12-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-01-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-01-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-01-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-02-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-02-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-02-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-03-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-03-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-03-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-04-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-04-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-04-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-05-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-05-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-05-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-06-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-06-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-06-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-07-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-07-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-07-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-08-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-08-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-08-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-09-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-09-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-09-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-30"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-10-31"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-10-31"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-10-31"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-01"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-01"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-01"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-02"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-02"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-02"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-03"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-03"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-03"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-04"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-04"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-04"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-05"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-05"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-05"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-06"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-06"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-06"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-07"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-07"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-07"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-08"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-08"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-08"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-09"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-09"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-09"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-10"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-10"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-10"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-11"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-11"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-11"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-12"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-12"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-12"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-13"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-13"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-13"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-14"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-14"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-14"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-15"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-15"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-15"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-16"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-16"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-16"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-17"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-17"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-17"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-18"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-18"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-18"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-19"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-19"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-19"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-20"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-20"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-20"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-21"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-21"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-21"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-22"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-22"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-22"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-23"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-23"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-23"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-24"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-24"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-24"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-25"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-25"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-25"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-26"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-26"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-26"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-27"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-27"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-27"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-28"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-28"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-28"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-29"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-29"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-29"
+        },
+        {
+          "arm": "REVERSAL_30M_E22_V1",
+          "metric": "accuracy",
+          "view": "2025-11-30"
+        },
+        {
+          "arm": "always_up",
+          "metric": "accuracy",
+          "view": "2025-11-30"
+        },
+        {
+          "arm": "always_down",
+          "metric": "accuracy",
+          "view": "2025-11-30"
+        },
+        {
+          "control": "always_up",
+          "lags": 7,
+          "metric": "paired_accuracy_HAC_interval"
+        },
+        {
+          "control": "always_up",
+          "lags": 14,
+          "metric": "paired_accuracy_HAC_interval"
+        },
+        {
+          "control": "always_down",
+          "lags": 7,
+          "metric": "paired_accuracy_HAC_interval"
+        },
+        {
+          "control": "always_down",
+          "lags": 14,
+          "metric": "paired_accuracy_HAC_interval"
+        },
+        {
+          "arm": "reversal",
+          "metric": "trades",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "reversal",
+          "metric": "flat",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "reversal",
+          "metric": "gross_bps_per_opportunity",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "reversal",
+          "metric": "net_bps_per_opportunity",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "reversal",
+          "metric": "gross_bps_per_trade",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "reversal",
+          "metric": "net_bps_per_trade",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "trades",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "flat",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "gross_bps_per_opportunity",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "net_bps_per_opportunity",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "gross_bps_per_trade",
+          "view": "conditional_costs"
+        },
+        {
+          "arm": "training_majority",
+          "metric": "net_bps_per_trade",
+          "view": "conditional_costs"
+        }
+      ],
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "m2-e22-20261114-01:REVERSAL_30M_E22_V1",
+      "independent_confirmation": false,
+      "journal": "m2-e22/run-01/research.sqlite3",
+      "kind": "development_predictive_screen",
+      "published_revision": "c7fd68f74f6758efbda431cfb894fc332abc5579",
+      "registered_variant_id": "REVERSAL_30M_E22_V1",
+      "run_id": "m2-e22-20261114-01",
+      "source_id": "eedde10f2bb29535df2c345a2ec1f14426e002969061b446fcf5789a7875155e",
+      "timestamp_utc": "2026-11-14T12:26:29.980592+00:00",
+      "variant_id": "REVERSAL_30M_E22_V1"
+    },
+    {
+      "archive_source": "M2-E22",
+      "candidate_id": "acquisition",
+      "data_scope": [
+        "2024-09-01",
+        "2024-09-02",
+        "2024-09-03",
+        "2024-09-04",
+        "2024-09-05",
+        "2024-09-06",
+        "2024-09-07",
+        "2024-09-08",
+        "2024-09-09",
+        "2024-09-10",
+        "2024-09-11",
+        "2024-09-12",
+        "2024-09-13",
+        "2024-09-14",
+        "2024-09-15",
+        "2024-09-16",
+        "2024-09-17",
+        "2024-09-18",
+        "2024-09-19",
+        "2024-09-20",
+        "2024-09-21",
+        "2024-09-22",
+        "2024-09-23",
+        "2024-09-24",
+        "2024-09-25",
+        "2024-09-26",
+        "2024-09-27",
+        "2024-09-28",
+        "2024-09-29",
+        "2024-09-30",
+        "2024-10-01",
+        "2024-10-02",
+        "2024-10-03",
+        "2024-10-04",
+        "2024-10-05",
+        "2024-10-06",
+        "2024-10-07",
+        "2024-10-08",
+        "2024-10-09",
+        "2024-10-10",
+        "2024-10-11",
+        "2024-10-12",
+        "2024-10-13",
+        "2024-10-14",
+        "2024-10-15",
+        "2024-10-16",
+        "2024-10-17",
+        "2024-10-18",
+        "2024-10-19",
+        "2024-10-20",
+        "2024-10-21",
+        "2024-10-22",
+        "2024-10-23",
+        "2024-10-24",
+        "2024-10-25",
+        "2024-10-26",
+        "2024-10-27",
+        "2024-10-28",
+        "2024-10-29",
+        "2024-10-30",
+        "2024-10-31",
+        "2024-11-01",
+        "2024-11-02",
+        "2024-11-03",
+        "2024-11-04",
+        "2024-11-05",
+        "2024-11-06",
+        "2024-11-07",
+        "2024-11-08",
+        "2024-11-09",
+        "2024-11-10",
+        "2024-11-11",
+        "2024-11-12",
+        "2024-11-13",
+        "2024-11-14",
+        "2024-11-15",
+        "2024-11-16",
+        "2024-11-17",
+        "2024-11-18",
+        "2024-11-19",
+        "2024-11-20",
+        "2024-11-21",
+        "2024-11-22",
+        "2024-11-23",
+        "2024-11-24",
+        "2024-11-25",
+        "2024-11-26",
+        "2024-11-27",
+        "2024-11-28",
+        "2024-11-29",
+        "2024-11-30",
+        "2024-12-01",
+        "2024-12-02",
+        "2024-12-03",
+        "2024-12-04",
+        "2024-12-05",
+        "2024-12-06",
+        "2024-12-07",
+        "2024-12-08",
+        "2024-12-09",
+        "2024-12-10",
+        "2024-12-11",
+        "2024-12-12",
+        "2024-12-13",
+        "2024-12-14",
+        "2024-12-15",
+        "2024-12-16",
+        "2024-12-17",
+        "2024-12-18",
+        "2024-12-19",
+        "2024-12-20",
+        "2024-12-21",
+        "2024-12-22",
+        "2024-12-23",
+        "2024-12-24",
+        "2024-12-25",
+        "2024-12-26",
+        "2024-12-27",
+        "2024-12-28",
+        "2024-12-29",
+        "2024-12-30",
+        "2024-12-31",
+        "2025-01-01",
+        "2025-01-02",
+        "2025-01-03",
+        "2025-01-04",
+        "2025-01-05",
+        "2025-01-06",
+        "2025-01-07",
+        "2025-01-08",
+        "2025-01-09",
+        "2025-01-10",
+        "2025-01-11",
+        "2025-01-12",
+        "2025-01-13",
+        "2025-01-14",
+        "2025-01-15",
+        "2025-01-16",
+        "2025-01-17",
+        "2025-01-18",
+        "2025-01-19",
+        "2025-01-20",
+        "2025-01-21",
+        "2025-01-22",
+        "2025-01-23",
+        "2025-01-24",
+        "2025-01-25",
+        "2025-01-26",
+        "2025-01-27",
+        "2025-01-28",
+        "2025-01-29",
+        "2025-01-30",
+        "2025-01-31",
+        "2025-02-01",
+        "2025-02-02",
+        "2025-02-03",
+        "2025-02-04",
+        "2025-02-05",
+        "2025-02-06",
+        "2025-02-07",
+        "2025-02-08",
+        "2025-02-09",
+        "2025-02-10",
+        "2025-02-11",
+        "2025-02-12",
+        "2025-02-13",
+        "2025-02-14",
+        "2025-02-15",
+        "2025-02-16",
+        "2025-02-17",
+        "2025-02-18",
+        "2025-02-19",
+        "2025-02-20",
+        "2025-02-21",
+        "2025-02-22",
+        "2025-02-23",
+        "2025-02-24",
+        "2025-02-25",
+        "2025-02-26",
+        "2025-02-27",
+        "2025-02-28",
+        "2025-03-01",
+        "2025-03-02",
+        "2025-03-03",
+        "2025-03-04",
+        "2025-03-05",
+        "2025-03-06",
+        "2025-03-07",
+        "2025-03-08",
+        "2025-03-09",
+        "2025-03-10",
+        "2025-03-11",
+        "2025-03-12",
+        "2025-03-13",
+        "2025-03-14",
+        "2025-03-15",
+        "2025-03-16",
+        "2025-03-17",
+        "2025-03-18",
+        "2025-03-19",
+        "2025-03-20",
+        "2025-03-21",
+        "2025-03-22",
+        "2025-03-23",
+        "2025-03-24",
+        "2025-03-25",
+        "2025-03-26",
+        "2025-03-27",
+        "2025-03-28",
+        "2025-03-29",
+        "2025-03-30",
+        "2025-03-31",
+        "2025-04-01",
+        "2025-04-02",
+        "2025-04-03",
+        "2025-04-04",
+        "2025-04-05",
+        "2025-04-06",
+        "2025-04-07",
+        "2025-04-08",
+        "2025-04-09",
+        "2025-04-10",
+        "2025-04-11",
+        "2025-04-12",
+        "2025-04-13",
+        "2025-04-14",
+        "2025-04-15",
+        "2025-04-16",
+        "2025-04-17",
+        "2025-04-18",
+        "2025-04-19",
+        "2025-04-20",
+        "2025-04-21",
+        "2025-04-22",
+        "2025-04-23",
+        "2025-04-24",
+        "2025-04-25",
+        "2025-04-26",
+        "2025-04-27",
+        "2025-04-28",
+        "2025-04-29",
+        "2025-04-30",
+        "2025-05-01",
+        "2025-05-02",
+        "2025-05-03",
+        "2025-05-04",
+        "2025-05-05",
+        "2025-05-06",
+        "2025-05-07",
+        "2025-05-08",
+        "2025-05-09",
+        "2025-05-10",
+        "2025-05-11",
+        "2025-05-12",
+        "2025-05-13",
+        "2025-05-14",
+        "2025-05-15",
+        "2025-05-16",
+        "2025-05-17",
+        "2025-05-18",
+        "2025-05-19",
+        "2025-05-20",
+        "2025-05-21",
+        "2025-05-22",
+        "2025-05-23",
+        "2025-05-24",
+        "2025-05-25",
+        "2025-05-26",
+        "2025-05-27",
+        "2025-05-28",
+        "2025-05-29",
+        "2025-05-30",
+        "2025-05-31",
+        "2025-06-01",
+        "2025-06-02",
+        "2025-06-03",
+        "2025-06-04",
+        "2025-06-05",
+        "2025-06-06",
+        "2025-06-07",
+        "2025-06-08",
+        "2025-06-09",
+        "2025-06-10",
+        "2025-06-11",
+        "2025-06-12",
+        "2025-06-13",
+        "2025-06-14",
+        "2025-06-15",
+        "2025-06-16",
+        "2025-06-17",
+        "2025-06-18",
+        "2025-06-19",
+        "2025-06-20",
+        "2025-06-21",
+        "2025-06-22",
+        "2025-06-23",
+        "2025-06-24",
+        "2025-06-25",
+        "2025-06-26",
+        "2025-06-27",
+        "2025-06-28",
+        "2025-06-29",
+        "2025-06-30",
+        "2025-07-01",
+        "2025-07-02",
+        "2025-07-03",
+        "2025-07-04",
+        "2025-07-05",
+        "2025-07-06",
+        "2025-07-07",
+        "2025-07-08",
+        "2025-07-09",
+        "2025-07-10",
+        "2025-07-11",
+        "2025-07-12",
+        "2025-07-13",
+        "2025-07-14",
+        "2025-07-15",
+        "2025-07-16",
+        "2025-07-17",
+        "2025-07-18",
+        "2025-07-19",
+        "2025-07-20",
+        "2025-07-21",
+        "2025-07-22",
+        "2025-07-23",
+        "2025-07-24",
+        "2025-07-25",
+        "2025-07-26",
+        "2025-07-27",
+        "2025-07-28",
+        "2025-07-29",
+        "2025-07-30",
+        "2025-07-31",
+        "2025-08-01",
+        "2025-08-02",
+        "2025-08-03",
+        "2025-08-04",
+        "2025-08-05",
+        "2025-08-06",
+        "2025-08-07",
+        "2025-08-08",
+        "2025-08-09",
+        "2025-08-10",
+        "2025-08-11",
+        "2025-08-12",
+        "2025-08-13",
+        "2025-08-14",
+        "2025-08-15",
+        "2025-08-16",
+        "2025-08-17",
+        "2025-08-18",
+        "2025-08-19",
+        "2025-08-20",
+        "2025-08-21",
+        "2025-08-22",
+        "2025-08-23",
+        "2025-08-24",
+        "2025-08-25",
+        "2025-08-26",
+        "2025-08-27",
+        "2025-08-28",
+        "2025-08-29",
+        "2025-08-30",
+        "2025-08-31",
+        "2025-09-01",
+        "2025-09-02",
+        "2025-09-03",
+        "2025-09-04",
+        "2025-09-05",
+        "2025-09-06",
+        "2025-09-07",
+        "2025-09-08",
+        "2025-09-09",
+        "2025-09-10",
+        "2025-09-11",
+        "2025-09-12",
+        "2025-09-13",
+        "2025-09-14",
+        "2025-09-15",
+        "2025-09-16",
+        "2025-09-17",
+        "2025-09-18",
+        "2025-09-19",
+        "2025-09-20",
+        "2025-09-21",
+        "2025-09-22",
+        "2025-09-23",
+        "2025-09-24",
+        "2025-09-25",
+        "2025-09-26",
+        "2025-09-27",
+        "2025-09-28",
+        "2025-09-29",
+        "2025-09-30",
+        "2025-10-01",
+        "2025-10-02",
+        "2025-10-03",
+        "2025-10-04",
+        "2025-10-05",
+        "2025-10-06",
+        "2025-10-07",
+        "2025-10-08",
+        "2025-10-09",
+        "2025-10-10",
+        "2025-10-11",
+        "2025-10-12",
+        "2025-10-13",
+        "2025-10-14",
+        "2025-10-15",
+        "2025-10-16",
+        "2025-10-17",
+        "2025-10-18",
+        "2025-10-19",
+        "2025-10-20",
+        "2025-10-21",
+        "2025-10-22",
+        "2025-10-23",
+        "2025-10-24",
+        "2025-10-25",
+        "2025-10-26",
+        "2025-10-27",
+        "2025-10-28",
+        "2025-10-29",
+        "2025-10-30",
+        "2025-10-31",
+        "2025-11-01",
+        "2025-11-02",
+        "2025-11-03",
+        "2025-11-04",
+        "2025-11-05",
+        "2025-11-06",
+        "2025-11-07",
+        "2025-11-08",
+        "2025-11-09",
+        "2025-11-10",
+        "2025-11-11",
+        "2025-11-12",
+        "2025-11-13",
+        "2025-11-14",
+        "2025-11-15",
+        "2025-11-16",
+        "2025-11-17",
+        "2025-11-18",
+        "2025-11-19",
+        "2025-11-20",
+        "2025-11-21",
+        "2025-11-22",
+        "2025-11-23",
+        "2025-11-24",
+        "2025-11-25",
+        "2025-11-26",
+        "2025-11-27",
+        "2025-11-28",
+        "2025-11-29",
+        "2025-11-30"
+      ],
+      "dataset_id": "fa1e3ce44f342c462f80859ff06007a04fd1a14342e9558eb72caebb3fa48d30",
+      "definition_id": null,
+      "diagnostic_exposure": [],
+      "duplicate_of_in_original_journal": null,
+      "evidence_status": "NOT_EVALUATED",
+      "execution_status": "COMPLETED",
+      "experiment_id": "m2-e22-20261114-01:acquisition",
+      "independent_confirmation": false,
+      "journal": "m2-e22/run-01/research.sqlite3",
+      "kind": "data_acquisition",
+      "published_revision": "c7fd68f74f6758efbda431cfb894fc332abc5579",
+      "registered_variant_id": "E22_ACQUISITION_V1",
+      "run_id": "m2-e22-20261114-01",
+      "source_id": "eedde10f2bb29535df2c345a2ec1f14426e002969061b446fcf5789a7875155e",
+      "timestamp_utc": "2026-11-14T12:26:29.980592+00:00",
+      "variant_id": "E22_ACQUISITION_V1"
     }
   ],
   "engineering_checks": [
@@ -10246,8 +16792,8 @@
     "M2-E06"
   ],
   "evidence_counts": {
-    "INSUFFICIENT_EVIDENCE": 89,
-    "NOT_EVALUATED": 6
+    "INSUFFICIENT_EVIDENCE": 90,
+    "NOT_EVALUATED": 7
   },
   "future_registrations": [
     {
@@ -10999,7 +17545,9 @@
       "work_item": "M2-E18"
     },
     {
-      "attempt_ids": [],
+      "attempt_ids": [
+        "m2-e22-20261114-01:REVERSAL_30M_E22_V1"
+      ],
       "data_scope": [
         "2024-09-01 through 2025-11-30"
       ],
@@ -11008,7 +17556,8 @@
       "execution_authorization": "Owner explicitly ordered selection, acquisition and execution; no per-portion data approval required.",
       "origin": "Codex-selected question under direct owner authorization in the current chat.",
       "registered_at": "2026-11-14",
-      "status": "PLANNED_NOT_RUN",
+      "status": "COMPLETED",
+      "status_before_reconciliation": "PLANNED_NOT_RUN",
       "test_card": "docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal",
       "variant_id": "REVERSAL_30M_E22_V1",
       "work_item": "M2-E22"
@@ -11573,6 +18122,36 @@
   "variants": [
     {
       "attempt_ids": [
+        "m2-e22-20261114-01:acquisition"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "acquisition"
+        },
+        "costs": {
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": null,
+        "registered_variant": "REVERSAL_30M_E22_V1",
+        "research": {},
+        "seed": null
+      },
+      "registration": "prospective_market_definition",
+      "variant_id": "E22_ACQUISITION_V1"
+    },
+    {
+      "attempt_ids": [
         "m2-e15-count-v1:M2-E15-COUNT-V1"
       ],
       "definition": {
@@ -11609,6 +18188,47 @@
       },
       "registration": "retrospective_reconstruction",
       "variant_id": "M2-E15-COUNT-V1"
+    },
+    {
+      "attempt_ids": [
+        "m2-e22-20261114-01:REVERSAL_30M_E22_V1"
+      ],
+      "definition": {
+        "candidate": {
+          "id": "REVERSAL_30M_E22_V1"
+        },
+        "costs": {
+          "fee_bps_per_side": 10,
+          "quoted_spread_bps": 1,
+          "slippage_bps_per_side": 2
+        },
+        "execution": null,
+        "features": null,
+        "horizon": null,
+        "market_semantics": {
+          "bar_minutes": null,
+          "scenario": null,
+          "source": null,
+          "symbol": null
+        },
+        "model_parameters": null,
+        "registered_variant": "REVERSAL_30M_E22_V1",
+        "research": {},
+        "seed": null
+      },
+      "lineage": {
+        "learning_card": "docs/MILESTONE_STATUS.md#m2-e22-learning-card-prediction-before-costs",
+        "origin": "Owner directed a new predictive-first study; Codex selected a fixed 30-minute reversal.",
+        "parent_variant_ids": [],
+        "question": "Does the fixed reversal beat both constant directions on the declared year?",
+        "relationship": "New fixed candidate; no parameter search or protected confirmation.",
+        "test_card": "docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal",
+        "work_items": [
+          "M2-E22"
+        ]
+      },
+      "registration": "prospective_market_definition",
+      "variant_id": "REVERSAL_30M_E22_V1"
     },
     {
       "attempt_ids": [
