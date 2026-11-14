@@ -33,6 +33,43 @@ assessment with fixed, matched assumptions. A predictive result alone is not
 economic viability, protected confirmation or permission to trade. Historical
 experiments retain their original rules.
 
+## Research and backtesting improvement loop
+
+**Owner decision, 2026-11-14; prospective, using existing records.** At the
+close of each research run:
+
+1. **Finding.** State what the run teaches about the market, including a
+   negative result; the most important procedural weakness it exposed in
+   measurement, controls, costs, simulation or data; and elapsed time from
+   the fixed question to the result. Label any unmeasured interval honestly.
+2. **Change.** Derive exactly one concrete change to code, a test or a research
+   rule from that weakness. Implement and verify it before the next research
+   run. A one-sentence reason may justify no change, but two consecutive
+   no-change decisions require the owner's approval.
+3. **Proof.** First verify each procedural change on artificial data with
+   known answers: recover a planted pattern and report no pattern in the
+   known null case. Only then may the change apply to real data. These are
+   software checks; they do not establish market power or guarantee zero
+   false positives in random samples (see [claim admission](#precision-and-claim-admission)).
+4. **Effect.** The following run states in one sentence whether the previous
+   change helped. If it did not help, roll it back or replace it.
+5. **Next question.** Derive the next research question from the finding,
+   fix its data amount and success criterion before execution, and register
+   it as a new counted attempt under the existing authorization and Governor.
+6. **Protection.** Changes apply only to future runs. Do not recompute old
+   results to rescue them; reevaluating an old candidate is a new counted
+   attempt. The holdout stays locked. Existing `AGENTS.md` rules for changes
+   to causality, costs, execution, holdout and journal integrity still apply.
+
+Use one compact row per run in [the status table](MILESTONE_STATUS.md#research-and-backtesting-learning):
+question, result, weakness, change, effect and time. Archive older rows with
+their cards, retaining the latest row until the next run reports its effect.
+This is a manual precursor to M3, not a new scheduler or tracking system.
+For E22, the prospective small-effect sizing regression uses the existing
+HAC and conditional planner on fixed 61/365-day synthetic cases. It catches
+overconfident short-sample claims but does not qualify the locked holdout's
+power, calibrate E22's joint gate or alter its recorded result.
+
 ## 11. AQRS-B01 frozen blind-search procedure
 
 **Scope:** owner-authorized preparation on 2026-11-11. This is a diagnostic of

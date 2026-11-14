@@ -2,10 +2,14 @@
 
 **English-only repository policy (permanent):** All documentation and all future Codex additions and revisions MUST be in English, without milestone or version exceptions. Read `docs/LANGUAGE_POLICY.md` first. Before reporting completion, execute `python scripts/check_language_policy.py --self-test` and `python scripts/check_language_policy.py`. Never weaken this rule without explicit owner authorization.
 
-Start with [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for current
-acceptance evidence and the [canonical work plan](docs/MILESTONE_STATUS.md#experiment-queue).
-Read pending rows in priority order and follow their links to the governing
-cards, findings and deferrals. Check [project open questions](docs/OPEN_QUESTIONS.md)
+Start with `AGENTS.md`, `docs/LANGUAGE_POLICY.md` and the short
+[`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md) for the current milestone
+table and [canonical work plan](docs/MILESTONE_STATUS.md#experiment-queue).
+Completed cards and closed rows live in [`docs/MILESTONE_ARCHIVE.md`](docs/MILESTONE_ARCHIVE.md).
+The archive and `CHANGELOG.md` are lookup-only for a specific historical question;
+neither is mandatory reading before a change.
+Read pending rows in priority order; follow an archived card only to answer a
+specific question about a potentially eligible item. Check [project open questions](docs/OPEN_QUESTIONS.md)
 and [open requirements questions](docs/requirements/OPEN_QUESTIONS.md) for
 unresolved owner choices. Use the [dispatch rules](docs/DEVELOPMENT_PROCESS.md#experiment-queue)
 to identify the next eligible action in scope. Recover the owner authorization,
@@ -37,9 +41,12 @@ the consolidated exposure index without running research.
 - Keep dates and previous versions for history or compatibility **only when they do not interfere with functionality**, stable APIs or current instructions. Git history and the single changelog hold historical states; canonical docs describe the present state.
 - Keep the documentation short and understandable; avoid redundant prose and stale versions. Before completion, verify that the actual changed-file list matches the changelog.
 
-## Read in this order
+## Subject lookup when relevant
 
-1. `docs/LANGUAGE_POLICY.md`, `AGENTS.md` and `CHANGELOG.md`
+After the short intake above, use this subject list for initial orientation or
+the current change; it is not a requirement to reread the full set each session.
+
+1. `docs/LANGUAGE_POLICY.md`, `AGENTS.md`
 2. `docs/PRODUCT_VISION.md` — end-state vision for v1.0
 3. `docs/MILESTONE_DOD.md` — acceptance gates for all milestones
 3a. **`docs/DEVELOPMENT_PROCESS.md` — binding Build–Measure–Learn method for every development increment**

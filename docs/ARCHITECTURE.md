@@ -91,7 +91,7 @@ separate records, not invented outcome trials.
 M2-E20 still needs an eligible ordered contrast with justified dependence and
 precision. Restoring provenance and diagnostic views supplies no missing
 forecast loss sequence or independent observations. See the
-[capacity and forecast follow-up](MILESTONE_STATUS.md#m2-e20-capacity-and-forecast-evidence-follow-up).
+[capacity and forecast follow-up](MILESTONE_ARCHIVE.md#m2-e20-capacity-and-forecast-evidence-follow-up).
 Before a future authorized comparison, select the smallest evidence retention
 that can answer its decision using the [retention contract](CONTRACTS.md#prospective-retention-selected-from-the-research-decision).
 
@@ -219,7 +219,7 @@ The Binance Spot adapter validates a local daily archive and checksum before pro
 `Bars` input used by the synthetic workflow. The existing research runner uses the shared
 features, folds, evaluator, Governor and journal. For the accepted BTCUSDT scope, the next UTC
 day is a reserved interval in the manifest. Evaluation workers receive only the research day.
-See the [M1 acceptance evidence](MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
+See the [M1 acceptance evidence](MILESTONE_ARCHIVE.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
 The optional `spot_dataset` data-only entry reuses `binance_spot_pilot.load_spot_day`,
 `Bars`, `write_dataset`, `provenance.snapshot` and the existing supervisor/worker

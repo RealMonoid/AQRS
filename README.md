@@ -10,7 +10,7 @@ AQRS is designed as a local, CPU-friendly research platform for **short-horizon 
 
 ## Target product at v1.0
 
-The owner-authorized [M2-E22 study](docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal)
+The owner-authorized [M2-E22 study](docs/MILESTONE_ARCHIVE.md#m2-e22-test-card-predictive-first-spot-reversal)
 tests a fixed 30-minute Spot reversal against both constant directions on
 365 evaluation days after 91 training days. Prediction is measured before
 any cost or trading gate. September–October 2026 and January 6 remain
@@ -18,7 +18,7 @@ any cost or trading gate. September–October 2026 and January 6 remain
 `python -m aqrs.predictive_spot --smoke NEW_OUTPUT` exercises synthetic data
 only. The single market attempt uses `--run PUBLISHED_SHA` after source-bound
 registration, publication and verification; it refuses an existing output.
-The [completed study](docs/MILESTONE_STATUS.md#m2-e22-learning-card-prediction-before-costs)
+The [completed study](docs/MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs)
 passed the predictive screen but lost under the fixed illustrative costs.
 Artifacts are under `artifacts/m2-e22/run-01/` (report, journal, raw archive
 checksums and recoverable source). D01's legacy preparation scope is unchanged.
@@ -38,8 +38,12 @@ The final product is a **locally deployable alpha-research laboratory, not an au
 
 ## Start with Codex
 
-Read [`AGENTS.md`](AGENTS.md), [`CODEX_START.md`](CODEX_START.md) and the current
-[`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md). The original handoff archive and its
+Start with [`AGENTS.md`](AGENTS.md), [`docs/LANGUAGE_POLICY.md`](docs/LANGUAGE_POLICY.md)
+and the short current [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md).
+Use [`CODEX_START.md`](CODEX_START.md) and relevant subject documents for orientation.
+The [milestone archive](docs/MILESTONE_ARCHIVE.md) and `CHANGELOG.md` are
+lookup-only for specific historical questions, not mandatory reading before changes.
+The original handoff archive and its
 checksum manifest are historical inputs. The checked-out source and the current project documents
 govern development.
 Codex uses the recorded owner authorization and the
@@ -48,7 +52,7 @@ to complete necessary steps and pull the next eligible covered queue item.
 
 ## Preserved M2-E19 volatility regime pilot
 
-The [registered pilot](docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter)
+The [registered pilot](docs/MILESTONE_ARCHIVE.md#m2-e19-test-card-volatility-regime-filter)
 used only the ten qualified M2-E18 BTCUSDT Spot archives. The completed
 comparison remains `INCONCLUSIVE / DEFER`; integration does not authorize
 another count or model run. The historical `--archives` and `--output`
@@ -119,7 +123,7 @@ Use Python 3.11 or 3.12 in a clean virtual environment. Run the commands in **bo
 ## M1 pilot: import one Binance BTCUSDT spot day
 
 Use a local Binance Vision daily one-minute ZIP and its matching `.CHECKSUM` file.
-For the archived pilot, use [January 5, 2026](docs/MILESTONE_STATUS.md#m1-e02-learning-card-binance-btcusdt-spot-2026-11-08).
+For the archived pilot, use [January 5, 2026](docs/MILESTONE_ARCHIVE.md#m1-e02-learning-card-binance-btcusdt-spot-2026-11-08).
 With the dependencies above installed, run the offline importer into a new directory
 under an existing parent:
 
@@ -133,7 +137,7 @@ non-commercial technical pilot.
 
 ## Prepare or run the synthetic blind diagnostic
 
-[AQRS-B01](docs/MILESTONE_STATUS.md#aqrs-b01-test-card-external-synthetic-blind-search-preparation)
+[AQRS-B01](docs/MILESTONE_ARCHIVE.md#aqrs-b01-test-card-external-synthetic-blind-search-preparation)
 is an owner-gated, external-synthetic diagnostic. Its
 [delivery contract](docs/CONTRACTS.md#a2-external-synthetic-blind-test-input-aqrs-b01)
 and [fixed procedure](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
@@ -233,7 +237,7 @@ Activity retains quote volume, trade count and taker-buy base/quote volume, avai
 only at bar close. The top-level `report.json` records the frozen plan, source,
 per-worker outcome and observed resources. Failed or partial attempts remain explicit;
 an existing output directory is never overwritten. More than one symbol is not
-automatically independent evidence. See [AQRS-D01](docs/MILESTONE_STATUS.md#aqrs-d01-test-card-free-spot-data-expansion)
+automatically independent evidence. See [AQRS-D01](docs/MILESTONE_ARCHIVE.md#aqrs-d01-test-card-free-spot-data-expansion)
 for the fixed acquisition budget and verification status.
 
 ## M1 pilot: run the BTCUSDT spot campaign
@@ -251,8 +255,8 @@ The run writes `data_manifest.json`, `plan.json`, `report.json`, `report.md` and
 when admitted, `dataset.csv` under its run ID in `artifacts/m1-e04/`. Attempts
 are stored in the pilot's SQLite journal. Use the run command alone for this
 budget because `research plan` performs a separate synthetic preflight fit.
-See the [M1-E04 Test Card](docs/MILESTONE_STATUS.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
-for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
+See the [M1-E04 Test Card](docs/MILESTONE_ARCHIVE.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
+for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_ARCHIVE.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
 ## Preserved M2-E14 and M2-E18 discovery comparisons
 
@@ -266,13 +270,13 @@ The historical entry writes an attempt journal, recoverable execution source, ma
 report and short Markdown report. The market entry requires the verified
 published revision and an exact admission record for the registered ten
 BTCUSDT Spot days. An Ubuntu market replay also requires the valid Windows
-report bound by digest. See the [Test Card](docs/MILESTONE_STATUS.md#m2-e14-guarded-campaign-entry-test-card)
+report bound by digest. See the [Test Card](docs/MILESTONE_ARCHIVE.md#m2-e14-guarded-campaign-entry-test-card)
 for eligibility, the shared Governor plan and the descriptive claim.
 
 Select `--campaign M2-E18` to exercise the same entry with the fixed
 December 1–10, 2025 AQRS-D01 scope. Its market preparation also verifies
 the D01 archive and checksum digests and the M2-E17 training-prefix
-fingerprint. See the [M2-E18 Test Card](docs/MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+fingerprint. See the [M2-E18 Test Card](docs/MILESTONE_ARCHIVE.md#m2-e18-guarded-campaign-entry-test-card).
 Both campaigns are closed. Current completed registration records deliberately
 reject fresh admission. The tests stage digest-bound historical registrations
 in temporary directories; they do not reset the canonical exposure index.
@@ -348,7 +352,7 @@ There is no new real-data count runner in this increment.
 The [AQRS-A07 verification record](evidence/aqrs-a07-verification.json) retains
 the synthetic example, regression results, independent review and CI evidence.
 
-The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
+The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_ARCHIVE.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
 
 Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the configured Git remote carries the versioned bundle. The repository was public when checked on 2026-11-14; local research scope does not imply private repository access. Refresh evidence and exposure records before accepting a new campaign.
 
@@ -368,7 +372,7 @@ See the [supervised replay scope](docs/OPEN_QUESTIONS.md#m2-supervised-pilot-rep
 `python -B -m scripts.m2_e15_count plan` checks the fixed count budget
 without opening market files. The matching `run` used the one authorized
 BTCUSDT development count. Its local output directory reserves the attempt.
-The [M2-E15 result](docs/MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
+The [M2-E15 result](docs/MILESTONE_ARCHIVE.md#m2-e15-learning-card-state-persistence-count)
 links the preserved evidence and the scope of any follow-up.
 
 Verify the named campaign archives and their

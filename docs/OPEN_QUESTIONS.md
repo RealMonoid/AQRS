@@ -8,7 +8,7 @@ These issues were **intentionally left undecided**. Implement v0.1 using the lab
 |---|---|---|
 | Which real asset and venue? | `SYNTH_BTC_LIKE`, artificial dataset only | Venue, spot/perpetual/equity/future, liquidity, data quality |
 | Which bar frequency and holding period? | Illustrative five-minute bars, three-bar horizon | Select horizons based on data and net trading economics |
-| Which data source? | Seeded offline simulation | Binance BTCUSDT spot is [accepted for the bounded M1 research scope](MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09). Broader coverage and economic suitability remain open. The [Syncster/NQ screen](MILESTONE_STATUS.md#m1-e01-learning-card-syncsternq-2026-11-08) left coverage, bar timestamps and rollover unresolved. The [alternative NQ screen](MILESTONE_STATUS.md#m1-e03-learning-card-alternative-no-cost-nq-source-2026-11-08) found a free individual-contract sample with an unconfirmed bar boundary. |
+| Which data source? | Seeded offline simulation | Binance BTCUSDT spot is [accepted for the bounded M1 research scope](MILESTONE_ARCHIVE.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09). Broader coverage and economic suitability remain open. The [Syncster/NQ screen](MILESTONE_ARCHIVE.md#m1-e01-learning-card-syncsternq-2026-11-08) left coverage, bar timestamps and rollover unresolved. The [alternative NQ screen](MILESTONE_ARCHIVE.md#m1-e03-learning-card-alternative-no-cost-nq-source-2026-11-08) found a free individual-contract sample with an unconfirmed bar boundary. |
 | Which execution? | `open[t+1]` reference with taker-like cost approximation | Market/limit/partial fills, latency, slippage, depth and impact |
 | Which costs? | Configurable illustrative bps, never represented as actual exchange rates | Venue-, volatility-, size- and time-dependent estimates |
 | Are long and short available? | `allow_short=true` for **synthetic simulation only**, no broker | Spot/perpetual/borrow/margin/funding/liquidation risk |
@@ -30,14 +30,14 @@ of interrupted rows is outside the current restart contract.
 
 **Resolved 2026-11-14.** The owner authorized and AQRS executed the single
 planning diagnostic below through the explicit P06 decision. The
-[verified result](MILESTONE_STATUS.md#m2-e20-p06-learning-card-local-expansion-deferred)
+[verified result](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred)
 is DEFER for that fixed E18 volume-comparison expansion. The owner's
 2026-11-14 clarification confines the no-new-data conclusion to that contrast;
 future candidates use the [new data authorization](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
 The original scope is preserved below and is bounded by the
-[registered Card](MILESTONE_STATUS.md#m2-e20-p06-test-card-one-archived-report-calibration).
+[registered Card](MILESTONE_ARCHIVE.md#m2-e20-p06-test-card-one-archived-report-calibration).
 Quant Research recommended the bounded look because the
-[P05 sensitivity](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
+[P05 sensitivity](MILESTONE_ARCHIVE.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
 showed that dispersion can change whether local longitudinal evidence is even
 plausible. P02 explicitly reserves specific authorization for a new report
 diagnostic; ordinary design, arithmetic and verification are already complete.
@@ -123,14 +123,14 @@ This is not a request for new dates, a rerun, or 6–12 months of data.
 
 **Resolved 2026-11-14.** The owner approved the fixed Windows comparison
 and conditional headless non-root Ubuntu replay. The
-[P04 Learning Card](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+[P04 Learning Card](MILESTONE_ARCHIVE.md#m2-e20-p04-learning-card-source-bound-e09-replay)
 records both completed, independently verified runs. The original
 source-linkage gap remains a historical limitation.
 
 **Original decision.** Authorize a new source-bound M2-E09 reproduction as M2
 software acceptance evidence, or leave the supervised reproducibility
 criterion open until original run-linked source evidence appears. The
-[M2-E16 recovery review](MILESTONE_STATUS.md#m2-e16-learning-card-historical-source-binding-2026-11-10)
+[M2-E16 recovery review](MILESTONE_ARCHIVE.md#m2-e16-learning-card-historical-source-binding-2026-11-10)
 found no exact source binding for both historical runs. The executed
 reproduction preserves the LightGBM research disposition.
 
@@ -147,7 +147,7 @@ preflight, scope or budget violation, incomplete Windows result or
 platform mismatch. Keep the original reports and technical/scientific
 dispositions as historical evidence.
 
-**Prepared verification.** [M2-E20-P03](MILESTONE_STATUS.md#m2-e20-p03-learning-card-supervised-replay-readiness)
+**Prepared verification.** [M2-E20-P03](MILESTONE_ARCHIVE.md#m2-e20-p03-learning-card-supervised-replay-readiness)
 checked the source and archive metadata and exercised the read-only verifier
 with synthetic receipts. The verifier implementation is separate from
 the queue handoff. Confirm that it is available for the receipt checks.
@@ -172,11 +172,11 @@ spend or recurring work. No change to defaults or research budgets.
 ## M2-E15 state persistence count
 
 **Resolved 2026-11-14.** The owner approved the single bounded count in the
-[execution card](MILESTONE_STATUS.md#m2-e15-count-entry-and-execution).
+[execution card](MILESTONE_ARCHIVE.md#m2-e15-count-entry-and-execution).
 
 **Original decision.** Authorize the named BTCUSDT spot access for December
 1–10, 2025 UTC and the single count in the
-[M2-E15 Test Card](MILESTONE_STATUS.md#m2-e15-p01-test-card-state-persistence-count-design),
+[M2-E15 Test Card](MILESTONE_ARCHIVE.md#m2-e15-p01-test-card-state-persistence-count-design),
 or keep the count deferred. The count uses the same completed-bar inputs
 for both fixed rules and uses no forward outcomes, estimator fits, new
 downloads or protected data. Require the exact data-scope guard, synthetic

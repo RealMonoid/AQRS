@@ -1,5 +1,39 @@
 # Changelog
 
+## 2026-11-14 — Separate current status from history and apply research learning
+
+Owner-requested one-time cleanup, not an audit or a research campaign. Move
+all 4,456 original status lines unchanged into one lookup-only archive; retain
+only current state and the compact learning table in the status file. Keep
+immutable evidence untouched through 22 compatibility links. Retarget current
+documentation links, remove archive/changelog from mandatory intake, retain
+nine untested lessons and enforce the owner's 400-line status limit in the
+existing checker. Add the requested prospective closeout loop and one E22
+small-effect/null sizing regression using existing calculation functions.
+No market access, historical result recalculation or production study change.
+The archive is the only new document, needed to separate retained history
+from mandatory current-state reading.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_ARCHIVE.md` (new verbatim history archive; content moved from `docs/MILESTONE_STATUS.md`)
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/MODEL_TOOL_CATALOG.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `docs/requirements/DECISIONS.md`
+- `docs/requirements/REQUIREMENTS.md`
+- `scripts/check_language_policy.py`
+- `tests/test_predictive_spot.py`
+
 ## 2026-11-14 — Apply owner data and effort decisions; execute predictive-first study
 
 Authorize question-driven free Binance Spot acquisition within approved work,

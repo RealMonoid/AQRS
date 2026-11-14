@@ -2,7 +2,7 @@
 
 **2026-11-14, M2-E22 PRE-START / REQUIREMENT CHANGE.** `ALLOW` preparation
 under the owner's direct study instruction and [new data scope](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
-The [Test Card](MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal)
+The [Test Card](MILESTONE_ARCHIVE.md#m2-e22-test-card-predictive-first-spot-reversal)
 fixes the question, year of evaluation, conditional precision and stop.
 The prior E20 no-new-data conclusion concerns only its E18 volume contrast.
 E22's simple predictive test has decision value without E21/B01 prerequisites;
@@ -11,7 +11,7 @@ holdout, card and source registration, pass guarded synthetic/negative checks
 and independent verification. No general audit is dispatched.
 
 **M2-E22 EXPERIMENT COMPLETION — `STOP` this fixed economic implementation.**
-The [completed study](MILESTONE_STATUS.md#m2-e22-learning-card-prediction-before-costs)
+The [completed study](MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs)
 passed the preregistered predictive test, then failed to produce positive net
 value under its illustrative costs. Keep both results; no extra data, retune
 or replay. The requested first study is complete. H01's observation trigger is
@@ -154,16 +154,16 @@ Keep current status and operative start conditions in the
 in their existing evidence records. Routine checks that leave the plan intact
 use the existing queue or card.
 
-The [AQRS-A09 walkthrough](MILESTONE_STATUS.md#aqrs-a09-sequence-audit-and-dispatch-check)
+The [AQRS-A09 walkthrough](MILESTONE_ARCHIVE.md#aqrs-a09-sequence-audit-and-dispatch-check)
 provides examples from the original audit.
 
 ### 2026-11-12 — M2-E21 Scout pilot
 
 **QUEUE CHANGE — `BLOCK_DEPENDENT_WORK` for dispatch.** Add the owner-approved
-[Scout pilot](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight) after
+[Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight) after
 M2-E20 in priority and ahead of B01 reassessment. M2-E20 addresses the
 remaining acceptance evidence recorded in
-[AQRS-A10](MILESTONE_STATUS.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
+[AQRS-A10](MILESTONE_ARCHIVE.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
 The E09 source gap governs use of that replay for acceptance. It is independent
 of a qualified synthetic Scout path. M2-E21 waits for a committed benchmark
 with defensible scoring criteria, a verified isolated handoff, and a bounded
@@ -174,7 +174,7 @@ finding, delivery, budget and start gates.
 ### 2026-11-12 — M2-E20 evidence readiness
 
 **EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK`.** The
-[M2-E20-P01 review](MILESTONE_STATUS.md#m2-e20-p01-learning-card-effective-observation-readiness)
+[M2-E20-P01 review](MILESTONE_ARCHIVE.md#m2-e20-p01-learning-card-effective-observation-readiness)
 closed the authorized methods preparation. Effective counts wait for a
 decision-specific, eligible chronological contrast and defensible dependence
 assumptions under the existing admission rules. The independent E09 route
@@ -187,9 +187,9 @@ remaining rows have no eligible action under the current mandate.
 
 **2026-11-12 UTC, 2026-11-13 local. BLOCKER RESOLUTION — `REPRIORITIZE`.**
 The previous dispatch exit was premature for authorized preparation.
-Pull [M2-E20-P02](MILESTONE_STATUS.md#m2-e20-p02-test-card-effective-count-design)
+Pull [M2-E20-P02](MILESTONE_ARCHIVE.md#m2-e20-p02-test-card-effective-count-design)
 to specify the comparison, then pull the independent
-[M2-E15-P01](MILESTONE_STATUS.md#m2-e15-p01-test-card-state-persistence-count-design)
+[M2-E15-P01](MILESTONE_ARCHIVE.md#m2-e15-p01-test-card-state-persistence-count-design)
 design before its separate data and run authorization. Both preparations
 closed. No priority change is needed among the six pending parent rows.
 
@@ -200,12 +200,12 @@ resolve that need by another report calculation. The E09 and E15 runs
 retain their separate authorizations. Scout requires a committed independent
 benchmark and qualified isolation within approved implementation scope.
 The other rows retain their owner or predecessor gates. See the
-[E15 closeout rescan](MILESTONE_STATUS.md#m2-e15-p01-learning-card-state-persistence-count-design).
+[E15 closeout rescan](MILESTONE_ARCHIVE.md#m2-e15-p01-learning-card-state-persistence-count-design).
 
 ### M2-E20-P03 completion and next dispatch
 
 **2026-11-13. EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK`.** The
-[source and receipt preparation](MILESTONE_STATUS.md#m2-e20-p03-learning-card-supervised-replay-readiness)
+[source and receipt preparation](MILESTONE_ARCHIVE.md#m2-e20-p03-learning-card-supervised-replay-readiness)
 closed. The E09 reproduction remains the first decision in the current
 queue that the owner can unblock. It needs the [separate replay authorization](OPEN_QUESTIONS.md#m2-supervised-pilot-replay)
 for one Windows run on the four named archives and a conditional Ubuntu
@@ -213,7 +213,7 @@ replay. Independent exact-path review and the Governor preflight still apply
 before each eligible execution. Effective-count work awaits the eligible
 series or dependence evidence identified in P02.
 
-**Rescan.** The independent [Scout preparation](MILESTONE_STATUS.md#scout-preparation-and-remaining-start-conditions)
+**Rescan.** The independent [Scout preparation](MILESTONE_ARCHIVE.md#scout-preparation-and-remaining-start-conditions)
 traced reuse and isolation. The independent commitment and implementation
 scope remain missing. B01 remains deferred behind Scout, with AQRS-A10-F1
 and the delivery, trial exception and start gates governing external use.
@@ -226,14 +226,14 @@ authorized M4 planning. No eligible action remains in the current mandate.
 
 **2026-11-14. PRE-START — `ALLOW` for the Windows comparison.** The owner
 approved the fixed four-day scope. The
-[published Test Card](MILESTONE_STATUS.md#m2-e20-p04-test-card-source-bound-e09-replay)
+[published Test Card](MILESTONE_ARCHIVE.md#m2-e20-p04-test-card-source-bound-e09-replay)
 fixed the source, limits and conditional Ubuntu gate. Independent Windows
 verification cleared that replay.
 
 **EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK` for further E20 outcomes.**
-The [paired receipts](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+The [paired receipts](MILESTONE_ARCHIVE.md#m2-e20-p04-learning-card-source-bound-e09-replay)
 close the supervised source-reproducibility slice. The
-[capacity follow-up](MILESTONE_STATUS.md#m2-e20-capacity-and-forecast-evidence-follow-up)
+[capacity follow-up](MILESTONE_ARCHIVE.md#m2-e20-capacity-and-forecast-evidence-follow-up)
 establishes local calendar capacity. The next outcome slice needs an
 eligible ordered comparison and a defensible dependence and precision basis.
 Final M2 release verification requires the remaining evidence and the
@@ -245,8 +245,8 @@ conditions. No additional execution is eligible under this mandate.
 **2026-11-14. `ALLOW` for the authorized reset and evidence design.**
 The owner explicitly requested ordinary Git consolidation, necessary fixes,
 verification and decision-specific E20 preparation. The
-[reset record](MILESTONE_STATUS.md#aqrs-er01-execution-reset) preserves the
-integration evidence. The [P05 design](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
+[reset record](MILESTONE_ARCHIVE.md#aqrs-er01-execution-reset) preserves the
+integration evidence. The [P05 design](MILESTONE_ARCHIVE.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
 supplies the unit, fixed estimand, precision sensitivity and verified capacity.
 It closes the autonomously solvable research-design wait.
 
@@ -282,7 +282,7 @@ The governance freeze leaves existing verification and follow-ups active.
 unblocks independent E15 work. E20 still needs an eligible ordered comparison
 and precision basis. E21 needs the independent benchmark, approved scope and
 qualified isolation. B01 still depends on the capability review. Pull E15 as
-the first eligible row. The [count card](MILESTONE_STATUS.md#m2-e15-count-entry-and-execution)
+the first eligible row. The [count card](MILESTONE_ARCHIVE.md#m2-e15-count-entry-and-execution)
 gates the single market read on verified source, synthetic checks, an
 independent review and Governor admission. A pass only permits consideration
 of a separately scoped outcome proposal. A miss ends this work item.
@@ -295,7 +295,7 @@ passed the synthetic input, receipt and duplicate-run checks. The scope
 contains none of the January 6 holdout files.
 
 **EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK`.** The independently
-verified [count](MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
+verified [count](MILESTONE_ARCHIVE.md#m2-e15-learning-card-state-persistence-count)
 closes E15. Rescanning the five pending rows found no eligible next action.
 Resume E20 with an eligible ordered comparison, justified dependence and
 precision, and scoped approval for any new market access. Final M2 verification

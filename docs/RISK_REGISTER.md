@@ -1,9 +1,30 @@
 # AQRS — Project risks and mitigations
 
+## Lessons retained from archived cards
+
+One-time owner cleanup, 2026-11-14. These nine lines retain untested implications
+of the archived observations, not new rules, audit work or authorized tests.
+Existing timing, cost arithmetic, causal, coverage, source-binding, exposure,
+watchdog and journal regressions remain the safeguards for their tested cases.
+The suggested checks below were not implemented in this cleanup; E22's separate
+synthetic sizing regression does not close its empirical confirmation question.
+
+| Source | Transferable lesson and useful future check |
+|---|---|
+| [M2-E16](MILESTONE_ARCHIVE.md#m2-e16-learning-card-historical-source-binding-2026-11-10) | A later reproducible source cannot authenticate missing original executed bytes; a useful evidence-review case would distinguish original run linkage, later replay and unresolved provenance. |
+| [E20-P01/P02](MILESTONE_ARCHIVE.md#m2-e20-p02-learning-card-effective-count-design), [P06](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred) | Effective information depends on the exact contrast, weighting, gaps and dependence; a future known-dependence case should challenge unequal groups and empty calendar days rather than equating dates or trades with independent units. |
+| [E14 design](MILESTONE_ARCHIVE.md#m2-e14-pre-outcome-design-checkpoint), [A10](MILESTONE_ARCHIVE.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions) | An opportunity-level hurdle can require an implausible total gain at low action frequency; a future threshold-design example should relate the chosen effect to action frequency and matched costs, beyond the already-tested denominator arithmetic. |
+| [E22](MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs) | Reserving 61 days does not establish power; future confirmation design needs claim-specific small-effect, dependence and joint-gate power/error evidence, not the new fixed synthetic examples alone. |
+| [M1-E05](MILESTONE_ARCHIVE.md#m1-e05-learning-card-real-data-execution-check-2026-11-08), [E22](MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs) | Correct fixed-cost arithmetic does not validate historical spread, latency or fills; future execution qualification should compare known delayed/partial-fill cases under the same opportunities and cost components. |
+| [M1-INC-01](MILESTONE_ARCHIVE.md#m1-e10-learning-card-cached-windows-wheels-and-replay-2026-11-09) | A startup timeout does not identify slow fitting; a future bounded cold/warm check should separate imports, handshake and fit while retaining the existing deadline. |
+| [M1-E08/E09](MILESTONE_ARCHIVE.md#m1-e09-learning-card-windows-wheelhouse-and-replay-2026-11-09), [M1-E04](MILESTONE_ARCHIVE.md#m1-e04-learning-card-first-real-data-campaign-2026-11-08) | One cache's missing package is not proof of absence from all caches, and a staged environment may lack the required CPU baseline; useful setup checks would cover platform-specific wheel inventory, top-level metadata and import compatibility before a campaign. |
+| [M1-E06](MILESTONE_ARCHIVE.md#m1-e06-learning-card-complete-real-data-campaign-2026-11-09) | A zero stage timer can mean below clock resolution, not zero work; a future timing/report fixture should preserve that distinction. |
+| [A03/A11/A12](MILESTONE_ARCHIVE.md#aqrs-a12-learning-card--autonomous-work-management), [A16-P01](MILESTONE_ARCHIVE.md#aqrs-a16-p01-learning-card-p06-observation) | Passing document walkthroughs does not demonstrate future agent behavior or time savings; actual adherence can only be checked on ordinary authorized work at existing observation triggers, without inventing another audit. |
+
 ## M2-E22 predictive study and holdout
 
 **2026-11-14, before implementation.** Critical research-path change, bounded
-by the [E22 Test Card](MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal).
+by the [E22 Test Card](MILESTONE_ARCHIVE.md#m2-e22-test-card-predictive-first-spot-reversal).
 Top event: false predictive claim OR protected-data access. Paths: wrong
 bar alignment OR OOS-fitted baseline OR row-level independence assumption OR
 outcome-driven sample choice; protected access requires an eligible request
@@ -165,7 +186,7 @@ Assign an ID, owner, observable trigger, budget/stop rule, proposed test and aff
 138 local tests, an independent read-only review and four Windows/Linux CI jobs
 on the same source tree. Null and planted fixtures reject the known V1 bias and
 preserve V2's expected response; duplicate model attempts retain their diagnostic
-views. See the [Learning Card](MILESTONE_STATUS.md#aqrs-a08-learning-card-descriptive-signal-diagnostics).
+views. See the [Learning Card](MILESTONE_ARCHIVE.md#aqrs-a08-learning-card-descriptive-signal-diagnostics).
 This closes the scoped engineering actions, not the future campaign's precision,
 independent full-design review, runtime admission or protected-evaluation gates.
 
@@ -181,7 +202,7 @@ Residual risks are the narrow holiday/weekend sample, observational confounding,
 
 **Implementation verification, 2026-11-11.** AQRS-A07's strict control-window and
 complete-opportunity guards passed independent review and four Windows/Linux
-CI jobs at `a7c11bf`; see the [Learning Card](MILESTONE_STATUS.md#aqrs-a07-learning-card-research-comparison-and-precision-boundaries).
+CI jobs at `a7c11bf`; see the [Learning Card](MILESTONE_ARCHIVE.md#aqrs-a07-learning-card-research-comparison-and-precision-boundaries).
 The reviewer found and verified correction of the initial equality boundary
 using an actual close/open price jump. Q1's V1 outcome restriction remains;
 Q3's scientific design admission remains open. Verified software and new
@@ -190,7 +211,7 @@ diagnostics do not resolve those remaining research prerequisites.
 ### FTA-M2-E14: pre-outcome implementation plan
 
 The top event is an invalid comparison or unauthorized outcome run. The
-[design checkpoint](MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint)
+[design checkpoint](MILESTONE_ARCHIVE.md#m2-e14-pre-outcome-design-checkpoint)
 fixes the descriptive scope. The future entry must exercise these paths:
 
 | Failure path | Safeguard and required proof |
@@ -217,7 +238,7 @@ the published scope. Test rejection of cross-scope input and receipts,
 altered digests, a mismatched training fingerprint and missing diagnostics.
 Preserve the previous scope's CLI and attempt identities. Independent review
 and a frozen-revision platform comparison are required before closing the
-[Test Card](MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+[Test Card](MILESTONE_ARCHIVE.md#m2-e18-guarded-campaign-entry-test-card).
 
 ### FTA-M2-E19: regime filter
 
@@ -231,7 +252,7 @@ planted future-dependent scorer, and exercise the null and planted cost-aware
 comparisons. An incomplete count or outcome admission must fail before outcome
 access. Run with the existing isolated workers and explicit fit and time caps.
 The reused days support descriptive evidence with unresolved dependence and
-cost uncertainty. See the [Test Card](MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter).
+cost uncertainty. See the [Test Card](MILESTONE_ARCHIVE.md#m2-e19-test-card-volatility-regime-filter).
 
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
@@ -251,13 +272,13 @@ For the one-off M2-E03 acquisition, a protected-day request could follow an out-
 
 For M2-E08, an invalid comparison can follow a foreign-day archive **OR** a fold reaching beyond its boundary **OR** unequal model inputs or costs **OR** an unsupervised or over-budget fit. Use a literal four-date allowlist and recorded digests, validate each day and the concatenated cadence, derive both folds with the existing purge, pass one shared evaluation request, and use the existing worker handshake and limits. Check forbidden dates and out-of-window folds without opening protected data. Verify both fit counts and matched evaluation rows before interpreting any result.
 
-For M2-E10, a misleading comparison can follow a validation row influencing fit or either cutoff **OR** an alert whose exit crosses its UTC hour **OR** counting unmatched or simultaneous alerts incorrectly **OR** treating an anomaly score as a signed trading forecast. Reuse FTA-M1-B and the four-archive guard above. Spy on fit and calibration inputs, reject a planted exit boundary, and perturb future bars before rescoring the earlier prefix with the same estimator. Check matched, unmatched, simultaneous and empty hours. Feed only the registered alert flags to the common long-or-flat cost diagnostic. Require the worker guards, fixed budget and independent verification before interpreting paired results. The [M2-E10 evidence](MILESTONE_STATUS.md#m2-e10-learning-card-isolation-forest-pilot-2026-11-09) records the prevention checks and both guarded receipts.
+For M2-E10, a misleading comparison can follow a validation row influencing fit or either cutoff **OR** an alert whose exit crosses its UTC hour **OR** counting unmatched or simultaneous alerts incorrectly **OR** treating an anomaly score as a signed trading forecast. Reuse FTA-M1-B and the four-archive guard above. Spy on fit and calibration inputs, reject a planted exit boundary, and perturb future bars before rescoring the earlier prefix with the same estimator. Check matched, unmatched, simultaneous and empty hours. Feed only the registered alert flags to the common long-or-flat cost diagnostic. Require the worker guards, fixed budget and independent verification before interpreting paired results. The [M2-E10 evidence](MILESTONE_ARCHIVE.md#m2-e10-learning-card-isolation-forest-pilot-2026-11-09) records the prevention checks and both guarded receipts.
 
 Actual logical AND dependencies and minimal single-point paths should be derived when the relevant implementation exists, not confidently invented in advance. If a control failure is found, the linked milestone remains blocked until the protective regression test passes. Postmortems for significant incidents follow the existing milestone record / issue workflow, with prevention steps and recheck criteria.
 
 ### FTA-AQRS-SC01: Sierra Chart interchange
 
-The top event is a signal displayed against an earlier or wrong bar. It can follow an active or future bar being exported **OR** an incorrect UTC conversion, chart identity or bar key **OR** stale or duplicate output being accepted after replay or full recalculation. Reuse FTA-M0-A and FTA-M1-A. Require a completed-bar check at export, separate open and availability timestamps, strict key checks at both ends and deterministic recomputation. In [AQRS-SC01](MILESTONE_STATUS.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10), change an active and a later bar, plant a shifted timestamp and a duplicate or wrong chart key, and compare stepped replay with full recalculation. Require the earlier signal prefix to remain identical or the invalid exchange to be rejected. Review source and runtime evidence before adoption. The first fixture covers fixed one-minute UTC bars only. Cross-timeframe joins and session or daylight-saving transitions require separate evidence if introduced.
+The top event is a signal displayed against an earlier or wrong bar. It can follow an active or future bar being exported **OR** an incorrect UTC conversion, chart identity or bar key **OR** stale or duplicate output being accepted after replay or full recalculation. Reuse FTA-M0-A and FTA-M1-A. Require a completed-bar check at export, separate open and availability timestamps, strict key checks at both ends and deterministic recomputation. In [AQRS-SC01](MILESTONE_ARCHIVE.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10), change an active and a later bar, plant a shifted timestamp and a duplicate or wrong chart key, and compare stepped replay with full recalculation. Require the earlier signal prefix to remain identical or the invalid exchange to be rejected. Review source and runtime evidence before adoption. The first fixture covers fixed one-minute UTC bars only. Cross-timeframe joins and session or daylight-saving transitions require separate evidence if introduced.
 
 ### FTA-M2-E21: Scout pilot
 
@@ -273,7 +294,7 @@ interruption stay visible and that the complete planted fixture can pass.
 
 Reuse FTA-M0-B to prevent unbounded invocations and charge each attempted
 call and trial under its declared limit. Test an over-limit request and an
-interruption before blind execution. The [M2-E21 card](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight)
+interruption before blind execution. The [M2-E21 card](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight)
 owns readiness. Qualify the actual isolation and supervision path before
 dispatch. B01's open findings still govern its own admission flow.
 
@@ -309,9 +330,9 @@ the independent acceptance review under the [replay decision](OPEN_QUESTIONS.md#
 
 Engineering owns closure. The affected entry is a prerequisite under the [queue rules](DEVELOPMENT_PROCESS.md#experiment-queue) whenever a planned task uses or carries forward that entry's admission flow. Use the minimum authorized verification needed for closure and record the independent check before campaign reuse. Shared helpers remain eligible when the selected entry does not inherit the affected admission flow.
 
-- **AQRS-A10-F1 · OPEN · B01 threshold application and reporting.** At `044363c`, the contrast passed with 60 matched observations per arm although only 16 per arm entered the interval. A positive completed trial followed by a timeout also produced a local dataset report with `complete=false` and `effect_claimed=true`. The published verdict correctly withheld the dataset claim. Before external B01 execution, independently verify three cases through the affected entry: discarded days cannot supply the coverage minimum for an interval, a positive trial followed by a stop preserves candidate evidence and withholds the dataset claim, and a mismatch between registered and executed horizon, stride, warmup, block length or trial count is rejected or impossible by construction. Use synthetic fixtures under a separately scoped correction. The existing capability, delivery, budget and start gates also apply. See the [A10 review](MILESTONE_STATUS.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
-- **AQRS-A02-F2 · CLOSED 2026-11-11 · Supervised replay admission.** The former fixed-limit path now loads the effective validated Governor policy. The real entry rejects tighter fit limits, unsupported strict memory mode and malformed configuration before archive access or fitting; a compatible configuration completes the real synthetic comparison with unchanged research costs. A separate read-only reviewer and all four Windows/Linux CI jobs verified the correction at `70005cc`. See the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). This does not make historical source linkage complete or make pilot parent I/O externally supervised.
-- **AQRS-A02-F5 · CLOSED 2026-11-11 · Core CLI campaign deadline.** Expired admission now rejects before staging even with timing disabled. Core preparation, timing and candidate workers share the original campaign deadline; the blocked-preparation regression and existing watchdog tests pass on Windows and Linux. The independent reviewer verified the corrected boundary at `70005cc`; see the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). Source/report persistence, journal finalization and cleanup remain outside the external worker watchdog. This is a bounded compute guarantee, not a hard end-to-end I/O deadline. Future entries must preserve or explicitly qualify this boundary before reuse.
+- **AQRS-A10-F1 · OPEN · B01 threshold application and reporting.** At `044363c`, the contrast passed with 60 matched observations per arm although only 16 per arm entered the interval. A positive completed trial followed by a timeout also produced a local dataset report with `complete=false` and `effect_claimed=true`. The published verdict correctly withheld the dataset claim. Before external B01 execution, independently verify three cases through the affected entry: discarded days cannot supply the coverage minimum for an interval, a positive trial followed by a stop preserves candidate evidence and withholds the dataset claim, and a mismatch between registered and executed horizon, stride, warmup, block length or trial count is rejected or impossible by construction. Use synthetic fixtures under a separately scoped correction. The existing capability, delivery, budget and start gates also apply. See the [A10 review](MILESTONE_ARCHIVE.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
+- **AQRS-A02-F2 · CLOSED 2026-11-11 · Supervised replay admission.** The former fixed-limit path now loads the effective validated Governor policy. The real entry rejects tighter fit limits, unsupported strict memory mode and malformed configuration before archive access or fitting; a compatible configuration completes the real synthetic comparison with unchanged research costs. A separate read-only reviewer and all four Windows/Linux CI jobs verified the correction at `70005cc`. See the [AQRS-A06 Learning Card](MILESTONE_ARCHIVE.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). This does not make historical source linkage complete or make pilot parent I/O externally supervised.
+- **AQRS-A02-F5 · CLOSED 2026-11-11 · Core CLI campaign deadline.** Expired admission now rejects before staging even with timing disabled. Core preparation, timing and candidate workers share the original campaign deadline; the blocked-preparation regression and existing watchdog tests pass on Windows and Linux. The independent reviewer verified the corrected boundary at `70005cc`; see the [AQRS-A06 Learning Card](MILESTONE_ARCHIVE.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). Source/report persistence, journal finalization and cleanup remain outside the external worker watchdog. This is a bounded compute guarantee, not a hard end-to-end I/O deadline. Future entries must preserve or explicitly qualify this boundary before reuse.
 
 ### M0 implementation controls
 

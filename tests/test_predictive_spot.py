@@ -19,6 +19,7 @@ from aqrs import predictive_spot as study
 from aqrs.binance_spot_pilot import import_day, require_spot_identity
 from aqrs.config import load
 from aqrs.market import Bars
+from aqrs.planning import mean_precision_plan
 
 
 def test_registration_file_matches_git_lf_bytes(tmp_path, monkeypatch):
@@ -204,6 +205,33 @@ def test_hac_matches_independent_bartlett_matrix():
     )
     expected = np.sqrt(centered @ weights @ centered / len(x) ** 2)
     assert study.hac(x, lags)["se"] == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("days", [61, 365])
+def test_small_effect_sizing_keeps_short_dependent_sample_inconclusive(days):
+    """Prospective sizing fixture, not a market or statistical power estimate."""
+    # Fixed before verification in AQRS-C01. Centering fixes the known answer;
+    # one seeded realization cannot calibrate error rates or the joint screen.
+    rho = 1 / 3
+    innovations = np.random.default_rng(20261114).normal(
+        0, 0.1 * np.sqrt(1 - rho**2), 365
+    )
+    noise = np.empty(365)
+    noise[0] = innovations[0]
+    for i in range(1, len(noise)):
+        noise[i] = rho * noise[i - 1] + innovations[i]
+    null = noise[:days] - noise[:days].mean()
+    planted = null + 0.02
+    for lag in (7, 14):
+        assert study.hac(null, lag)["lower_95_one_sided"] < 0
+        detected = study.hac(planted, lag)["lower_95_one_sided"] > 0
+        assert detected == (days == 365)
+    # Reuse E22's *assumed* daily SD=.10, D=2, effect=.02. The helper's bps
+    # scaling is arithmetic only; no return or market input enters this test.
+    plan = mean_precision_plan(1000 * np.sqrt(2), 200, days)
+    assert plan["required_independent_units"] == 310
+    assert plan["target_within_assumed_capacity"] == (days == 365)
+    assert plan["planning_only"] and not plan["supports_economic_claim"]
 
 
 def test_shifted_majority_cannot_create_predictive_pass():

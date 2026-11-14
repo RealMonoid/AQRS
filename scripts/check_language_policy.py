@@ -12,6 +12,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+STATUS_PATH = Path("docs/MILESTONE_STATUS.md")
+STATUS_MAX_LINES = 400
 SUFFIXES = {".md", ".mdx", ".rst", ".txt", ".yaml", ".yml", ".json"}
 SKIP_DIRS = {
     ".git",
@@ -95,6 +97,11 @@ def audit(root: Path) -> tuple[int, list[str]]:
         except UnicodeError:
             issues.append(f"{path.relative_to(root)}: not readable as UTF-8")
             continue
+        if path.relative_to(root) == STATUS_PATH and len(lines) > STATUS_MAX_LINES:
+            issues.append(
+                f"{STATUS_PATH.as_posix()}: {len(lines)} lines exceeds the "
+                f"{STATUS_MAX_LINES}-line limit; move completed records to the archive"
+            )
         for number, line in enumerate(lines, 1):
             if german_issue(line):
                 issues.append(
@@ -116,6 +123,22 @@ def self_test():
     assert not german_issue(
         "The paper cites Müller and discusses out-of-sample model selection."
     )
+    # Exercise the actual audit at the owner's boundary, including CRLF input.
+    from tempfile import TemporaryDirectory
+
+    with TemporaryDirectory(prefix="aqrs-doc-policy-") as directory:
+        root = Path(directory)
+        (root / "docs").mkdir()
+        for relative, marker in POLICY_DECLARATIONS.items():
+            (root / relative).write_text(marker, encoding="utf-8")
+        (root / "CHANGELOG.md").write_text("# Changelog\n", encoding="utf-8")
+        status = root / STATUS_PATH
+        status.write_bytes(b"Current status.\r\n" * STATUS_MAX_LINES)
+        assert audit(root)[1] == []
+        with status.open("ab") as output:
+            output.write(b"One extra line.")
+        issues = audit(root)[1]
+        assert len(issues) == 1 and "401 lines" in issues[0]
     print("Language-policy checker self-test passed.")
 
 

@@ -47,7 +47,7 @@ illustrates this stopping decision.
 
 ### Agent discovery handoff
 
-Apply the following design in the [M2-E21 Scout pilot](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight).
+Apply the following design in the [M2-E21 Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight).
 The agent supplies a hypothesis or abstains. A proposal records the data view,
 dated observations, the suggested mechanism or exploratory origin, a rival
 explanation, the event and eligibility rule, direction, horizon, availability,
@@ -215,8 +215,8 @@ still has its final high, low, close and total volume available only at
 completion or later. For a position closed at a scheduled bar open, that bar's
 subsequent low cannot turn the open exit into a stop. Verify that the check
 rejects the wrong clock and accepts the causal path. Reuse the existing
-[momentum clock check](MILESTONE_STATUS.md#m2-e05-learning-card-decision-time-causality-2026-11-09)
-and [known-answer matched-control check](MILESTONE_STATUS.md#aqrs-a08-learning-card-descriptive-signal-diagnostics)
+[momentum clock check](MILESTONE_ARCHIVE.md#m2-e05-learning-card-decision-time-causality-2026-11-09)
+and [known-answer matched-control check](MILESTONE_ARCHIVE.md#aqrs-a08-learning-card-descriptive-signal-diagnostics)
 as patterns. See the [discussion](https://www.reddit.com/r/mltraders/s/tRRqYbTiMt)
 and [the X1-L limitation](https://github.com/privEgem/open-quant-trading-lab/blob/a4270df7d795cfda73ede1aed70371b53bb11f43/docs/LIMITATIONS.md).
 
