@@ -1,167 +1,552 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AQRS structured selection contract, format 1",
+  "title": "AQRS structured selection contract, format 2",
   "description": "Format only. No selector, admission guard, executor or independent quality evidence is supplied.",
   "oneOf": [
-    {"$ref": "#/$defs/registry"},
-    {"$ref": "#/$defs/request"},
-    {"$ref": "#/$defs/response"},
-    {"$ref": "#/$defs/publicSuite"}
+    {"$ref":"#/$defs/registry"},
+    {"$ref":"#/$defs/request"},
+    {"$ref":"#/$defs/response"},
+    {"$ref":"#/$defs/publicSuite"}
   ],
   "$defs": {
-    "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$"},
-    "revision": {"type": "string", "minLength": 1},
+    "id": {"type":"string","pattern":"^[A-Z][A-Z0-9_]{0,79}$"},
+    "revision": {"type":"string","minLength":1},
     "qualificationTest": {
-      "type": "object", "additionalProperties": false,
-      "required": ["status", "tested_rule_revision", "evidence_ref"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status","tested_rule_revision","evidence_ref","tested_scope_id"],
       "properties": {
-        "status": {"enum": ["PASSED", "FAILED", "NOT_RUN"]},
-        "tested_rule_revision": {"type": ["string", "null"], "minLength": 1},
-        "evidence_ref": {"type": ["string", "null"], "minLength": 1}
+        "status": {"enum":["PASSED","FAILED","NOT_RUN","INCONCLUSIVE"]},
+        "tested_rule_revision": {"type":["string","null"],"minLength":1},
+        "evidence_ref": {"type":["string","null"],"minLength":1},
+        "tested_scope_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]}
       },
-      "if": {"properties": {"status": {"const": "NOT_RUN"}}},
-      "then": {"properties": {"tested_rule_revision": {"type": "null"}, "evidence_ref": {"type": "null"}}},
-      "else": {"properties": {"tested_rule_revision": {"type": "string"}, "evidence_ref": {"type": "string"}}}
-    },
-    "rule": {
-      "type": "object", "additionalProperties": false,
-      "required": ["evaluation_rule_id", "revision", "qualification", "qualification_task_id"],
-      "properties": {
-        "evaluation_rule_id": {"$ref": "#/$defs/id"},
-        "revision": {"$ref": "#/$defs/revision"},
-        "qualification": {
-          "type": "object", "additionalProperties": false,
-          "required": ["known_answer", "null_case"],
-          "properties": {
-            "known_answer": {"$ref": "#/$defs/qualificationTest"},
-            "null_case": {"$ref": "#/$defs/qualificationTest"}
-          }
-        },
-        "qualification_task_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}
-      }
-    },
-    "question": {
-      "type": "object", "additionalProperties": false,
-      "required": ["question_id", "description", "state", "evaluation_rule_id", "current_action_id", "blocks", "outcome_actions"],
-      "properties": {
-        "question_id": {"$ref": "#/$defs/id"},
-        "description": {"type": "string", "minLength": 1},
-        "state": {"enum": ["OPEN", "RESOLVED", "DEFERRED"]},
-        "evaluation_rule_id": {"$ref": "#/$defs/id"},
-        "current_action_id": {"$ref": "#/$defs/id"},
-        "blocks": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
-        "outcome_actions": {
-          "type": "object", "additionalProperties": false,
-          "required": ["SUPPORTED", "REFUTED", "INCONCLUSIVE", "EXECUTION_ERROR"],
-          "properties": {
-            "SUPPORTED": {"$ref": "#/$defs/id"},
-            "REFUTED": {"$ref": "#/$defs/id"},
-            "INCONCLUSIVE": {"$ref": "#/$defs/id"},
-            "EXECUTION_ERROR": {"$ref": "#/$defs/id"}
-          }
+      "if": {"properties":{"status":{"const":"NOT_RUN"}}},
+      "then": {
+        "properties": {
+          "tested_rule_revision": {"type":"null"},
+          "evidence_ref": {"type":"null"},
+          "tested_scope_id": {"type":"null"}
+        }
+      },
+      "else": {
+        "properties": {
+          "tested_rule_revision": {"type":"string"},
+          "evidence_ref": {"type":"string"},
+          "tested_scope_id": {"$ref":"#/$defs/id"}
         }
       }
     },
-    "registry": {
-      "type": "object", "additionalProperties": false,
-      "required": ["document_type", "format_version", "registry_id", "revision", "evidence_mode", "notice", "actions", "evaluation_rules", "questions"],
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evaluation_rule_id","revision","qualifications"],
       "properties": {
-        "document_type": {"const": "QUESTION_REGISTRY"},
-        "format_version": {"const": 1},
-        "registry_id": {"$ref": "#/$defs/id"},
-        "revision": {"$ref": "#/$defs/revision"},
-        "evidence_mode": {"enum": ["PUBLIC_ASSUMPTIONS", "VERIFIED_RECORDS"]},
-        "notice": {"type": "string"},
-        "actions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
-        "evaluation_rules": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/rule"}},
-        "questions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/question"}}
+        "evaluation_rule_id": {"$ref":"#/$defs/id"},
+        "revision": {"$ref":"#/$defs/revision"},
+        "qualifications": {"type":"array","items":{"$ref":"#/$defs/scopedQualification"}}
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_id",
+        "description",
+        "state",
+        "evaluation_rule_id",
+        "current_action_id",
+        "blocks",
+        "outcome_actions",
+        "scope_id"
+      ],
+      "properties": {
+        "question_id": {"$ref":"#/$defs/id"},
+        "description": {"type":"string","minLength":1},
+        "state": {"enum":["OPEN","IN_PROGRESS","RESOLVED","DEFERRED","BLOCKED"]},
+        "evaluation_rule_id": {"$ref":"#/$defs/id"},
+        "current_action_id": {"$ref":"#/$defs/id"},
+        "blocks": {"type":"array","items":{"$ref":"#/$defs/id"},"uniqueItems":true},
+        "outcome_actions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["SUPPORTED","REFUTED","INCONCLUSIVE","EXECUTION_ERROR"],
+          "properties": {
+            "SUPPORTED": {"$ref":"#/$defs/id"},
+            "REFUTED": {"$ref":"#/$defs/id"},
+            "INCONCLUSIVE": {"$ref":"#/$defs/id"},
+            "EXECUTION_ERROR": {"$ref":"#/$defs/id"}
+          }
+        },
+        "scope_id": {"$ref":"#/$defs/id"}
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_type",
+        "format_version",
+        "registry_id",
+        "revision",
+        "evidence_mode",
+        "notice",
+        "actions",
+        "evaluation_rules",
+        "questions",
+        "scopes",
+        "work_items"
+      ],
+      "properties": {
+        "document_type": {"const":"QUESTION_REGISTRY"},
+        "format_version": {"const":2},
+        "registry_id": {"$ref":"#/$defs/id"},
+        "revision": {"$ref":"#/$defs/revision"},
+        "evidence_mode": {"enum":["PUBLIC_ASSUMPTIONS","VERIFIED_RECORDS"]},
+        "notice": {"type":"string"},
+        "actions": {"type":"array","uniqueItems":true,"items":{"$ref":"#/$defs/id"}},
+        "evaluation_rules": {"type":"array","items":{"$ref":"#/$defs/rule"}},
+        "questions": {"type":"array","items":{"$ref":"#/$defs/question"}},
+        "scopes": {"type":"array","items":{"$ref":"#/$defs/scope"}},
+        "work_items": {"type":"array","items":{"$ref":"#/$defs/workItem"}}
       }
     },
     "plan": {
-      "type": "object", "additionalProperties": false,
-      "required": ["plan_id", "kind", "target_id", "wall_seconds_bound", "admission_status", "admission_reason", "evidence_ref"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_id",
+        "kind",
+        "target_id",
+        "wall_seconds_bound",
+        "admission_status",
+        "admission_reason",
+        "evidence_ref",
+        "scope_id",
+        "variant_id"
+      ],
       "properties": {
-        "plan_id": {"$ref": "#/$defs/id"},
-        "kind": {"enum": ["WORKFLOW_TEST", "RULE_QUALIFICATION"]},
-        "target_id": {"$ref": "#/$defs/id"},
-        "wall_seconds_bound": {"type": "integer", "minimum": 1},
-        "admission_status": {"enum": ["ALLOW", "BLOCK"]},
-        "admission_reason": {"enum": ["ALLOWED", "RESEARCH_STOP", "DATA_POLICY_DENIED", "VARIANT_LIMIT", "OUTSIDE_SCOPE", "RULE_FIXTURE_UNAVAILABLE"]},
-        "evidence_ref": {"type": "string", "minLength": 1}
+        "plan_id": {"$ref":"#/$defs/id"},
+        "kind": {"enum":["WORKFLOW_TEST","RULE_QUALIFICATION"]},
+        "target_id": {"$ref":"#/$defs/id"},
+        "wall_seconds_bound": {"type":"integer","minimum":1},
+        "admission_status": {"enum":["ALLOW","BLOCK"]},
+        "admission_reason": {
+          "enum": [
+            "ALLOWED",
+            "RESEARCH_STOP",
+            "DATA_POLICY_DENIED",
+            "VARIANT_LIMIT",
+            "OUTSIDE_SCOPE",
+            "RULE_FIXTURE_UNAVAILABLE"
+          ]
+        },
+        "evidence_ref": {"type":"string","minLength":1},
+        "scope_id": {"$ref":"#/$defs/id"},
+        "variant_id": {"$ref":"#/$defs/id"}
       },
-      "if": {"properties": {"admission_status": {"const": "ALLOW"}}},
-      "then": {"properties": {"admission_reason": {"const": "ALLOWED"}}},
-      "else": {"properties": {"admission_reason": {"not": {"const": "ALLOWED"}}}}
+      "if": {"properties":{"admission_status":{"const":"ALLOW"}}},
+      "then": {"properties":{"admission_reason":{"const":"ALLOWED"}}},
+      "else": {"properties":{"admission_reason":{"not":{"const":"ALLOWED"}}}}
     },
     "proposal": {
-      "type": "object", "additionalProperties": false,
-      "required": ["proposal_id", "question_id", "plan_id"],
-      "properties": {
-        "proposal_id": {"$ref": "#/$defs/id"},
-        "question_id": {"$ref": "#/$defs/id"},
-        "plan_id": {"$ref": "#/$defs/id"}
-      }
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal_id","question_id","plan_id"],
+      "properties": {"proposal_id":{"$ref":"#/$defs/id"},"question_id":{"$ref":"#/$defs/id"},"plan_id":{"$ref":"#/$defs/id"}}
     },
     "request": {
-      "type": "object", "additionalProperties": false,
-      "required": ["document_type", "format_version", "request_id", "policy_version", "registry_id", "registry_revision", "snapshot_id", "authorization_scope", "research_runs_permitted", "remaining_wall_seconds", "plans", "proposals"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_type",
+        "format_version",
+        "request_id",
+        "policy_version",
+        "registry_id",
+        "registry_revision",
+        "snapshot_id",
+        "authorization_scope",
+        "research_runs_permitted",
+        "remaining_wall_seconds",
+        "plans",
+        "proposals",
+        "campaign_id",
+        "decision_index",
+        "random_seed",
+        "initial_wall_seconds",
+        "selection_call_reserved_seconds",
+        "selection_history",
+        "attempt_history",
+        "reopen_events",
+        "cost_mode"
+      ],
       "properties": {
-        "document_type": {"const": "SELECTION_REQUEST"},
-        "format_version": {"const": 1},
-        "request_id": {"$ref": "#/$defs/id"},
-        "policy_version": {"const": "STRUCTURED_SELECTION_V1"},
-        "registry_id": {"$ref": "#/$defs/id"},
-        "registry_revision": {"$ref": "#/$defs/revision"},
-        "snapshot_id": {"$ref": "#/$defs/id"},
-        "authorization_scope": {"const": "ENGINEERING_CHECKS_ONLY"},
-        "research_runs_permitted": {"const": false},
-        "remaining_wall_seconds": {"type": "integer", "minimum": 0},
-        "plans": {"type": "array", "items": {"$ref": "#/$defs/plan"}},
-        "proposals": {"type": "array", "items": {"$ref": "#/$defs/proposal"}}
-      }
-    },
-    "response": {
-      "type": "object", "additionalProperties": false,
-      "required": ["document_type", "format_version", "request_id", "policy_version", "registry_id", "registry_revision", "status", "selected_proposal_id", "qualification_task_id", "reason_code"],
-      "properties": {
-        "document_type": {"const": "SELECTION_RESPONSE"},
-        "format_version": {"const": 1},
-        "request_id": {"$ref": "#/$defs/id"},
-        "policy_version": {"const": "STRUCTURED_SELECTION_V1"},
-        "registry_id": {"$ref": "#/$defs/id"},
-        "registry_revision": {"$ref": "#/$defs/revision"},
-        "status": {"enum": ["SELECT", "QUALIFY_RULE", "STOP", "REJECT_INPUT"]},
-        "selected_proposal_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
-        "qualification_task_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
-        "reason_code": {"enum": ["BLOCKING_QUESTION_FIRST", "LOWEST_BOUNDED_COST", "STABLE_ID_TIEBREAK", "RULE_QUALIFICATION_REQUIRED", "NO_DECISION_CHANGING_PROPOSAL", "NO_ADMISSIBLE_WORK", "INVALID_REQUEST"]}
+        "document_type": {"const":"SELECTION_REQUEST"},
+        "format_version": {"const":2},
+        "request_id": {"$ref":"#/$defs/id"},
+        "policy_version": {"enum":["STRUCTURED_SELECTION_V1","FIXED_ORDER_V1","SEEDED_RANDOM_V1"]},
+        "registry_id": {"$ref":"#/$defs/id"},
+        "registry_revision": {"$ref":"#/$defs/revision"},
+        "snapshot_id": {"$ref":"#/$defs/id"},
+        "authorization_scope": {"const":"ENGINEERING_CHECKS_ONLY"},
+        "research_runs_permitted": {"const":false},
+        "remaining_wall_seconds": {"type":"integer","minimum":0},
+        "plans": {"type":"array","items":{"$ref":"#/$defs/plan"}},
+        "proposals": {"type":"array","items":{"$ref":"#/$defs/proposal"}},
+        "campaign_id": {"$ref":"#/$defs/id"},
+        "decision_index": {"type":"integer","minimum":0},
+        "random_seed": {"type":["integer","null"],"minimum":0,"maximum":4294967295},
+        "initial_wall_seconds": {"type":"integer","minimum":0},
+        "selection_call_reserved_seconds": {"type":"integer","minimum":0},
+        "selection_history": {"type":"array","items":{"$ref":"#/$defs/selectionReceipt"}},
+        "attempt_history": {"type":"array","items":{"$ref":"#/$defs/attempt"}},
+        "reopen_events": {"type":"array","items":{"$ref":"#/$defs/reopenEvent"}},
+        "cost_mode": {"enum":["MEASURED","SIMULATED"]}
       },
       "allOf": [
-        {"if": {"properties": {"status": {"const": "SELECT"}}}, "then": {"properties": {"selected_proposal_id": {"type": "string"}, "qualification_task_id": {"type": "null"}, "reason_code": {"enum": ["BLOCKING_QUESTION_FIRST", "LOWEST_BOUNDED_COST", "STABLE_ID_TIEBREAK"]}}}},
-        {"if": {"properties": {"status": {"const": "QUALIFY_RULE"}}}, "then": {"properties": {"selected_proposal_id": {"type": "null"}, "qualification_task_id": {"type": "string"}, "reason_code": {"const": "RULE_QUALIFICATION_REQUIRED"}}}},
-        {"if": {"properties": {"status": {"const": "STOP"}}}, "then": {"properties": {"selected_proposal_id": {"type": "null"}, "qualification_task_id": {"type": "null"}, "reason_code": {"enum": ["NO_DECISION_CHANGING_PROPOSAL", "NO_ADMISSIBLE_WORK"]}}}},
-        {"if": {"properties": {"status": {"const": "REJECT_INPUT"}}}, "then": {"properties": {"selected_proposal_id": {"type": "null"}, "qualification_task_id": {"type": "null"}, "reason_code": {"const": "INVALID_REQUEST"}}}}
+        {
+          "if": {"properties":{"policy_version":{"const":"SEEDED_RANDOM_V1"}}},
+          "then": {"properties":{"random_seed":{"type":"integer"}}},
+          "else": {"properties":{"random_seed":{"type":"null"}}}
+        }
+      ]
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_type",
+        "format_version",
+        "request_id",
+        "policy_version",
+        "registry_id",
+        "registry_revision",
+        "status",
+        "selected_proposal_id",
+        "qualification_task_id",
+        "reason_code",
+        "campaign_id",
+        "decision_index",
+        "snapshot_id",
+        "error_code"
+      ],
+      "properties": {
+        "document_type": {"const":"SELECTION_RESPONSE"},
+        "format_version": {"const":2},
+        "request_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "policy_version": {"type":["string","null"],"enum":["STRUCTURED_SELECTION_V1","FIXED_ORDER_V1","SEEDED_RANDOM_V1",null]},
+        "registry_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "registry_revision": {"type":["string","null"],"minLength":1},
+        "status": {"enum":["SELECT","QUALIFY_RULE","STOP","REJECT_INPUT"]},
+        "selected_proposal_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "qualification_task_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "reason_code": {
+          "enum": [
+            "BLOCKING_QUESTION_FIRST",
+            "LOWEST_BOUNDED_COST",
+            "STABLE_ID_TIEBREAK",
+            "RULE_QUALIFICATION_REQUIRED",
+            "NO_DECISION_CHANGING_PROPOSAL",
+            "NO_ADMISSIBLE_WORK",
+            "INVALID_REQUEST",
+            "FIXED_ORDER",
+            "SEEDED_RANDOM",
+            "BUDGET_EXHAUSTED"
+          ]
+        },
+        "campaign_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "decision_index": {"type":["integer","null"],"minimum":0},
+        "snapshot_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "error_code": {"enum":[null,"INVALID_JSON","INVALID_SCHEMA","INVALID_REFERENCE","INVALID_STATE","INPUT_IO_ERROR"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties":{"status":{"const":"SELECT"}}},
+          "then": {
+            "properties": {
+              "selected_proposal_id": {"type":"string"},
+              "qualification_task_id": {"type":"null"},
+              "reason_code": {
+                "enum": [
+                  "BLOCKING_QUESTION_FIRST",
+                  "LOWEST_BOUNDED_COST",
+                  "STABLE_ID_TIEBREAK",
+                  "FIXED_ORDER",
+                  "SEEDED_RANDOM"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties":{"status":{"const":"QUALIFY_RULE"}}},
+          "then": {
+            "properties": {
+              "selected_proposal_id": {"type":"null"},
+              "qualification_task_id": {"type":"string"},
+              "reason_code": {"const":"RULE_QUALIFICATION_REQUIRED"}
+            }
+          }
+        },
+        {
+          "if": {"properties":{"status":{"const":"STOP"}}},
+          "then": {
+            "properties": {
+              "selected_proposal_id": {"type":"null"},
+              "qualification_task_id": {"type":"null"},
+              "reason_code": {"enum":["NO_DECISION_CHANGING_PROPOSAL","NO_ADMISSIBLE_WORK","BUDGET_EXHAUSTED"]}
+            }
+          }
+        },
+        {
+          "if": {"properties":{"status":{"const":"REJECT_INPUT"}}},
+          "then": {
+            "properties": {
+              "selected_proposal_id": {"type":"null"},
+              "qualification_task_id": {"type":"null"},
+              "reason_code": {"const":"INVALID_REQUEST"},
+              "request_id": {"type":"null"},
+              "policy_version": {"type":"null"},
+              "registry_id": {"type":"null"},
+              "registry_revision": {"type":"null"},
+              "campaign_id": {"type":"null"},
+              "decision_index": {"type":"null"},
+              "snapshot_id": {"type":"null"},
+              "error_code": {"enum":["INVALID_JSON","INVALID_SCHEMA","INVALID_REFERENCE","INVALID_STATE","INPUT_IO_ERROR"]}
+            }
+          }
+        },
+        {
+          "if": {"properties":{"status":{"not":{"const":"REJECT_INPUT"}}}},
+          "then": {
+            "properties": {
+              "request_id": {"$ref":"#/$defs/id"},
+              "policy_version": {"enum":["STRUCTURED_SELECTION_V1","FIXED_ORDER_V1","SEEDED_RANDOM_V1"]},
+              "registry_id": {"$ref":"#/$defs/id"},
+              "registry_revision": {"$ref":"#/$defs/revision"},
+              "campaign_id": {"$ref":"#/$defs/id"},
+              "decision_index": {"type":"integer","minimum":0},
+              "snapshot_id": {"$ref":"#/$defs/id"},
+              "error_code": {"type":"null"}
+            }
+          }
+        }
       ]
     },
     "publicCase": {
-      "type": "object", "additionalProperties": false,
-      "required": ["case_id", "description", "expected_format_valid", "request", "expected_response"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id","description","expected_format_valid","request","expected_response"],
       "properties": {
-        "case_id": {"$ref": "#/$defs/id"},
-        "description": {"type": "string", "minLength": 1},
-        "expected_format_valid": {"type": "boolean"},
-        "request": {"type": "object", "description": "Validate separately as a request; one public case intentionally violates that schema."},
-        "expected_response": {"$ref": "#/$defs/response"}
+        "case_id": {"$ref":"#/$defs/id"},
+        "description": {"type":"string","minLength":1},
+        "expected_format_valid": {"type":"boolean"},
+        "request": {
+          "type": "object",
+          "description": "Validate separately as a request; one public case intentionally violates that schema."
+        },
+        "expected_response": {"$ref":"#/$defs/response"}
       }
     },
     "publicSuite": {
-      "type": "object", "additionalProperties": false,
-      "required": ["document_type", "format_version", "notice", "registry_file", "cases"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_type","format_version","notice","registry_file","cases"],
       "properties": {
-        "document_type": {"const": "PUBLIC_SELECTION_CASES"},
-        "format_version": {"const": 1},
-        "notice": {"type": "string"},
-        "registry_file": {"const": "research_selection_questions.json"},
-        "cases": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/publicCase"}}
+        "document_type": {"const":"PUBLIC_SELECTION_CASES"},
+        "format_version": {"const":2},
+        "notice": {"type":"string"},
+        "registry_file": {"type":"string","minLength":1},
+        "cases": {"type":"array","minItems":5,"maxItems":5,"items":{"$ref":"#/$defs/publicCase"}}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_id","description","definition_ref"],
+      "properties": {
+        "scope_id": {"$ref":"#/$defs/id"},
+        "description": {"type":"string","minLength":1},
+        "definition_ref": {"type":"string","minLength":1}
+      }
+    },
+    "workItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["work_item_id","state","requires_question_ids"],
+      "properties": {
+        "work_item_id": {"$ref":"#/$defs/id"},
+        "state": {"enum":["PENDING","ACTIVE","DONE","CANCELLED"]},
+        "requires_question_ids": {"type":"array","items":{"$ref":"#/$defs/id"},"minItems":1,"uniqueItems":true}
+      }
+    },
+    "scopedQualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_id","known_answer","null_case","qualification_task_id"],
+      "properties": {
+        "scope_id": {"$ref":"#/$defs/id"},
+        "known_answer": {"$ref":"#/$defs/qualificationTest"},
+        "null_case": {"$ref":"#/$defs/qualificationTest"},
+        "qualification_task_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]}
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_index",
+        "attempt_id",
+        "campaign_id",
+        "decision_index",
+        "kind",
+        "target_id",
+        "evaluation_rule_id",
+        "rule_revision",
+        "scope_id",
+        "variant_id",
+        "plan_id",
+        "execution_status",
+        "outcome",
+        "duration_seconds",
+        "charged_wall_seconds",
+        "evidence_ref",
+        "qualification_result",
+        "registry_revision",
+        "applied_action_id"
+      ],
+      "properties": {
+        "event_index": {"type":"integer","minimum":0},
+        "attempt_id": {"$ref":"#/$defs/id"},
+        "campaign_id": {"$ref":"#/$defs/id"},
+        "decision_index": {"type":"integer","minimum":0},
+        "kind": {"enum":["WORKFLOW_TEST","RULE_QUALIFICATION"]},
+        "target_id": {"$ref":"#/$defs/id"},
+        "evaluation_rule_id": {"$ref":"#/$defs/id"},
+        "rule_revision": {"$ref":"#/$defs/revision"},
+        "scope_id": {"$ref":"#/$defs/id"},
+        "variant_id": {"$ref":"#/$defs/id"},
+        "plan_id": {"$ref":"#/$defs/id"},
+        "execution_status": {"enum":["COMPLETED","FAILED","ABORTED","REJECTED_BEFORE_START"]},
+        "outcome": {"enum":["SUPPORTED","REFUTED","INCONCLUSIVE","EXECUTION_ERROR"]},
+        "charged_wall_seconds": {"type":"integer","minimum":0},
+        "evidence_ref": {"type":"string","minLength":1},
+        "qualification_result": {"anyOf":[{"$ref":"#/$defs/scopedQualification"},{"type":"null"}]},
+        "duration_seconds": {"type":"number","minimum":0},
+        "registry_revision": {"$ref":"#/$defs/revision"},
+        "applied_action_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]}
+      },
+      "allOf": [
+        {
+          "if": {"properties":{"execution_status":{"const":"COMPLETED"}}},
+          "then": {"properties":{"outcome":{"enum":["SUPPORTED","REFUTED","INCONCLUSIVE"]}}},
+          "else": {"properties":{"outcome":{"const":"EXECUTION_ERROR"}}}
+        },
+        {
+          "if": {"properties":{"kind":{"const":"WORKFLOW_TEST"}}},
+          "then": {"properties":{"qualification_result":{"type":"null"}}}
+        },
+        {
+          "if": {"properties":{"kind":{"const":"RULE_QUALIFICATION"},"execution_status":{"const":"COMPLETED"}}},
+          "then": {"properties":{"qualification_result":{"$ref":"#/$defs/scopedQualification"}}}
+        },
+        {
+          "if": {"properties":{"kind":{"const":"WORKFLOW_TEST"}}},
+          "then": {"properties":{"applied_action_id":{"$ref":"#/$defs/id"}}},
+          "else": {"properties":{"applied_action_id":{"type":"null"}}}
+        },
+        {
+          "if": {"properties":{"kind":{"const":"RULE_QUALIFICATION"},"outcome":{"const":"SUPPORTED"}}},
+          "then": {
+            "properties": {
+              "qualification_result": {
+                "properties": {
+                  "known_answer": {"properties":{"status":{"const":"PASSED"}}},
+                  "null_case": {"properties":{"status":{"const":"PASSED"}}}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties":{"kind":{"const":"RULE_QUALIFICATION"},"outcome":{"const":"REFUTED"}}},
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"known_answer":{"properties":{"status":{"const":"FAILED"}}}}}
+                }
+              },
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"null_case":{"properties":{"status":{"const":"FAILED"}}}}}
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {"properties":{"kind":{"const":"RULE_QUALIFICATION"},"outcome":{"const":"INCONCLUSIVE"}}},
+          "then": {
+            "properties": {
+              "qualification_result": {
+                "properties": {
+                  "known_answer": {"properties":{"status":{"not":{"const":"FAILED"}}}},
+                  "null_case": {"properties":{"status":{"not":{"const":"FAILED"}}}}
+                }
+              }
+            },
+            "anyOf": [
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"known_answer":{"properties":{"status":{"const":"INCONCLUSIVE"}}}}}
+                }
+              },
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"known_answer":{"properties":{"status":{"const":"NOT_RUN"}}}}}
+                }
+              },
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"null_case":{"properties":{"status":{"const":"INCONCLUSIVE"}}}}}
+                }
+              },
+              {
+                "properties": {
+                  "qualification_result": {"properties":{"null_case":{"properties":{"status":{"const":"NOT_RUN"}}}}}
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "selectionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_index","request_id","status","duration_seconds","charged_wall_seconds","evidence_ref"],
+      "properties": {
+        "decision_index": {"type":"integer","minimum":0},
+        "request_id": {"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},
+        "status": {"enum":["SELECT","QUALIFY_RULE","STOP","REJECT_INPUT","TECHNICAL_FAILURE"]},
+        "charged_wall_seconds": {"type":"integer","minimum":0},
+        "evidence_ref": {"type":"string","minLength":1},
+        "duration_seconds": {"type":"number","minimum":0}
+      }
+    },
+    "reopenEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_index","question_id","scope_id","after_attempt_id","reason","new_evidence_ref"],
+      "properties": {
+        "event_index": {"type":"integer","minimum":0},
+        "question_id": {"$ref":"#/$defs/id"},
+        "scope_id": {"$ref":"#/$defs/id"},
+        "after_attempt_id": {"$ref":"#/$defs/id"},
+        "reason": {"enum":["NEW_ADMISSIBLE_EVIDENCE","CORRECTED_RULE"]},
+        "new_evidence_ref": {"type":"string","minLength":1}
       }
     }
   }

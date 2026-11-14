@@ -1,7 +1,7 @@
 {
   "document_type": "PUBLIC_SELECTION_CASES",
-  "format_version": 1,
-  "notice": "Exactly five public contract examples. Expected responses are specifications, not selector outputs. No selector is implemented or tested. Costs and qualification receipts are illustrative assumptions only. Pass only request plus the trusted registry to a future selector; never pass expected_response or this wrapper.",
+  "format_version": 2,
+  "notice": "Exactly five public contract examples. Expected responses are specifications, not selector outputs. No selector is implemented or tested. Costs and qualification receipts are illustrative assumptions only. Pass only request plus the trusted registry to a future selector; never pass expected_response or this wrapper. Format 2 adds campaign history, scoped qualification and comparison inputs. Case 04 includes a stipulated prior inconclusive attempt; it has not been executed.",
   "registry_file": "research_selection_questions.json",
   "cases": [
     {
@@ -10,11 +10,11 @@
       "expected_format_valid": true,
       "request": {
         "document_type": "SELECTION_REQUEST",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_01",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "snapshot_id": "PUBLIC_SNAPSHOT_01",
         "authorization_scope": "ENGINEERING_CHECKS_ONLY",
         "research_runs_permitted": false,
@@ -27,7 +27,9 @@
             "wall_seconds_bound": 40,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_ATTEMPTS"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_ATTEMPTS",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_ATTEMPTS"
           },
           {
             "plan_id": "PLAN_REPORT",
@@ -36,33 +38,40 @@
             "wall_seconds_bound": 5,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT"
           }
         ],
         "proposals": [
-          {
-            "proposal_id": "P_REPORT",
-            "question_id": "Q_REPORT_PORTABILITY",
-            "plan_id": "PLAN_REPORT"
-          },
-          {
-            "proposal_id": "P_ATTEMPTS",
-            "question_id": "Q_ATTEMPT_RECORDING",
-            "plan_id": "PLAN_ATTEMPTS"
-          }
-        ]
+          {"proposal_id":"P_REPORT","question_id":"Q_REPORT_PORTABILITY","plan_id":"PLAN_REPORT"},
+          {"proposal_id":"P_ATTEMPTS","question_id":"Q_ATTEMPT_RECORDING","plan_id":"PLAN_ATTEMPTS"}
+        ],
+        "campaign_id": "PUBLIC_CAMPAIGN_01",
+        "decision_index": 0,
+        "random_seed": null,
+        "initial_wall_seconds": 101,
+        "selection_call_reserved_seconds": 1,
+        "selection_history": [],
+        "attempt_history": [],
+        "reopen_events": [],
+        "cost_mode": "SIMULATED"
       },
       "expected_response": {
         "document_type": "SELECTION_RESPONSE",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_01",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "status": "SELECT",
         "selected_proposal_id": "P_ATTEMPTS",
         "qualification_task_id": null,
-        "reason_code": "BLOCKING_QUESTION_FIRST"
+        "reason_code": "BLOCKING_QUESTION_FIRST",
+        "campaign_id": "PUBLIC_CAMPAIGN_01",
+        "decision_index": 0,
+        "snapshot_id": "PUBLIC_SNAPSHOT_01",
+        "error_code": null
       }
     },
     {
@@ -71,11 +80,11 @@
       "expected_format_valid": false,
       "request": {
         "document_type": "SELECTION_REQUEST",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_02",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "snapshot_id": "PUBLIC_SNAPSHOT_02",
         "authorization_scope": "ENGINEERING_CHECKS_ONLY",
         "research_runs_permitted": false,
@@ -88,7 +97,9 @@
             "wall_seconds_bound": 5,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT"
           }
         ],
         "proposals": [
@@ -96,23 +107,34 @@
             "proposal_id": "P_OVERRIDE",
             "question_id": "Q_REPORT_PORTABILITY",
             "plan_id": "PLAN_REPORT",
-            "outcome_actions": {
-              "SUPPORTED": "RUN_PROTECTED_RESEARCH"
-            }
+            "outcome_actions": {"SUPPORTED":"RUN_PROTECTED_RESEARCH"}
           }
-        ]
+        ],
+        "campaign_id": "PUBLIC_CAMPAIGN_02",
+        "decision_index": 0,
+        "random_seed": null,
+        "initial_wall_seconds": 101,
+        "selection_call_reserved_seconds": 1,
+        "selection_history": [],
+        "attempt_history": [],
+        "reopen_events": [],
+        "cost_mode": "SIMULATED"
       },
       "expected_response": {
         "document_type": "SELECTION_RESPONSE",
-        "format_version": 1,
-        "request_id": "PUBLIC_REQUEST_02",
-        "policy_version": "STRUCTURED_SELECTION_V1",
-        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "format_version": 2,
+        "request_id": null,
+        "policy_version": null,
+        "registry_id": null,
+        "registry_revision": null,
         "status": "REJECT_INPUT",
         "selected_proposal_id": null,
         "qualification_task_id": null,
-        "reason_code": "INVALID_REQUEST"
+        "reason_code": "INVALID_REQUEST",
+        "campaign_id": null,
+        "decision_index": null,
+        "snapshot_id": null,
+        "error_code": "INVALID_SCHEMA"
       }
     },
     {
@@ -121,11 +143,11 @@
       "expected_format_valid": true,
       "request": {
         "document_type": "SELECTION_REQUEST",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_03",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "snapshot_id": "PUBLIC_SNAPSHOT_03",
         "authorization_scope": "ENGINEERING_CHECKS_ONLY",
         "research_runs_permitted": false,
@@ -138,7 +160,9 @@
             "wall_seconds_bound": 1,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_MEASUREMENT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_MEASUREMENT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_MEASUREMENT"
           },
           {
             "plan_id": "QUALIFY_SMALL_EFFECT",
@@ -147,7 +171,9 @@
             "wall_seconds_bound": 8,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:QUALIFY_SMALL_EFFECT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:QUALIFY_SMALL_EFFECT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_QUALIFY_SMALL_EFFECT"
           },
           {
             "plan_id": "PLAN_REPORT",
@@ -156,7 +182,9 @@
             "wall_seconds_bound": 5,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT"
           }
         ],
         "proposals": [
@@ -165,37 +193,46 @@
             "question_id": "Q_SMALL_EFFECT_MEASUREMENT",
             "plan_id": "PLAN_MEASUREMENT"
           },
-          {
-            "proposal_id": "P_REPORT",
-            "question_id": "Q_REPORT_PORTABILITY",
-            "plan_id": "PLAN_REPORT"
-          }
-        ]
+          {"proposal_id":"P_REPORT","question_id":"Q_REPORT_PORTABILITY","plan_id":"PLAN_REPORT"}
+        ],
+        "campaign_id": "PUBLIC_CAMPAIGN_03",
+        "decision_index": 0,
+        "random_seed": null,
+        "initial_wall_seconds": 101,
+        "selection_call_reserved_seconds": 1,
+        "selection_history": [],
+        "attempt_history": [],
+        "reopen_events": [],
+        "cost_mode": "SIMULATED"
       },
       "expected_response": {
         "document_type": "SELECTION_RESPONSE",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_03",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "status": "QUALIFY_RULE",
         "selected_proposal_id": null,
         "qualification_task_id": "QUALIFY_SMALL_EFFECT",
-        "reason_code": "RULE_QUALIFICATION_REQUIRED"
+        "reason_code": "RULE_QUALIFICATION_REQUIRED",
+        "campaign_id": "PUBLIC_CAMPAIGN_03",
+        "decision_index": 0,
+        "snapshot_id": "PUBLIC_SNAPSHOT_03",
+        "error_code": null
       }
     },
     {
       "case_id": "PUBLIC_04",
-      "description": "All substantive outcomes retain the current action. A different action for execution error creates no decision relevance. Explicit STOP with neither a proposal nor a qualification task.",
+      "description": "The report question was previously inconclusive and is now deferred by history, so its unchanged proposal cannot be chosen again. The only remaining OPEN question preserves the current action for all substantive outcomes. Explicit STOP; spent effort includes the previous selection and attempt.",
       "expected_format_valid": true,
       "request": {
         "document_type": "SELECTION_REQUEST",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_04",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "snapshot_id": "PUBLIC_SNAPSHOT_04",
         "authorization_scope": "ENGINEERING_CHECKS_ONLY",
         "research_runs_permitted": false,
@@ -208,28 +245,82 @@
             "wall_seconds_bound": 1,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_NOTE"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_NOTE",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_NOTE"
+          },
+          {
+            "plan_id": "PLAN_REPORT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "wall_seconds_bound": 5,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT"
           }
         ],
         "proposals": [
+          {"proposal_id":"P_NOTE","question_id":"Q_REDUNDANT_REPORT_NOTE","plan_id":"PLAN_NOTE"},
+          {"proposal_id":"P_REPORT","question_id":"Q_REPORT_PORTABILITY","plan_id":"PLAN_REPORT"}
+        ],
+        "campaign_id": "PUBLIC_CAMPAIGN_04",
+        "decision_index": 1,
+        "random_seed": null,
+        "initial_wall_seconds": 107,
+        "selection_call_reserved_seconds": 1,
+        "selection_history": [
           {
-            "proposal_id": "P_NOTE",
-            "question_id": "Q_REDUNDANT_REPORT_NOTE",
-            "plan_id": "PLAN_NOTE"
+            "decision_index": 0,
+            "request_id": "PUBLIC_PREVIOUS_REQUEST_04",
+            "status": "SELECT",
+            "charged_wall_seconds": 1,
+            "evidence_ref": "PUBLIC_ASSUMPTION:PREVIOUS_SELECTION",
+            "duration_seconds": 0.05
           }
-        ]
+        ],
+        "attempt_history": [
+          {
+            "event_index": 0,
+            "attempt_id": "PUBLIC_PREVIOUS_REPORT_ATTEMPT",
+            "campaign_id": "PUBLIC_CAMPAIGN_04",
+            "decision_index": 0,
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "evaluation_rule_id": "RULE_REPORTS",
+            "rule_revision": "1",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT",
+            "plan_id": "PLAN_REPORT",
+            "execution_status": "COMPLETED",
+            "outcome": "INCONCLUSIVE",
+            "charged_wall_seconds": 5,
+            "evidence_ref": "PUBLIC_ASSUMPTION:PREVIOUS_UNCLEAR_RESULT",
+            "qualification_result": null,
+            "duration_seconds": 4.2,
+            "registry_revision": "1",
+            "applied_action_id": "DEFER_REPORT_CHANGE"
+          }
+        ],
+        "reopen_events": [],
+        "cost_mode": "SIMULATED"
       },
       "expected_response": {
         "document_type": "SELECTION_RESPONSE",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_04",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "status": "STOP",
         "selected_proposal_id": null,
         "qualification_task_id": null,
-        "reason_code": "NO_DECISION_CHANGING_PROPOSAL"
+        "reason_code": "NO_DECISION_CHANGING_PROPOSAL",
+        "campaign_id": "PUBLIC_CAMPAIGN_04",
+        "decision_index": 1,
+        "snapshot_id": "PUBLIC_SNAPSHOT_04",
+        "error_code": null
       }
     },
     {
@@ -238,11 +329,11 @@
       "expected_format_valid": true,
       "request": {
         "document_type": "SELECTION_REQUEST",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_05",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "snapshot_id": "PUBLIC_SNAPSHOT_05",
         "authorization_scope": "ENGINEERING_CHECKS_ONLY",
         "research_runs_permitted": false,
@@ -255,7 +346,9 @@
             "wall_seconds_bound": 3,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_REPORT"
           },
           {
             "plan_id": "PLAN_TRANSFER",
@@ -264,33 +357,40 @@
             "wall_seconds_bound": 80,
             "admission_status": "ALLOW",
             "admission_reason": "ALLOWED",
-            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_TRANSFER"
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_TRANSFER",
+            "scope_id": "PUBLIC_ENGINEERING_SCOPE",
+            "variant_id": "VARIANT_PLAN_TRANSFER"
           }
         ],
         "proposals": [
-          {
-            "proposal_id": "P_TRANSFER",
-            "question_id": "Q_SOURCE_TRANSFER",
-            "plan_id": "PLAN_TRANSFER"
-          },
-          {
-            "proposal_id": "P_REPORT",
-            "question_id": "Q_REPORT_PORTABILITY",
-            "plan_id": "PLAN_REPORT"
-          }
-        ]
+          {"proposal_id":"P_TRANSFER","question_id":"Q_SOURCE_TRANSFER","plan_id":"PLAN_TRANSFER"},
+          {"proposal_id":"P_REPORT","question_id":"Q_REPORT_PORTABILITY","plan_id":"PLAN_REPORT"}
+        ],
+        "campaign_id": "PUBLIC_CAMPAIGN_05",
+        "decision_index": 0,
+        "random_seed": null,
+        "initial_wall_seconds": 101,
+        "selection_call_reserved_seconds": 1,
+        "selection_history": [],
+        "attempt_history": [],
+        "reopen_events": [],
+        "cost_mode": "SIMULATED"
       },
       "expected_response": {
         "document_type": "SELECTION_RESPONSE",
-        "format_version": 1,
+        "format_version": 2,
         "request_id": "PUBLIC_REQUEST_05",
         "policy_version": "STRUCTURED_SELECTION_V1",
         "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
-        "registry_revision": "1",
+        "registry_revision": "2",
         "status": "SELECT",
         "selected_proposal_id": "P_REPORT",
         "qualification_task_id": null,
-        "reason_code": "LOWEST_BOUNDED_COST"
+        "reason_code": "LOWEST_BOUNDED_COST",
+        "campaign_id": "PUBLIC_CAMPAIGN_05",
+        "decision_index": 0,
+        "snapshot_id": "PUBLIC_SNAPSHOT_05",
+        "error_code": null
       }
     }
   ]

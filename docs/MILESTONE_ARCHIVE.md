@@ -4655,3 +4655,90 @@ delivery checkpoint; no renewed approval is needed for that recorded sequence.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | AQRS-W01-P00 | 2026-11-14 | CLOSED | Selection format and five public cases delivered without selector code. | Owner-requested first delivery; independent quality and executable freeze remain open. |
+
+## AQRS-W01-P00A: sequence contract
+
+**Test Card, 2026-11-14, before changes.** The owner accepts P00 for individual
+decisions and requests five clarifications before selector implementation.
+Hypothesis: extending the same contract and its public data can make state,
+budget, history, comparison and invocation behavior unambiguous without code.
+Baseline/review base: P00 at `db9e819c43f1128e575a4ae22c89b22184cd564b`.
+Reuse the journal as authoritative history, Governor/preflight as admission,
+and the existing CLI convention; do not add a scheduler database or executor.
+
+Minimum proof: explicit transitions for all four outcomes and qualified rules;
+finite handling of inconclusive/error outcomes; exact budget and history fields;
+fixed-order/seeded-random comparison rules and external scoring definitions;
+read-only file invocation/error contract; exact-boundary affordability, block
+namespace, scoped qualification, orphan-plan handling and arbitrary unseen
+registry support. Schema and exactly five public cases remain consistent.
+Predetermined checks: schema validation and positive/negative field checks,
+reference checks, preserved P00 single-step expectations, language/link/changelog
+checks, and no source/executor/dependency/workflow change. These are contract
+checks, not execution, statistical quality or independent acceptance.
+
+Risk screen: extend the existing prospective selection risk entry for repeated
+unclear work, budget leakage, mismatched qualification scope and benchmark
+contamination. No runtime protection is modified. Estimated 45-75 minutes;
+zero research trials, fits, model calls or new market data. Sequential local
+format/document checks only; 60-second command stop bound. Record measured
+check time; no research-budget increase. Current interval starts 17:30:15 UTC.
+Carry prior measured preparation 19m 35s, prior intake estimate 10 minutes and
+unmeasured prior discussion/Git finalization; do not reset cumulative effort.
+STOP this slice if runtime code, research or secret cases become necessary.
+Pass delivers the requested addendum, then P01/P02/P03 remain the next work;
+failure revises the contract. No selector precedes those three safeguards.
+
+### Learning and documentation-delivery checkpoint
+
+**2026-11-14, 18:06:34 UTC: SUPPORTED for contract consistency; PERSEVERE to P01.**
+Measured preparation/review interval: 36m 19s from 17:30:15 UTC. Together with
+P00's 19m 35s, measured preparation is 55m 54s; prior intake is separately
+estimated at 10 minutes. Earlier discussion and subsequent Git finalization
+remain unmeasured, not zero. No research, fit, selector or hidden-case execution.
+
+The contract now specifies all four result transitions, evidence-based reopening,
+scoped qualification and terminal repeat locks, exact cost/history accounting,
+budget equality, identical baseline admission and deterministic comparison rules.
+It defines external C/F/E metrics and the future two-input/one-output invocation,
+including invalid input and storage/internal failures. Unknown conforming
+registries are explicitly required; IDs and public filenames cannot be whitelisted.
+No program implements these requirements yet.
+
+Native Windows/Python 3.14.2 with installed jsonschema 4.25.1:
+- Inline `Draft202012Validator.check_schema`, registry/suite validation, four
+  structurally valid requests, one expected invalid request and five valid
+  expected responses passed. Qualification result/status consistency and its
+  negative examples passed; this command took 0.764 seconds.
+- Inline reference/field checks passed for IDs, scoped receipt revisions,
+  proposal/plan links, history costs, all five unchanged single-step decisions,
+  both baseline request formats and an empty registry. Bijective substitution
+  of registry/action/rule/question/scope/work-item IDs with unseen IDs passed
+  format/reference checks. Missing/wrong scopes and an orphan plan were rejected
+  by the applicable schema/check helper. This command took 0.562 seconds.
+- These are public format/reference checks, not a selector, transition executor,
+  external scorer, runtime data lock or independent selection-quality result.
+  No ranking algorithm was executed. Peak memory was not measured.
+
+Manual review removed ambiguity about qualification leaving its parent question
+unchanged, historical rule revisions and response-reason precedence. Reuse the
+unchanged runtime evidence; run fresh language, local-link/changelog and diff
+checks after this documentation closeout and report their exact outcomes at
+delivery. No fresh Linux execution or target-Python runtime acceptance is claimed.
+Use `[skip ci]` because the existing push workflow starts research; preserve
+that stop and run applicable local format/document checks.
+
+Exactly the existing contract, schema/examples and canonical decision/risk/status
+records change. No runtime source, test program, dependency, workflow, market data
+or historical scientific result changes. The public evidence remains illustrative;
+the hidden checksum, frozen executable, external scores and quality acceptance
+remain outstanding at their later gates. The known cost bias remains explicit.
+
+Next authorized implementation is P01, then P02 and P03 before selector P04;
+P05 still combines proposals 3+5. This turn ends at the owner's requested
+documentation-only delivery; no new authorization gate is introduced.
+Reconcile the preserved study work before P01 and retain the research stop.
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| AQRS-W01-P00A | 2026-11-14 | CLOSED | Sequence, comparison and invocation contract added without program code. | Owner-requested documentation delivery; runtime proof and independent quality remain open. |

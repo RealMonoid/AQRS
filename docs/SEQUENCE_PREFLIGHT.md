@@ -1,5 +1,11 @@
 # AQRS Sequence Preflight
 
+**2026-11-14, AQRS-W01-P00A OWNER FOLLOW-UP.** The individual-decision format
+is accepted. `ALLOW` the requested sequence/comparison/invocation addendum in
+the same contract and public data, without program code. The [completed addendum](MILESTONE_ARCHIVE.md#aqrs-w01-p00a-sequence-contract)
+ends this documentation delivery; P01/P02/P03 remain first in implementation order.
+Do not treat contract acceptance as selector readiness or permission for research.
+
 **2026-11-14, AQRS-W01 PRE-START / OWNER REQUIREMENT CHANGE.** `ALLOW` the
 selection format and five public examples first, without selection code.
 Then follow the [authorized queue](MILESTONE_STATUS.md#experiment-queue):

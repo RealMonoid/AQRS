@@ -22,6 +22,20 @@ Case 05 records this limitation. Do not call a schema pass quality evidence or
 silently add weights. Revisit after an external comparison demonstrates harm
 and a bounded alternative can be tested.
 
+**P00A prospective extension, 2026-11-14:** repeated inconclusive work can arise
+from omitted history OR a new-ID reset; avoid with terminal state reconstruction
+and evidence-backed reopen events. Missing failure/selector charges OR double
+charging reservations corrupts the budget; compare authoritative operation
+receipts and exact accounting at the next implementation gate. Qualification
+transfer can arise from wrong tested scope OR stale revision; require both in
+each receipt and exact scoped-record matching. Orphan qualification plans can
+create unrequested work; only permit registered tasks linked to current proposals.
+Benchmark failure paths include leaked oracle answers, using the internal
+relevance score as truth, or omitting costs from one policy. Use the same frozen
+scenario/admission/budget, isolated histories and external C/F/E scoring. Verify
+unseen IDs and malformed file handling in P04 before any runtime claim. No such
+runtime checks have been implemented in this documentation slice.
+
 ## Lessons retained from archived cards
 
 One-time owner cleanup, 2026-11-14. These nine lines retain untested implications

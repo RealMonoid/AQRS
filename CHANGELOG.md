@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-11-14 — Complete the selection sequence and comparison contract
+
+Extend the owner-accepted individual-decision format in place. Specify all
+result transitions, bounded handling of unclear work, journal-derived history,
+budget equality/accounting, fixed-order and fixed-seed random comparisons,
+external scoring and the future frozen file interface. Add scoped qualifications,
+work-item namespaces and explicit orphan-plan rules; require unknown conforming
+registries. Update the existing schema/public data to format 2, retaining exactly
+five examples and the initial single-step expectations; case 04 now includes
+an illustrative previous inconclusive attempt. No selector, executor, runtime
+dependency, market trial or hidden test is added or run. The initial format is
+retained in Git; no duplicate specification file is created.
+
+- `CHANGELOG.md`
+- `configs/research_selection.schema.json`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_ARCHIVE.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `examples/research_selection_questions.json`
+- `examples/research_selection_cases.json`
+
 ## 2026-11-14 — Specify workflow selection and five public cases
 
 Record the owner's workflow-first objective, approved implementation order and

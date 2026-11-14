@@ -103,6 +103,20 @@ only the encrypted bundle checksum belongs in the repository. Reuse existing
 journals, Governor and canonical documents; no agent framework or research
 campaign is part of the first delivery.
 
+**Owner follow-up, 2026-11-14, AQRS-W01-P00A.** The single-decision format is
+accepted. Extend the same contract, without program code, for multi-step state
+and budget/history, fixed-order and seeded-random comparisons, external metrics,
+frozen file invocation, scoped qualification, block namespaces and orphan plans.
+The selector must accept arbitrary previously unseen conforming registries;
+public IDs and filenames cannot be built-in assumptions. Format 2 carries the
+new required fields in the existing files; retain format 1 through Git history.
+Use existing journal/caller/Governor boundaries rather than a new scheduler or
+database. The comparison uses fixed seed 0 and exact hash-ranked pseudorandom
+choice to avoid a library-specific RNG-state file; no seed search or weighted
+utility is adopted. These are contract choices, not implementation or quality
+evidence. P01 (workflow question), P02 (counting), P03 (data lock) still precede
+any selector code. Hidden test handling and the research stop are unchanged.
+
 ## Rejected and deferred engineering ideas (durable decision memory)
 
 **AQRS-B01 bounded implementation choice, 2026-11-11.** Prepare the owner's

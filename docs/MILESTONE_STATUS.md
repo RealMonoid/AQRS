@@ -95,9 +95,10 @@ review, publish, replace or execute those changes.
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
 | AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](MILESTONE_ARCHIVE.md#aqrs-h01-research-harness-enforcement-review): the three-work-item observation trigger is now met through E22. | Owner-directed follow-up retained. The current owner instruction excludes a separate audit in this policy-and-study task; no new audit is dispatched here. Research-first governance freeze remains binding. |
 
-Latest delivery: [AQRS-W01-P00 format and five public cases](MILESTONE_ARCHIVE.md#aqrs-w01-p00-selection-format-and-public-cases).
+Latest delivery: [AQRS-W01-P00A sequence and comparison contract](MILESTONE_ARCHIVE.md#aqrs-w01-p00a-sequence-contract), extending the accepted [P00 format and five public cases](MILESTONE_ARCHIVE.md#aqrs-w01-p00-selection-format-and-public-cases).
 No selector or independent quality result exists yet. The owner requested this
-first delivery before implementation; P01 is authorized next without a new gate.
+documentation-only delivery before implementation; P01 is authorized next
+without a new gate. P01/P02/P03 still precede selector code and all research stays stopped.
 
 ## Research and backtesting learning
 

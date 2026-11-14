@@ -391,108 +391,287 @@ The Resource Governor must use a genuinely supported Windows/Linux enforcement m
 
 ## F3. Structured next-question selection: format only
 
-AQRS-W01-P00 supplies a format and five public examples, not a selector or
-research authorization. The machine contract is
-[`research_selection.schema.json`](../configs/research_selection.schema.json).
-The single [public question registry](../examples/research_selection_questions.json)
-is shared by all [five cases](../examples/research_selection_cases.json).
-Selector implementation waits for workflow questions per run, central attempt
-accounting and general data locks. Research remains stopped.
+The owner accepted P00 for individual decisions. P00A extends the same contract
+to sequences and comparisons; no selector or executor exists yet. Format 2
+adds required history, budget, scope and work-item fields in place. Format 1
+remains in Git at `db9e819`; it is not silently treated as a format-2 request.
+Use the [schema](../configs/research_selection.schema.json), shared
+[public registry](../examples/research_selection_questions.json) and exactly
+[five public cases](../examples/research_selection_cases.json). Implement
+workflow questions per run, central attempt accounting and general data locks
+before the selector. New research runs remain stopped.
 
-### Ownership of fields
+### Field ownership and arbitrary registries
 
-| Object | Fields and authority |
+**The frozen selector must work with any previously unseen, schema-conforming
+and reference-consistent question registry supplied at invocation.** No public
+question, rule, action, scope, work-item, registry ID or filename is a whitelist.
+IDs are opaque within their namespace; descriptions never enter ranking.
+Only declared structural/outcome enums are fixed. Empty registries and empty
+proposal lists are valid and yield STOP. Finite resource/input limits belong
+to the frozen runtime manifest and must not depend on familiar question IDs.
+
+| Object | Authority and content |
 |---|---|
-| Central question registry | `question_id`, `state`, `evaluation_rule_id`, `current_action_id`, `blocks`, and complete `outcome_actions`. Only the trusted registry defines or changes these. |
-| Evaluation rule | ID/revision, separate `known_answer` and `null_case` qualification records, optional registered `qualification_task_id`. Each test records status, tested revision and evidence reference. |
-| Trusted request envelope | Registry/policy/state identity, remaining time and admitted plans. Cost bounds and admission receipts come from preflight/history, not proposal self-ratings. |
-| Proposal | Exactly `proposal_id`, `question_id`, `plan_id`. Extra fields, including outcome maps, scores, qualification claims or costs, invalidate the request. |
-| Response | `SELECT`, `QUALIFY_RULE`, `STOP` or `REJECT_INPUT`, identities, selected proposal or qualification task, and a fixed reason code. STOP/rejection carry neither selection. |
+| Registry | Question definitions, base states/actions, complete outcome/action maps, scoped rule qualifications, scope definitions and work-item dependencies. |
+| Trusted request | Registry/policy/state identity, campaign, decision index, seed, plans, budget, complete relevant attempt history and prior selector costs. |
+| Proposal | Exactly `proposal_id`, `question_id`, `plan_id`. No maps, scores, costs, qualification claims or new actions. |
+| Response | SELECT, QUALIFY_RULE, STOP or REJECT_INPUT, bound to request/campaign/snapshot/registry/policy identity; selection/task or explicit nulls and fixed reason/error codes. |
 
-The orchestrator supplies the trusted envelope and registry separately from
-proposals. Schema validation proves structure, not receipt truth, cost adequacy
-or trusted origin. Later code must bind records to the actual rule revision,
-source, permitted data scope, attempt history and remaining budget. Reject
-generator-supplied replacements. IDs must be unique within each namespace;
-resolve every reference, match registry revisions, match workflow-plan targets
-to questions and qualification-plan targets to rules. Missing, duplicate, stale
-or conflicting references reject the request before ranking. Canonical action
-IDs denote distinct next decisions; aliases earn no credit. Descriptions and
-public case notes never enter ranking.
+The existing journal is authoritative; these arrays are a bounded export, not a
+second database. The caller verifies receipt authenticity/completeness against
+journal, preregistration and Governor before constructing the trusted inputs.
+A schema pass or empty history array cannot prove that no earlier attempts exist.
+The selector reads only its two input files; it must not follow evidence
+references, access market data, infer omitted history or accept proposer edits
+to the trusted envelope.
 
-### Qualification and outcome meaning
+Unique IDs and references are checked before ranking. A WORKFLOW_TEST plan must
+have exactly one proposal pointing to it, with matching question and scope.
+Duplicate proposals/plans for the same registered variant are rejected in one
+request. A RULE_QUALIFICATION plan needs no standalone proposal, but must be the
+task named in the rule's qualification record for that scope and be linked
+through at least one current proposal's question. Truly orphaned plans, unknown
+targets, duplicate IDs and conflicting references return REJECT_INPUT. A linked
+qualification plan which is not currently needed remains unselectable.
 
-Both known-answer and null-case checks must be `PASSED` for the exact rule
-revision and applicable scope. `FAILED`, `NOT_RUN`, an unresolvable receipt or
-a revision/scope mismatch makes the proposal unselectable. No default true
-value or qualification inferred from prose is allowed. A changed rule requires
-new qualification. The registry maps the four complete outcomes `SUPPORTED`,
-`REFUTED`, `INCONCLUSIVE`, `EXECUTION_ERROR` to actions. The registered evaluator
-must define disjoint, exhaustive, executable outcome conditions before use.
-These outcomes concern the workflow question. A proposal cannot add conditions
-or mappings; technical failure is not scientific evidence.
+### Scope and the blocks namespace
 
-An otherwise admissible, decision-relevant proposal with an unqualified rule
-first requires its registered, ready, affordable engineering qualification
-task: return `QUALIFY_RULE`. Fixed known-answer/null checks judge that task;
-the unqualified rule cannot certify itself. A failed check for the current rule
-revision is terminal in this first policy: do not return its qualification task
-again automatically. Correction creates a new revision with fresh qualification
-records; an unchanged retry needs separate recorded authority and is outside this
-policy. Without an admitted qualification task, keep the
-proposal ineligible and consider independent work. Only qualify rules referenced
-by relevant current proposals; do not launch a qualification sweep.
+A scope ID refers to `registry.scopes`, with an immutable `definition_ref`
+for the applicable inputs, method assumptions and parameter/domain limits.
+Each question and plan names its `scope_id`. Each rule has `qualifications`
+indexed uniquely by scope: separate known-answer/null records and optional
+qualification task. Every referenced rule/scope pair needs an explicit entry;
+unqualified entries use NOT_RUN. No wildcard, description similarity or
+automatic asset/source transfer is permitted. Changing the scope meaning
+requires a new ID and qualification. Each check explicitly records
+`tested_scope_id` and `tested_rule_revision`; both must match the scoped record
+and actual rule/question/plan before admission.
 
-### Proposed deterministic policy, not yet implemented
+`blocks` contains only IDs from `registry.work_items`, not question, action,
+rule or scope IDs. Each referenced item must be PENDING or ACTIVE and must list
+that question in `requires_question_ids`. DONE/CANCELLED, unknown or unrelated
+references are invalid. This records a verified dependency of further work on
+the question, not a proposal's importance claim or a count of useful outcomes.
+Nonempty `blocks` supplies one blocking priority flag; more IDs add no weight.
+Resolving a question does not authorize the work item or lift a research stop.
 
-1. Reject malformed/inconsistent inputs. Apply scope, data, variant and resource
-   admission before ranking. `blocks` records verified dependencies, not a
-   proposal's importance claim.
-2. For OPEN questions, binary relevance is 1 exactly when the three substantive
-   outcomes map to at least two distinct actions, with at least one differing
-   from the current action; otherwise it is 0. Exclude `EXECUTION_ERROR`.
-   Count a question once; duplicate wording/outcomes add no relevance.
-3. Ready qualification tasks have priority as above. Among them use blocking
-   question first, smallest bounded wall time next, then task ID.
-4. Among admitted proposals with qualified rules and relevance 1, use blocking
-   question first, smallest bounded wall time next, then lexicographically
-   smallest proposal ID. Array order has no priority meaning.
-5. Return `STOP` when no proposal or prerequisite qualification task qualifies.
-   Use `NO_DECISION_CHANGING_PROPOSAL` if no OPEN question in the request has
-   relevance 1; otherwise `NO_ADMISSIBLE_WORK`. Never invent work to continue.
-   Selection is a recommendation, not a launch: recheck actual admission at use.
+### State reconstruction and outcomes
 
-Known limitation `BINARY_RELEVANCE_COST_BIAS`: a cheap less important question
-can repeatedly displace an expensive important question of equal binary
-relevance and blocking status. Public case 05 exposes this behavior. Binary
-relevance is not expected scientific utility. Do not invent probabilities or
-silently add importance weights. Improvements require a new policy version
-and evidence against the fixed-order baseline under the same total budget.
+The registry's `state`, `current_action_id` and qualifications are the base
+snapshot preceding the supplied history. Reconstruct effective state by applying
+`attempt_history` and `reopen_events` once, in unique increasing `event_index`
+order. Keep prior campaigns' relevant failures, null/unclear results, rejected
+and repeated attempts. Different proposal/run/campaign IDs do not erase them.
+Every attempt retains its variant, registry/rule revision, scope, terminal
+execution status, outcome, applied action, evidence reference and cost. State
+reconstruction uses the stored applied action; it never reinterprets an old
+result using a later map. A question ID's meaning and outcome/action mapping
+are immutable; a material change needs a new registered ID with lineage.
+Do not omit attempts to make a variant look new or cheaper. Each decision
+requires a fresh bound snapshot.
 
-### Public examples and external freeze
+Before workflow work, the existing caller atomically reserves budget/attempt
+identity and marks the affected question IN_PROGRESS. Qualification reserves
+its own attempt without changing the parent question state. A selector response
+itself does not reserve, execute or mutate anything. The next selector call
+follows terminal reconciliation; unfinished attempts or inconsistent
+state/history are invalid.
 
-The public cases file is a reviewer wrapper. Validate each `request` separately:
-01/03/04/05 are structurally valid; 02 deliberately adds a forbidden proposal
-field. `expected_response` is a specification, never a selector input. The
-wrapper and registry label qualification receipts and costs as public assumed
-inputs. No evaluator, qualifier or selector ran. `PUBLIC_ASSUMPTION` references
-are not evidence and cannot admit real work. These cases cover blocking priority,
-central mapping protection, qualification priority, STOP and cost bias. They
-do not establish independent selection quality or full implementation coverage.
-Later tests must also cover ties/order invariance, failed/stale qualifications,
-missing references, budget exhaustion, blocked tasks and preserved research locks.
+| Workflow result | Effective question state | Next action and repeat handling |
+|---|---|---|
+| SUPPORTED | RESOLVED | Apply the registry's SUPPORTED action once; retain the positive answer and evidence. No automatic repeat. |
+| REFUTED | RESOLVED | Apply the REFUTED action once; a negative answer can correctly resolve a workflow question. No automatic repeat. |
+| INCONCLUSIVE | DEFERRED | Apply the registered hold/defer action. Exclude the unchanged question and variant from further selection. |
+| EXECUTION_ERROR | BLOCKED | Apply the error action, retain actual cost/failure and stop dependent work. Do not treat the error as a scientific answer. |
 
-Before the owner's hidden test, freeze executable, schema, policy, registry
-interface, budget, fixed-order comparison and scoring/release protocol. This
-format delivery is not an executable freeze. The owner retains encrypted cases,
-answers and scoring outside agent-accessible storage and runs the test while
-Codex is inactive. Only the owner-supplied SHA-256 of the exact encrypted bundle
-belongs in the repository: no bundle, key, location, generator, secret seed or
-answer. No checksum is supplied yet; do not invent one or request secret contents.
-The frozen program receives only its request and trusted registry; expected
-answers stay with the scorer. Cases/results used to revise a policy become
-development exposure; a new independent claim needs fresh hidden cases. The
-owner may release results afterward. Another local folder/chat is not isolation.
+Reopening DEFERRED/BLOCKED work requires a trusted `reopen_event` referencing
+the last blocking attempt and new, admissible evidence or a corrected rule.
+A new ID, clock time, unchanged retry or larger budget alone is insufficient.
+An event sets the question OPEN, retains the previous action as the default
+until new evidence changes it, and does not delete history. A corrected rule
+needs qualification for its new revision. Resolved questions are not reopened
+within this first policy; materially different questions require a registered
+new definition with lineage. The frozen comparison permits only predeclared
+external evidence events, never human retuning during the test.
+
+Qualification is an engineering prerequisite, not an answer to the parent
+workflow question: it leaves that question's state and action unchanged.
+A completed qualification records both individual checks. Receipt updates may
+change check status/evidence, not the registered scope or qualification-task ID.
+Only SUPPORTED with two exact-revision/scope PASSED receipts makes the pair
+usable. REFUTED requires at least one FAILED check. INCONCLUSIVE has no FAILED
+check but at least one INCONCLUSIVE or NOT_RUN check. Inconclusive checks retain
+their tested scope/revision and evidence; they are not mislabeled NOT_RUN.
+REFUTED/INCONCLUSIVE/EXECUTION_ERROR leave the pair unusable and stop automatic
+qualification repeats for that exact (rule ID, rule revision, scope ID); retain
+other independent work. Historical receipts for older revisions remain visible
+but neither qualify nor overwrite the current revision's checks. A corrected
+rule gets a new revision and fresh checks. No rule certifies itself. An unchanged
+retry lies outside this first policy. A relevant unqualified pair without a ready
+admitted qualification task is ineligible.
+
+### Budget and sequence accounting
+
+Time budgets use nonnegative integer seconds. Each operation records
+`duration_seconds` and `charged_wall_seconds = ceil(duration_seconds)`.
+Charge attempts including qualification, failure, rejection, abort and rerun,
+plus every selector invocation. Never charge the same attempt twice; a repeated
+execution has a new attempt ID but keeps its variant ID. `cost_mode` declares
+MEASURED stopwatch durations or SIMULATED, precommitted benchmark costs.
+Do not report simulated costs as observed compute savings. Real harness/process
+time is measured separately even when scenario costs are simulated.
+
+`selection_history` contains every previous invocation in this campaign;
+`decision_index` starts at 0 and equals its length, including failed calls.
+The complete relevant `attempt_history` can span campaigns; only entries in
+the current campaign are charged to this campaign's initial budget. Preserve
+the earlier costs and exposure separately. Let S be those attempt charges plus
+all current `selection_history` charges and C the current call's preflight
+reservation. The trusted request must satisfy:
+
+`remaining_wall_seconds = max(0, initial_wall_seconds - S - C)`.
+
+C covers selection and response/closeout overhead. A real invocation must have
+an enforceable reservation before launch; if it cannot be funded, the caller
+records terminal STOP/BUDGET_EXHAUSTED without launching another selector.
+The executor separately reserves the chosen work bound, measures actual cost
+and reconciles unused reservation after completion. Work bounds include result
+persistence/closeout. An overrun stops the affected campaign; record full actual
+cost rather than clamping it to the bound or calling it scientific refutation.
+The existing Governor remains the external authority; no budget increase follows.
+
+**Equality is affordable:** a positive work bound B is admitted when
+`B <= remaining_wall_seconds`, not only when strictly smaller. A bound larger
+than the remainder is unaffordable. At zero remainder no positive-cost work is
+selected: return STOP/BUDGET_EXHAUSTED. If work exactly consumes the final
+reservation, the caller records terminal STOP during reserved closeout and
+does not launch another decision. All costs remain visible after STOP.
+
+### Shared admission and the three comparison policies
+
+All three policies share the same effective-state reconstruction, scope and
+qualification checks, variant/data/resource admission, affordability and STOP
+rules. Binary relevance is 1 for an OPEN question only if its three substantive
+outcomes map to at least two distinct canonical actions, at least one differing
+from the effective current action. Exclude EXECUTION_ERROR. Descriptions, aliases
+and number of outcome labels do not increase relevance.
+
+Build the same finite pool: first ready, admitted qualification tasks required
+by otherwise admissible relevant proposals; if none, qualified relevant workflow
+proposals. Deduplicate qualification tasks. Failed/unclear terminal pairs and
+deferred questions cannot re-enter unchanged. If there is no pool, STOP:
+BUDGET_EXHAUSTED at zero remainder; otherwise NO_DECISION_CHANGING_PROPOSAL when
+no OPEN question has relevance 1, or NO_ADMISSIBLE_WORK when relevant work fails
+other admission. STOP ends the current campaign; no polling/retry loop follows.
+Continuing the same campaign after terminal STOP or a budget overrun is invalid;
+a new campaign retains the relevant previous attempts and question states.
+
+| Policy | Exact choice within the shared pool |
+|---|---|
+| STRUCTURED_SELECTION_V1 | Blocking question first, smallest bounded wall time next, then smallest work ID. For a shared qualification task, blocking is true if any eligible parent is blocking. |
+| FIXED_ORDER_V1 | Ascending tuple (target_id, scope_id, work_id). No cost/blocking preference beyond shared admission. This order is fixed independently of results and input array order. |
+| SEEDED_RANDOM_V1 | Choose the smallest seeded SHA-256 rank defined below; tie by the same tuple as fixed order. No cost/blocking preference beyond admission. |
+
+QUALIFY_RULE always reports RULE_QUALIFICATION_REQUIRED. For SELECT, fixed and
+random use FIXED_ORDER and SEEDED_RANDOM. Structured selection reports the first
+criterion that reduces its pool: BLOCKING_QUESTION_FIRST, then LOWEST_BOUNDED_COST,
+otherwise STABLE_ID_TIEBREAK (also for a singleton). This fixes the response reason
+as well as the chosen work.
+
+For workflow work, `target_id` is the question and `work_id` the proposal;
+for qualification, they are the rule and qualification plan. IDs use the
+schema's ASCII alphabet; comparisons use bytewise ascending order. The seeded
+baseline hashes exactly these seven UTF-8 fields joined by LF, without BOM or
+trailing LF: decimal seed, campaign_id, decimal decision_index, kind
+(WORKFLOW_TEST or RULE_QUALIFICATION), target_id, scope_id, work_id. Rank by
+the resulting 32 digest bytes. This defines reproducible pseudorandom priorities
+without depending on a library RNG version. Use the precommitted seed 0 for
+the first comparison; no seed search. Other declared uint32 seeds require a
+separately frozen comparison. Structured/fixed requests use a null seed.
+
+Paired policies receive the same starting registry, proposal/plan opportunities,
+scenario/campaign ID, admissible evidence, total budget and predeclared external
+events. Each has isolated history and charges its own path. The benchmark must
+return the same result/cost for the same action in the same scenario state,
+regardless of policy. All stopped/failed paths count. Comparing one selector
+step with another policy's entire campaign is invalid.
+
+### External comparison metrics
+
+The independent scorer freezes truth, acceptable outcome/action sets and
+STOP expectations before testing. It is not the selector's relevance formula,
+its prose or its own expected-response files. Record the following per case and
+policy, then report totals across exactly the same cases:
+
+| Metric | Definition |
+|---|---|
+| Correctly resolved questions C | Number of distinct scored (question_id, scope_id) pairs unresolved in the frozen starting state and newly ending RESOLVED with a SUPPORTED/REFUTED answer and follow-up action accepted by the independent scorer. Count at most once; prior answers, reruns/revisions, qualification tasks, INCONCLUSIVE and errors add zero. |
+| False selections F | Number of new decision steps after that starting state returning SELECT or QUALIFY_RULE where the scorer's predeclared, state-dependent admissible-next-work set is empty and STOP is required. Determine this from information allowed at that step, not hindsight or our internal relevance flag. |
+| Consumed effort E | Sum of new charged selector and attempt seconds after that starting state, including qualifications, failed/aborted/repeated work and any overrun. Report the common starting cost and resulting campaign total separately, plus unrounded durations, operation counts and real total harness wall time. Label simulated versus measured costs. Reservations released unused are not consumed effort. |
+
+Include scored-question and decision-step denominators, wrong resolutions,
+premature STOP and protocol failures as diagnostics. Always returning STOP or
+rejecting valid input cannot constitute success merely because F is zero.
+Report C/F/E separately; no invented weighted total. Freeze the scoring and
+acceptance rule before a hidden comparison; no quality/adoption claim follows
+from public format checks or one seed. Known limitation BINARY_RELEVANCE_COST_BIAS
+remains: cheaper questions can displace important expensive ones of equal
+relevance/blocking status. Public case 05 documents it.
+
+### Future frozen invocation and invalid input
+
+The following command is the specified future interface, **not implemented**:
+
+`python -m aqrs research select --registry registry.json --request request.json --output response.json`
+
+Both inputs are strict UTF-8 JSON objects conforming to format 2. Reject
+duplicate keys, NaN/Infinity, unknown fields/versions, invalid references, wrong
+qualification scope, inconsistent history/budget and orphan plans. Registry
+paths/names are arbitrary; the request must match its supplied registry ID and
+revision. The policy and seed come only from the request. The runtime manifest
+pins executable/environment, schema/policy and finite input/resource limits.
+No network, additional file discovery, evidence-path following or executable
+content in a registry is permitted.
+
+Read inputs without changing them. Write exactly one complete UTF-8 JSON
+response with lexicographically sorted keys, compact comma/colon separators,
+no BOM and one trailing LF to a new output path, published atomically; refuse
+to overwrite an existing output or either input. Stdout is empty; stderr has
+only a short stable error code, no input contents or secret answers. Valid
+SELECT/QUALIFY_RULE/STOP returns exit 0. Syntax/schema/reference/state rejection
+returns exit 2 and REJECT_INPUT/INVALID_REQUEST with a specific `error_code`,
+all identity fields null and no selected work. Read/storage failures return
+exit 1 with an INPUT_IO_ERROR rejection if possible; otherwise leave no partial
+output. An internal program failure returns exit 1, stderr INTERNAL_ERROR and
+no response; do not label a program defect invalid input. Interruption returns
+130. The caller accepts a response only with the matching exit/status contract
+and never reuses a stale output.
+These failure costs are retained outside the malformed request.
+
+The program makes one decision and exits. It neither runs the selected test
+nor updates registry/journal nor scores itself. The existing caller executes
+authorized work, applies the state/cost transition, then provides a fresh
+request. Identical full inputs yield identical response bytes; runtime timing
+is measured externally and does not enter a response.
+
+### Public examples and hidden-case boundary
+
+The five-case file is a reviewer wrapper, never a selector input.
+`expected_response` and descriptions stay outside the two program inputs.
+Cases 01/03/04/05 are structurally valid; 02 intentionally overrides a central
+map and must be rejected. Case 04 adds a stipulated prior inconclusive attempt
+to show that unchanged work stays deferred. Public receipts/durations are
+explicit assumptions, not executed evidence. Public tests must later cover
+all transitions, budget equality/zero, scopes, orphan plans and unseen IDs,
+not just these five examples.
+
+The owner keeps encrypted hidden cases/answers/scoring outside agent access
+and tests while Codex is inactive, after executable and scoring freeze. Only
+the owner-supplied SHA-256 of the exact encrypted bundle belongs in the repo;
+no bundle, key, location, generator, secret seed or answer. None is supplied
+here and this is not an executable freeze. Any case/result used to revise a
+policy becomes development exposure; a new independent claim needs fresh cases.
 
 ## G. Reporting contract
 
