@@ -275,6 +275,10 @@ confirmation, calibrated family-wide significance, a causal mechanism or
 realistic net execution value. Unknown effective independent count and
 unmeasured spread/fill/latency variation limit the claim. No retuning, data
 extension or extra market replay follows from this result.
+The 61-day holdout reservation is not a power-qualified confirmation design:
+even the pre-outcome planning table required 310 days in its SD=0.10, D=2 case.
+The reserved interval may be too short for a small effect. Do not infer
+confirmation readiness or change the locked dates after seeing this result.
 
 **Evidence and checks.** [Verification receipt](../evidence/m2-e22-verification.json),
 [30-file evidence bundle](../evidence/m2-e22-acceptance.zip),
@@ -304,6 +308,23 @@ study are complete. H01 reaches its third qualifying work item; preserve that
 observation below without launching a separate audit in this explicitly
 no-audit task. E20, E21, B01, SC01 and M4 retain their specific scope or evidence
 prerequisites. The time rule supplies no authorization for another study.
+
+**Canonical completion checkpoint, 2026-11-14 12:42:10 UTC.** Result revision
+`6a76e5c9d7768c049d6a71f60c7562839d3467e6` was fast-forwarded into clean main,
+verified there with 349 native Windows tests (219.71 seconds), Ruff, language
+audit/self-test, old/new evidence verification and exposure reconciliation,
+then pushed to the official remote. Fresh `git ls-remote` matched local main.
+The completed task branch was removed locally/remotely after ancestry checks;
+unrelated historical work was preserved. Runtime/config/test sources are
+byte-identical to the four-platform-tested `c7fd68f` revision, so that Linux
+evidence is reused. All 17 changed paths appear in the root changelog.
+Measured elapsed work from the first retained clock checkpoint, 11:41:25 UTC,
+to this checkpoint is 60 minutes 45 seconds, including CI waits; earlier
+intake and final metadata publication are excluded. Total item time is about
+70 minutes, not precisely instrumented. Research execution itself has the
+exact 32.703-second journal record above. A reviewer-created temporary folder
+remains outside the repository because automatic approval review rejected
+its deletion with `blocked by policy`; no repository completion is blocked.
 
 ### Historical queue decisions
 

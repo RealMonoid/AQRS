@@ -8,6 +8,8 @@ existing January 6 holdout, and execute one preregistered 456-day study.
 The fixed reversal passed prediction first but lost under illustrative costs.
 Preserve all attempts and evidence; keep Governor limits and the governance
 freeze unchanged. No new documentation file or separate process audit.
+Canonical main verification, publication and task-branch cleanup are recorded
+in the existing milestone card and verification receipt.
 
 - `AGENTS.md`
 - `CHANGELOG.md`

@@ -192,11 +192,32 @@
     "Exploratory development screen; no protected confirmation or calibrated family-wide error rate.",
     "HAC7/14 relies on limited dependence and stability; effective independent count remains unknown.",
     "Cost model is illustrative; no quotes, fill/latency or realized execution validation.",
-    "Actual market study ran on Windows once; Linux validation used synthetic fixtures."
+    "Actual market study ran on Windows once; Linux validation used synthetic fixtures.",
+    "The fixed 61-day holdout has no demonstrated confirmation power; the prospective planning table required more days under its central scenario. Its dates remain locked and unchanged."
   ],
   "temporary_review_cleanup": {
     "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
     "reason": "blocked by policy",
     "scope": "One reviewer-created temporary directory outside the repository; no repository cleanup is blocked."
+  },
+  "canonical_main_checkpoint": {
+    "verified_at_utc": "2026-11-14T12:42:10+00:00",
+    "result_revision": "6a76e5c9d7768c049d6a71f60c7562839d3467e6",
+    "native_windows_tests": 349,
+    "test_wall_seconds": 219.71,
+    "ruff": "PASS",
+    "language_audit_and_self_test": "PASS",
+    "evidence_and_exposure_verification": "PASS",
+    "runtime_config_tests_equal_to_frozen_ci_revision": true,
+    "fresh_local_remote_main_equality": true,
+    "completed_task_branch_removed": true,
+    "changed_paths_in_changelog": 17,
+    "measured_work_interval_utc": [
+      "2026-11-14T11:41:25+00:00",
+      "2026-11-14T12:42:10+00:00"
+    ],
+    "measured_work_seconds": 3645,
+    "working_time_limitations": "Includes CI waits; excludes initial unmeasured intake and final metadata publication. Approximately 70 minutes total.",
+    "scope": "This checkpoint precedes its metadata-only closeout commit; final remote equality is checked again at completion."
   }
 }
