@@ -1,4 +1,6 @@
+from math import sqrt
 from pathlib import Path
+from statistics import NormalDist
 from time import monotonic
 
 import numpy as np
@@ -239,40 +241,95 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
     return result
 
 
+def hac(values: np.ndarray, lags: int) -> dict:
+    """Bartlett-weighted Newey–West bounds for a daily score series."""
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) <= lags or not np.isfinite(x).all() or lags < 0:
+        raise ValueError("Invalid daily HAC input.")
+    centered = x - x.mean()
+    n = len(x)
+    variance = float(centered @ centered / n)
+    for lag in range(1, lags + 1):
+        variance += (
+            2 * (1 - lag / (lags + 1)) * float(centered[lag:] @ centered[:-lag] / n)
+        )
+    se = sqrt(max(0, variance) / n)
+    radius = NormalDist().inv_cdf(0.95) * se
+    return {
+        "lags": lags,
+        "mean": float(x.mean()),
+        "se": se,
+        "lower_95_one_sided": float(x.mean() - radius),
+        "upper_95_one_sided": float(x.mean() + radius),
+    }
+
+
 def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
-    """Compare next-bar direction on the shared chronological folds."""
+    """Compare paired next-bar hits using calendar-day uncertainty."""
     bars = Bars(
         np.load(request["prefix"], allow_pickle=False),
         request["symbol"],
         request["bar_minutes"],
     )
-    totals = np.zeros(3)
-    observations = 0
-    for fit_count, (tr_start, tr_end, va_start, va_end) in enumerate(
-        request["folds"], 1
-    ):
-        reserve_fit(request, directory, len(request["folds"]))
+    folds = request["folds"]
+    calendar_days = (bars.values[:, 0] // 86400).astype(int)
+    first_day = calendar_days[folds[0][2]]
+    last_day = calendar_days[folds[-1][3] - 1]
+    day_counts = np.zeros(last_day - first_day + 1, dtype=int)
+    daily_hits = np.zeros((3, len(day_counts)))
+    for fit_count, (tr_start, tr_end, va_start, va_end) in enumerate(folds, 1):
+        reserve_fit(request, directory, len(folds))
         _, pred, truth = bar_reversal_predictions(
             bars, slice(tr_start, tr_end), slice(va_start, va_end)
         )
-        totals += [
-            np.where(truth == 0, 0.5, pred == truth).sum(),
-            np.where(truth == 0, 0.5, truth == 1).sum(),
-            np.where(truth == 0, 0.5, truth == -1).sum(),
-        ]
-        observations += len(truth)
+        days = calendar_days[va_start:va_end] - first_day
+        np.add.at(day_counts, days, 1)
+        for daily, guess in zip(daily_hits, (pred, 1, -1), strict=True):
+            np.add.at(daily, days, np.where(truth == 0, 0.5, guess == truth))
         write_json(directory / "fits.json", fit_count)
-    accuracy, up, down = (totals / observations).tolist()
+
+    observations = int(day_counts.sum())
+    accuracy, up, down = (daily_hits.sum(axis=1) / observations).tolist()
+    scored_days = int(np.count_nonzero(day_counts))
+    lags = (7, 14)
+    decision = "INCONCLUSIVE"
+    contrasts = {}
+    if scored_days > max(lags):
+        for name, control_hits in zip(
+            ("always_up", "always_down"), daily_hits[1:], strict=True
+        ):
+            differences = daily_hits[0] - control_hits
+            gap = differences.sum() / observations
+            # Ratio influence scores preserve the per-bar contrast when days
+            # have unequal coverage. Empty days preserve calendar spacing.
+            day_scores = gap + (differences - gap * day_counts) / day_counts.mean()
+            contrasts[name] = {str(lag): hac(day_scores, lag) for lag in lags}
+        if all(
+            bound["lower_95_one_sided"] > 0
+            for limits in contrasts.values()
+            for bound in limits.values()
+        ):
+            decision = "REVERSAL_ADVANTAGE"
+        elif any(
+            all(bound["upper_95_one_sided"] <= 0 for bound in limits.values())
+            for limits in contrasts.values()
+        ):
+            decision = "NO_REVERSAL_ADVANTAGE"
     return {
-        "rationale": "Synthetic next-bar direction check. No inference or execution simulation.",
+        "rationale": (
+            "Synthetic next-bar direction check with nominal daily HAC bounds. "
+            "No market inference or execution simulation."
+        ),
         "directional_reversal": {
-            "decision": "REVERSAL_ADVANTAGE"
-            if accuracy > max(up, down)
-            else "NO_REVERSAL_ADVANTAGE",
+            "decision": decision,
             "observations": observations,
             "accuracy": accuracy,
             "always_up_accuracy": up,
             "always_down_accuracy": down,
+            "scored_utc_days": scored_days,
+            "hac_lags_days": lags,
+            "uncertainty_status": "ESTIMATED" if contrasts else "INSUFFICIENT_UTC_DAYS",
+            "contrasts": contrasts,
         },
     }
 

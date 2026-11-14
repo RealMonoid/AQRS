@@ -11,9 +11,7 @@ from calendar import monthrange
 from contextlib import closing
 from datetime import UTC, date, datetime, timedelta
 from hashlib import sha256
-from math import sqrt
 from pathlib import Path
-from statistics import NormalDist
 from time import monotonic
 from urllib.request import build_opener
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -23,6 +21,7 @@ import numpy as np
 from aqrs import journal
 from aqrs.binance_spot_pilot import require_spot_identity
 from aqrs.config import load
+from aqrs.evaluation import hac as hac
 from aqrs.governor import supervise
 from aqrs.market import Bars, bar_reversal_predictions, validate
 from aqrs.platform_guard import capability
@@ -178,28 +177,6 @@ def predictions(bars: Bars) -> tuple[int, np.ndarray, np.ndarray]:
     return bar_reversal_predictions(
         bars, slice(0, TRAIN), slice(TRAIN, len(bars.values))
     )
-
-
-def hac(values: np.ndarray, lags: int) -> dict:
-    x = np.asarray(values, dtype=float)
-    if x.ndim != 1 or len(x) <= lags or not np.isfinite(x).all() or lags < 0:
-        raise ValueError("Invalid daily HAC input.")
-    centered = x - x.mean()
-    n = len(x)
-    variance = float(centered @ centered / n)
-    for lag in range(1, lags + 1):
-        variance += (
-            2 * (1 - lag / (lags + 1)) * float(centered[lag:] @ centered[:-lag] / n)
-        )
-    se = sqrt(max(0, variance) / n)
-    radius = NormalDist().inv_cdf(0.95) * se
-    return {
-        "lags": lags,
-        "mean": float(x.mean()),
-        "se": se,
-        "lower_95_one_sided": float(x.mean() - radius),
-        "upper_95_one_sided": float(x.mean() + radius),
-    }
 
 
 def economics(bars: Bars, pred: np.ndarray, baseline: int) -> dict:

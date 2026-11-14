@@ -100,7 +100,11 @@ def run(config: dict, base: Path, *, plan_only: bool) -> tuple[dict, int]:
             "No real-world alpha has been demonstrated. This is a one-day engineering pilot."
             if real_spot
             else "No real-world alpha has been demonstrated. This is a synthetic engineering exercise.",
-            "Observations and forward targets can overlap. No statistical significance is inferred.",
+            "Observations and forward targets can overlap. No market significance is inferred."
+            if any(
+                c["model"] == "bar_reversal" for c in config["research"]["candidates"]
+            )
+            else "Observations and forward targets can overlap. No statistical significance is inferred.",
             "Next-bar opens and constant illustrative costs approximate fills.",
         ],
     }
@@ -399,7 +403,7 @@ def run_candidate(
     metadata = {
         "candidate_id": candidate_id,
         "family": "rule_based" if reversal else "linear",
-        "version": "1",
+        "version": "2" if reversal else "1",
         "hypothesis": (
             "The next bar direction may reverse the last completed bar."
             if reversal
@@ -551,7 +555,15 @@ def write_reports(output: Path, report: dict) -> None:
                 f"Reversal accuracy {directional['accuracy']:.2%}, always up "
                 f"{directional['always_up_accuracy']:.2%}, always down "
                 f"{directional['always_down_accuracy']:.2%}.",
+                f"Daily uncertainty: {directional['uncertainty_status']} "
+                f"across {directional['scored_utc_days']} scored UTC days.",
             ]
+            for control, bounds in directional["contrasts"].items():
+                for lag, bound in bounds.items():
+                    lines.append(
+                        f"- Against {control}, lag {lag} days: "
+                        f"one-sided 95% lower bound {bound['lower_95_one_sided'] * 100:+.3f} pp."
+                    )
         if metrics.get("feasibility", {}).get("scope"):
             lines.append(
                 "The training movement screen checks scale against assumed costs; "

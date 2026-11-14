@@ -5,6 +5,7 @@ import sys
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
+from random import Random
 from zipfile import ZipFile
 
 import pytest
@@ -78,7 +79,9 @@ def cli(action, path):
     )
 
 
-def reversal_config(tmp_path, symbol, bar_minutes, year, pattern):
+def reversal_config(
+    tmp_path, symbol, bar_minutes, year, pattern, *, n_bars=160, validation_bars=34
+):
     path = config_at(tmp_path)
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["market"].update(
@@ -86,18 +89,18 @@ def reversal_config(tmp_path, symbol, bar_minutes, year, pattern):
         csv_path="input.csv",
         symbol=symbol,
         bar_minutes=bar_minutes,
-        n_bars=160,
+        n_bars=n_bars,
     )
     config["research"].update(
         horizon_bars=1,
         train_bars=40,
-        validation_bars=34,
+        validation_bars=validation_bars,
         candidates=[{"id": "REVERSAL", "model": "bar_reversal"}],
     )
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     start = datetime(year, 1, 7, 12, tzinfo=UTC)
     rows = ["bar_open_time,open,high,low,close,volume,dataset_type"]
-    for i in range(160):
+    for i in range(n_bars):
         opened = start + timedelta(minutes=i * bar_minutes)
         close = 100 + pattern[i % len(pattern)]
         rows.append(f"{opened.isoformat()},100,102,98,{close},1,synthetic")
@@ -106,16 +109,41 @@ def reversal_config(tmp_path, symbol, bar_minutes, year, pattern):
 
 
 @pytest.mark.parametrize(
-    "symbol,minutes,year,pattern,decision,accuracy",
+    "symbol,minutes,year,pattern,n_bars,validation_bars,decision,accuracy",
     [
-        ("TEST_ALPHA", 5, 2024, (1, -1), "REVERSAL_ADVANTAGE", 1.0),
-        ("TEST_BETA", 30, 2025, (1, 1, -1, -1), "NO_REVERSAL_ADVANTAGE", 0.5),
+        ("TEST_ALPHA", 5, 2024, (1, -1), 14500, 5762, "REVERSAL_ADVANTAGE", 1.0),
+        (
+            "TEST_BETA",
+            30,
+            2025,
+            (1, -1, -1, 1),
+            2500,
+            962,
+            "NO_REVERSAL_ADVANTAGE",
+            0.5,
+        ),
     ],
 )
 def test_common_run_scores_synthetic_csv_reversal(
-    tmp_path, symbol, minutes, year, pattern, decision, accuracy
+    tmp_path,
+    symbol,
+    minutes,
+    year,
+    pattern,
+    n_bars,
+    validation_bars,
+    decision,
+    accuracy,
 ):
-    path = reversal_config(tmp_path, symbol, minutes, year, pattern)
+    path = reversal_config(
+        tmp_path,
+        symbol,
+        minutes,
+        year,
+        pattern,
+        n_bars=n_bars,
+        validation_bars=validation_bars,
+    )
     result = cli("run", path)
     assert result.returncode == 0, result.stderr or result.stdout
     output = Path(json.loads(result.stdout)["output_dir"])
@@ -129,7 +157,7 @@ def test_common_run_scores_synthetic_csv_reversal(
         report["data_manifest"]["input_sha256"]
         == sha256(path.with_name("input.csv").read_bytes()).hexdigest()
     )
-    assert report["holdout"]["observations"] == 32
+    assert report["holdout"]["observations"] == n_bars // 5
     assert plan["preflight_status"] == "ADMITTED" and plan["started_trials"] == 1
     assert plan["source_data_validated"] is True
     assert plan["planned_pilot_fits"] == 0
@@ -147,10 +175,47 @@ def test_common_run_scores_synthetic_csv_reversal(
     directional = json.loads(metrics)["directional_reversal"]
     assert directional["decision"] == decision
     assert directional["accuracy"] == accuracy
-    assert directional["observations"] == 64
+    assert directional["observations"] == 2 * (validation_bars - 2)
     assert (
         directional["always_up_accuracy"] == directional["always_down_accuracy"] == 0.5
     )
+    assert directional["scored_utc_days"] == 41
+    assert set(directional["contrasts"]) == {"always_up", "always_down"}
+    for bounds in directional["contrasts"].values():
+        assert set(bounds) == {"7", "14"}
+        if decision == "REVERSAL_ADVANTAGE":
+            assert all(b["lower_95_one_sided"] > 0 for b in bounds.values())
+        else:
+            assert all(b["upper_95_one_sided"] == 0 for b in bounds.values())
+
+
+def test_reversal_random_null_does_not_advance_on_one_extra_hit(tmp_path):
+    # Fair independent directions. Seed 6 deliberately reproduces a positive
+    # raw gap on the fixed validation rows; it is not a calibration sample.
+    pattern = Random(6).choices((-1, 1), k=2400)
+    path = reversal_config(
+        tmp_path,
+        "TEST_RANDOM_NULL",
+        30,
+        2026,
+        pattern,
+        n_bars=2400,
+        validation_bars=770,
+    )
+    result = cli("run", path)
+    assert result.returncode == 0, result.stderr or result.stdout
+    output = Path(json.loads(result.stdout)["output_dir"])
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    directional = report["trials"][0]["metrics"]["directional_reversal"]
+    assert directional["observations"] == 1536
+    assert directional["accuracy"] == pytest.approx(785 / 1536)
+    assert directional["always_down_accuracy"] == pytest.approx(784 / 1536)
+    assert directional["decision"] == "INCONCLUSIVE"
+    assert directional["uncertainty_status"] == "ESTIMATED"
+    worse_gap = directional["contrasts"]["always_down"]
+    assert set(worse_gap) == {"7", "14"}
+    assert all(bound["mean"] == pytest.approx(1 / 1536) for bound in worse_gap.values())
+    assert all(bound["lower_95_one_sided"] <= 0 for bound in worse_gap.values())
 
 
 @pytest.mark.parametrize("source", ["binance_vision_spot", "unknown"])
@@ -206,6 +271,11 @@ def test_reversal_scores_and_identity_exclude_reserved_csv_rows(tmp_path):
         return json.loads((output / "report.json").read_text(encoding="utf-8"))
 
     before = run()
+    directional = before["trials"][0]["metrics"]["directional_reversal"]
+    assert directional["accuracy"] == 1.0
+    assert directional["decision"] == "INCONCLUSIVE"
+    assert directional["uncertainty_status"] == "INSUFFICIENT_UTC_DAYS"
+    assert directional["contrasts"] == {}
     csv_path = path.with_name("input.csv")
     rows = csv_path.read_text(encoding="utf-8").splitlines()
     for i in range(129, len(rows)):

@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-11-14 — Require uncertainty bounds for synthetic reversal
+
+The owner's independent review of `1c3701c` reported clean technical execution
+across 40 files and five cadences, 14 of 15 detected planted effects and 3 of 20
+false advantages under one percentage point. A fixed random-direction fixture
+reproduces the failure with one extra hit in 1,536 comparisons. This fixture
+was selected to expose that error and does not estimate a false-positive rate.
+
+Reuse E22's Bartlett-weighted [Newey–West calculation](https://www.nber.org/papers/t0055)
+on paired UTC-day hit differences against both constant controls. Weight the
+contrast by scored bars, account for varying daily counts and preserve calendar
+gaps. A positive decision requires both controls' nominal one-sided 95% lower
+bounds above zero at both the 7- and 14-day lags. Report `NO_REVERSAL_ADVANTAGE`
+when one control's upper bounds are nonpositive at both lags. Otherwise, or
+with fewer than 15 scored UTC days, report `INCONCLUSIVE`. The 15-day floor is
+an input requirement of the 14-day calculation, not a precision or calibration
+guarantee. Store the bounds with the decision in the existing report and
+journal. No additional model fits, calibrations, research trials or resamples.
+The independent check of this revision uses fresh owner-held files.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/predictive_spot.py`
+- `src/aqrs/research.py`
+- `tests/test_cli.py`
+
 ## 2026-11-14 — Run synthetic reversal through the common research command
 
 `python -m aqrs research run --config FILE` can run a `bar_reversal` candidate
