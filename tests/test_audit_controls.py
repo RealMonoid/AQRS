@@ -390,6 +390,11 @@ def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_p
     from scripts.evidence_archive import build
 
     config = {"research": {"candidates": [{"id": "synthetic"}]}}
+    manual_screen = {
+        "analysis_id": "SYNTHETIC-PRECISION-P01",
+        "kind": "report_based_precision_planning",
+        "source_bundle_revision": "recorded-evidence-revision",
+    }
     look = {
         "diagnostic_id": "AQRS-DIAG-RANK-V1",
         "metric": "rank_correlation",
@@ -413,7 +418,19 @@ def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_p
                 {"evidence_key": "same-model-and-data"},
             )
         build(tmp_path)
-    index = json.loads((tmp_path / "evidence/exposure.json").read_text())
+        index_path = tmp_path / "evidence/exposure.json"
+        index = json.loads(index_path.read_text(encoding="utf-8"))
+        assert [screen["work_item"] for screen in index["manual_screens"]] == [
+            "M2-E02",
+            "M2-E03",
+            "M2-E12",
+        ]
+        index["manual_screens"].append(manual_screen)
+        index_path.write_text(json.dumps(index), encoding="utf-8")
+        build(tmp_path)
+    rebuilt = json.loads(index_path.read_text(encoding="utf-8"))
+    assert rebuilt["manual_screens"] == index["manual_screens"]
+    index = rebuilt
     assert len(index["variants"]) == 1
     assert len(index["attempts"]) == 2
     assert index["attempts"][1]["duplicate_of_in_original_journal"] == "first:synthetic"

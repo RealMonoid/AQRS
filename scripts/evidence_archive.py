@@ -277,11 +277,11 @@ def build(root):
         {
             "schema_version": "1",
             "future_registrations": previous.get("future_registrations", []),
-            "scope": "Reconstruction from the 26 archived journals plus documented count-only screens; not a proof that every historical manual selection is known.",
+            "scope": "Reconstruction from the 26 archived journals plus documented manual screens; not a proof that every historical manual selection is known.",
             "unknown_exposure": "Unrecorded manual inspection cannot be reconstructed. Existing development windows are exposed; no effective independent sample size or adjusted significance is claimed.",
             "variants": list(variants.values()),
             "attempts": attempts,
-            "manual_screens": manual,
+            "manual_screens": previous.get("manual_screens", manual),
             "engineering_checks": ["M1-E05", "M2-E01", "M2-E04", "M2-E05", "M2-E06"],
             "evidence_counts": dict(Counter(a["evidence_status"] for a in attempts)),
         },

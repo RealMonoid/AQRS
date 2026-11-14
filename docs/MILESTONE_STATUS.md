@@ -86,8 +86,9 @@ authorization and preflight rules.
 | M2-E20-P02 | 2026-11-13 | CLOSED | [Designed the effective-count comparison](#m2-e20-p02-learning-card-effective-count-design). | SUPPORTED / PERSEVERE for design. DEFER the market calculation pending decision-changing evidence. Parent: M2-E20. |
 | M2-E20-P01 | 2026-11-12 | CLOSED | [Checked effective-observation readiness](#m2-e20-p01-learning-card-effective-observation-readiness). | REFUTED / DEFER for estimating a defensible count from the existing E18 evidence. Parent: M2-E20. |
 | AQRS-A12 | 2026-11-12 | CLOSED | [Operationalize autonomous work management](#aqrs-a12-test-card--autonomous-work-management) against the owner's 19 checks and ten cases. | Owner correction on 2026-11-12 authorizes this standalone audit, minimal governance fixes and verification. Completed under the 60-minute estimate. See the card for authority, stop boundary and resource scope. |
-| AQRS-A10 | 2026-11-12 | CLOSED | [M2 evidence review and threshold guidance](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions). | Documentation and evidence review completed. Follow the E20 start conditions and the separate E09 approval boundary. |
-| M2-E19 | 2026-11-12 | CLOSED | [Paired volatility-gate comparison](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/evidence/m2-e19-verification.json). | Technical pilot completed on Windows and Ubuntu. Research `INCONCLUSIVE / DEFER`. See the [revisit conditions above](#experiment-queue). |
+| AQRS-A10 | 2026-11-12 | CLOSED | [M2 evidence review and threshold guidance](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions). | Documentation and evidence review completed. Follow the E20 start conditions and the separate E09 approval boundary. The separate archive check is AQRS-A13. |
+| AQRS-A13 | 2026-11-12 | CLOSED | [Read-only E14 and E18 archive check](#aqrs-a13-read-only-campaign-evidence-check). | Standalone owner-approved check. The original E18 worktree used AQRS-A10 for this item. |
+| M2-E19 | 2026-11-12 | CLOSED | [Paired volatility-gate comparison](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/evidence/m2-e19-verification.json) and [precision planning](#m2-e19-precision-and-data-capacity-check). | Technical pilot completed on Windows and Ubuntu. Research `INCONCLUSIVE / DEFER`. See the [revisit conditions above](#experiment-queue). |
 | M2-E18 | 2026-11-11 | CLOSED | [Paired two-family workflow](https://github.com/RealMonoid/AQRS/blob/e26e65e7b98496c44ff464e7a0fa44c10a7d6694/evidence/m2-e18-verification.json). | Two candidate comparisons completed. Both research follow-ups deferred. See the [revisit conditions above](#experiment-queue). M2 acceptance remains open. |
 | M2-E17 | 2026-11-11 | CLOSED | [Training-only feasibility receipt](https://github.com/RealMonoid/AQRS/blob/eb8ed5c/evidence/m2-e17-verification.json). | Qualified the E18 training prefix. No evidence of predictive benefit. |
 | M2-E14 | 2026-11-10 | CLOSED | [Fixed Windows comparison](https://github.com/RealMonoid/AQRS/blob/76cdfd3d1b59e81eb5f51ae633a3875ec28b5f39/evidence/m2-e14-verification.json). | Volume evaluated. Ridge stopped at the training movement screen. The conditional market replay did not start. |
@@ -130,6 +131,130 @@ authorization and preflight rules.
 **Queue Learning Card.** `SUPPORTED / PERSEVERE` for the documentation. The focused review traced the M1 start conditions and the pass, rejection, and deferral paths. At the time of that review, both M1 entries were waiting.
 
 ## Current Build–Measure–Learn development loop
+
+### Historical evidence reconciliation
+
+**2026-11-14. Authority and check plan.** The owner authorized making the
+existing E14/E18 archive check and E19 precision evidence discoverable from
+the central queue, resolving the duplicate AQRS-A10 ID, and recording the
+open research-entry product question. Baseline: both records live in
+separate evidence worktrees and the product question is absent from the
+requirements register. Pass if both queue links resolve to evidence with
+traceable source identities, the two audits have distinct IDs, the product
+question is explicitly open, and pending queue rows and research decisions
+retain their recorded state. Check the archived receipts and the existing
+read-only verifier. Budget 20 minutes once, zero new data access, research
+runs, fits or spend. Stop at the verified documentation update. Routine
+record reconciliation with no change to critical contracts. FTA is not triggered.
+Check that rebuilding the historical exposure index retains the imported
+manual observation and its source fields alongside the legacy count screens.
+
+**Result.** `SUPPORTED / PERSEVERE` for the record reconciliation. The
+queue resolves AQRS-A10 and AQRS-A13 to distinct work items and links the
+E19 planning record. A read-only `python -B -` check matched the E19 Git
+bundle, report digest and run ID to the exposure entry and resolved the
+open requirement and Scout cross-links. The E18 worktree verifier accepted
+29 E14 and 60 E18 evidence members, accepted replay report `1eebbfa` and
+rejected `1eebbfa^` with the expected digest error. On native Windows the
+three focused archive/index pytest checks, Ruff lint and format, both
+language checks and `git diff --check` passed. Approximately six minutes
+elapsed through verification. The AQRS-A13 implementation remains in the
+E18 evidence worktree. The E19 planning evidence remains provisional. The
+six pending queue rows retain their recorded start conditions. E09 still
+requires its separate approval. The owner has not selected the research
+entry requirement. This reconciliation performed no new research runs,
+market input or holdout reads, or Linux verification.
+
+### AQRS-A13 read-only campaign evidence check
+
+**2026-11-12. `SUPPORTED / PERSEVERE` for the standalone archive check.**
+The owner approved a read-only verification tool and requested a Resource
+Governor review of repeated setup work. The E18 worktree recorded this as
+`AQRS-A10`. Use `AQRS-A13` here for the archive check and retain `AQRS-A10`
+and `AQRS-A10-F1` for the M2 evidence review and its finding.
+
+The implementation and original Test/Learning Cards are local changes in
+the `codex/m2-e18-evidence` worktree at base
+`e26e65e7b98496c44ff464e7a0fa44c10a7d6694`, in
+`scripts/evidence_archive.py` and `docs/MILESTONE_STATUS.md`. The reviewed
+script's SHA-256 is
+`f0fd0ce5357fcf5dd9671365ef6427a032d9ad27adc48fa65d081b662054f79e`.
+The published [E14 receipt](https://github.com/RealMonoid/AQRS/blob/76cdfd3d1b59e81eb5f51ae633a3875ec28b5f39/evidence/m2-e14-verification.json)
+and [E18 receipt](https://github.com/RealMonoid/AQRS/blob/e26e65e7b98496c44ff464e7a0fa44c10a7d6694/evidence/m2-e18-verification.json)
+identify the archived inputs to the check.
+
+On Windows with Python 3.11 and 3.12, `python -B scripts/evidence_archive.py
+--verify --campaign M2-E14` verified 29 members, and the same command for
+M2-E18 verified 60. E18 with `--replay-revision 1eebbfa` matched the saved
+Windows report digest. Its parent `1eebbfa^` failed the digest check as
+expected. The legacy `--verify` checked 295 historical members. These are
+archived evidence checks. The scope of verification did not include fresh
+Linux execution of the archive tool.
+
+The Governor review identified a reusable training-only feasibility check
+as a possible way to reduce setup effort for the next comparable campaign.
+E17 took 1.58 seconds in the worker and about seven minutes including setup
+and evidence verification. This is a baseline for a future decision about
+automation. The current queue records the existing
+[sequence lesson](#aqrs-a09-sequence-audit-and-dispatch-check).
+
+### M2-E19 precision and data capacity check
+
+The owner authorized this report-based planning check on 2026-11-12.
+The [published E19 receipt](https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/evidence/m2-e19-verification.json)
+binds the archived report and its digest. The [exposure index](../evidence/exposure.json)
+records this additional look as `M2-E19-PRECISION-P01`.
+
+**Planning record, 2026-11-12T11:30:50.677Z, before reading the saved daily outcomes.**
+Use the published Windows comparison's six UTC day totals and opportunity
+counts from December 5–10, 2025. Estimate the sample standard deviation of
+daily paired net bps differences after subtracting the pooled per-opportunity
+difference times the day count and dividing by mean daily opportunity count.
+Reconcile the pooled result with the saved report. Plan a one-sided test of
+a true +0.10 bps per opportunity against zero at alpha 0.05 and 80% power.
+Use the AQRS normal and one-sample t approximations with one, 1.5 and two
+times pilot dispersion. Illustrate two days per independent unit. Compare
+with metadata for the available BTCUSDT Spot archives through January 5,
+2026. Record one aggregate planning look. Stop after arithmetic and
+inventory checks. Zero new market outcomes, raw market archive reads,
+fits, downloads, resamples, protected reads or spend.
+
+**Result, 2026-11-12T11:33:55.779Z.** The six saved day rows reconcile to 4,296
+opportunities and +0.020727 net bps per opportunity. The estimated
+day-level dispersion is 0.040313 bps per opportunity. Treat this
+estimate as provisional because the six days are a short, reused sample.
+
+| Dispersion assumption | Net bps per opportunity | Normal units | t units | Calendar days at two days per unit |
+| --- | ---: | ---: | ---: | ---: |
+| 1 times pilot | 0.0403 | 2 | 3 | 6 |
+| 1.5 times pilot | 0.0605 | 3 | 4 | 8 |
+| 2 times pilot | 0.0806 | 5 | 6 | 12 |
+
+The t calculation uses day-level linearized contrasts and independent
+normal units. The two-day scenario illustrates calendar capacity. The
+pilot does not estimate the dependence length. At 26 independent days,
+the assumed dispersion could be as high as 0.199 bps for
+80% power. With 13 independent units in the same calendar span, the
+corresponding limit is 0.137 bps per opportunity at the
+unit level. These planning thresholds test against zero. The original
+two-fold advancement gate and a claim that the effect exceeds +0.10
+require separate designs.
+
+Archive metadata and local archive and checksum presence matched all 36
+BTCUSDT Spot UTC dates from December 1 through January 5. This includes
+24 D01 dates and 12 earlier-qualified archives from M2-E12, M2-E03 and
+M1-E02. There are 26 dates after the ten-day M2-E19 scope, including
+14 D01 dates and 12 dates already used by other AQRS exercises. The
+available span fits the planning sensitivities. Independent evidence,
+regime breadth and the realized dispersion remain unverified. The
+original M2-E19 disposition stays in place. No campaign is dispatched.
+
+Verified the saved comparison digest and run ID, daily-to-pooled
+reconciliation, the first t-test sample size attaining the target and
+the 36 archive pairs using a Python calculation and read-only file
+metadata checks. 185 seconds elapsed from the planning record
+through the arithmetic and inventory. Zero market payload reads, fits,
+trials, resamples, new data or protected reads.
 
 ### M2-E20-P03 Test Card: supervised replay readiness
 
@@ -1000,6 +1125,9 @@ and the preflight above to qualify the selected path. No benchmark arrived
 with the recorded design decision. Implementation and launch remain within
 the separately agreed scope. This review added zero invocations, trials,
 fits, outcome reads or dependencies. The existing pilot limits still apply.
+
+The pilot may inform the [open product question about the research entry point](requirements/OPEN_QUESTIONS.md#research-entry-without-a-formulated-hypothesis).
+The existing pilot start conditions govern its dispatch.
 
 ### AQRS-A09 sequence audit and dispatch check
 

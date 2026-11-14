@@ -2,6 +2,22 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-14 — Reconcile archived AQRS evidence and an open requirement
+
+Index the E14/E18 archive check as AQRS-A13 and retain AQRS-A10 for the M2
+evidence review. Record E19 precision planning and preserve manual exposure
+records when rebuilding the historical index. Record the open research-entry
+product question in the requirements register.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+- `evidence/exposure.json`
+- `scripts/evidence_archive.py`
+- `tests/test_audit_controls.py`
+
 ## 2026-11-14 — Version the AQRS queue and authorization handoff
 
 Preserve the current queue, readiness rules, and linked owner decisions for
