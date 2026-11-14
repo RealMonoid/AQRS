@@ -1,5 +1,15 @@
 # AQRS Sequence Preflight
 
+**2026-11-14, M2-E22 PRE-START / REQUIREMENT CHANGE.** `ALLOW` preparation
+under the owner's direct study instruction and [new data scope](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
+The [Test Card](MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal)
+fixes the question, year of evaluation, conditional precision and stop.
+The prior E20 no-new-data conclusion concerns only its E18 volume contrast.
+E22's simple predictive test has decision value without E21/B01 prerequisites;
+their separate scopes remain waiting. Before acquisition: publish fixed
+holdout, card and source registration, pass guarded synthetic/negative checks
+and independent verification. No general audit is dispatched.
+
 This is the binding procedure for sequencing material AQRS work under the
 [development dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue).
 

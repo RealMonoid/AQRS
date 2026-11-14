@@ -31,7 +31,9 @@ of interrupted rows is outside the current restart contract.
 **Resolved 2026-11-14.** The owner authorized and AQRS executed the single
 planning diagnostic below through the explicit P06 decision. The
 [verified result](MILESTONE_STATUS.md#m2-e20-p06-learning-card-local-expansion-deferred)
-is DEFER for a local outcome expansion; no larger data request is justified.
+is DEFER for that fixed E18 volume-comparison expansion. The owner's
+2026-11-14 clarification confines the no-new-data conclusion to that contrast;
+future candidates use the [new data authorization](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
 The original scope is preserved below and is bounded by the
 [registered Card](MILESTONE_STATUS.md#m2-e20-p06-test-card-one-archived-report-calibration).
 Quant Research recommended the bounded look because the

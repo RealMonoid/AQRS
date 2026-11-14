@@ -29,13 +29,13 @@ independent information and precision for its fixed contrast. The approved
 [P06 calibration](#m2-e20-p06-learning-card-local-expansion-deferred) found
 that no fixed observed-SD planning case fits the local capacity ceiling;
 the local expansion is deferred. This is not an alpha verdict or a request
-for a longer period. No research execution is currently READY.
+for a longer period for that E18 volume contrast. The owner's subsequent
+data and effort decisions authorize the new M2-E22 study below.
 
-**Priority review after P06.** The next proposed research objective is the
-existing bounded M2-E21 synthetic Scout test, with its owner scope,
-independent benchmark and isolation prerequisites. It can proceed independently
-of the deferred E20 local route and B01. E20 remains the M2 scientific
-acceptance bottleneck; revisit only on the evidence trigger below.
+**Priority review, 2026-11-14.** Execute the owner-authorized M2-E22 predictive
+screen first. It addresses a new, simple candidate with question-driven time
+coverage. E21 retains its scope, independent benchmark and isolation gates;
+E20's old contrast remains deferred. This does not close M2 acceptance gaps.
 
 **M2-E15 queue update, 2026-11-10.** The queue edit and initial focused check took about 55 seconds. Routine documentation risk. FTA not triggered.
 
@@ -58,6 +58,7 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| M2-E22 | 2026-11-14 | IN_PROGRESS | [Predictive-first Spot reversal study](#m2-e22-test-card-predictive-first-spot-reversal): one fixed candidate, 91 training days and 365 evaluation days; costs only after predictive pass. | Direct owner instruction in this chat: implement data/effort decisions and choose, acquire and execute the first research question. Locked holdout, preregistration, verification and unchanged Governor required. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
@@ -122,6 +123,87 @@ authorization and preflight rules.
 **Queue Test Card, 2026-11-08.** The existing status file can guide experiment selection and retain decisions. Pass if Codex can identify the first eligible test, the M1 blockers, and what to change after a pass, rejection, or inconclusive result. Use one documentation session and zero research runs. Stop after focused and language checks. Routine documentation risk. FTA not triggered.
 
 **Queue Learning Card.** `SUPPORTED / PERSEVERE` for the documentation. The focused review traced the M1 start conditions and the pass, rejection, and deferral paths. At the time of that review, both M1 entries were waiting.
+
+### M2-E22 Test Card: predictive-first Spot reversal
+
+**Authorization, 2026-11-14.** The owner directly ordered policy implementation
+and one new research study in this chat. Codex selects the candidate and amount.
+Total effort estimate: 2–4 hours including intake, code, review and closure;
+eight-hour safeguard applies. Intake began approximately 11:35 UTC; the journal
+will record exact execution times. No general audit or further research
+sequence is authorized by the time rule.
+
+**Question and smallest slice.** Does reversing the sign of the last completed
+BTCUSDT Spot 30-minute open-to-close return predict the next bar's direction
+better than a training-only majority-direction rule? One fixed candidate
+`REVERSAL_30M_E22_V1`, no search, refit, sign switching or horizon changes.
+Zero feature return uses the baseline; zero target return scores 0.5 for
+either direction. Baseline is the majority of nonzero training directions;
+ties choose up. Charge its calibration as one fit. Feature available at
+close[t], target open[t+1] to close[t+1]; target intervals do not overlap.
+Reuse supervisor, platform guards, provenance, journal and OHLCV validation.
+Use a narrow monthly entry; keep D01's legacy 1-minute/31-day entry unchanged.
+
+**Data fixed before acquisition.** Official free Binance Spot BTCUSDT 30m
+monthly klines, 2024-09 through 2025-11: 15 archives, 456 complete UTC days,
+21,888 bars. Training: 2024-09-01–2024-11-30 (91 days). Evaluation:
+2024-12-01–2025-11-30 (365 days, 17,520 targets). These months precede the known
+December/January pilot windows; they are development validation, not protected
+confirmation or proof of no outside exposure. The [locked holdout](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout)
+is 2026-09-01–2026-10-31 inclusive, plus 2026-01-06. No download or read;
+owner-only release. Reject missing/duplicate/invalid bars, wrong month/member,
+checksum or timestamp units; no imputation, replacement dates or enlargement.
+Stop after one acquisition/analysis attempt, including failure; no auto-retry.
+
+**Primary decision.** Equal-weight daily paired accuracy difference, reversal
+minus frozen majority. Report both accuracies, difference and one-sided 95%
+lower/upper bounds using Newey–West/Bartlett HAC with seven fixed daily lags;
+also report a prespecified 14-lag sensitivity. `PREDICTIVE_PASS` requires mean
+advantage >=0.02 and both lower bounds >0. If both upper bounds <0.02, report
+`BELOW_RELEVANT_EFFECT`; otherwise `INCONCLUSIVE`. Two percentage points is
+Codex's disclosed research-priority effect, not an economic hurdle or an
+established literature constant. Preserve smaller positive findings. No
+17-bps/trade filter in this stage. Store all daily scores and counts without
+subgroup search. Effective independent sample size remains unknown.
+
+**Why a year.** Conditional planning uses
+`ceil((z_.95+z_.80)^2 * SD_day^2 * D / .02^2)` for one-sided 5% size/80% power.
+At daily SD 0.10, design effects D=1/2/4 require 155/310/619 days; at SD 0.15,
+348/696/1392. A year exceeds the SD=0.10,D=2 case and spans a calendar cycle.
+SD≈0.10 follows roughly 48 binary pairs/day with half disagreeing with the
+baseline; it is an unmeasured planning assumption. Stronger dependence,
+dispersion or regime change can defeat it. Preserve an inconclusive result
+and the fixed stop instead of adding data.
+
+**Conditional costs.** Only after predictive pass, evaluate the unchanged
+long-or-flat reversal and baseline versus cash on shared opportunities,
+including flat ones. Enter at next open, exit at the following open; omit
+the final bar lacking that exit. Use the existing illustrative Spot costs:
+10 bps fee/side, 1 bps full spread, 2 bps slippage/side (25 bps/round trip),
+no funding or shorts. Report gross/net bps per opportunity and entered trade;
+no optimization, further fit or realistic-execution claim. Otherwise skip
+costs, retaining prediction metrics. A pass is exploratory, not genuine alpha.
+
+**Source/transfer check.** The primary [intraday predictability paper](https://www.sciencedirect.com/science/article/pii/S1062940822000833)
+reports momentum/reversal; inspected publisher search excerpts motivate this
+screen but do not establish the exact rule, window or threshold (full-page
+access returned 403). This is not a replication. [Newey–West](https://www.nber.org/papers/t0055)
+supports dependence-aware uncertainty asymptotically, not finite-sample
+validity for this market. [Binance's official archive description](https://github.com/binance/binance-public-data)
+specifies monthly Spot klines, checksums and the 2025 microsecond transition.
+No newly selected market outcomes have been accessed at this point.
+
+**Governor and acceptance.** One acquisition worker plus one research worker,
+one calibration fit, zero model fits/seeds/resamples, concurrency one.
+Conservative bound: 120 seconds each, 240 total within 300 seconds; 4096 MiB
+observed RSS, not a strict RAM guarantee. Tighter central limits apply.
+Cap each ZIP/CSV at 1 MiB, checksum at 4 KiB, local artifacts at 128 MiB;
+measure first-month acquisition and extrapolate twofold before continuing.
+Verify causal alignment, train-only baseline, ties, known signal/null,
+HAC, holdout rejection before I/O, malformed input, fit budget and failed
+attempt retention. Publish card and source-bound registration before market
+access; require independent review and real Windows/Linux synthetic execution.
+See the [focused FTA](RISK_REGISTER.md#m2-e22-predictive-study-and-holdout).
 
 ### Historical queue decisions
 

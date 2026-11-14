@@ -65,6 +65,17 @@ This file is **normative**. Add each new architectural decision as a numbered AD
 
 | ADR-053 | Accepted pilot design, 2026-11-12 | **Separate agent discovery from deterministic evaluation** | The owner approved queuing [M2-E21](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight). Reuse candidate and journal records for the evidence-linked handoff and the existing evaluation path where qualified. Check equivalent behavior on matched development opportunities. Keep the first pilot synthetic and bounded. Conditional M3 feedback uses eligible development evidence only. Reassess adoption after the pilot and reassess B01 under its existing gates. |
 
+**ADR-054 — Accepted owner decisions, 2026-11-14.** The owner's current chat
+authorizes autonomous free Binance Spot acquisition within approved research,
+with question-driven amounts fixed before outcomes and owner-only holdout
+release; paid data, other sources and markets remain reserved. E20-P06 applies
+only to the E18 volume comparison. Test prediction before costs for new
+candidates. The eight-hour rule limits effort and grants no work authorization.
+Continue authorized work without repeated permission; notify the owner before
+expected or actual cumulative effort reaches eight hours. Preserve the
+governance freeze and Resource Governor. See the [canonical data rule](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout)
+and [working method](../AGENTS.md#working-method).
+
 ## Rejected and deferred engineering ideas (durable decision memory)
 
 **AQRS-B01 bounded implementation choice, 2026-11-11.** Prepare the owner's

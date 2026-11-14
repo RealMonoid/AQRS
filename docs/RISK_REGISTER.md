@@ -1,5 +1,25 @@
 # AQRS — Project risks and mitigations
 
+## M2-E22 predictive study and holdout
+
+**2026-11-14, before implementation.** Critical research-path change, bounded
+by the [E22 Test Card](MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal).
+Top event: false predictive claim OR protected-data access. Paths: wrong
+bar alignment OR OOS-fitted baseline OR row-level independence assumption OR
+outcome-driven sample choice; protected access requires an eligible request
+AND an ineffective date guard. Safeguards: fixed monthly allowlist and
+owner-only holdout intervals checked before network/file reads, train-only
+baseline, explicit close/open alignment, daily HAC with fixed sensitivity,
+source-bound prospective publication and complete attempts. Negative tests
+cover holdout months/days before I/O, malformed cadence/checksums, future
+perturbation and changed OOS labels not changing fitted baseline. Known-answer
+and null fixtures check inference and skip cost computation after a miss.
+Budget/journal top event: an unbounded or unrecorded run; prevent with existing
+supervised workers, explicit fit reservation, two-worker preflight and durable
+terminal statuses. Check actual containment, failure and duplicate attempts.
+HAC assumptions and outside-tool isolation remain limitations, not proven
+guards. No new process audit or Governor limit change is introduced.
+
 **Status:** Qualitative risk hypotheses, not claimed empirically measured probabilities. Reassess priorities after milestones and when new evidence arrives. The previously discussed “99% failure rate” is **not** an established AQRS metric. R-01 through R-06 are the six original research/compute risks; R-07 adds cross-platform portability.
 
 | ID | Category | Failure mode | Early warning | Mitigation / stop criterion | Acceptance gate |

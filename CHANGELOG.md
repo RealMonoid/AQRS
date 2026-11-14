@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-11-14 — Apply owner data and effort decisions; preregister predictive study
+
+Authorize question-driven free Binance Spot acquisition within approved work,
+clarify the eight-hour safeguard, reserve September–October 2026 plus the
+existing January 6 holdout, and predeclare one 456-day predictive-first study.
+Keep Governor limits, prior evidence and the governance freeze unchanged.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/DECISIONS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
 ## 2026-11-14 — Make routine repository completion autonomous
 
 Make validated main publication and live remote SHA equality part of normal

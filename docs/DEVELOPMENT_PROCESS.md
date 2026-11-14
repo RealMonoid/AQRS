@@ -166,7 +166,7 @@ Mark an item `READY` only when all applicable conditions hold.
 5. Required owner, data, holdout, resource and release permissions for the action
    are present. The estimate includes analysis, implementation, tests, routine
    corrections, verification, records and reconciliation for the entire item
-   or authorized sequence. Apply [standing approval](../AGENTS.md#working-method)
+   or authorized sequence. Apply the [eight-hour effort safeguard](../AGENTS.md#working-method)
    to time already spent plus all remaining work. At eight hours or more,
    obtain approval for that effort. Splitting cards, rows or chats does not
    reset the estimate. An already approved larger effort follows its recorded limit.
@@ -211,10 +211,11 @@ the named action, or report the specific external prerequisite.
 | Work-item completion | Apply the Definition of Done, reconcile follow-up, reevaluate the queue and execute the next eligible item covered by the mandate. |
 
 Owner decisions are required for reserved product choices, requirement or scope
-changes, increased budgets, additional data or holdout access, owner-reserved
+changes, increased budgets, data outside the [free Binance Spot authorization](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout) or any holdout access, owner-reserved
 scientific choices, materially irreversible architecture decisions, expressly
-reserved release or milestone gates, and effort beyond standing or explicit
-approval. Identify the actual reservation when escalating. When a genuine
+reserved release or milestone gates, and effort reaching eight hours without an
+explicit effort decision. Time below that limit grants no new work authorization.
+Identify the actual reservation when escalating. When a genuine
 blocker leaves no independent authorized work, report what must change to
 resume and request only the input or decision needed. Routine implementation
 choices use the existing engineering authority.
@@ -445,7 +446,7 @@ Examples of acceptable questions: *Can Windows and Linux each reject a 75,000-fi
 - Preserve existing contracts and the last working end-to-end path.
 - Prefer **one coherent vertical slice**, one active task, minimal modified files and no speculative abstractions.
 - Implement a cheaper test/probe/prototype first when it can answer the question without a full feature.
-- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. For longer experiments, state the budget before starting and apply the [standing approval rule](../AGENTS.md#working-method). The **enforced research runtime limits** are defined in `docs/RESOURCE_GOVERNOR.md`.
+- Keep the default development loop **timeboxed to one focused session (target <= 60 minutes)**; if evidence cannot be obtained within the agreed budget, stop and narrow the question or mark it blocked. For longer experiments, state the budget before starting and apply the [eight-hour effort safeguard](../AGENTS.md#working-method). The **enforced research runtime limits** are defined in `docs/RESOURCE_GOVERNOR.md`.
 - Do not launch new model sweeps, large recalibrations or repeat tests autonomously when the original plan exceeds budget. Escalating budgets/scope requires owner approval.
 
 ### 3. MEASURE: evidence versus preregistered criteria

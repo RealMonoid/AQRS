@@ -1,5 +1,31 @@
 # Research protocol — scientific and economic integrity
 
+## Owner data authorization and fixed holdout
+
+**Owner decision, 2026-11-14.** Within authorized research, Codex may acquire
+and evaluate new free Binance Spot data without per-portion owner approval.
+Before acquisition or outcomes, fix the question, dates, amount, rationale,
+comparison, uncertainty method and stop rule in the existing Test Card and
+register the attempt. No outcome-driven enlargement. Paid data, other sources
+and other markets remain owner decisions. All Resource Governor limits apply.
+E20-P06's no-new-raw-data conclusion applies only to the fixed E18 volume
+comparison, not future candidates.
+
+**Locked before new acquisition:** 2026-09-01 00:00:00 UTC through
+2026-11-01 00:00:00 UTC exclusive (61 days), for Binance Spot research.
+The existing 2026-01-06 UTC reservation also remains locked. Do not download,
+open, summarize or evaluate either scope. Only the owner may release it;
+the existing protected-evaluation admission gates still apply afterward.
+This reservation does not claim technical isolation against every external tool.
+
+**Predictive-first staging.** For the newly authorized candidate research,
+measure predictive value against a suitable simple baseline before applying
+an economic hurdle. Do not filter predictions through a cost or trading gate.
+Only a positive predictive screen advances to a separately reported cost
+assessment with fixed, matched assumptions. A predictive result alone is not
+economic viability, protected confirmation or permission to trade. Historical
+experiments retain their original rules.
+
 ## 11. AQRS-B01 frozen blind-search procedure
 
 **Scope:** owner-authorized preparation on 2026-11-11. This is a diagnostic of
