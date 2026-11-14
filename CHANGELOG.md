@@ -7,8 +7,21 @@ work, tested ordinary integration, a freeze of untriggered general audits, and
 a decision-specific E20 calibration rather than an assumed data duration.
 The final integration and verification record is AQRS-ER01.
 
+
 - `CHANGELOG.md`
+- `README.md`
+- `docs/DEVELOPMENT_PROCESS.md`
 - `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/m2-e19-coverage.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/discovery.py`
+- `src/aqrs/m2_e14.py`
+- `src/aqrs/m2_e19.py`
+- `tests/test_audit_controls.py`
+- `tests/test_m2_e14.py`
+- `tests/test_m2_e19.py`
 
 ## 2026-11-14 — Defer the Research Harness Enforcement Review
 
@@ -369,6 +382,58 @@ record the checked cases in the milestone evidence.
 - `docs/DEVELOPMENT_PROCESS.md`
 - `docs/MILESTONE_STATUS.md`
 
+## 2026-11-12 — Screen an HMM regime filter on the M2-E18 rule
+
+Register and execute a coverage-first comparison of two gates on the
+positive five-minute rule. Preserve the matched Windows and Ubuntu evidence
+and defer the HMM after it misses the fixed after-cost screen.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `evidence/m2-e19-acceptance.zip`
+- `evidence/m2-e19-coverage.json`
+- `evidence/m2-e19-verification.json`
+- `src/aqrs/m2_e19.py`
+- `tests/test_m2_e19.py`
+
+## 2026-11-12 — Close the matched M2-E18 market comparison
+
+Preserve the two complete platform runs, candidate outcomes, replay setup
+correction and exact source and input bindings. Close the two-family
+campaign criterion and retain the open supervised-pilot source gap.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e18-acceptance.zip`
+- `evidence/m2-e18-verification.json`
+
+## 2026-11-12 — Freeze the M2-E18 comparison and admission contract
+
+Register the authorized AQRS-D01 window and two scope-bound candidate
+variants. Reuse the guarded discovery entry and verify the archive,
+training prefix, outcome and replay bindings. Keep earlier E14 records
+and the scientific advancement thresholds.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/m2_e14.py`
+- `tests/test_m2_e14.py`
+
 ## 2026-11-11 — Enforce sequential AQRS-B01 deliveries and auditable verdicts
 
 Bind the next dataset to a published exclusive start and the previous immutable
@@ -690,6 +755,67 @@ AQRS-A06 binds pilot admission to validated policy, supervises core data prepara
 
 - `docs/QUANT_RESEARCH_CODEX_HANDOFF2` → `artifacts/aqrs-a06/source-material/QUANT_RESEARCH_CODEX_HANDOFF2` (pre-existing untracked original; bytes preserved, excluded from normative documentation).
 
+
+## 2026-11-11 — Record M2-E17 training feasibility and M2 evidence review
+
+Record the 61.51 bps training-only result, reconcile the M2 acceptance
+evidence and queue the proposed M2-E18 campaign under its own authorization.
+Add a compact machine-readable receipt with the executed training probe.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e17-verification.json`
+
+## 2026-11-11 — Register the fixed M2-E17 training-only screen
+
+Record the owner-approved M2 evidence review and the calendar-selected
+training feasibility check before opening input. Fix the training prefix,
+30-minute target, 27 bps hurdle, evidence requirements and Governor bounds.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+
+## 2026-11-11 — Record the M2-E14 Windows development outcome
+
+Preserve both campaign records and the exact source binding in a bounded
+evidence bundle. The volume screen missed both net thresholds. The Ridge
+movement screen stopped before fitting, so the conditional Ubuntu market
+replay did not qualify. Record the four exact-revision synthetic CI results.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e14-acceptance.zip`
+- `evidence/m2-e14-verification.json`
+
+## 2026-11-11 — Implement the guarded M2-E14 discovery campaign
+
+Run the volume filter and fitted Ridge comparisons through the shared
+simulator, supervised workers and attempt journal. Enforce the published
+definition, protected-date boundary, seven-charge plan and platform replay
+conditions. Preserve prospective variant and diagnostic identities in the
+evidence index.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `scripts/evidence_archive.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/discovery.py`
+- `src/aqrs/m2_e14.py`
+- `tests/test_m2_e14.py`
 
 ## 2026-11-10 — Record the M2-E15 state machine library check
 

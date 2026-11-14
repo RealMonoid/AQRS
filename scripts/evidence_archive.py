@@ -14,7 +14,7 @@ from io import BytesIO
 from math import isclose
 from pathlib import Path, PurePosixPath
 from tempfile import TemporaryDirectory
-from zipfile import ZIP_DEFLATED, ZipFile
+from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 SUPERVISED_REFERENCE_RUN = "9de172568b9842f0840345abd548fe53"
@@ -45,6 +45,10 @@ def write(path, value):
 def verify(bundle, manifest, restore=None):
     """Check every member before optionally restoring to a new directory."""
     expected = json.loads(manifest.read_text(encoding="utf-8"))
+    return verify_members(bundle, expected, restore)
+
+
+def verify_members(bundle, expected, restore=None):
     if digest(bundle.read_bytes()) != expected["bundle_sha256"]:
         raise ValueError("Evidence bundle digest mismatch.")
     with ZipFile(bundle) as archive:
@@ -85,6 +89,64 @@ def verify(bundle, manifest, restore=None):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(archive.read(name))
     return len(names)
+
+
+def verify_campaign(root, campaign, replay_revision):
+    slug = campaign.lower()
+    evidence = root / "evidence"
+    manifest = evidence / f"{slug}-verification.json"
+    expected = json.loads(manifest.read_text(encoding="utf-8"))
+    if expected["work_item"] != campaign:
+        raise ValueError("Verification receipt belongs to a different campaign.")
+
+    if campaign == "M2-E14":
+        reports = {"windows": expected["windows_report_sha256"]}
+    else:
+        reports = {
+            platform: expected["comparison"]["report_sha256"][platform]
+            for platform in ("windows", "ubuntu")
+        }
+    for platform, sha256 in reports.items():
+        member = f"artifacts/{slug}/{platform}/report.json"
+        if expected["files"][member]["sha256"] != sha256:
+            raise ValueError(f"Verification receipt report digest mismatch: {member}.")
+    count = verify_members(evidence / f"{slug}-acceptance.zip", expected)
+
+    if replay_revision is not None:
+        path = "evidence/m2-e18-replay/windows.json"
+        git = {
+            "cwd": root,
+            "stderr": subprocess.PIPE,
+            "env": {**os.environ, "GIT_NO_LAZY_FETCH": "1", "GIT_ALLOW_PROTOCOL": ""},
+            "timeout": 10,
+        }
+        try:
+            commit = (
+                subprocess.check_output(
+                    [
+                        "git",
+                        "rev-parse",
+                        "--verify",
+                        "--end-of-options",
+                        f"{replay_revision}^{{commit}}",
+                    ],
+                    **git,
+                )
+                .decode("ascii")
+                .strip()
+            )
+            report = subprocess.check_output(
+                ["git", "cat-file", "blob", f"{commit}:{path}"], **git
+            )
+        except subprocess.CalledProcessError as error:
+            raise ValueError(
+                f"Cannot read the local Git replay report at {replay_revision}."
+            ) from error
+        if digest(report) != reports["windows"]:
+            raise ValueError(
+                f"Windows replay report digest mismatch at {replay_revision}."
+            )
+    return count
 
 
 def supervised_source(revision):
@@ -437,6 +499,52 @@ def journal_projection(data, name):
             diagnostics = diagnostic_views(json.loads(metrics) if metrics else None)
             if diagnostics is not None:
                 attempts[-1]["diagnostic_exposure"] = diagnostics
+            campaign_id = config.get("campaign_id")
+            if campaign_id in {"M2-E14", "M2-E18"}:
+                from aqrs.m2_e14 import CAMPAIGNS
+
+                campaign = CAMPAIGNS[campaign_id]
+                market_run = config.get("variant") == campaign_id
+                expected_scope = list(campaign.days) if market_run else ["synthetic"]
+                expected_variant = (
+                    campaign_id if market_run else f"{campaign_id}-SYNTHETIC"
+                )
+                candidate_ids = [row["id"] for row in config["research"]["candidates"]]
+                if (
+                    candidate_ids != list(campaign.variants)
+                    or cid not in campaign.variants
+                    or scope != expected_scope
+                    or config.get("variant") != expected_variant
+                ):
+                    raise ValueError(
+                        "Discovery campaign scope or candidate registration differs."
+                    )
+                metrics_record = json.loads(metrics) if metrics else {}
+                if (
+                    execution == "COMPLETED"
+                    and metrics_record.get("result", {}).get("evaluation_status")
+                    == "COMPLETED"
+                    and not diagnostics
+                ):
+                    raise ValueError(
+                        "Completed discovery comparison lacks diagnostic receipts."
+                    )
+                binding = {
+                    "attempt_id": eid,
+                    "prospective_variant_id": cid,
+                    "definition_id": config["definition_id"],
+                    "published_revision": config["published_revision"],
+                    "dataset_scope": scope,
+                    "dataset_id": attempts[-1]["dataset_id"],
+                    "source_id": report["provenance"]["source_id"],
+                }
+                if any(
+                    any(view.get(key) != value for key, value in binding.items())
+                    for view in diagnostics or []
+                ):
+                    raise ValueError(
+                        "Discovery diagnostic attempt binding differs from its campaign."
+                    )
     return attempts, variants, configurations
 
 
@@ -859,7 +967,46 @@ def main():
         "--source-revision",
         help="Git source revision for supervised replay verification.",
     )
+    parser.add_argument(
+        "--campaign",
+        choices=("M2-E14", "M2-E18"),
+        help="Verify a campaign archive and its receipt without writing files.",
+    )
+    parser.add_argument(
+        "--replay-revision",
+        help="Also verify the E18 Windows replay report bytes at this local Git revision.",
+    )
     args = parser.parse_args()
+    if args.replay_revision is not None and args.campaign != "M2-E18":
+        parser.error("--replay-revision requires --campaign M2-E18.")
+    if args.campaign:
+        if (
+            args.build
+            or args.restore is not None
+            or args.consolidate_exposure
+            or args.verify_exposure
+            or args.verify_supervised_replay
+            or args.source_revision
+        ):
+            parser.error(
+                "--campaign is read-only and cannot be combined with another mode."
+            )
+        try:
+            count = verify_campaign(ROOT, args.campaign, args.replay_revision)
+        except (
+            BadZipFile,
+            KeyError,
+            OSError,
+            ValueError,
+            sqlite3.Error,
+            subprocess.SubprocessError,
+        ) as error:
+            parser.exit(1, f"{args.campaign} verification failed: {error}\n")
+        print(f"Verified {count} preserved evidence files for {args.campaign}.")
+        if args.replay_revision is not None:
+            print(f"Verified the Windows replay report at {args.replay_revision}.")
+        return
+
     if args.consolidate_exposure or args.verify_exposure:
         if (
             (args.consolidate_exposure and args.verify_exposure)

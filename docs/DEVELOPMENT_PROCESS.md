@@ -116,11 +116,18 @@ Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonica
 
 5. **Revisit deferred decisions.** Use `DEFER` when missing decision-relevant evidence can change a named decision and obtaining it now is impractical or outside authorized scope. In the existing decision record or Learning Card, record why, the observable revisit condition, the default until it occurs, and who checks it in which existing workflow. Link any dependent work. A date or milestone can prompt a review. Reopening requires the recorded condition. For pending work in `WAITING`, name the missing approval or prerequisite, the technical obstacle and affected path, or the evidence needed to justify the work. When qualifying new data, reviewing candidate evidence, or checking an acceptance gate, check the relevant linked decisions at their named observation points. On a trigger match, reassess the decision and priority before proposing new work. Meeting a trigger does not authorize execution or change the status of the closed attempt. Apply rules 1–4 to any justified follow-up. Stop an unchanged comparison when the evidence supports that decision within the tested scope. When sufficient evidence leaves a material choice reserved to the owner, present the choice and a recommendation for decision.
 
-6. **Prioritize eligible research over general process work.** Queue another
-   general audit or governance change only for an observed failure mode, new
-   material evidence, or a measurable unresolved process effect. Preventive
-   work for a critical safety or integrity risk remains eligible. Use the
-   existing quality, verification and approval rules.
+6. **Governance freeze, owner decision 2026-11-14 (AQRS-ER01).** Prioritize
+   eligible research and its necessary technical enablers. Do not start
+   general governance, role, autonomy, value-stream, literature, harness or
+   process audits, including new A-series audits, unless actual work reveals
+   a concrete material failure mode, existing verification demonstrates a
+   rule violation, a persistently defined revisit trigger occurs, or an
+   evidence-integrity risk needs immediate protection. Cosmetic cleanup or
+   speculative future usefulness is insufficient. Restrict any triggered
+   work to that cause. Existing QA, verification, Test Cards, Sequence
+   Preflight, literature rules, Resource Governor and recorded follow-ups
+   (including AQRS-H01) remain active; routine checks are not permission
+   boundaries. This rule adds no governance layer.
 
 ### Work authorization and Definition of Ready
 

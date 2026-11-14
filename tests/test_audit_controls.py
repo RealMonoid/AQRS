@@ -29,6 +29,86 @@ EXECUTION_STATUSES = {
     "TIMED_OUT",
     "MEMORY_LIMIT",
 }
+
+
+@pytest.mark.parametrize("campaign,count", [("M2-E14", 29), ("M2-E18", 60)])
+def test_campaign_archive_verification_reuses_preserved_receipts(campaign, count):
+    from scripts.evidence_archive import verify_campaign
+
+    assert verify_campaign(ROOT, campaign, None) == count
+
+
+def test_campaign_archive_rejects_the_superseded_replay(tmp_path):
+    import shutil
+    import subprocess
+    from zipfile import ZipFile
+
+    from scripts.evidence_archive import verify_campaign
+
+    evidence = tmp_path / "evidence"
+    replay = evidence / "m2-e18-replay/windows.json"
+    replay.parent.mkdir(parents=True)
+    for suffix in ("acceptance.zip", "verification.json"):
+        shutil.copyfile(
+            ROOT / f"evidence/m2-e18-{suffix}", evidence / f"m2-e18-{suffix}"
+        )
+    with ZipFile(evidence / "m2-e18-acceptance.zip") as archive:
+        original = archive.read("artifacts/m2-e18/windows/report.json")
+
+    def git(*args):
+        return subprocess.run(
+            ["git", *args], cwd=tmp_path, check=True, capture_output=True
+        )
+
+    git("init")
+    (tmp_path / ".gitattributes").write_text("*.json -text\n", encoding="utf-8")
+    for data in (original + b"\n", original):
+        replay.write_bytes(data)
+        git("add", "evidence/m2-e18-replay/windows.json")
+        git(
+            "-c",
+            "user.name=AQRS test",
+            "-c",
+            "user.email=test@example.invalid",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "-m",
+            "Replay byte fixture",
+        )
+    assert verify_campaign(tmp_path, "M2-E18", "HEAD") == 60
+    with pytest.raises(ValueError, match="replay report digest mismatch"):
+        verify_campaign(tmp_path, "M2-E18", "HEAD^")
+
+
+@pytest.mark.parametrize(
+    "other",
+    [
+        ["--build"],
+        ["--restore", "unused"],
+        ["--verify-exposure"],
+        ["--consolidate-exposure"],
+        ["--verify-supervised-replay", "unused"],
+        ["--source-revision", "HEAD"],
+    ],
+)
+def test_campaign_verification_rejects_competing_modes_before_io(monkeypatch, other):
+    import sys
+
+    from scripts import evidence_archive
+
+    def forbidden(*args):
+        pytest.fail("Conflicting verification modes reached evidence I/O.")
+
+    monkeypatch.setattr(evidence_archive, "verify_campaign", forbidden)
+    monkeypatch.setattr(
+        sys, "argv", ["evidence_archive", "--campaign", "M2-E18", *other]
+    )
+    with pytest.raises(SystemExit) as stopped:
+        evidence_archive.main()
+    assert stopped.value.code == 2
+
+
 EVIDENCE_STATUSES = {
     "NOT_EVALUATED",
     "REJECTED",

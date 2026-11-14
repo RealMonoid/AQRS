@@ -19,61 +19,10 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 
 ## Experiment queue
 
-**AQRS-G02 owner-directed method review, 2026-11-11.** Record the requested
-future validation methods under ADR-052 and the existing
-[method protocol](MODEL_EVALUATION_PROTOCOL.md#validation-method-selection).
-Routine documentation clarification: no current scientific, execution or
-protection contract changes; FTA not triggered. Baseline: chronological folds,
-matched costs/controls and conditional M4 statistics already exist in the
-design; the named methods lacked a consolidated applicability/resource guide.
-Success means all requested methods have a role, prerequisite and scope
-boundary, with no code/configuration or frozen blind-source change. Estimate:
-20–30 minutes, zero research trials/fits/resamples, no new dependencies or
-recurring runtime. Stop if implementation or a frozen-plan change is required.
-**Verification checkpoint: 08:29:41 UTC; 7 minutes 1 second measured since
-08:22:40 UTC**, excluding initial orientation and final bookkeeping. Documentation
-outcome: `SUPPORTED / PERSEVERE`; method implementation remains deferred.
-Native Windows: `python scripts/check_language_policy.py --self-test`,
-`python scripts/check_language_policy.py` and `git diff --check` passed, exit 0;
-51 documentation/configuration files audited. An inline Python check confirmed
-exactly five task-owned paths, complete latest-changelog coverage, 70 local
-file links, all seven method rows and preservation of pre-existing document
-content. All 23 AQRS-B01 source-bound files are byte-identical to the task's
-baseline. Manual English/method/scope review passed. The initial temporary
-baseline write was sandbox-denied; its authorized retry succeeded. No research
-or runtime tests ran. Linux was not rerun for this documentation-only change;
-no platform or milestone acceptance is claimed. No new numerical artifacts
-were produced. The method table is the reviewable result; future implementation
-and scientific qualification remain under M4-E01. No postmortem was triggered.
-
-**Priority review for AQRS-G02.** Add M4-E01 after the existing pending work:
-its decision value depends on a defined statistical claim and adequate series.
-It does not displace AQRS-B01, M2-E14 or their start conditions and does not
-authorize queue dispatch. Walk-forward and matched attribution/controls remain
-the first layer; the conditional tests are not a mandatory serial checklist.
-
-**AQRS-B01 owner-directed preparation, 2026-11-11.** Prepare the independent
-external-synthetic blind search now, outside the existing queue sequence. The
-owner selected preparation of 24 candidates, with budget approval later, and
-requested the earliest technically ready handoff. Existing rows, priority and
-start conditions are unchanged. No automatic dispatch follows this task.
-
-### AQRS-B01 capability benchmark deferral
-
-**Owner decision, 2026-11-11.** Defer B01 and prioritize the M2-E14 claim
-review. The fixed-rule rehearsal and the later order-flow and reporting checks
-establish bounded engineering behavior. The current blind plan would primarily
-diagnose that finite rule set. At a relevant discovery-capability review,
-Engineering and Quant Research should revisit B01 when the capability under
-test runs end to end and a prospectively scored, independent benchmark can
-change a concrete development decision. Define the baseline and budget, verify
-the intended execution path, and make correct detections, false claims,
-misses and effects outside the tested capability distinguishable. Until then,
-keep external execution parked. The existing evidence remains historical.
-
-**AQRS-G01 owner-directed policy correction, 2026-11-11.** ADR-051 removes mandatory data-rights and license reviews from current source/model prerequisites and milestone gates. Historical cards below retain the checks performed at the time; they do not reinstate the removed requirements. This is a deterministic documentation/configuration correction, not a new development hypothesis or market experiment. Technical access controls, causal timing, provenance, quality, free-data scope and resource limits remain in force. Verification passed: language self-test/check, current-requirement review, unchanged registry IDs/statuses/non-prose fields, all 17 owned paths in the changelog and `git diff --check`. Checkpoint 07:12:23 UTC; 11 minutes 8 seconds elapsed since the combined source/policy work started at 07:01:15 UTC. No critical contract changed; FTA not triggered. Zero market reads, fits, new dependencies or platform-runtime changes. The separately authorized free Spot data expansion follows the completed A08 integration checkpoint as AQRS-D01.
-
 This queue is the canonical work plan for concrete development, founding, and project-level research work. Row order is the current priority. The [dispatch rules](DEVELOPMENT_PROCESS.md#experiment-queue) govern execution. The [completion rules](DEVELOPMENT_PROCESS.md#completion-reconciliation) give the canonical locations for other follow-up. Follow the linked records for findings, revisit conditions, and owner decisions that affect readiness.
+
+**Execution Reset:** [AQRS-ER01](#aqrs-er01-execution-reset) is active. The
+[governance freeze](DEVELOPMENT_PROCESS.md#experiment-queue) applies.
 
 **Current scientific bottleneck, 2026-11-14.** M2-E20 lacks an eligible
 ordered contrast with defensible dependence and precision for the fixed
@@ -170,6 +119,65 @@ authorization and preflight rules.
 **Queue Test Card, 2026-11-08.** The existing status file can guide experiment selection and retain decisions. Pass if Codex can identify the first eligible test, the M1 blockers, and what to change after a pass, rejection, or inconclusive result. Use one documentation session and zero research runs. Stop after focused and language checks. Routine documentation risk. FTA not triggered.
 
 **Queue Learning Card.** `SUPPORTED / PERSEVERE` for the documentation. The focused review traced the M1 start conditions and the pass, rejection, and deferral paths. At the time of that review, both M1 entries were waiting.
+
+### Historical queue decisions
+
+These dated decisions retain their original scope; the current queue above
+governs dispatch. Superseded open conditions are historical observations.
+
+**AQRS-G02 owner-directed method review, 2026-11-11.** Record the requested
+future validation methods under ADR-052 and the existing
+[method protocol](MODEL_EVALUATION_PROTOCOL.md#validation-method-selection).
+Routine documentation clarification: no current scientific, execution or
+protection contract changes; FTA not triggered. Baseline: chronological folds,
+matched costs/controls and conditional M4 statistics already exist in the
+design; the named methods lacked a consolidated applicability/resource guide.
+Success means all requested methods have a role, prerequisite and scope
+boundary, with no code/configuration or frozen blind-source change. Estimate:
+20–30 minutes, zero research trials/fits/resamples, no new dependencies or
+recurring runtime. Stop if implementation or a frozen-plan change is required.
+**Verification checkpoint: 08:29:41 UTC; 7 minutes 1 second measured since
+08:22:40 UTC**, excluding initial orientation and final bookkeeping. Documentation
+outcome: `SUPPORTED / PERSEVERE`; method implementation remains deferred.
+Native Windows: `python scripts/check_language_policy.py --self-test`,
+`python scripts/check_language_policy.py` and `git diff --check` passed, exit 0;
+51 documentation/configuration files audited. An inline Python check confirmed
+exactly five task-owned paths, complete latest-changelog coverage, 70 local
+file links, all seven method rows and preservation of pre-existing document
+content. All 23 AQRS-B01 source-bound files are byte-identical to the task's
+baseline. Manual English/method/scope review passed. The initial temporary
+baseline write was sandbox-denied; its authorized retry succeeded. No research
+or runtime tests ran. Linux was not rerun for this documentation-only change;
+no platform or milestone acceptance is claimed. No new numerical artifacts
+were produced. The method table is the reviewable result; future implementation
+and scientific qualification remain under M4-E01. No postmortem was triggered.
+
+**Priority review for AQRS-G02.** Add M4-E01 after the existing pending work:
+its decision value depends on a defined statistical claim and adequate series.
+It does not displace AQRS-B01, M2-E14 or their start conditions and does not
+authorize queue dispatch. Walk-forward and matched attribution/controls remain
+the first layer; the conditional tests are not a mandatory serial checklist.
+
+**AQRS-B01 owner-directed preparation, 2026-11-11.** Prepare the independent
+external-synthetic blind search now, outside the existing queue sequence. The
+owner selected preparation of 24 candidates, with budget approval later, and
+requested the earliest technically ready handoff. Existing rows, priority and
+start conditions are unchanged. No automatic dispatch follows this task.
+
+### AQRS-B01 capability benchmark deferral
+
+**Owner decision, 2026-11-11.** Defer B01 and prioritize the M2-E14 claim
+review. The fixed-rule rehearsal and the later order-flow and reporting checks
+establish bounded engineering behavior. The current blind plan would primarily
+diagnose that finite rule set. At a relevant discovery-capability review,
+Engineering and Quant Research should revisit B01 when the capability under
+test runs end to end and a prospectively scored, independent benchmark can
+change a concrete development decision. Define the baseline and budget, verify
+the intended execution path, and make correct detections, false claims,
+misses and effects outside the tested capability distinguishable. Until then,
+keep external execution parked. The existing evidence remains historical.
+
+**AQRS-G01 owner-directed policy correction, 2026-11-11.** ADR-051 removes mandatory data-rights and license reviews from current source/model prerequisites and milestone gates. Historical cards below retain the checks performed at the time; they do not reinstate the removed requirements. This is a deterministic documentation/configuration correction, not a new development hypothesis or market experiment. Technical access controls, causal timing, provenance, quality, free-data scope and resource limits remain in force. Verification passed: language self-test/check, current-requirement review, unchanged registry IDs/statuses/non-prose fields, all 17 owned paths in the changelog and `git diff --check`. Checkpoint 07:12:23 UTC; 11 minutes 8 seconds elapsed since the combined source/policy work started at 07:01:15 UTC. No critical contract changed; FTA not triggered. Zero market reads, fits, new dependencies or platform-runtime changes. The separately authorized free Spot data expansion follows the completed A08 integration checkpoint as AQRS-D01.
 
 ### AQRS-H01: Research Harness Enforcement Review
 
@@ -3530,6 +3538,429 @@ only. No new fault tree or Linux runtime verification was required.
 
 - **Result.** `REFUTED / DEFER` for recovering both exact source bindings from the named bundle. The reports and [comparison receipt](../artifacts/m2-e09/comparison.json) match the two original run IDs and configuration and data identities. Both read-only journals passed SQLite integrity checks. Their experiment keys reproduce from configuration, data identity and candidate name. The [Ubuntu setup log](../artifacts/m2-e09/ubuntu.log) records an AQRS wheel digest and the completed run ID, but the wheel bytes and a digest for the executed pilot are absent from the inspected bundle. The Windows record supplies neither a run-bound pilot digest nor a recoverable worker snapshot. The M2-E08 reference pilot is available without an execution-time digest. Keep the original outcome parity and research deferral. The separate source criterion remains open.
 - **Verification and resources.** `python -B -` checked report and journal lineage, recomputed the keys, and checked the saved package and pilot references (exit 0). About two minutes elapsed from the start of the review through the receipt and planning checks. Zero new Linux runs, fits, downloads, archive payload reads or protected reads. The next campaign remains M2-E14 under its existing start conditions.
+
+### Preserved campaign implementation and acceptance history
+
+These dated records were integrated from `96df879` during AQRS-ER01.
+The current queue above governs authorization and dispatch; historical start
+conditions below do not reopen completed campaigns.
+
+### M2-E19 Test Card: volatility regime filter
+
+**2026-11-12, before market access.** Baseline `e26e65e`. The owner
+requested the count followed by the comparison if it qualifies. Reuse
+M2-E18's pinned December 1–10, 2025 BTCUSDT Spot minutes, two chronological
+folds and 31-row purge. The M2-E18 positive five-minute rule produced 265
+simulated trades on 4,296 eligible opportunities and was negative net. Its
+broader coverage than the one-minute benchmark makes this a development
+screen for a decision filter. The prior results and ADR-043/044/048/049
+and IDEA-001/004 support one fixed challenger and an early stop.
+
+- **Hypothesis and rival.** High-volatility episodes might identify
+  worthwhile continuation opportunities after costs. A causal HMM's state
+  persistence may add value over the current rolling volatility alone.
+  The riskiest assumption is enough distributed coverage to compare the
+  gates. Use the same causal 12-return rolling volatility in both arms.
+- **Count before fitting.** Use the existing positive five-minute event
+  and all M2-E18 eligible rows. Per fold calibrate the 75th percentile of
+  rolling volatility among positive training events. With no outcome
+  computation, greedily take the earliest available unfiltered entries,
+  at most one position for 30 minutes. Classify those non-overlapping
+  entries by whether the simple filter accepts or rejects them. Each
+  validation fold needs at least two UTC entry days with at least four
+  accepted and four rejected entries on each qualifying day. This is a
+  workflow floor adapted from E10, with coverage on multiple days in each
+  fold. If it fails, defer without any HMM fit. Treat the result as
+  development coverage; the days and entries can be dependent.
+- **Conditional comparison.** Use one two-state univariate Gaussian HMM,
+  one fixed seed, the higher-mean volatility state, and a forward-only
+  filter. Train on the training prefix and calibrate the posterior's 75th
+  percentile among positive training events. Apply both fixed cutoffs to
+  the same validation opportunities. Compare with the unfiltered and flat
+  references. Reuse the simulator, next-open entry, 30-minute exit, one
+  position of unit notional, and the E18 illustrative 25 bps cost. Record
+  daily/fold and overall gross/net, trade counts and turnover. The primary
+  contrast is HMM minus simple volatility net bps per all eligible
+  opportunities, including skips. Advance only to a follow-up proposal if
+  both filters execute at least four trades per day on at least two days
+  per fold, the paired contrast is at least +0.10 bps per opportunity in
+  both folds, and the HMM aggregate is above flat. The effect floor is a
+  descriptive hurdle equal to one modeled full spread per ten opportunities.
+  Six reused days and unknown dependence support no confirmatory claim.
+  Defer on insufficient activity or a missed hurdle; no retuning.
+- **Evidence and risk.** Apply [FTA-M2-E19](RISK_REGISTER.md#fta-m2-e19-regime-filter).
+  Pin the authorized digests and dataset identity before evaluation. Check
+  known-answer null and planted effects, reject a future-dependent scoring
+  path and verify disallowed archive or incomplete admission rejection.
+  Before market outcomes publish the frozen card, source and exposure,
+  verify the source binding and obtain independent design review. A valid
+  Windows result permits a non-root Ubuntu replay of the same comparison.
+- **Budget and stop.** Up to three hours once, one sequence per platform.
+  Coverage charges two cutoff calibrations and zero estimator fits. If it
+  qualifies, reserve one synthetic timing fit, two HMM fits and two HMM
+  cutoff calibrations per platform, at most seven total charges and two
+  research trials. Use one sequential worker at a time under the existing
+  120/300-second and 4,096 MiB sampled RSS ceilings. Bound coverage to 30
+  seconds and time the representative fit and scoring before market model
+  work. Zero market-data downloads, resamples, retries, protected reads,
+  spend or recurring work. Stop on a coverage, source, timing or guard
+  failure. No displacement of the M2 evidence review beyond this item.
+
+**Coverage checkpoint, 2026-11-12.** The isolated Windows count qualified
+at revision `c3d2e69`. Of the 4,296 positive entries eligible before
+position occupancy, 265 were non-overlapping under the unfiltered rule.
+The simple gate accepted 9, 0 and 7 of the day-level entries in the first
+fold and 10, 9 and 9 in the second. The respective rejected counts were
+35, 44, 36 and 36, 35, 35. The fixed floor qualified 2 of 3 days and 3 of 3
+days. The worker completed in 1.75 s at 132.36 MiB sampled RSS with two
+cutoff calibration charges and zero estimator fits or forward-outcome
+computations. See the [coverage receipt](../evidence/m2-e19-coverage.json).
+
+**Outcome freeze.** Use `hmmlearn==0.3.3` as a pilot-local dependency.
+Scale the existing volatility values to basis points for numerical
+conditioning. Use diagonal variance, seed 42, scaling-based EM, at most
+100 iterations and a log-likelihood gain tolerance of 0.01. Require a
+finite final gain within tolerance and reject a material decrease.
+Update forward probabilities through the purge gap using observations
+available by each decision. Estimate neither parameters nor cutoffs from
+validation rows. The observed floor counts are reused as a fixed input
+receipt; the comparison verifies its simple-gate counts before fitting.
+The primary decision uses fold and aggregate views. Daily and eight-hour
+breakdowns are descriptive, recorded as exposure, and do not select a
+threshold or new variant. Actual runtime and memory are measured in the
+15-second synthetic timing worker and bounded by a 60-second comparison
+worker and a 512 MiB sampled ceiling. No new market data are acquired.
+
+### M2-E19 Learning Card: paired volatility gates
+
+**2026-11-12.** Technical `SUPPORTED / PERSEVERE` for the bounded pilot.
+Research `INCONCLUSIVE / DEFER`. Both coverage runs qualified two of three
+and three of three UTC days in the respective folds, with zero estimator
+fits. The HMM and simple filter disagreed on 8 and 29 of the 4,296 eligible
+signals across the two folds. The HMM executed 77 trades versus 78 for the
+simple gate and 265 for the unfiltered rule. Net bps per eligible
+opportunity were -0.3836, -0.4043, -1.5266 respectively. The HMM's incremental
+net effect was +0.0290 and +0.0127 bps per opportunity by fold and +0.0207
+overall. Both folds missed the +0.10 bps hurdle and the aggregate HMM
+result missed flat. The policy activity floor passed. The data were reused
+and the costs were illustrative. This result supplies no independent
+estimate of a trading edge and does not justify adoption.
+
+The frozen source `ff862a6` passed 78 focused synthetic tests on Windows
+and an independent review of the exact published revision. The first
+synthetic outcome fixture failed on missing fold/date binding. The
+corrected fixture passed through selection and the decision rule. The
+[acceptance matrix](https://github.com/RealMonoid/AQRS/actions/runs/43205967812)
+passed on Windows and non-root Ubuntu for Python 3.11 and 3.12, with
+249 tests per job. The [market replay](https://github.com/RealMonoid/AQRS/actions/runs/43206317516)
+ran the coverage and comparison CLI on non-root Ubuntu 24.04 with the same
+Python 3.12.12 and numerical dependencies as native Windows. Both platform
+sequences used two coverage calibrations, one synthetic timing fit, two
+market fits and two HMM cutoff calibrations. Coverage, timing and comparison
+worker totals were 18.69 seconds on Windows and 22.48 seconds on Ubuntu.
+Peak sampled RSS was 132.36 and 146.70 MiB. Zero retries, market downloads,
+protected reads or spend. About 16 minutes elapsed from initial scope and
+resource inspection through the paired receipt check.
+
+`python -B artifacts/m2-e19/verify_evidence.py` verified all four SQLite
+journals, exact source bindings, the 420 per-platform trade receipts and
+6,588 outcome and coverage values, with a maximum absolute numeric
+difference of `1.82e-11`. See the [verification receipt](../evidence/m2-e19-verification.json)
+and [evidence bundle](../evidence/m2-e19-acceptance.zip). Keep the HMM
+conditional in the catalog. Revisit a new design only on evidence of a
+named gap and adequate development coverage. The next M2 acceptance review
+starts with the unresolved M2-E09 source binding.
+
+### M2-E14 guarded campaign entry Test Card
+
+**2026-11-11, before implementation.** The owner replied “freigabe” after
+reviewing the fixed December 25, 2025–January 3, 2026 UTC BTCUSDT scope and
+the remaining publication and execution conditions. Interpret it as approval
+for this campaign, including its synthetic qualification, one Windows
+market attempt and the conditional Ubuntu replay in the original card.
+Use an isolated worktree at `1552eaf` with the prior E14 design changes.
+
+- **Hypothesis and baseline.** A small dedicated entry can reuse the shared
+  importer, causal features, Ridge, simulator, worker, journal and evidence
+  index to execute both frozen comparisons. The baseline has the shared
+  helpers but no E14 entry. The riskiest failures are outcome access before
+  binding and a mechanically favored comparison. Follow [FTA-M2-E14](RISK_REGISTER.md#fta-m2-e14-pre-outcome-implementation-plan).
+  ADR-043/044/048/049 and IDEA-001/004 favor reuse and fixed comparisons.
+- **Minimum proof.** Through the actual entry, exercise the frozen folds and
+  thresholds, both trial records, two volume calibrations, four forecast
+  fits and the timing fit. Verify known-answer null and planted comparisons,
+  matched next-open costs, complete opportunity denominators, causal
+  perturbation, screened and rejected paths, and preservation of role/source/
+  revision/attempt bindings through evidence consolidation. Reject wrong
+  dates and digests, missing authorization, missing or changed registration,
+  unverified publication and tight limits before opening an outcome archive
+  where the check does not require payload bytes. Treat simulated results as
+  descriptive development evidence.
+- **Verification and publication.** Run targeted failing and passing tests,
+  Windows full suite, lint, policy checks and evidence preservation, then
+  independent review and Windows/Ubuntu CI on the frozen revision. Publish
+  the exact card/definition/source before any market payload. Verify the
+  remote branch and tested revision and retain both platform receipts.
+  A preserved-bundle replay may stage only the named members inside the
+  supervised preparation stage. Compare dataset, execution source, discrete
+  results and screen gates exactly across platforms. Use absolute tolerance
+  `1e-10` and relative tolerance `1e-9` for floating-point comparison values.
+- **Resources and stop.** One development increment up to three hours.
+  One fixed sequential campaign per platform after verification, with
+  Ubuntu conditional on valid Windows results. At most two trials, one
+  seed, seven reserved charges (five estimator fits and two cutoff
+  calibrations), no resamples, automatic retries, protected access or spend.
+  Retain 120-second worker and 300-second shared campaign maxima, 4,096 MiB
+  sampled RSS and the original 10 MiB evidence target. Static and live
+  preflight apply. Stop affected work on binding, containment, qualification,
+  timing, cost, budget or replay failure. Development fixtures use no market
+  payload. Run admission and scientific evidence are separate decisions.
+
+### M2-E14 Windows campaign Learning Card
+
+**2026-11-11.** `SUPPORTED / PERSEVERE` for the guarded entry.
+The exact [published revision](https://github.com/RealMonoid/AQRS/commit/9f8fe4960bc2af5edd08f1df7f73912202f45902)
+passed independent review, including 65 focused Windows tests and independent
+causal and synthetic input checks. The [four exact-revision CI jobs](https://github.com/RealMonoid/AQRS/actions/runs/43102295817)
+each passed 236 tests on Windows and non-root Ubuntu with Python 3.11/3.12,
+including the synthetic M2-E14 entry. Each job verified the 295 historical
+evidence files. Native Windows `python -B -m aqrs.m2_e14 --market-root <archive-directory> --admission <receipt> --output <new-directory>`
+exited 0 for the one authorized market attempt
+`d98b5971b2254756a3cf398a0f609e70`. All ten expected archives qualified
+before evaluation. The January 6 reservation had zero authorized reads,
+and the fixed importer allowlist excluded it.
+
+- **Volume.** All 18 day/band slots produced pairs across six validation
+  days, nine per fold. Mean event net return was -22.16 bps and the mean
+  paired advantage was -3.86 bps after the common 25 bps cost. The
+  5 bps and 2 bps screens missed. Over all 4,354 eligible positive moves,
+  the filter improved the simulated policy by 0.41 bps per opportunity
+  while both policies had negative net returns. `DEFER` for follow-up.
+- **Ridge.** `SCREENED_OUT`. The first purged training fold's 90th percentile
+  of absolute 30-minute movements was 22.68 bps against the 27 bps cost and
+  buffer threshold. Zero market estimator fits and zero validation
+  predictions followed. The forecast, net incremental value and two-family
+  real-data milestone criterion remain unevaluated. `DEFER` for follow-up.
+
+The market attempt used three of seven planned charges (one synthetic timing
+fit and two volume cutoff calibrations), about 6.48 seconds of summed worker
+wall time and 131.59 MiB peak sampled RSS. Market-effect inference remains
+`INCONCLUSIVE / DEFER`. An inline read-only report check confirmed the
+digest-bound Windows result rejects Ubuntu market replay, so real-data
+platform parity remains open. No market retry or outcome-based changes to
+the design followed. The review's mock claim marker was identified by its
+synthetic run ID and moved out of the live ledger before the market attempt.
+
+The [verification receipt](../evidence/m2-e14-verification.json) binds the
+[29-member evidence bundle](../evidence/m2-e14-acceptance.zip) to the dataset,
+published source and Windows attempt. An inline `python -B -` check passed
+SQLite integrity, source and report digests, archive verification, and
+consolidation of two variant-linked records and 55 diagnostic views.
+About 26 minutes elapsed from 21:02:19 UTC through evidence consolidation.
+Review the remaining two-family criterion at the next M2 evidence review.
+Reopen research only with a separately registered design and justified
+development scope that can exercise the missing comparison.
+
+### M2-E17 Test Card: training window feasibility
+
+**2026-11-11, before market access.** The owner approved the M2 evidence review
+and one training data check. Use baseline `76cdfd3` and the preserved M2-E14
+record. Update the existing evidence map by identifying what the volume
+comparison adds, the missing second market comparison, the M2-E09 source
+binding gap and the completed M2-E13 model dispositions.
+
+- **Decision and baseline.** M2-E14's first training fold recorded 22.68 bps
+  against the fixed 27 bps hurdle. Test whether one other qualified calendar
+  window can clear the same early movement screen. A pass supports drafting a
+  proposal for both candidate families. A miss stops this window and defers
+  the follow-up. A pass gives no information about prediction, validation
+  outcomes, independent evidence or net profitability. Apply ADR-044 and
+  IDEA-001's bounded screen.
+- **Fixed scope.** Take the earliest ten contiguous BTCUSDT days in the
+  previously qualified AQRS-D01 calendar, December 1–10, 2025 UTC. Choose by
+  calendar before observing the movement statistic. Keep the E14 fold shape:
+  train through December 4 and validate December 5–7, then train through
+  December 7 and validate December 8–10. This check opens only the four
+  first-training-day ZIPs and their checksum files. The dates reserved for
+  possible validation remain outside the loader request.
+- **Proof and stop.** Reuse the digest-pinned importer, fold builder, 30-minute
+  target, round-trip cost helper and native supervisor. Take the 90th percentile
+  of absolute next-open simple returns on signal rows `[12, 5729)`, with
+  entry at `open[t+1]` and exit at `open[t+31]`. Require 5,717 labels, the last
+  exit at December 4 23:59 UTC, and strict improvement over the 27 bps hurdle.
+  The hurdle is the existing 25 bps illustrative round-trip cost plus 2 bps
+  buffer. Verify arithmetic and exact UTC boundary on a known-answer synthetic
+  fixture. Stop on an identity, scope, cadence, resource or comparison
+  failure. No window search or retry.
+- **Resources and risk.** Allow 20–30 minutes of one-time review and verification.
+  One data-only Windows worker, at most 30 seconds and 512 MiB sampled RSS,
+  5,760 qualified input bars, up to 1 MiB of new evidence, and zero candidate
+  trials, fits, validation reads, resamples, downloads, protected reads or
+  spend. The approved default limits remain in effect. Reuse the previously
+  verified contracts with a fixed read allowlist. No critical runtime contract
+  changes and no new FTA. Register this training-only diagnostic as an
+  additional look at the AQRS-D01 development data.
+
+### M2-E17 Learning Card: training window feasibility
+
+**2026-11-11.** `SUPPORTED / PERSEVERE` for the bounded feasibility
+question. Native Windows qualified the four registered BTCUSDT daily ZIPs
+and their checksum files against AQRS-D01. Over 5,717 purged training labels,
+the 90th percentile was **61.51 bps** against **27 bps**. The last exit was
+December 4 at 23:59 UTC. The independent calculation over the same labels
+agreed. The calculation shows training movement scale. Prediction and
+economic evidence remain unevaluated.
+
+The inline `python -B -` preflight admitted one data worker. A supervised
+synthetic fixture and the real training check both completed. The real
+worker used 1.58 seconds and 128.66 MiB sampled RSS, with zero fits, candidate
+trials, validation or protected reads, downloads or spend. An initial
+launcher quoting error exited 1 before any worker or market file read. The corrected
+launcher exited 0 and dispatched exactly one market input check. See the
+[verification receipt](../evidence/m2-e17-verification.json) for the
+registration revision, digest bindings, setup evidence and result.
+Elapsed time from the 22:37:33 UTC checkpoint was 4 minutes 24 seconds through
+the result and about seven minutes through evidence verification. The focused
+`python -B -m pytest -q` selection passed three tests on purge timing, the
+zero-fit movement screen and digest rejection. The policy self-test and
+language audit, `git diff --check`, and exact changelog and evidence checks
+passed. This one-off check ran on Windows. No new Linux or milestone
+acceptance verification was claimed.
+
+**M2 evidence review.** Update the [prior evidence map](#m2-e11-learning-card-m2-evidence-review-2026-11-09)
+with the following scoped findings:
+
+| Criterion | Evidence and current implication |
+|---|---|
+| Cost-aware matched rule-based outcome | M2-E14 provides an evaluated volume rule, matched outcomes, 25 bps modeled costs, turnover, opportunity counts, diagnostic exposure and a recorded deferral. This closes the scoped rule-based evidence gap for that rule. |
+| Two completed market comparisons in one campaign | Open. M2-E14's Ridge path screened before fitting. M2-E17 clears the training feasibility hurdle on a new fixed prefix. Its reserved validation dates and both candidate outcomes remain unmeasured. |
+| Model assessment dispositions | M2-E13 records the five required cards and revisit triggers. Four models are deferred and cross-series PCA remains `BLOCKED_DATA`. No model run is needed to record these dispositions. |
+| Supervised pilot source binding | Open. Existing M2-E09 outcome parity stands. Reopen the source search only if run-linked source is found. A bounded replay with recoverable source requires separate authorization. |
+
+### M2-E18 campaign proposal
+
+**Decision.** Reuse the M2-E14 volume and Ridge definitions with new
+scope-bound variant records. Seek two complete, source-bound comparisons
+in the same campaign. The volume research follow-up on M2-E14 remains
+deferred. The new campaign can supply both technical records even when
+the existing economic screens reject both candidates.
+
+- **Scope and acceptance.** BTCUSDT Spot minute archives for December 1–10,
+  2025 UTC. Train through December 4 and validate December 5–7, then
+  train through December 7 and validate December 8–10. Carry forward the
+  31-row purge, 30-minute horizon, 25 bps round-trip assumption, 2 bps
+  Ridge buffer, matched controls, complete opportunity counts and original
+  advancement thresholds. Require both full evaluation records, report
+  the prespecified screens separately, and match the Windows and Ubuntu
+  results under the existing tolerance. The six validation dates support a
+  descriptive screen. Effective independent units remain unknown.
+- **Resources and prerequisites.** Propose up to three hours of one-time
+  engineering and verification. Reuse the E14 entry and its shared helpers.
+  Allow at most one native Windows run and a conditional non-root Ubuntu
+  replay. Per platform plan two sequential trials, four forecast fits, one
+  timing fit and two cutoff calibrations, with the existing 120-second
+  trial and 300-second campaign deadlines and 4,096 MiB sampled RSS cap.
+  Start only with separate owner approval, named digest allowlist, synthetic
+  tests of the revised admission, independent review, exact-revision
+  Windows/Ubuntu verification, published card/source and successful live
+  preflight. Zero downloads, resamples, retries or protected reads. If either
+  market path is unavailable, close the attempt truthfully and stop the
+  conditional replay.
+
+### M2-E18 guarded campaign entry Test Card
+
+**2026-11-12, before implementation.** The owner approved the fixed
+campaign proposal. Baseline is `eb8ed5c`, including M2-E17's 61.51 bps
+training-only result and the preserved M2-E14 records. ADR-043/044/048/049
+and IDEA-001/004 favor one fixed scope and reuse of the verified comparator.
+
+- **Hypothesis.** The already qualified ten-day scope can run both
+  comparisons through the same supervised engine with exact variant,
+  input and attempt binding. The main failure path is reusing an earlier
+  scope or outcome identity when admitting or persisting the new one.
+  Follow [FTA-M2-E18](RISK_REGISTER.md#fta-m2-e18-scope-bound-reuse).
+- **Smallest proof.** Select one of two fixed profiles through the existing
+  entry. Keep the prior M2-E14 CLI and calculations usable. Pin the ten
+  qualified D01 archive and checksum hashes. On market preparation verify
+  that the first 5,760 bars reproduce the M2-E17 training dataset ID.
+  Register two distinct E18 variants and all known diagnostics. Verify
+  altered dates, hashes, training identity, missing admission, old result
+  reuse and tighter Governor limits fail at the appropriate boundary.
+  Use existing known-answer and causal fixtures and a synthetic E18
+  CLI exercise through the actual worker, journal and consolidation.
+- **Release evidence.** Run focused red/green and existing regressions,
+  independent review, exact-revision Windows and non-root Ubuntu CI, and
+  publish the bound card and source before outcomes. Capture both local
+  timezones and the fixture's UTC timing where applicable. One valid
+  Windows result permits one non-root Ubuntu replay. Check exact input,
+  source, discrete fills, gates and exposure counts, and numeric values
+  with absolute tolerance `1e-10` and relative tolerance `1e-9`.
+- **Resource Governor and stop.** Up to three hours of development and
+  verification. Two sequential trials and seven charge reservations per
+  platform (four forecast fits, one timing fit, two cutoff calibrations).
+  Reuse the existing 80-second total of worker stage bounds within the
+  120/300-second trial/campaign ceilings, 4,096 MiB sampled RSS ceiling
+  and 10 MiB evidence target. No data acquisition, resampling, retries,
+  parameter search, protected access or spend. Stop on a digest, timing,
+  source, execution, budget or replay failure. The development screen can
+  defer both candidates while the two-family workflow passes.
+
+### M2-E18 Windows and Ubuntu Learning Card
+
+**2026-11-12.** `SUPPORTED / PERSEVERE` for the two-family real-data
+workflow. The [frozen revision](https://github.com/RealMonoid/AQRS/commit/54fb8644b5a27c51fece7d89f3d9996a65356ad2)
+passed the independent review and all four [Windows/Ubuntu CI jobs](https://github.com/RealMonoid/AQRS/actions/runs/43120088595),
+each with 242 tests and 295 preserved historical evidence members.
+The pre-change E18 selection failed four checks. The focused Windows
+entry/importer/evidence suite passed 81 checks after correction.
+Ruff, language self-test/check and Git whitespace checks passed.
+
+The native Windows command and the [non-root Ubuntu replay](https://github.com/RealMonoid/AQRS/actions/runs/43121045384)
+used `python -B -m aqrs.m2_e14 --campaign M2-E18` with their authorized
+local archive inputs and admission records. Both exited 0. All ten
+qualified day archives, the M2-E17 first-training fingerprint, source and
+scope bindings, and both journals verified. Windows run
+`bb9866a947c74c21a4ffdf2a8501f250` and Ubuntu run
+`9abc3482b65e41558d88e6576d45715b` each used seven charges. Worker totals
+were 6.58 and 4.95 seconds, with peak sampled RSS of 131.73 and 144.03 MiB.
+There was one real-data run per platform and zero protected reads,
+market-data acquisitions, tuning or resamples.
+
+The inline `python -B -` comparison matched 6,874 discrete values and
+4,380 numeric values under the registered tolerances. The largest absolute
+numeric difference was `2.17e-19` in native report units. The 534 UTC
+trade receipts matched with host offsets of +60 and -300 minutes. This
+records the non-UTC timing check for the executed path.
+
+- **Volume filter.** 18 matched pairs across six validation days. Mean
+  net event return was -28.48 bps and the paired difference was -8.89 bps,
+  missing both economic screens. On 4,296 common opportunities, the
+  policy difference was +0.22 bps per opportunity while both policies
+  had negative net returns. `DEFER`.
+- **Ridge.** Both fitted models completed 8,578 common opportunities.
+  The three-feature forecast reduced mean absolute error against the
+  one-feature model by 1.48% and 0.46% in the two folds, and against
+  zero by 0.63% and 0.46%. The joint 1%-per-fold hurdle missed. Both
+  fitted policies stayed flat, with zero incremental net return per
+  opportunity. `DEFER`.
+
+**Replay setup correction.** The first Ubuntu launch stopped before input
+access because Git normalized the Windows report's line endings. The
+preflight digest guard detected the mismatch. The setup had verified the
+local report bytes but omitted a check of the staged Git blob. The
+replay-only branch now preserves the report as binary and checks its
+staged bytes against the original digest. The successful launch used the
+same ten pinned archive pairs. The failed setup started zero market
+workers and consumed zero fit reservations.
+
+The [verification receipt](../evidence/m2-e18-verification.json) binds
+the [60-member evidence bundle](../evidence/m2-e18-acceptance.zip) to both
+reports. The 4.23 MB uncompressed evidence is within budget. Consolidation
+retained four source-bound attempts and 230 diagnostic views.
+About 21 minutes elapsed through evidence capture. The scoped M2 criterion
+for two interpretable, versioned real-data candidates in one campaign is
+met. Independent market-effect evidence and the M2-E09 source-binding
+criterion remain open. M2 stays `IN_PROGRESS`.
 
 ## Template for milestone acceptance record
 

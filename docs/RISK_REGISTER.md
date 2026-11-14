@@ -60,6 +60,17 @@ The source receipts and prior index remain recoverable; no historical
 registration time or source identity may be invented. The Learning Card in
 `MILESTONE_STATUS.md` records outcomes and remaining limits.
 
+**AQRS-ER01 integration extension, 2026-11-14.** The older discovery branch
+and the newer exposure projection must coexist without reopening completed
+registrations or losing candidate/source-binding validation. The top event
+is a silently weakened admission or misattributed archived attempt. OR paths:
+resetting completed index records to planned; adapting tests by weakening the
+runtime guard; or discarding the older candidate/scope/binding check during
+the merge. Use the digest-bound historical registration as a test fixture,
+retain current completed statuses byte-for-byte, reject changed candidate or
+diagnostic identities, and verify the entire archive projection unchanged.
+An independent reviewer checks these resolutions before `main` integration.
+
 ### FTA-AQRS-B01: blind synthetic search
 
 Top event: a blind-test result is invalid or falsely attributed. OR paths are
@@ -164,7 +175,7 @@ fixes the descriptive scope. The future entry must exercise these paths:
 
 | Failure path | Safeguard and required proof |
 |---|---|
-| Unpublished or changed definition OR incomplete authorization/diagnostics OR altered input allowlist permits an archive read | Bind the exact published definition, source and named authorization. Reject each missing or changed record, wrong date or symbol, and January 6 before the loader is called. Verify historical archive digests before evaluation. |
+| Unpublished or changed definition OR incomplete authorization/diagnostics OR altered input allowlist permits an archive read | Bind the exact published definition, source and named authorization. Reject each missing or changed record, wrong date or symbol, and January 6 before the loader is called. Reject a historical digest mismatch before ZIP decoding, including when both the ZIP and its sidecar have changed. |
 | Late features, labels across fold or band boundaries, or cutoff fitted on validation creates apparent value | Reuse causal features and purged folds. Test earlier policy decisions under future-only perturbation, training-only scaling and cutoff, touching/overlapping pair holds, band-end equality and exact next-open fills. Retrospective pair membership can change with a later control. |
 | Unequal costs or dropping skipped rows inflates incremental value | Reuse the simulator with matched policies. Test hand-computed one-sided and both-skipped action cases, a shared-gross-outcome null with equal trade counts and costs, a planted contrast, and the historical V1/V2 null and planted fixtures. Reconcile trade, day, fold and opportunity totals. |
 | Extra fit, expired deadline, or exposure persistence failure makes the result unauditable | Verify two trials and up to seven fit charges including timing and both cutoff calibrations, one deadline and supported memory mode before work. Verify a screened/no-estimator-fit path and reject a tight or unsupported configuration. Retain both candidate records, including screened or failed outcomes. Bind every evaluated view to the attempt, dataset and source. |
@@ -172,6 +183,35 @@ fixes the descriptive scope. The future entry must exercise these paths:
 Independent full-path review remains a campaign admission condition. The
 matched event comparison is observational. Non-overlap controls the holding
 windows, with serial dependence and trigger contamination still possible.
+
+### FTA-M2-E18: scope-bound reuse
+
+Apply [FTA-M2-E14](#fta-m2-e14-pre-outcome-implementation-plan) to the
+registered December 1–10 BTCUSDT scope. The additional top event is an
+apparently valid result attributed to the wrong campaign or training set.
+Credible paths are an earlier definition, receipt or variant identifier
+being reused across scopes, or a correct calendar with different archive
+bytes or a different first training prefix. Bind the new variants, exact
+D01 archive and checksum digests, and the M2-E17 training dataset ID to
+the published scope. Test rejection of cross-scope input and receipts,
+altered digests, a mismatched training fingerprint and missing diagnostics.
+Preserve the previous scope's CLI and attempt identities. Independent review
+and a frozen-revision platform comparison are required before closing the
+[Test Card](MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+
+### FTA-M2-E19: regime filter
+
+The top event is a false after-cost advantage or access outside the approved
+window. Credible paths include future-smoothed state scores or test-fold
+calibration, unfair fills or costs, outcome access before qualified coverage,
+and a wrong or redirected input path. Reuse E18's exact archive allowlist,
+verified dataset identity and simulator. Verify that deleting or changing
+future observations leaves earlier scores and decisions unchanged, reject a
+planted future-dependent scorer, and exercise the null and planted cost-aware
+comparisons. An incomplete count or outcome admission must fail before outcome
+access. Run with the existing isolated workers and explicit fit and time caps.
+The reused days support descriptive evidence with unresolved dependence and
+cost uncertainty. See the [Test Card](MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter).
 
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 

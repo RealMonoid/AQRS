@@ -33,6 +33,21 @@ Codex uses the recorded owner authorization and the
 [work-item lifecycle](docs/DEVELOPMENT_PROCESS.md#work-authorization-and-definition-of-ready)
 to complete necessary steps and pull the next eligible covered queue item.
 
+## Preserved M2-E19 volatility regime pilot
+
+The [registered pilot](docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter)
+used only the ten qualified M2-E18 BTCUSDT Spot archives. The completed
+comparison remains `INCONCLUSIVE / DEFER`; integration does not authorize
+another count or model run. The historical `--archives` and `--output`
+entry and its coverage-first behavior remain available for reproducibility.
+
+The conditional comparison requires the published, clean reviewed revision,
+the qualifying count, a matching review receipt supplied with `--admission`,
+and the pilot-local `hmmlearn==0.3.3` dependency. Use a new output directory
+for the comparison. A non-root Ubuntu replay also requires the qualifying
+Windows report supplied with `--windows-report`. The pilot uses the existing
+simulator and the original illustrative costs.
+
 ## Repository map
 
 | Find | Location |
@@ -226,6 +241,29 @@ budget because `research plan` performs a separate synthetic preflight fit.
 See the [M1-E04 Test Card](docs/MILESTONE_STATUS.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
 for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
+## Preserved M2-E14 and M2-E18 discovery comparisons
+
+Exercise the retained comparison and admission code with synthetic fixtures:
+
+```bash
+python -m pytest -q tests/test_m2_e14.py tests/test_m2_e19.py
+```
+
+The historical entry writes an attempt journal, recoverable execution source, machine
+report and short Markdown report. The market entry requires the verified
+published revision and an exact admission record for the registered ten
+BTCUSDT Spot days. An Ubuntu market replay also requires the valid Windows
+report bound by digest. See the [Test Card](docs/MILESTONE_STATUS.md#m2-e14-guarded-campaign-entry-test-card)
+for eligibility, the shared Governor plan and the descriptive claim.
+
+Select `--campaign M2-E18` to exercise the same entry with the fixed
+December 1–10, 2025 AQRS-D01 scope. Its market preparation also verifies
+the D01 archive and checksum digests and the M2-E17 training-prefix
+fingerprint. See the [M2-E18 Test Card](docs/MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+Both campaigns are closed. Current completed registration records deliberately
+reject fresh admission. The tests stage digest-bound historical registrations
+in temporary directories; they do not reset the canonical exposure index.
+
 ## Compute Budget First: avoid multi-year calibrations
 
 AQRS treats compute budgets as **hard safety controls**, beginning with M0/v0.1. The Research Manager proposes what to investigate; a separate **Resource Governor** decides whether and for how long it may run. The default plan allows at most two research trials, 12 model fits, one seed and one parallel trial, with a 120-second trial timeout, 300-second campaign timeout and a 4-GiB sampled tree RSS stop threshold (see YAML; hardware-dependent defaults, not performance guarantees).
@@ -319,6 +357,19 @@ without opening market files. The matching `run` used the one authorized
 BTCUSDT development count. Its local output directory reserves the attempt.
 The [M2-E15 result](docs/MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
 links the preserved evidence and the scope of any follow-up.
+
+Verify the named campaign archives and their
+report digests with these read-only commands.
+
+```sh
+python scripts/evidence_archive.py --verify --campaign M2-E14
+python scripts/evidence_archive.py --verify --campaign M2-E18
+```
+
+For E18, add `--replay-revision <revision>` to check the Windows report bytes
+stored in a locally available Git revision. The replay correction `1eebbfa`
+matches the receipt. Its parent `1eebbfa^` fails the digest check. The
+campaign mode rejects `--build` and `--restore`.
 
 Core report schema `2` adds recoverable source, available Git identity, environment versions and explicit zero-cost flags. Workers execute the archived source. Package version `0.1.0` remains a compatibility label, not an execution identity or milestone status. Old reports remain unchanged legacy records.
 

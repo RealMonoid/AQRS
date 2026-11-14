@@ -52,13 +52,29 @@ def require_spot_identity(symbol: str, day: date) -> None:
         raise ValueError(f"{M1_HOLDOUT_DAY} UTC is reserved and cannot be opened.")
 
 
-def load_spot_day(archive: Path, checksum: Path, day: date, *, symbol: str) -> SpotDay:
+def load_spot_day(
+    archive: Path,
+    checksum: Path,
+    day: date,
+    *,
+    symbol: str,
+    expected_digest: str | None = None,
+    expected_checksum_digest: str | None = None,
+) -> SpotDay:
     """Validate one complete Spot day and retain bar-close activity fields."""
     require_spot_identity(symbol, day)
     stem = f"{symbol}-1m-{day}"
     if archive.name != f"{stem}.zip" or checksum.name != f"{stem}.zip.CHECKSUM":
         raise ValueError("Archive/checksum filename does not match the selected scope.")
-    return _read_day(archive, checksum, day, symbol, retain_activity=True)
+    return _read_day(
+        archive,
+        checksum,
+        day,
+        symbol,
+        retain_activity=True,
+        expected_digest=expected_digest,
+        expected_checksum_digest=expected_checksum_digest,
+    )
 
 
 def require_m1_development_day(day: str) -> None:
@@ -82,7 +98,14 @@ def import_day(archive: Path, checksum: Path, day: date) -> tuple[Bars, str]:
 
 
 def _read_day(
-    archive: Path, checksum: Path, day: date, symbol: str, *, retain_activity: bool
+    archive: Path,
+    checksum: Path,
+    day: date,
+    symbol: str,
+    *,
+    retain_activity: bool,
+    expected_digest: str | None = None,
+    expected_checksum_digest: str | None = None,
 ) -> SpotDay:
     require_spot_identity(symbol, day)
     stem = f"{symbol}-1m-{day.isoformat()}"
@@ -92,7 +115,14 @@ def _read_day(
         published = source.read(4097)
     if len(payload) > INPUT_LIMIT or len(published) > 4096:
         raise ValueError("Archive or checksum exceeds the pilot size limit.")
+    if (
+        expected_checksum_digest is not None
+        and sha256(published).hexdigest() != expected_checksum_digest
+    ):
+        raise ValueError("Observed checksum bytes differ from the D01 receipt.")
     digest = sha256(payload).hexdigest()
+    if expected_digest is not None and digest != expected_digest:
+        raise ValueError("Observed Spot digest differs from the historical receipt.")
     if published.decode("ascii").split() != [digest, f"{stem}.zip"]:
         raise ValueError("Archive SHA-256 or published filename does not match.")
 
