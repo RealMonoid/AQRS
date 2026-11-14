@@ -221,3 +221,40 @@ def test_failed_preflight_never_starts_worker(tmp_path, monkeypatch):
         assert db.execute("select execution_status from experiments").fetchall() == [
             ("REJECTED_PREFLIGHT",)
         ]
+
+
+def test_registration_rejects_replaced_original_input_receipt(tmp_path):
+    paths = (
+        "configs/research.yaml",
+        "docs/RESEARCH_PROTOCOL.md",
+        "AGENTS.md",
+        "tests/test_reversal_filters.py",
+        "tests/test_predictive_spot.py",
+        "docs/MILESTONE_STATUS.md",
+    )
+    for name in paths:
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("placeholder")
+    (tmp_path / "docs/MILESTONE_STATUS.md").write_text(
+        "## M2-E23 to E25 Test Card: fixed\n## Research and backtesting learning\n"
+    )
+    receipt = tmp_path / "artifacts/m2-e22/run-01/acquisition.json"
+    receipt.parent.mkdir(parents=True)
+    receipt.write_text(
+        json.dumps(
+            {
+                "status": "COMPLETED",
+                "archives": [
+                    {
+                        "month": month,
+                        "archive_sha256": "a" * 64,
+                        "checksum_sha256": "b" * 64,
+                    }
+                    for month in base.MONTHS
+                ],
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="original E22"):
+        study.register(tmp_path, "large_move")

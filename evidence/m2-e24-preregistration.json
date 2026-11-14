@@ -1,0 +1,192 @@
+{
+  "definition": {
+    "work_item": "M2-E24",
+    "variant": "M2-E24_REVERSAL_RELATIVE_VOLUME_V1",
+    "slot": 3,
+    "evaluation_variant_limit": 10,
+    "prior_variant": "REVERSAL_30M_E22_V1",
+    "original_input_receipt_sha256": "3c54380a794dc53952c8ff4abd9577923651d95c17f4b3dda865964541c9a31f",
+    "symbol": "BTCUSDT",
+    "months": [
+      "2024-09",
+      "2024-10",
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11"
+    ],
+    "training": [
+      "2024-09-01",
+      "2024-11-30"
+    ],
+    "evaluation": [
+      "2024-12-01",
+      "2025-11-30"
+    ],
+    "feature": "volume/mean(volume[t-336*k], k=1..4)",
+    "threshold": "Training finite features at t<=TRAIN-2; linear 80th percentile; strict >.",
+    "timing": "Feature at close t selects next bar t+1; group by target UTC day.",
+    "ineligible": "Undefined/zero-denominator feature is in neither group.",
+    "contrasts": [
+      "selected_minus_unselected",
+      "selected_minus_up",
+      "selected_minus_down"
+    ],
+    "uncertainty": "Paired daily ratio influence HAC; all calendar days.",
+    "hac_lags": [
+      7,
+      14,
+      28
+    ],
+    "alpha": 0.005,
+    "coverage": "Both groups occupy >=180 target days and all twelve target months.",
+    "gate": "All registered contrast/lag lower bounds >0 and coverage; exploratory only.",
+    "multiplicity_limit": "Nominal ten-slot screen is not adaptive or retroactive family-error control.",
+    "costs": {
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "cost_stage": "Only after predictive pass; long/flat next-open/following-open; 25 bps.",
+    "fits": 2,
+    "workers": 1,
+    "retries": 0,
+    "resamples": 0,
+    "network_requests": 0,
+    "test_card": "docs/MILESTONE_STATUS.md#m2-e23-to-e25-test-card-three-e22-filters",
+    "holdout": [
+      [
+        "2026-01-06",
+        "2026-01-06"
+      ],
+      [
+        "2026-09-01",
+        "2026-10-31"
+      ]
+    ],
+    "future_lock_start": "2026-12-01T00:00:00Z"
+  },
+  "registered_at": "2026-11-14T14:49:30.413801+00:00",
+  "inputs": [
+    {
+      "month": "2024-09",
+      "archive_sha256": "b5a98a91fb35008c5a7c40459f67a1dd7998fcb4d4c75ac53a6769f00423a8c6",
+      "checksum_sha256": "6d3ab7fa8a936d646be2b5be89b36dac90aed4dd10dde0359a221b6eb9dbdb55"
+    },
+    {
+      "month": "2024-10",
+      "archive_sha256": "dedeed6da6642792f9ed2ca04b30227741c3647ba875a623f3daff21d6bf615c",
+      "checksum_sha256": "cc6ec3b85395d9e4c8d8c326a4f560c467dfc67aa8c6fe9b50fe1ab57014a1ee"
+    },
+    {
+      "month": "2024-11",
+      "archive_sha256": "f8dc1025d7ab3b07d20e7961798a1ac042756dd2f73735c137cf764ec72652b7",
+      "checksum_sha256": "8a70bd7f3872b61c4de94e26a84a2ebf5594e4e11e14f3be97e3ca337aec6927"
+    },
+    {
+      "month": "2024-12",
+      "archive_sha256": "86902c3b7cda8187a26971230a9a44f760d0f37009af523490c03aa2aaf222ff",
+      "checksum_sha256": "b495301f5f3f9098b02f5cd3536a16c7e2501a29d58d82a55597a49c0d3514e1"
+    },
+    {
+      "month": "2025-01",
+      "archive_sha256": "ef59f5e0e0f4a10b555bfe56a4c44b00e4817cdabc442d88e02b6a99ad71a6fb",
+      "checksum_sha256": "87a7bdd944c0bdb36624a056bfa0b48dbcb758a40809a532aa2e84f12fd20d9e"
+    },
+    {
+      "month": "2025-02",
+      "archive_sha256": "2514d48be49adce440191b9eff9d8bb0805fb5d9286b2f628c107692bd003e43",
+      "checksum_sha256": "345b2be8496c0d3895419a61a24c3fe5adaa7721883f677fe08271bfe9dad129"
+    },
+    {
+      "month": "2025-03",
+      "archive_sha256": "37578459034c3abdc5d4a416bc3461a09005023de72069f683e2e7ce8e058f18",
+      "checksum_sha256": "3a9b41ef3246c7de1a903242bac4086ff57609fc51d140d042f034178dbb418f"
+    },
+    {
+      "month": "2025-04",
+      "archive_sha256": "fe534d682d1e647a85dcbc8be6bfbb77a90b20286268dfb166ebc9c9c2ce11f4",
+      "checksum_sha256": "c09e253475f907a29cedd71337b228218ab6a47873d942f5b3286214a0ae2bef"
+    },
+    {
+      "month": "2025-05",
+      "archive_sha256": "794a150bffd2551f264a93fb4534724437598dac7916f5c2fd7f47dda8159551",
+      "checksum_sha256": "d9ce972bdaf24ecee42872c03022e507a0b399848e0d4e0958a25b0ffa9fa410"
+    },
+    {
+      "month": "2025-06",
+      "archive_sha256": "8b552bde079a2985d929f71800d0c54d25e9c94a4ca4a11316cd66410003432d",
+      "checksum_sha256": "e8192bfdf118b7d5ac2142a89352aa5c246ae58afe1505f13bfbdbd09ede40ed"
+    },
+    {
+      "month": "2025-07",
+      "archive_sha256": "f97af239d03c1eda9207eee85d3b2405ec36bde2a11fed971b1414fc08985bbe",
+      "checksum_sha256": "94508aef40aeae85f1e90bdba628f7aa915f5cf0609dd6ed1ac11721fc24e5ce"
+    },
+    {
+      "month": "2025-08",
+      "archive_sha256": "94c5fa27ee3d15e8cd072562ede9090fdbe4445ef2750695a6c82735b4b192ba",
+      "checksum_sha256": "aa3bd7b57b9ed0680e071d46ae0577eea91135c46fddaaa1c99c66cb1966eb93"
+    },
+    {
+      "month": "2025-09",
+      "archive_sha256": "105eeb5b1b353c698ef53ab47a27583b313f81b1c40cae512ee0297b1e43dbd9",
+      "checksum_sha256": "68fda9dbc2270cf59ea8ef42a1fd3360c879b32457ebe092d592fe3fffb86ece"
+    },
+    {
+      "month": "2025-10",
+      "archive_sha256": "d840e359fc1a7e4a59d9f1c64dc05507e10626aabdbcda5f9ebe3cf8dac2dc9a",
+      "checksum_sha256": "88b00293455fc0dc6a4658f2c841b4a14238b92897fb182975f19e185c59a716"
+    },
+    {
+      "month": "2025-11",
+      "archive_sha256": "b8ddabd976f96e52b64e8be994ced718bfaff9a9d8bef5876548fc8ca393118a",
+      "checksum_sha256": "dc369a1c6c5916d5b9469e31acfe7c52694e7774f923fb7a83d62ea52a779085"
+    }
+  ],
+  "test_card": " three E22 filters\n\n**Authorization and sequence, 2026-11-14.** The owner's \"Freigabe\" approves\nthe revised standing research proposal and the final eight-hour notice and\nDecember-onward lock. It explicitly starts these three questions, in order,\nthen derived research. Intake approximately 14:23 UTC; implementation/checks\nestimate 45\u201390 minutes for the shared slice, not measured past E22 effort.\nE22's recorded prior effort is a lower bound of 34m 07s, not 2.5 measured hours.\nThe eight-hour notice is cumulative; Governor limits stay fixed.\n\n**Smallest decision-changing slice.** Reuse the 15 original monthly E22 ZIPs\nand checksums offline, no network. Training 2024-09-01\u20132024-11-30 (91 days),\nevaluation 2024-12-01\u20132025-11-30 (365 days, 17,520 targets). Keep E22 next-bar\ndirection, ties, constant controls and separately conditional 25-bps long/flat\neconomics. A whole year preserves the owner-fixed comparison and seasonal\ncoverage; subgroup/joint-gate power and independent effective counts are not\nestablished. No data extension after results. No protected dates are opened.\n\nThree predeclared single filters: `abs(close/open - 1)`;\ncompleted-bar volume divided by the mean at the same UTC half-hour and weekday\nin the preceding four weeks (`t-336`, `t-672`, `t-1008`, `t-1344`); and\n`abs(2*taker_buy_base/volume - 1)` (zero-volume bars ineligible). Use each\nfeature's training-only 80th percentile (`quantile`, linear interpolation), no\nsearch; select values strictly above it. Undefined features are in neither\ngroup. Use only features available at signal close t for target t+1; group by\ntarget UTC date. Calibrate on finite features at indices 0 through TRAIN-2,\nwith the first 1,344 volume-feature rows ineligible. The volume denominator\nmust be positive; E22 majority calibration remains separate. E22 occupies slot 1,\nthese questions occupy 2\u20134 of ten for the evaluation year.\n\n**Pre-outcome E24 correction, owner-supplied review:** the initial unexecuted\n24-hour denominator confounded recurring calendar volume with unusual volume.\nA synthetic weekly/day seasonal series produced 860 selections, 62.79% in\nthe busiest six half-hours; matching prior weekly slots produced ratio 1 and\nzero selections. No market outcome was inspected. [Hansen, Kim and Kimbrough,\nv2 2021; published 2024](https://arxiv.org/abs/2109.12142v2) documents day/week/\nhour patterns on Binance and other venues. Four prior weeks is a fixed design\nchoice, not an optimized or literature-proven optimum; changing seasonality\nand other confounding remain possible. The discarded draft is not a market\nattempt. Verify recurring-pattern rejection and injected anomalies in tests.\n\n**Statistical design, fixed before implementation/outcomes.**\nCompare selected reversal accuracy with unselected accuracy, and selected\nreversal with both constant controls on the same selected opportunities.\nDaily numerator/count influence vectors retain all calendar days, including\nzero-selection days; apply existing Bartlett/Newey\u2013West HAC at 7/14 days.\nE24 also requires the fixed 28-day sensitivity because weekly inputs are shared;\nnone of these bandwidths proves complete dependence correction. All six bounds\n(nine for E24) must exceed zero at nominal one-sided alpha 0.005 before\nthe cost stage. This conservative ten-slot screen does not correct unknown\nadaptive E22 exposure and is never a confirmation claim. Require at least 180\ndays and all 12 evaluation months with selected cases, and the same coverage\nfor unselected cases; this is a descriptive calendar-coverage floor, not a\npower guarantee. Center ratio intervals on the estimated ratio/contrast,\nusing the HAC standard error of its zero-mean influence vector and z(0.995).\nRetain unfiltered E22 as an economic comparator on the full opportunity grid.\nIndependent design review accepted these contrasts for conditional description,\nnot causality or independently calibrated significance. Reuse [Newey\u2013West\n(1986/1987)](https://www.nber.org/papers/t0055) for asymptotic HAC and [Dwork\net al. (2015)](https://papers.neurips.cc/paper_files/paper/2015/hash/bad5f33780c42f2588878a9d07405083-Abstract.html)\nfor the adaptive-reuse limitation; reviewed 2026-11-14. Neither establishes\nfinite-sample validity or power for these filters. No new literature framework.\nReport selected cases, days, comparator and intervals even on failure; zero\neconomic trades never substitute for a prediction measurement. An estimated\npositive net result is an immediate owner decision for that candidate.\n\n**Resources and proof.** One isolated offline worker per question, two\ncalibrations (threshold and training-majority control), zero model fits,\nresamples or automatic retries; max 120s worker/300s campaign, one concurrent\nworker, 4096 MiB observed RSS under existing tighter-limit admission. Estimate\nunder 15s and 256 MiB per worker from the small fixed 21,888-row input; use the\npermitted upper runtime bound for admission. No new scheduler or dependency.\nRisk screen: [focused FTA](RISK_REGISTER.md#m2-e23-to-e25-filter-research-and-future-data-lock).\nBefore outcomes: causal/train-only/ratio-HAC/null/planted/holdout/Governor/\njournal checks, independent source review, native Windows and non-root Linux\nsynthetic verification, then published source-bound registration. Acceptance\nis correctly counted interpretable research, not a positive market result.\n\n",
+  "files": {
+    "src/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+    "src/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+    "src/aqrs/binance_spot_pilot.py": "729531aefcba54ee011de37d30a0cc8eaa68bb8b1e31e41a174c3cc21cf440c6",
+    "src/aqrs/blind_audit.py": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+    "src/aqrs/blind_evidence.py": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+    "src/aqrs/blind_input.py": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+    "src/aqrs/blind_search.py": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+    "src/aqrs/blind_sequence.py": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+    "src/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+    "src/aqrs/discovery.py": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e",
+    "src/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+    "src/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+    "src/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+    "src/aqrs/journal.py": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+    "src/aqrs/m2_e14.py": "4e2ee2ba377c981c9b6ccd80641f0c9b6d9296e6e6cb9101a5fa047b683ec74c",
+    "src/aqrs/m2_e19.py": "7d1534ce5c4c8164e131845bebc7ba88798c02fb54ef222371d580818178ed19",
+    "src/aqrs/market.py": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+    "src/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+    "src/aqrs/platform_guard.py": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+    "src/aqrs/predictive_spot.py": "fb43bcfa668c98678b7f3e47b58e97b525b1ad1fcbdccd4ba1fadddb5420dd44",
+    "src/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+    "src/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+    "src/aqrs/reversal_filters.py": "a267c544fcae4a0b6ba89e077876339f86e7f18c3db8e873dcb94f3866cfd4ea",
+    "src/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+    "src/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+    "src/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+    "configs/research.yaml": "fee88cc035176dad0f2db1ddebb4b251a26ff158121681a3b1feb14a1117f531",
+    "docs/RESEARCH_PROTOCOL.md": "ba46e724b4a88dec932162f6569d99befd47d70470ea2a28f5d50eef590b9569",
+    "AGENTS.md": "009b2e31654791a06071379d3314cf0707d8a2517ef10d5a68056b55499d0ca3",
+    "tests/test_reversal_filters.py": "25f025d91cc142deb9026808d4b519138bcfadcb4ffd6d98a6f084a825f1bb19",
+    "tests/test_predictive_spot.py": "e048fdfaee430da68b56d66b059618dccb56531b87dec0b4e143319060aa900d"
+  },
+  "status": "PLANNED_NOT_RUN",
+  "metrics": null
+}

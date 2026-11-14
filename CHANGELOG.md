@@ -19,6 +19,10 @@ filter questions under the existing data, source, journal and Governor guards.
 - `src/aqrs/reversal_filters.py`
 - `tests/test_reversal_filters.py`
 - `README.md`
+- `evidence/m2-e23-preregistration.json`
+- `evidence/m2-e24-preregistration.json`
+- `evidence/m2-e25-preregistration.json`
+- `evidence/exposure.json`
 
 ## 2026-11-14 — Require evidence-based blocker explanations
 

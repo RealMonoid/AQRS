@@ -36,6 +36,10 @@ LAGS = (7, 14)
 WEEK = 7 * 48
 WARMUP = 4 * WEEK
 CARD = "m2-e23-to-e25-test-card-three-e22-filters"
+# Bound by the preserved m2-e22-verification.json; do not silently replace inputs.
+E22_ACQUISITION_SHA256 = (
+    "3c54380a794dc53952c8ff4abd9577923651d95c17f4b3dda865964541c9a31f"
+)
 
 
 def definition(key: str) -> dict:
@@ -48,6 +52,7 @@ def definition(key: str) -> dict:
         "slot": slot,
         "evaluation_variant_limit": 10,
         "prior_variant": base.VARIANT,
+        "original_input_receipt_sha256": E22_ACQUISITION_SHA256,
         "symbol": "BTCUSDT",
         "months": list(base.MONTHS),
         "training": ["2024-09-01", "2024-11-30"],
@@ -543,9 +548,12 @@ def campaign(
 
 def register(root: Path, key: str) -> dict:
     spec = definition(key)
-    receipt = json.loads(
-        (root / "artifacts/m2-e22/run-01/acquisition.json").read_text(encoding="utf-8")
-    )
+    payload = (root / "artifacts/m2-e22/run-01/acquisition.json").read_bytes()
+    if sha256(payload).hexdigest() != E22_ACQUISITION_SHA256:
+        raise ValueError(
+            "Input metadata differs from the preserved original E22 receipt."
+        )
+    receipt = json.loads(payload)
     inputs = [
         {k: r[k] for k in ("month", "archive_sha256", "checksum_sha256")}
         for r in receipt["archives"]

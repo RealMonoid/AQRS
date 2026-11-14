@@ -17561,6 +17561,54 @@
       "test_card": "docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal",
       "variant_id": "REVERSAL_30M_E22_V1",
       "work_item": "M2-E22"
+    },
+    {
+      "adaptive_reuse": "Exploratory only; nominal screen does not establish family-wide error control.",
+      "data_scope": [
+        "2024-09-01 through 2025-11-30"
+      ],
+      "decision_gates": "All registered contrast/lag lower bounds >0 and coverage; exploratory only.",
+      "definition": "evidence/m2-e23-preregistration.json",
+      "evaluation_variant_slot": 2,
+      "execution_authorization": "Owner Freigabe on 2026-11-14 adopts continuing free Binance Spot research and these three questions.",
+      "origin": "Owner-selected filter question; pre-outcome scientific details fixed by Codex with independent review.",
+      "registered_at": "2026-11-14",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e23-to-e25-test-card-three-e22-filters",
+      "variant_id": "M2-E23_REVERSAL_LARGE_MOVE_V1",
+      "work_item": "M2-E23"
+    },
+    {
+      "adaptive_reuse": "Exploratory only; nominal screen does not establish family-wide error control.",
+      "data_scope": [
+        "2024-09-01 through 2025-11-30"
+      ],
+      "decision_gates": "All registered contrast/lag lower bounds >0 and coverage; exploratory only.",
+      "definition": "evidence/m2-e24-preregistration.json",
+      "evaluation_variant_slot": 3,
+      "execution_authorization": "Owner Freigabe on 2026-11-14 adopts continuing free Binance Spot research and these three questions.",
+      "origin": "Owner-selected filter question; pre-outcome scientific details fixed by Codex with independent review.",
+      "registered_at": "2026-11-14",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e23-to-e25-test-card-three-e22-filters",
+      "variant_id": "M2-E24_REVERSAL_RELATIVE_VOLUME_V1",
+      "work_item": "M2-E24"
+    },
+    {
+      "adaptive_reuse": "Exploratory only; nominal screen does not establish family-wide error control.",
+      "data_scope": [
+        "2024-09-01 through 2025-11-30"
+      ],
+      "decision_gates": "All registered contrast/lag lower bounds >0 and coverage; exploratory only.",
+      "definition": "evidence/m2-e25-preregistration.json",
+      "evaluation_variant_slot": 4,
+      "execution_authorization": "Owner Freigabe on 2026-11-14 adopts continuing free Binance Spot research and these three questions.",
+      "origin": "Owner-selected filter question; pre-outcome scientific details fixed by Codex with independent review.",
+      "registered_at": "2026-11-14",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e23-to-e25-test-card-three-e22-filters",
+      "variant_id": "M2-E25_REVERSAL_TAKER_IMBALANCE_V1",
+      "work_item": "M2-E25"
     }
   ],
   "manual_screens": [
