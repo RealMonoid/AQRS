@@ -4,7 +4,8 @@
 
 Owner-requested one-time cleanup, not an audit or a research campaign. Move
 all 4,456 original status lines unchanged into one lookup-only archive; retain
-only current state and the compact learning table in the status file. Keep
+only current state and the compact learning table in the status file (88 lines
+after closure, down from 4,456). Keep
 immutable evidence untouched through 22 compatibility links. Retarget current
 documentation links, remove archive/changelog from mandatory intake, retain
 nine untested lessons and enforce the owner's 400-line status limit in the
