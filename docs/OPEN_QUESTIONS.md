@@ -26,6 +26,93 @@ the configured observed-RSS policy and rejects strict requests. After an abrupt 
 death, SQLite retains the last committed campaign and attempt states. Automatic reconciliation
 of interrupted rows is outside the current restart contract.
 
+## M2-E20-P06 report-only calibration
+
+**Approved 2026-11-14.** The owner authorized the single planning diagnostic
+below through the explicit P06 decision. Execution is bounded by the
+[registered Card](MILESTONE_STATUS.md#m2-e20-p06-test-card-one-archived-report-calibration). Quant Research recommends the bounded
+look because the [P05 sensitivity](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
+shows that dispersion can change whether local longitudinal evidence is even
+plausible. P02 explicitly reserves specific authorization for a new report
+diagnostic; ordinary design, arithmetic and verification are already complete.
+This is not a request for new dates, a rerun, or 6–12 months of data.
+
+- **Research question / expected decision:** Can the observed scale of the
+  fixed pair contrast support a feasible *planning* case within local
+  development capacity, or should the contrast remain deferred? Return a
+  bounded next-design recommendation or `INCONCLUSIVE / DEFER`, never alpha
+  or an M2 acceptance decision.
+- **Existing evidence / gap:** E18 already reports 18 matched pairs across
+  six validation days with both candidates deferred. The pair SD is not in
+  the current planning record. Future event yield, regime coverage and
+  defensible between-block independence remain unknown. Six days cannot
+  resolve these latter uncertainties.
+- **Exact input and required properties:** BTCUSDT spot, derived matched-
+  event report only; source window 2025-12-01 00:00 through 2025-12-11 00:00
+  UTC, validation December 5–10. Read only
+  `artifacts/m2-e18/windows/report.json` from
+  [the retained bundle](../evidence/m2-e18-acceptance.zip).
+  The [receipt](../evidence/m2-e18-verification.json) binds 572,495 bytes and
+  SHA-256 `d314d0202953b52c87774716a12fd684a013e6e2f5840723e3ab755f633fb524`,
+  executable revision `54fb8644b5a27c51fece7d89f3d9996a65356ad2`, run
+  `bb9866a947c74c21a4ffdf2a8501f250` and its published source/data identities.
+  Verify the member before parsing. Select only `VOL_CONFIRM_E18_V1`
+  matched rows, retaining UTC band/day, pair identity and net pair difference.
+- **Minimal calculation:** Preserve the existing pair-weighted estimand.
+  Report sample pair SD, total and per-day/per-eight-hour-band counts and
+  centered day contributions. Show P02's variance diagnostic for partitions
+  of 1, 2 and 3 consecutive days anchored on December 5, retaining gaps.
+  With 6/3/2 possible groups these are sensitivity diagnostics only: report
+  effective independent count as `UNKNOWN`, with no HAC estimate,
+  independence test, bootstrap, significance claim or automatic lag choice.
+  Do not inspect other candidate outcomes. Use synthetic unequal-count and
+  shared-shock examples to verify any calculation before the report read.
+- **Why this scope / sensitivity:** One already exposed report is cheaper
+  than acquiring or rerunning a longer series. At assumed SD 5/10/20/40 bps,
+  the .05/.80 gap-2 calculation is 39/155/619/2,474 independent units.
+  Recalculate the same fixed sensitivity at the observed SD without treating
+  that six-day estimate as a population bound. Keep design effects 1/2/4,
+  yields 1/1.5/3 and the original SD grid visible. The result can rule out a
+  local capacity scenario *under its assumptions*, not guarantee sufficiency.
+- **Predeclared planning branch:** At the observed SD, calculate the .05/.80
+  gap-2 requirement for every fixed `(D,y)` cell. Compare
+  `ceil(D * n / y)` with the optimistic metadata ceiling of 32 validation
+  days / 96 band slots after four training days. If no cell fits, `DEFER`
+  a local outcome expansion under that dispersion scale; record the
+  conditional shortfall and request no larger period automatically. If
+  any cell fits, record `CONDITIONAL_LOCAL_CASE` and prepare only the exact
+  subsequent count/dependence question on December 11–24. Label which
+  assumptions make it fit. That branch does not admit 32 validation days:
+  a new chronological design would still need explicit handling of the
+  two dates left by complete three-day folds, exposure and scoped access.
+  Neither branch changes the inferential E20 result: it stays `INCONCLUSIVE`
+  because between-block independence and population dispersion are unknown.
+- **Expected informative units:** At most the same 18 pairs, six days,
+  three two-day groups or two three-day groups. This creates no additional
+  independent observations. Ubuntu is a reproducibility check, not a second
+  sample. ETH is outside this packet.
+- **Stop rule:** One member, one contrast, one prospectively registered
+  planning diagnostic with the specified components. Abort on any identity,
+  timestamp, duplicate, finite-value or count mismatch. Missing or degenerate
+  variance leaves the planning branch `INCONCLUSIVE / DEFER`. Apply the
+  fixed capacity branch above for a valid finite variance; unsupported
+  independence always leaves inference open. Never automatically expand
+  data, retune or take a second look. Qualification alone does not authorize
+  reading the December 11–24 archives.
+- **Holdout / exposure protection:** No raw ZIP payload, new downloads,
+  January 6 holdout or other protected data. Keep historical E18 results
+  closed. Publish the fixed diagnostic definition and prospective exposure
+  registration before access, bind to the original run/member, then retain
+  every calculated component under that view; do not count a new variant
+  or hide the additional look. No changes to matching, thresholds or costs.
+- **Resource Governor assessment:** At most 30 minutes of one-time work,
+  one CPU process and 30 seconds for verification/calculation; abort on a
+  larger-than-receipt member. Input is under 0.6 MB; output below 100 KB.
+  Zero model trials/fits, resamples, raw-data reads, downloads, dependencies,
+  paid services or recurring work. Existing budgets remain unchanged.
+  Normal synthetic verification and independent review precede the look;
+  bind A16-P01 to that practical test, without a separate audit.
+
 ## M2 supervised pilot replay
 
 **Resolved 2026-11-14.** The owner approved the fixed Windows comparison

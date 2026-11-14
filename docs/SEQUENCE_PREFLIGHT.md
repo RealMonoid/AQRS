@@ -221,6 +221,34 @@ Final M2 release verification requires the remaining evidence and the
 selected release revision. The other pending entries retain their start
 conditions. No additional execution is eligible under this mandate.
 
+### AQRS-ER01 / M2-E20-P05 completion and next dispatch
+
+**2026-11-14. `ALLOW` for the authorized reset and evidence design.**
+The owner explicitly requested ordinary Git consolidation, necessary fixes,
+verification and decision-specific E20 preparation. The
+[reset record](MILESTONE_STATUS.md#aqrs-er01-execution-reset) preserves the
+integration evidence. The [P05 design](MILESTONE_STATUS.md#m2-e20-p05-learning-card-decision-specific-evidence-design)
+supplies the unit, fixed estimand, precision sensitivity and verified capacity.
+It closes the autonomously solvable research-design wait.
+
+**Subsequent owner approval: `ALLOW` for the single P06 diagnostic after entry verification.**
+The [P06 packet](OPEN_QUESTIONS.md#m2-e20-p06-report-only-calibration) is one
+archived-report planning diagnostic, not a new period or model campaign.
+P02 explicitly reserved that additional look. The owner supplied that approval in this reset session. Publish
+its frozen diagnostic/exposure registration, verify the exact calculation
+on synthetic inputs and bind A16-P01 before the single authorized read.
+Calibration leaves independence unknown and does not close M2. No data
+expansion or repeated look follows automatically.
+
+**Queue rescan.** E20 now advances to the specifically approved P06 diagnostic. E21
+separately needs owner scope, an independent benchmark/scoring commitment
+and verified isolation; B01 depends on a credible new discovery path, but
+E21 does not depend on B01 success. A16-P01 observes a host and cannot block
+it. SC01 is owner-deferred; M4-E01 awaits its milestone and fixed claim;
+H01 awaits its recorded trigger. No cyclic dependency was found. No independent authorized READY execution remains beside P06 and the
+reset's normal closeout. Reassess after the P06 result.
+The governance freeze leaves existing verification and follow-ups active.
+
 ### M2-E15 count authorization and dispatch
 
 **2026-11-14. PRE-START — `ALLOW` for count-entry qualification.** The

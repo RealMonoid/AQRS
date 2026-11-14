@@ -12,8 +12,11 @@ The final integration and verification record is AQRS-ER01.
 - `README.md`
 - `docs/DEVELOPMENT_PROCESS.md`
 - `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
 - `docs/RISK_REGISTER.md`
 - `evidence/m2-e19-coverage.json`
+- `evidence/exposure.json`
 - `scripts/evidence_archive.py`
 - `src/aqrs/binance_spot_pilot.py`
 - `src/aqrs/discovery.py`
