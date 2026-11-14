@@ -429,6 +429,10 @@ def test_preparation_timeout_is_terminal_without_candidate_start(tmp_path, monke
 
     from aqrs.governor import supervise
 
+    monkeypatch.setattr(
+        "aqrs.journal.project_ledger_path", lambda: tmp_path / "variant-ledger.sqlite3"
+    )
+
     config, _ = load(ROOT / "configs/research.yaml")
     config["project"]["artifact_dir"] = "output"
     config["journal"]["sqlite_path"] = "journal.sqlite3"

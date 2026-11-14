@@ -245,13 +245,13 @@ def validate_governor(limits: dict) -> None:
 
 
 def variant_limit(limits: dict) -> int:
-    """Use the packaged configuration when an older config omits the field."""
-    if "max_variants_per_evaluation_period" not in limits:
-        defaults = yaml.safe_load(
-            files("aqrs")
-            .joinpath("admission_defaults.yaml")
-            .read_text(encoding="utf-8")
-        )
-        limits = limits | defaults
-    integer(limits, "max_variants_per_evaluation_period")
-    return limits["max_variants_per_evaluation_period"]
+    """Allow a run configuration to tighten the project ceiling."""
+    key = "max_variants_per_evaluation_period"
+    defaults = yaml.safe_load(
+        files("aqrs").joinpath("admission_defaults.yaml").read_text(encoding="utf-8")
+    )
+    integer(defaults, key)
+    if key not in limits:
+        return defaults[key]
+    integer(limits, key)
+    return min(defaults[key], limits[key])

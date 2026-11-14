@@ -180,7 +180,7 @@ def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRe
     return manifest, 2
 
 
-def reserve_campaign_variants(config, db, report, plan):
+def reserve_campaign_variants(config, db, database_path, report, plan):
     """Bind the scheduled evaluation window and variants from config alone."""
     start, step = data_scope(config["market"])
     research = config["research"]
@@ -222,8 +222,13 @@ def reserve_campaign_variants(config, db, report, plan):
         for c in research["candidates"]
     }
     limit = variant_limit(config["resource_governor"])
-    admission = journal.reserve_variants(db, report["run_id"], period, variants, limit)
+    scope = (market["source"], market["symbol"].upper())
+    admission = journal.reserve_variants(
+        db, database_path, report["run_id"], scope, period, variants, limit
+    )
     report["variant_admission"] = {
+        "source": scope[0],
+        "symbol": scope[1],
         "evaluation_start_at": period[0],
         "evaluation_end_at": period[1],
         "variant_keys": variants,
@@ -248,7 +253,8 @@ def execute(
     deadline = started + limits["max_wall_seconds_per_campaign"]
     prepared = None
     if plan["preflight_status"] == "ADMITTED":
-        reserve_campaign_variants(config, db, report, plan)
+        database_path = (base / config["journal"]["sqlite_path"]).resolve()
+        reserve_campaign_variants(config, db, database_path, report, plan)
     if plan["preflight_status"] == "ADMITTED":
         preparation = supervise(
             output,
@@ -271,6 +277,8 @@ def execute(
             plan, folds = preflight(
                 config, output, started, input_error=prepared.get("input_error")
             )
+            if prepared.get("input_reason_code"):
+                plan["reason_code"] = prepared["input_reason_code"]
         else:
             plan.update(
                 preflight_status="REJECTED_PREFLIGHT",
@@ -289,7 +297,7 @@ def execute(
             {
                 k: v
                 for k, v in prepared.items()
-                if k not in {"prefix_fingerprint", "input_error"}
+                if k not in {"prefix_fingerprint", "input_error", "input_reason_code"}
             }
         )
     if real_spot:
@@ -456,7 +464,10 @@ def prepare_data(request: dict) -> dict:
             detail = (
                 str(error) if isinstance(error, ValueError) else type(error).__name__
             )
-            return {"input_error": f"Synthetic CSV rejected: {detail}"}
+            return {
+                "input_error": f"Synthetic CSV rejected: {detail}",
+                "input_reason_code": "INVALID_SYNTHETIC_CSV",
+            }
         write_json(output / "data_manifest.json", result["data_manifest"])
     else:
         bars = generate(

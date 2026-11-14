@@ -1,4 +1,6 @@
+import json
 import sqlite3
+from contextlib import closing
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -27,12 +29,17 @@ CREATE TABLE IF NOT EXISTS experiments (
     UNIQUE (run_id, candidate_id)
 );
 CREATE INDEX IF NOT EXISTS experiments_evidence ON experiments(evidence_key);
-CREATE TABLE IF NOT EXISTS variant_reservations (
+"""
+
+VARIANT_LEDGER = """
+CREATE TABLE IF NOT EXISTS variant_exposures (
+    source TEXT NOT NULL,
+    symbol TEXT NOT NULL,
     period_start TEXT NOT NULL,
     period_end TEXT NOT NULL,
     variant_key TEXT NOT NULL,
-    first_experiment_id TEXT NOT NULL REFERENCES experiments(experiment_id),
-    PRIMARY KEY (period_start, period_end, variant_key)
+    first_experiment_id TEXT NOT NULL,
+    PRIMARY KEY (source, symbol, period_start, period_end, variant_key)
 );
 """
 
@@ -91,32 +98,73 @@ def begin(
         )
 
 
+def project_ledger_path() -> Path:
+    """Anchor the ledger to the installed project, independent of a run config."""
+    source_root = Path(__file__).resolve().parents[1]
+    if source_root.name == "src" and (source_root.parent / "pyproject.toml").is_file():
+        return source_root.parent / "artifacts" / "variant-ledger.sqlite3"
+    return Path.home() / ".aqrs" / "variant-ledger.sqlite3"
+
+
+def legacy_reservations(db: sqlite3.Connection):
+    """Recover 302ab6b reservations without changing their source journal."""
+    if not db.execute(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'variant_reservations'"
+    ).fetchone():
+        return
+    for start, end, key, attempt, config in db.execute(
+        "SELECT r.period_start, r.period_end, r.variant_key, r.first_experiment_id, "
+        "c.config_json FROM variant_reservations r "
+        "JOIN experiments e ON e.experiment_id = r.first_experiment_id "
+        "JOIN campaigns c ON c.run_id = e.run_id"
+    ):
+        market = json.loads(config)["market"]
+        yield market["source"], market["symbol"].upper(), start, end, key, attempt
+
+
 def reserve_variants(
-    db, run_id: str, period: tuple[str, str], variants: dict[str, str], limit: int
+    db: sqlite3.Connection,
+    journal_path: Path,
+    run_id: str,
+    scope: tuple[str, str],
+    period: tuple[str, str],
+    variants: dict[str, str],
+    limit: int,
 ) -> dict:
-    """Check and reserve the entire campaign atomically before data access."""
-    with db:
-        db.execute("BEGIN IMMEDIATE")
+    """Count distinct overlapping variants and reserve the campaign atomically."""
+    path = project_ledger_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    default_journal = (path.parent / "research.sqlite3").resolve()
+    insert = "INSERT OR IGNORE INTO variant_exposures VALUES (?, ?, ?, ?, ?, ?)"
+    with closing(sqlite3.connect(path, timeout=3)) as ledger, ledger:
+        ledger.execute("BEGIN IMMEDIATE")
+        ledger.execute(VARIANT_LEDGER)
+        if default_journal != journal_path and default_journal.exists():
+            uri = default_journal.as_uri() + "?mode=ro"
+            with closing(sqlite3.connect(uri, uri=True, timeout=3)) as previous:
+                ledger.executemany(insert, legacy_reservations(previous))
+        ledger.executemany(insert, legacy_reservations(db))
         used = {
             key
-            for (key,) in db.execute(
-                "SELECT variant_key FROM variant_reservations "
-                "WHERE period_start = ? AND period_end = ?",
-                period,
+            for (key,) in ledger.execute(
+                "SELECT DISTINCT variant_key FROM variant_exposures "
+                "WHERE source = ? AND symbol = ? AND period_start < ? AND period_end > ?",
+                (*scope, period[1], period[0]),
             )
         }
         new = set(variants.values()) - used
         requested_new = len(new)
         allowed = not new or len(used) + requested_new <= limit
         if allowed:
-            for candidate_id, key in variants.items():
-                if key in new:
-                    db.execute(
-                        "INSERT INTO variant_reservations VALUES (?, ?, ?, ?)",
-                        (*period, key, f"{run_id}:{candidate_id}"),
-                    )
-                    new.remove(key)
+            ledger.executemany(
+                insert,
+                (
+                    (*scope, *period, key, f"{run_id}:{candidate_id}")
+                    for candidate_id, key in variants.items()
+                ),
+            )
         return {
+            "ledger_path": str(path),
             "limit": limit,
             "used_before": len(used),
             "requested_new": requested_new,

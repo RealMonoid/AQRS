@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-11-14 — Close common research admission bypasses
+
+The owner's 27-call check of `302ab6b` confirmed ordinary admission and
+identified ways to reset or raise the variant count. The shared command now
+counts distinct variants from overlapping scheduled evaluation windows for the
+same declared source and symbol. Windows are half-open in UTC, so touching
+endpoints alone do not share slots. Repeating a variant adds a journal attempt
+without taking another slot. The configured project ceiling applies even if
+a run requests a higher limit.
+
+The SQLite ledger is fixed at `artifacts/variant-ledger.sqlite3` in a source
+checkout, or `~/.aqrs/variant-ledger.sqlite3` for a wheel installation.
+Output paths and per-run journal paths do not change it. The command imports
+old reservations from the prior default journal beside the ledger and from
+the selected run journal, if available. An old journal at any other path
+contributes its reservations when selected again. Counting and reserving run
+in one transaction before any data input opens.
+
+The shared data lock now covers December 1, 2026 at 00:00 UTC onward. The
+command records `INVALID_SYNTHETIC_CSV` in the journal when it rejects
+synthetic input during preparation.
+
+Changed paths: `CHANGELOG.md`, `docs/MILESTONE_STATUS.md`,
+`src/aqrs/admission.py`, `src/aqrs/config.py`, `src/aqrs/journal.py`,
+`src/aqrs/research.py`, `tests/test_audit_controls.py`, `tests/test_cli.py`.
+
 ## 2026-11-14 — Reserve variants and enforce data locks in the common command
 
 The owner accepted the uncertainty fix at `9fc3e96` after an independent

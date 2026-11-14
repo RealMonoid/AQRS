@@ -1,4 +1,6 @@
 import json
+import os
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -13,6 +15,25 @@ import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(autouse=True)
+def isolated_cli_project(tmp_path, monkeypatch):
+    """Use the normal CLI with an isolated project-local ledger."""
+    root = tmp_path / "test application"
+    shutil.copytree(
+        ROOT / "src/aqrs",
+        root / "src/aqrs",
+        ignore=shutil.ignore_patterns("__pycache__"),
+    )
+    shutil.copyfile(ROOT / "pyproject.toml", root / "pyproject.toml")
+    monkeypatch.setattr(
+        "aqrs.journal.project_ledger_path", lambda: ledger_path(tmp_path)
+    )
+
+
+def ledger_path(tmp_path):
+    return tmp_path / "test application" / "artifacts" / "variant-ledger.sqlite3"
 
 
 def test_precision_cli_is_planning_only_and_leaves_no_campaign(tmp_path):
@@ -42,7 +63,7 @@ def test_precision_cli_is_planning_only_and_leaves_no_campaign(tmp_path):
     assert plan["planning_only"] is True
     assert plan["required_independent_units"] == 619
     assert plan["target_within_assumed_capacity"] is False
-    assert list(tmp_path.iterdir()) == []
+    assert set(tmp_path.iterdir()) == {tmp_path / "test application"}
     invalid = subprocess.run(
         command + ["--sd-bps", "nan"],
         cwd=tmp_path,
@@ -51,7 +72,7 @@ def test_precision_cli_is_planning_only_and_leaves_no_campaign(tmp_path):
         timeout=15,
     )
     assert invalid.returncode == 2
-    assert list(tmp_path.iterdir()) == []
+    assert set(tmp_path.iterdir()) == {tmp_path / "test application"}
 
 
 def config_at(tmp_path, **limits):
@@ -69,10 +90,17 @@ def config_at(tmp_path, **limits):
 
 
 def cli(action, path):
+    source = path.parent / "test application" / "src"
     return subprocess.run(
         [sys.executable, "-m", "aqrs", "research", action, "--config", str(path)],
         check=False,
         cwd=path.parent,
+        env=os.environ
+        | {
+            "PYTHONPATH": os.pathsep.join(
+                part for part in (str(source), os.environ.get("PYTHONPATH")) if part
+            )
+        },
         capture_output=True,
         text=True,
         encoding="utf-8",
@@ -81,7 +109,15 @@ def cli(action, path):
 
 
 def reversal_config(
-    tmp_path, symbol, bar_minutes, year, pattern, *, n_bars=160, validation_bars=34
+    tmp_path,
+    symbol,
+    bar_minutes,
+    year,
+    pattern,
+    *,
+    n_bars=160,
+    validation_bars=34,
+    start=None,
 ):
     path = config_at(tmp_path)
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -98,7 +134,7 @@ def reversal_config(
         validation_bars=validation_bars,
         candidates=[{"id": "REVERSAL", "model": "bar_reversal"}],
     )
-    start = datetime(year, 1, 7, 12, tzinfo=UTC)
+    start = start or datetime(year, 1, 7, 12, tzinfo=UTC)
     config["market"]["start_at"] = start.isoformat()
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     rows = ["bar_open_time,open,high,low,close,volume,dataset_type"]
@@ -264,7 +300,15 @@ def assert_admission_rejection(result, base, config, reason_code):
 
 @pytest.mark.parametrize("model", ["ridge", "bar_reversal"])
 @pytest.mark.parametrize(
-    "defect", ["protected", "protected_later", "unknown", "missing_scope"]
+    "defect",
+    [
+        "protected",
+        "protected_later",
+        "future",
+        "crosses_future",
+        "unknown",
+        "missing_scope",
+    ],
 )
 def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect):
     path = reversal_config(tmp_path, "PROTECTED_TEST", 5, 2024, (1, -1))
@@ -280,6 +324,10 @@ def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect
         config["market"]["start_at"] = "2026-01-05T23:55:00Z"
     elif defect == "protected_later":
         config["market"]["start_at"] = "2026-10-31T23:55:00+00:00"
+    elif defect == "future":
+        config["market"]["start_at"] = "2027-03-01T00:00:00Z"
+    elif defect == "crosses_future":
+        config["market"]["start_at"] = "2026-11-30T23:55:00Z"
     elif defect == "unknown":
         config["market"]["source"] = "unknown"
     else:
@@ -292,6 +340,8 @@ def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect
         {
             "protected": "LOCKED_PERIOD",
             "protected_later": "LOCKED_PERIOD",
+            "future": "LOCKED_PERIOD",
+            "crosses_future": "LOCKED_PERIOD",
             "unknown": "UNKNOWN_SOURCE",
             "missing_scope": "INVALID_DATA_SCOPE",
         }[defect],
@@ -341,12 +391,26 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
         }
     ]
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    config["research"]["train_bars"] += 1
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    config["research"]["train_bars"] -= 1
+    config["market"]["start_at"] = "2024-01-07T12:05:00Z"
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    config["market"]["start_at"] = "2024-01-07T12:00:00Z"
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 1000
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    del config["resource_governor"]["max_variants_per_evaluation_period"]
+    original_journal = config["journal"]["sqlite_path"]
+    config["journal"]["sqlite_path"] = "alternate.sqlite3"
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    config["journal"]["sqlite_path"] = original_journal
 
-    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
-        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
+    with sqlite3.connect(ledger_path(tmp_path)) as ledger:
+        assert ledger.execute("SELECT COUNT(*) FROM variant_exposures").fetchone() == (
             10,
         )
-        assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (12,)
+    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
+        assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (15,)
         first_meta, rerun_meta = [
             json.loads(
                 db.execute(
@@ -359,6 +423,40 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
     assert first_meta["variant_key"] == rerun_meta["variant_key"]
 
 
+@pytest.mark.parametrize("change", ["symbol", "source", "adjacent"])
+def test_variant_budget_is_scoped_to_source_symbol_and_overlapping_period(
+    tmp_path, change
+):
+    path = reversal_config(
+        tmp_path,
+        "TEST_SCOPE",
+        5,
+        2024,
+        (1, -1),
+        n_bars=300,
+        start=datetime(2024, 1, 1, tzinfo=UTC),
+    )
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 1
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    first = cli("run", path)
+    assert first.returncode == 0, first.stderr or first.stdout
+    if change == "symbol":
+        config["market"]["symbol"] = "SECOND_SYMBOL"
+    elif change == "source":
+        config["market"].update(source="synthetic", scenario="null")
+        del config["market"]["start_at"], config["market"]["csv_path"]
+    else:
+        config["research"]["train_bars"] += 2 * config["research"]["validation_bars"]
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    second = cli("run", path)
+    assert second.returncode == 0, second.stderr or second.stdout
+    with sqlite3.connect(ledger_path(tmp_path)) as ledger:
+        assert ledger.execute("SELECT COUNT(*) FROM variant_exposures").fetchone() == (
+            2,
+        )
+
+
 def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
     first = reversal_config(tmp_path, "RACE_TEST", 5, 2024, (1, -1))
     config = yaml.safe_load(first.read_text(encoding="utf-8"))
@@ -369,6 +467,7 @@ def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
     config["research"]["candidates"] = [
         {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
     ]
+    config["journal"]["sqlite_path"] = "concurrent.sqlite3"
     second.write_text(yaml.safe_dump(config), encoding="utf-8")
     with ThreadPoolExecutor(max_workers=2) as pool:
         results = list(pool.map(cli, ("run", "run"), (first, second)))
@@ -380,10 +479,46 @@ def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
         (first if rejected is results[0] else second).read_text(encoding="utf-8")
     )
     assert_admission_rejection(rejected, tmp_path, rejected_config, "VARIANT_LIMIT")
-    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
-        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
+    with sqlite3.connect(ledger_path(tmp_path)) as ledger:
+        assert ledger.execute("SELECT COUNT(*) FROM variant_exposures").fetchone() == (
             1,
         )
+
+
+def test_legacy_variant_reservations_survive_project_ledger_upgrade(tmp_path):
+    from contextlib import closing
+
+    from aqrs import journal
+
+    path = reversal_config(tmp_path, "LEGACY_TEST", 5, 2024, (1, -1))
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    database = ledger_path(tmp_path).with_name("research.sqlite3")
+    with closing(journal.connect(database)) as db:
+        journal.begin(db, "old-run", "old-config", config, {})
+        with db:
+            db.execute(
+                "CREATE TABLE variant_reservations "
+                "(period_start, period_end, variant_key, first_experiment_id)"
+            )
+            db.execute(
+                "INSERT INTO variant_reservations VALUES (?, ?, ?, ?)",
+                (
+                    "2024-01-07T15:20:00+00:00",
+                    "2024-01-07T21:00:00+00:00",
+                    "old-variant",
+                    "old-run:REVERSAL",
+                ),
+            )
+    original = database.read_bytes()
+    path.with_name("input.csv").unlink()
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 1
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    assert_admission_rejection(cli("run", path), tmp_path, config, "VARIANT_LIMIT")
+    assert database.read_bytes() == original
+    with sqlite3.connect(ledger_path(tmp_path)) as db:
+        assert db.execute(
+            "SELECT source, symbol, first_experiment_id FROM variant_exposures"
+        ).fetchall() == [("synthetic_csv", "LEGACY_TEST", "old-run:REVERSAL")]
 
 
 @pytest.mark.parametrize(
@@ -420,6 +555,14 @@ def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
         assert "Synthetic CSV" in plan["stop_reason"]
     assert plan["started_trials"] == plan["started_fits"] == 0
     assert not (output / "dataset.csv").exists()
+    if defect != "fit_budget":
+        with sqlite3.connect(output.parent / "journal.sqlite3") as db:
+            (metadata,) = db.execute(
+                "SELECT metadata_json FROM experiments WHERE run_id = ?",
+                (summary["run_id"],),
+            ).fetchone()
+        assert summary["reason_code"] == "INVALID_SYNTHETIC_CSV"
+        assert json.loads(metadata)["reason_code"] == "INVALID_SYNTHETIC_CSV"
     if defect == "declared_start":
         assert "outside the declared UTC cadence" in plan["stop_reason"]
 
@@ -674,9 +817,6 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
         assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
         assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone() == (2,)
         assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (4,)
-        assert db.execute("SELECT COUNT(*) FROM variant_reservations").fetchone() == (
-            2,
-        )
         for (stored,) in db.execute("SELECT metrics_json FROM experiments"):
             exposure = json.loads(stored)["diagnostic_exposure"]
             assert len(exposure) == 15
@@ -688,6 +828,10 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
         assert db.execute(
             "SELECT COUNT(*) FROM experiments WHERE duplicate_of IS NOT NULL"
         ).fetchone() == (2,)
+    with sqlite3.connect(ledger_path(tmp_path)) as ledger:
+        assert ledger.execute("SELECT COUNT(*) FROM variant_exposures").fetchone() == (
+            2,
+        )
 
 
 def test_cli_journals_rejected_budget_and_strict_memory_without_fits(tmp_path):

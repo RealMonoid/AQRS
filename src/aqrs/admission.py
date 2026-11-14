@@ -7,10 +7,12 @@ SYNTHETIC_START = datetime(2024, 1, 1, tzinfo=UTC)
 M1_HOLDOUT_DAY = date(2026, 1, 6)
 SPOT_HOLDOUT_START = date(2026, 9, 1)
 SPOT_HOLDOUT_END = date(2026, 11, 1)
+SPOT_FUTURE_LOCK_START = date(2026, 12, 1)
 # The shared command applies these reservations to every declared source.
 LOCKED_PERIODS = (
     (M1_HOLDOUT_DAY, M1_HOLDOUT_DAY + timedelta(days=1)),
     (SPOT_HOLDOUT_START, SPOT_HOLDOUT_END),
+    (SPOT_FUTURE_LOCK_START, None),
 )
 SOURCES = ("synthetic", "synthetic_csv", "binance_vision_spot")
 
@@ -32,13 +34,17 @@ def utc_timestamp(value: str) -> datetime:
 
 def check_unlocked(start: datetime, end: datetime) -> None:
     for first_day, end_day in LOCKED_PERIODS:
-        if start < datetime.combine(end_day, time.min, UTC) and end > datetime.combine(
-            first_day, time.min, UTC
+        if end > datetime.combine(first_day, time.min, UTC) and (
+            end_day is None or start < datetime.combine(end_day, time.min, UTC)
         ):
+            period = (
+                f"{first_day} onward"
+                if end_day is None
+                else f"{first_day} through {end_day} (exclusive)"
+            )
             raise AdmissionRejected(
                 "LOCKED_PERIOD",
-                f"Requested UTC interval overlaps the reserved period "
-                f"{first_day} through {end_day} (exclusive).",
+                f"Requested UTC interval overlaps the reserved period {period}.",
             )
 
 
