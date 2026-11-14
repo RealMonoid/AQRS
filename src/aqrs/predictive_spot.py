@@ -559,7 +559,7 @@ def campaign(
                         "experiment_id": f"{RUN_ID}:{candidate}",
                         "candidate_id": candidate,
                         "execution_status": status,
-                        "evidence_status": "EXPLORATORY_ONLY"
+                        "evidence_status": "INSUFFICIENT_EVIDENCE"
                         if stage == "analysis" and status == "COMPLETED"
                         else "NOT_EVALUATED",
                         "metrics": outcome,

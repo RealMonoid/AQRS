@@ -303,6 +303,13 @@ def test_supervised_synthetic_completion_failure_and_duplicate(tmp_path):
     assert report["results"]["prediction"]["decision"] == "PREDICTIVE_PASS"
     with sqlite3.connect(output / "research.sqlite3") as db:
         assert db.execute("select count(*) from experiments").fetchone()[0] == 2
+        assert (
+            db.execute(
+                "select evidence_status from experiments where candidate_id = ?",
+                (study.VARIANT,),
+            ).fetchone()[0]
+            == "INSUFFICIENT_EVIDENCE"
+        )
         assert db.execute(
             "select distinct execution_status from experiments"
         ).fetchall() == [("COMPLETED",)]
