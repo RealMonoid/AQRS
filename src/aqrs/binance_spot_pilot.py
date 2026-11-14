@@ -22,6 +22,8 @@ ARCHIVE_BASE = "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m"
 SYMBOL = "BTCUSDT"
 M1_DEVELOPMENT_DAY = date(2026, 1, 5)
 M1_HOLDOUT_DAY = date(2026, 1, 6)
+SPOT_HOLDOUT_START = date(2026, 9, 1)
+SPOT_HOLDOUT_END = date(2026, 11, 1)  # Exclusive; owner-only release.
 MINUTES_PER_DAY = 1440
 MICROSECONDS_PER_SECOND = 1_000_000
 MINUTE_US = 60 * MICROSECONDS_PER_SECOND
@@ -48,8 +50,8 @@ def require_spot_identity(symbol: str, day: date) -> None:
         raise ValueError("Expected an uppercase alphanumeric Spot symbol.")
     if type(day) is not date:
         raise ValueError("Expected a UTC calendar date.")
-    if day == M1_HOLDOUT_DAY:
-        raise ValueError(f"{M1_HOLDOUT_DAY} UTC is reserved and cannot be opened.")
+    if day == M1_HOLDOUT_DAY or SPOT_HOLDOUT_START <= day < SPOT_HOLDOUT_END:
+        raise ValueError(f"{day} UTC is reserved and cannot be opened.")
 
 
 def load_spot_day(
@@ -83,6 +85,7 @@ def require_m1_development_day(day: str) -> None:
 
 
 def import_day(archive: Path, checksum: Path, day: date) -> tuple[Bars, str]:
+    require_spot_identity(SYMBOL, day)
     reserved_archive = f"{SYMBOL}-1m-{M1_HOLDOUT_DAY}.zip".casefold()
     reserved_names = {reserved_archive, f"{reserved_archive}.checksum"}
     if day == M1_HOLDOUT_DAY or reserved_names.intersection(
@@ -93,6 +96,9 @@ def import_day(archive: Path, checksum: Path, day: date) -> tuple[Bars, str]:
         )
     if day < date(2025, 1, 1):
         raise ValueError("The pilot expects microsecond archives from 2025 onward.")
+    stem = f"{SYMBOL}-1m-{day}"
+    if archive.name != f"{stem}.zip" or checksum.name != f"{stem}.zip.CHECKSUM":
+        raise ValueError("Archive/checksum filename does not match the selected scope.")
     result = _read_day(archive, checksum, day, SYMBOL, retain_activity=False)
     return result.bars, result.digest
 

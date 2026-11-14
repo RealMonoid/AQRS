@@ -1,0 +1,106 @@
+{
+  "definition": {
+    "variant": "REVERSAL_30M_E22_V1",
+    "attempt_id": "m2-e22-20261114-01",
+    "symbol": "BTCUSDT",
+    "bar_minutes": 30,
+    "months": [
+      "2024-09",
+      "2024-10",
+      "2024-11",
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11"
+    ],
+    "training": [
+      "2024-09-01",
+      "2024-11-30"
+    ],
+    "evaluation": [
+      "2024-12-01",
+      "2025-11-30"
+    ],
+    "holdout": [
+      [
+        "2026-01-06",
+        "2026-01-06"
+      ],
+      [
+        "2026-09-01",
+        "2026-10-31"
+      ]
+    ],
+    "rule": "Reverse prior completed open-to-close sign; zero uses training majority.",
+    "target": "Next bar open-to-close sign; zero scores 0.5 for either direction.",
+    "controls": [
+      "always_up",
+      "always_down",
+      "training_majority_tie_up"
+    ],
+    "hac_lags": [
+      7,
+      14
+    ],
+    "one_sided_alpha": 0.05,
+    "planning_effect": 0.02,
+    "gate": "All four HAC lower bounds above zero versus both constant directions.",
+    "costs": {
+      "fee_bps_per_side": 10,
+      "quoted_spread_bps": 1,
+      "slippage_bps_per_side": 2
+    },
+    "cost_stage": "Conditional on predictive pass; next-open to following-open long/flat.",
+    "diagnostic_views": {
+      "prediction": 1104,
+      "conditional_costs": 12
+    },
+    "fits": 1,
+    "workers": 2,
+    "retries": 0,
+    "resamples": 0,
+    "test_card": "docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal"
+  },
+  "registered_at": "2026-11-14T12:11:47.140377+00:00",
+  "files": {
+    "src/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+    "src/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+    "src/aqrs/binance_spot_pilot.py": "a547beeea42667b849a7941ffaf70d61ffb71a0abcbb15a1595c35d4d3729c1e",
+    "src/aqrs/blind_audit.py": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+    "src/aqrs/blind_evidence.py": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+    "src/aqrs/blind_input.py": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+    "src/aqrs/blind_search.py": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+    "src/aqrs/blind_sequence.py": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+    "src/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+    "src/aqrs/discovery.py": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e",
+    "src/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+    "src/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+    "src/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+    "src/aqrs/journal.py": "0e72c8aaf0c5cc0795a1370c3a72772530e2dd5347164a64905f069dbf2ebaa6",
+    "src/aqrs/m2_e14.py": "4e2ee2ba377c981c9b6ccd80641f0c9b6d9296e6e6cb9101a5fa047b683ec74c",
+    "src/aqrs/m2_e19.py": "7d1534ce5c4c8164e131845bebc7ba88798c02fb54ef222371d580818178ed19",
+    "src/aqrs/market.py": "be48f903df0e2c6dce8bbf6ce556a07ad67f78fdc505b4090de06aea15bf8e73",
+    "src/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+    "src/aqrs/platform_guard.py": "41a6e6b0657e787d319dcb5e8acb50fb9ef5bb3cb6360c3d199313fd5d36e738",
+    "src/aqrs/predictive_spot.py": "7374f90074d79037d978fbc9997d51def1c13c01d079f5a6ef499d5b6902e848",
+    "src/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+    "src/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+    "src/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+    "src/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+    "src/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+    "configs/research.yaml": "6c7b102293b8fb4f88bc39ec77346cca8195dc0120be9ff39a0a09e05d1a6b96",
+    "docs/MILESTONE_STATUS.md": "ffee7b85bf6b5603493957bae80865e98eddac1b72e23962cfb6f1de55d8a6f8",
+    "docs/RESEARCH_PROTOCOL.md": "98407f811eccac3e5f5241ebab48e1d570d0401b8da71b6e4dfedbc015682030",
+    "tests/test_predictive_spot.py": "b420c567bfe1929ca513e2cbf532dbeecd5ad34dfa1387a2d26308fdf729c23c"
+  },
+  "status": "PLANNED_NOT_RUN",
+  "metrics": null
+}

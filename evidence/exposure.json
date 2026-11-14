@@ -10997,6 +10997,21 @@
       "test_card": "https://github.com/RealMonoid/AQRS/blob/96df879626d7c2ffe3c0f4374550a667cfeeb9e3/docs/MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card",
       "variant_id": "RIDGE_INCREMENT_E18_V1",
       "work_item": "M2-E18"
+    },
+    {
+      "attempt_ids": [],
+      "data_scope": [
+        "2024-09-01 through 2025-11-30"
+      ],
+      "decision_gates": "Superiority to both constant directions under daily HAC7 and HAC14; costs only after prediction pass.",
+      "definition": "evidence/m2-e22-preregistration.json",
+      "execution_authorization": "Owner explicitly ordered selection, acquisition and execution; no per-portion data approval required.",
+      "origin": "Codex-selected question under direct owner authorization in the current chat.",
+      "registered_at": "2026-11-14",
+      "status": "PLANNED_NOT_RUN",
+      "test_card": "docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal",
+      "variant_id": "REVERSAL_30M_E22_V1",
+      "work_item": "M2-E22"
     }
   ],
   "manual_screens": [

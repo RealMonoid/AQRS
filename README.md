@@ -10,6 +10,17 @@ AQRS is designed as a local, CPU-friendly research platform for **short-horizon 
 
 ## Target product at v1.0
 
+The owner-authorized [M2-E22 study](docs/MILESTONE_STATUS.md#m2-e22-test-card-predictive-first-spot-reversal)
+tests a fixed 30-minute Spot reversal against both constant directions on
+365 evaluation days after 91 training days. Prediction is measured before
+any cost or trading gate. September–October 2026 and January 6 remain
+[locked](docs/RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
+`python -m aqrs.predictive_spot --smoke NEW_OUTPUT` exercises synthetic data
+only. The single market attempt uses `--run PUBLISHED_SHA` after source-bound
+registration, publication and verification; it refuses an existing output.
+Artifacts are under `artifacts/m2-e22/run-01/` (report, journal, raw archive
+checksums and recoverable source). D01's legacy preparation scope is unchanged.
+
 The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
 
 - **Product vision / end state:** [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md)

@@ -16,6 +16,12 @@ Keep Governor limits, prior evidence and the governance freeze unchanged.
 - `docs/MILESTONE_STATUS.md`
 - `docs/RISK_REGISTER.md`
 - `docs/SEQUENCE_PREFLIGHT.md`
+- `README.md`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/predictive_spot.py` (new bounded study entry)
+- `tests/test_predictive_spot.py` (new synthetic/negative checks)
+- `evidence/m2-e22-preregistration.json` (new machine-readable frozen registration)
+- `evidence/exposure.json`
 
 ## 2026-11-14 — Make routine repository completion autonomous
 

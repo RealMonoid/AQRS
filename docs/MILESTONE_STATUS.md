@@ -135,7 +135,8 @@ sequence is authorized by the time rule.
 
 **Question and smallest slice.** Does reversing the sign of the last completed
 BTCUSDT Spot 30-minute open-to-close return predict the next bar's direction
-better than a training-only majority-direction rule? One fixed candidate
+better than both constant-direction controls (always up and always down)?
+Also report the training-only majority-direction rule. One fixed candidate
 `REVERSAL_30M_E22_V1`, no search, refit, sign switching or horizon changes.
 Zero feature return uses the baseline; zero target return scores 0.5 for
 either direction. Baseline is the majority of nonzero training directions;
@@ -155,20 +156,23 @@ owner-only release. Reject missing/duplicate/invalid bars, wrong month/member,
 checksum or timestamp units; no imputation, replacement dates or enlargement.
 Stop after one acquisition/analysis attempt, including failure; no auto-retry.
 
-**Primary decision.** Equal-weight daily paired accuracy difference, reversal
-minus frozen majority. Report both accuracies, difference and one-sided 95%
-lower/upper bounds using Newey–West/Bartlett HAC with seven fixed daily lags;
-also report a prespecified 14-lag sensitivity. `PREDICTIVE_PASS` requires mean
-advantage >=0.02 and both lower bounds >0. If both upper bounds <0.02, report
-`BELOW_RELEVANT_EFFECT`; otherwise `INCONCLUSIVE`. Two percentage points is
-Codex's disclosed research-priority effect, not an economic hurdle or an
-established literature constant. Preserve smaller positive findings. No
+**Primary decision.** Equal-weight daily paired accuracy differences, reversal
+minus each fixed direction. Report all accuracies, differences and individual
+one-sided 95% lower/upper bounds using Newey–West/Bartlett HAC with seven daily
+lags and a prespecified 14-lag sensitivity. `PREDICTIVE_PASS` requires all four
+lower bounds >0: an intersection-union superiority claim over both controls,
+not selection of the favorable comparator. If no pass and either control has
+both upper bounds <0.02, report `BELOW_RELEVANT_EFFECT`; otherwise
+`INCONCLUSIVE`. Two percentage points is only the disclosed sample-planning
+effect, not an extra pass condition, economic hurdle or literature constant. No
 17-bps/trade filter in this stage. Store all daily scores and counts without
 subgroup search. Effective independent sample size remains unknown.
 
 **Why a year.** Conditional planning uses
 `ceil((z_.95+z_.80)^2 * SD_day^2 * D / .02^2)` for one-sided 5% size/80% power.
-At daily SD 0.10, design effects D=1/2/4 require 155/310/619 days; at SD 0.15,
+This approximates rejection of a zero effect against one control, not power
+of the joint four-bound admission rule. At daily SD 0.10, design effects
+D=1/2/4 require 155/310/619 days; at SD 0.15,
 348/696/1392. A year exceeds the SD=0.10,D=2 case and spans a calendar cycle.
 SD≈0.10 follows roughly 48 binary pairs/day with half disagreeing with the
 baseline; it is an unmeasured planning assumption. Stronger dependence,
@@ -204,6 +208,27 @@ HAC, holdout rejection before I/O, malformed input, fit budget and failed
 attempt retention. Publish card and source-bound registration before market
 access; require independent review and real Windows/Linux synthetic execution.
 See the [focused FTA](RISK_REGISTER.md#m2-e22-predictive-study-and-holdout).
+
+**Pre-outcome design correction.** Independent review after the initial
+`3608670` publication identified a mismatch between normal-test power and a
+point-estimate hurdle, and vulnerability of the training-majority comparator
+to class imbalance changes. Before code or data access, remove that hurdle
+and require both predeclared constant controls as above. Keep dates and amount.
+The literature search included both momentum and reversal and recent work;
+mixed findings motivated a falsifiable fixed rule, not a direction search.
+
+**Implementation verification before acquisition.** Independent read-only
+review reproduced timing/HAC/cost calculations and found three defects before
+market access: a legacy importer could open a protected filename under a
+different declared day; Windows CRLF registration bytes differed from the
+Git LF blob; failed monthly acquisitions lacked their attempted month/cause.
+Regression tests first reproduced each defect, then passed after correction.
+The focused Windows suite passed 70 tests (24 E22 checks plus market/import
+coverage). All diagnostic views are explicit (1,104 prediction views and 12
+conditional economic views); these are not independent trials. The first
+full suite had 332 passes and 11 source-replay fixture failures because the
+new module was not yet in HEAD; rerun those checks after committing it.
+Runtime review and Linux evidence remain prerequisites before acquisition.
 
 ### Historical queue decisions
 
