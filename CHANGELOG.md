@@ -1,5 +1,132 @@
 # Changelog
 
+## 2026-11-14 — Publish accumulated AQRS improvements
+
+Publish the pending research evidence, implementation and process changes
+after integration checks. Keep local chat attachments outside version control.
+The entries below retain the complete path inventory for each improvement.
+
+- `.gitignore`
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-14 — Plan observation of literature behavior in practice
+
+Attach the owner's seven behavioral checks to the next eligible authorized
+research test as AQRS-A16-P01. Require observable evidence, distinguish
+unprompted actions from prompted recovery, and leave absent triggers untested.
+Bound the observation without starting a campaign or changing research rules.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-14 — Close confirmed literature-process gaps
+
+Audit the existing literature flow and two bounded retrieval questions, then
+add proportional decision-linked literature checks and source traceability
+within existing Cards. Reuse freeze, exposure and protected-confirmation
+rules; add no registry, runtime dependency or research campaign.
+
+- `CHANGELOG.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `docs/RISK_REGISTER.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-14 — Repair the research value stream and consolidated exposure
+
+Reconstruct one source-bound exposure projection, preserve flat and nested
+diagnostic views without double counting, reconcile executed registrations,
+and link existing questions, attempts and learning. Document the current
+workflow and decision-linked prospective retention. Restore the original E14,
+E17, E18 and E19 evidence files byte-for-byte from local Git history; these
+are existing audit sources, not new experiments or parallel documentation.
+Add fit-free regressions and a read-only CI consistency check.
+
+- `.github/workflows/docs-language.yml`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CONTRACTS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `evidence/exposure.json`
+- `evidence/m2-e14-acceptance.zip`
+- `evidence/m2-e14-verification.json`
+- `evidence/m2-e17-verification.json`
+- `evidence/m2-e18-acceptance.zip`
+- `evidence/m2-e18-verification.json`
+- `evidence/m2-e19-acceptance.zip`
+- `evidence/m2-e19-verification.json`
+- `scripts/evidence_archive.py`
+- `tests/test_audit_controls.py`
+
+## 2026-11-14 — Complete the authorized M2-E15 state persistence count
+
+Qualify the guarded count entry, record the passing coverage result from
+one authorized Windows run, and preserve its source, journal, independent
+checks and Ubuntu synthetic verification. Reconcile the remaining M2 gates.
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `evidence/exposure.json`
+- `evidence/m2-e15-count-v1.zip`
+- `scripts/m2_e15_count.py`
+- `tests/test_m2_e15.py`
+
+## 2026-11-14 — Remind the owner of pending AQRS decisions
+
+End each AQRS reply and progress update with a short reminder of current
+owner decisions. Omit the reminder when no decision is open for action.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
+## 2026-11-14 — Confirm both entry points for AQRS research
+
+Record the owner decision and v1.0 acceptance cases for starting from a
+user observation or a selected market. Link the Scout pilot to the market
+path under its existing start conditions.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/requirements/DECISIONS.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+- `docs/requirements/REQUIREMENTS.md`
+
+## 2026-11-14 — Base research dispatch on decision-ready evidence
+
+Use the existing Test Card to derive the minimum evidence and data scope
+from the decision. Connect this check to dispatch, targeted diagnostics,
+deferral and queue priority while retaining existing scientific and
+execution gates.
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-14 — Verify the source-bound E09 replay and check development capacity
+
+Retain the prospective registration, paired Windows and non-root Ubuntu
+receipts, counted diagnostic views and bounded E20 capacity follow-up.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `evidence/exposure.json`
+- `evidence/m2-e20-p04-acceptance.zip`
+- `evidence/m2-e20-p04-verification.json`
+
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
 ## 2026-11-14 — Reconcile archived AQRS evidence and an open requirement
@@ -39,6 +166,189 @@ receipt-verifier implementation needed for the later evidence checks.
 - `docs/RISK_REGISTER.md`
 - `docs/SEQUENCE_PREFLIGHT.md`
 
+## 2026-11-14 — Preserve work authorization across AQRS chats
+
+Use the experiment queue as the entry point for resuming work, and record
+chat-based authorization changes in the existing governing records before
+acting or handing off. Apply the existing permission-boundary check when an
+approval cannot be recovered from project records.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-13 — Prepare the source-bound M2 supervised replay decision
+
+Check the current supervised entry and add read-only parity verification
+for source-bound receipts. Record the remaining dispatch gates.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `scripts/evidence_archive.py`
+- `tests/test_audit_controls.py`
+
+## 2026-11-13 — Require a permission-boundary check before stopping
+
+Require Codex to complete authorized preparation and scan the canonical
+queue before a stop or owner request. Apply `WAITING` only to work that
+depends on the missing prerequisite. Reuse the existing queue and cards.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-13 — Complete authorized preparation before the AQRS stop
+
+Correct the M2-E20 dispatch under AQRS-A12, specify the effective-count
+comparison, and complete the independent E15 count design. Record the
+remaining evidence and authorization boundaries in the existing queue.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Resolve M2 effective-observation readiness
+
+Close the bounded M2-E20 preparation after tracing the frozen comparisons
+and testing the dependence counterexample. Retain unknown effective counts,
+reconcile queue readiness and record the specific supervised replay decision.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Operationalize authorized work item continuation
+
+Make authorization, readiness, completion and the next dispatch recoverable
+from the existing work plan. Require automatic pull of eligible covered work,
+record the actual session exit condition, and distinguish checkpoints, local
+decisions, owner decisions and blockers. AQRS-A12 records the baseline gaps
+and behavioral verification in the existing milestone record.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `README.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-12 — Clarify scientific support in the milestone definition
+
+Define scientific support by prespecified comparisons and independent testing. A valid null finding can accompany software acceptance under the existing release criteria.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_DOD.md`
+
+## 2026-11-12 — Reconcile material follow-up before work item closeout
+
+Use the existing Experiment Queue as the canonical work plan. Record material
+follow-up in its governing repository record, update affected readiness after
+learning or verification, and cite the current plan in closeout and handoff.
+Link the rules from project instructions, onboarding, and Sequence Preflight.
+
+**Paths**
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Queue and preflight the bounded Scout discovery pilot
+
+Place M2-E21 after the remaining M2 evidence review and before reassessing
+the fixed B01 benchmark. Record the independent synthetic design, budget and
+readiness conditions. Adopt evidence-linked candidate handoff, behavior
+comparison and bounded development feedback as design patterns.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Reconcile M2 evidence and require a basis for thresholds
+
+Record the M2 criterion review, reconcile completed branch evidence, and keep
+the remaining acceptance conditions visible. Require applicable primary
+literature and a defensible basis for material thresholds in the existing
+cards. Record how calibration, technical performance, unresolved outcomes and
+the B01 counterexamples affect dispatch and acceptance.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Clarify discovery and backtest review with concrete examples
+
+Use the Open Quant Trading Lab case studies and discussion to illustrate
+observable mechanisms, synthetic timing counterexamples, shuffled-target
+diagnostics and cost sensitivity within the existing evaluation workflow.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+
+## 2026-11-12 — Give Sequence Preflight a dedicated record
+
+Move the binding procedure from `docs/DEVELOPMENT_PROCESS.md` to
+`docs/SEQUENCE_PREFLIGHT.md` so the procedure and material sequencing
+decisions have one dedicated home. Link it from the dispatch rules and
+repository map. Retain queue status and test evidence in their existing records.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+
+## 2026-11-12 — Check work sequence at dispatch and evidence changes
+
+Audit AQRS work order across milestone, research and parallel branch evidence.
+Require a sequence preflight in the existing development dispatch rules and
+record the checked cases in the milestone evidence.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
 ## 2026-11-11 — Enforce sequential AQRS-B01 deliveries and auditable verdicts
 
 Bind the next dataset to a published exclusive start and the previous immutable
@@ -67,29 +377,32 @@ limits; allow 129 MiB of estimated output storage per dataset.
 - `tests/test_blind_search.py`
 - `tests/test_blind_sequence.py`
 
-## 2026-11-11 — Export machine-readable AQRS-B01 run evidence
+## 2026-11-11 — Defer AQRS-B01 and review the M2-E14 claim
 
-Bind the frozen plan, complete pending candidate ledger and validated inputs to
-per-run features, grouped event/control times, dataset reports and a run
-manifest. Record prediction applicability for the rule-only plan. Verify the
-published ledger bytes and resolved content before outcomes. Promote candidate
-CSVs only after accepted worker receipts. Assess and check a 128 MiB run-output
-storage allowance within the existing compute limits.
+Record the owner's blind-test deferral and capability benchmark revisit.
+Check the M2-E14 archive receipts, purged folds and capacity assumptions.
+Document the evidence supported by the fixed development window and the
+next synthetic proof. No archive payload, market outcome or runtime change.
 
 **Paths**
 
-- `.gitattributes`
 - `CHANGELOG.md`
-- `README.md`
-- `configs/blind_search.json`
 - `docs/MILESTONE_STATUS.md`
-- `docs/RESEARCH_PROTOCOL.md`
-- `docs/RESOURCE_GOVERNOR.md`
+
+## 2026-11-11 — Specify M2-E14's pre-outcome comparison and exposure
+
+Advance the fixed two-candidate campaign design. Define the complete policy
+populations and the separate matched-pair comparison, verify capacity and
+precision, count both cutoff calibrations, and register the planned diagnostic
+views. Record the failure paths for the future guarded entry. Market access
+and execution remain waiting on the existing admission conditions.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
 - `docs/RISK_REGISTER.md`
-- `src/aqrs/blind_evidence.py`
-- `src/aqrs/blind_input.py`
-- `src/aqrs/blind_search.py`
-- `tests/test_blind_search.py`
+- `evidence/exposure.json`
 
 ## 2026-11-11 — Freeze causal minute order-flow rules for AQRS-B01
 
@@ -130,6 +443,47 @@ synthetic compatibility fixture and malformed-input checks passed on Windows.
 - `docs/MILESTONE_STATUS.md`
 - `src/aqrs/blind_input.py`
 - `tests/test_blind_search.py`
+
+## 2026-11-11 — Export machine-readable AQRS-B01 run evidence
+
+Bind the frozen plan, complete pending candidate ledger and validated inputs to
+per-run features, grouped event/control times, dataset reports and a run
+manifest. Record prediction applicability for the rule-only plan. Verify the
+published ledger bytes and resolved content before outcomes. Promote candidate
+CSVs only after accepted worker receipts. Assess and check a 128 MiB run-output
+storage allowance within the existing compute limits.
+
+**Paths**
+
+- `.gitattributes`
+- `CHANGELOG.md`
+- `README.md`
+- `configs/blind_search.json`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RESEARCH_PROTOCOL.md`
+- `docs/RESOURCE_GOVERNOR.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/blind_evidence.py`
+- `src/aqrs/blind_input.py`
+- `src/aqrs/blind_search.py`
+- `tests/test_blind_search.py`
+
+## 2026-11-11 — Record claim-specific validation methods for future consideration
+
+AQRS-G02 records the owner's requested PBO/CSCV, DSR, walk-forward, CPCV,
+performance attribution, Reality Check and SPA review in the existing method
+protocol. Clarify their distinct questions, prerequisites, limitations and
+recurring resource drivers; link the existing M4 gate and queue conditional
+M4-E01 without displacing current work. No method implementation, research run,
+new dependency, budget increase or change to the frozen AQRS-B01 source set.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MODEL_EVALUATION_PROTOCOL.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_DOD.md`
+- `docs/MILESTONE_STATUS.md`
 
 ## 2026-11-11 — Prepare the owner-gated external synthetic blind test
 

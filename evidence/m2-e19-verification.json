@@ -1,0 +1,168 @@
+{
+  "acceptance_ci": {
+    "passed_jobs": 4,
+    "run_id": 43205967812,
+    "tests_per_job": 249
+  },
+  "coverage": {
+    "all_eligible_opportunities": 4296,
+    "non_overlapping_eligible_entries": 265,
+    "qualified_days_per_fold": [
+      2,
+      3
+    ]
+  },
+  "data_scope": [
+    "2025-12-01",
+    "2025-12-02",
+    "2025-12-03",
+    "2025-12-04",
+    "2025-12-05",
+    "2025-12-06",
+    "2025-12-07",
+    "2025-12-08",
+    "2025-12-09",
+    "2025-12-10"
+  ],
+  "dataset_id": "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568",
+  "evidence_bundle": {
+    "members": {
+      "artifacts/m2-e19/admission.json": "4c3a6d652ad45436e91c0adcaa1157d6f6e6d50d633b323ed32d056bcbc96a6f",
+      "artifacts/m2-e19/ubuntu-coverage/coverage.json": "bc04fdea62ade166e4a879161f3e9c60100db0701061a6c49d312056d6c73deb",
+      "artifacts/m2-e19/ubuntu-coverage/research.sqlite3": "865a4faabb5193073a439154bef949391ef8032699eba1e39987d255b925cc03",
+      "artifacts/m2-e19/ubuntu/report.json": "c2c5ea8df3fcea43c3634c9828b6b1baf9a95c03ba59f9b765e311c3f878b1ac",
+      "artifacts/m2-e19/ubuntu/research.sqlite3": "2a25a808f5200e51edfcb79f70690ab6d7e6dd4bf486bfec087c4ead158796f5",
+      "artifacts/m2-e19/verify_evidence.py": "f440e0d3a11baee36053370d9f9a10168eac46d903837f9efc55f844f97f4154",
+      "artifacts/m2-e19/windows-coverage/coverage.json": "990356dbdf36cdfaaa88ab633c505840f50aa3d3934d0133cdc05bc5460216af",
+      "artifacts/m2-e19/windows-coverage/research.sqlite3": "ac94a212858dad47a8668d5c074426635fa5bf88328670bc846785f850c17cde",
+      "artifacts/m2-e19/windows/report.json": "17f2438ada6b6ef41391dc217c9d2ce88eb4950682129bfef275fe16fd6b2faf",
+      "artifacts/m2-e19/windows/research.sqlite3": "6474a2c972aa83e7d7ecb4c775139ca263f1a1f7b6a282132a4da6707c52b014"
+    },
+    "path": "evidence/m2-e19-acceptance.zip",
+    "sha256": "ece916159199bc056ea40089410d628d7dc694a01917aa57426a7431ef1eef3b"
+  },
+  "independent_confirmation": false,
+  "independent_review": {
+    "coverage_id": "aeb047b98cd6573e865dc1db444839ec3da176f43eeb6d160d6eebe99ff2d43b",
+    "reviewed_focused_tests": 78,
+    "reviewed_source_sha256": "7d1534ce5c4c8164e131845bebc7ba88798c02fb54ef222371d580818178ed19",
+    "reviewer": "independent e19_review",
+    "revision": "ff862a631bb5429044828013add41da7a313a202",
+    "verdict": "APPROVED"
+  },
+  "market_replay_ci": {
+    "non_root": true,
+    "operating_system": "Ubuntu 24.04 x86_64",
+    "replay_revision": "376eb42",
+    "run_id": 43206317516
+  },
+  "milestone_accepted": false,
+  "platform_comparison": {
+    "absolute_tolerance": 1e-08,
+    "discrete_values": 3321,
+    "matching_trade_receipts": 420,
+    "max_absolute_numeric_difference": 1.8189894035458565e-11,
+    "numeric_values": 3267,
+    "relative_tolerance": 1e-08,
+    "status": "MATCHED"
+  },
+  "protected_reads": 0,
+  "published_revision": "ff862a631bb5429044828013add41da7a313a202",
+  "research_disposition": "INCONCLUSIVE_DEFER",
+  "runs": {
+    "ubuntu_compare": {
+      "charges": 4,
+      "execution_status": "COMPLETED",
+      "run_id": "de0aec6e3d20457081d2fa70d35937c3",
+      "sampled_peak_rss_mib": 146.703125,
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timing_seconds": 6.301427404999998,
+      "wall_seconds": 14.946887564000008
+    },
+    "ubuntu_coverage": {
+      "charges": 2,
+      "execution_status": "COMPLETED",
+      "run_id": "6a65e2940cf94613b60b1217130f29b3",
+      "sampled_peak_rss_mib": 138.3203125,
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timing_seconds": null,
+      "wall_seconds": 1.2277878810000047
+    },
+    "windows_compare": {
+      "charges": 4,
+      "execution_status": "COMPLETED",
+      "run_id": "f27ed19d922f4ee9b43369e6b5c388d6",
+      "sampled_peak_rss_mib": 131.484375,
+      "source_id": "bc66c1b823bafca271a20b4552d78d70b4fb6745a25e94421e863f926209fa6e",
+      "timing_seconds": 5.2810000000026776,
+      "wall_seconds": 11.656000000002678
+    },
+    "windows_coverage": {
+      "charges": 2,
+      "execution_status": "COMPLETED",
+      "run_id": "6f11037d5485462f95f7c99fc7b7f8ff",
+      "sampled_peak_rss_mib": 132.35546875,
+      "source_id": "3d6d8f3f2f7d1311305e834fc1b5d42a9d5387f946076385e80abcbc48f52510",
+      "timing_seconds": null,
+      "wall_seconds": 1.75
+    }
+  },
+  "summary": {
+    "above_flat": false,
+    "aggregate": {
+      "eligible_count": 4296,
+      "net_difference_bps_per_eligible_opportunity": {
+        "flat": 0.4043248248052377,
+        "hmm": 0.02072656398471464,
+        "unfiltered": -1.1222864254602616
+      },
+      "policies": {
+        "flat": {
+          "gross_bps": 0.0,
+          "net_bps": 0.0,
+          "skip_count": 4296,
+          "trade_count": 0,
+          "turnover": 0
+        },
+        "hmm": {
+          "gross_bps": 277.06187151503303,
+          "net_bps": -1647.938128484967,
+          "skip_count": 4219,
+          "trade_count": 77,
+          "turnover": 154
+        },
+        "rolling_volatility": {
+          "gross_bps": 213.02055263669905,
+          "net_bps": -1736.979447363301,
+          "skip_count": 4218,
+          "trade_count": 78,
+          "turnover": 156
+        },
+        "unfiltered": {
+          "gross_bps": 66.67806885941596,
+          "net_bps": -6558.321931140585,
+          "skip_count": 4031,
+          "trade_count": 265,
+          "turnover": 530
+        }
+      }
+    },
+    "decision": "DEFER",
+    "folds": [
+      {
+        "active_days": 2,
+        "delta_net_bps_per_opportunity": 0.029016148892051435
+      },
+      {
+        "active_days": 3,
+        "delta_net_bps_per_opportunity": 0.012740071761375432
+      }
+    ],
+    "score_gate_disagreements": [
+      8,
+      29
+    ]
+  },
+  "technical_disposition": "SUPPORTED_PERSEVERE",
+  "work_item": "M2-E19"
+}

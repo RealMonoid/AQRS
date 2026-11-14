@@ -116,6 +116,12 @@ Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the canonica
 
 5. **Revisit deferred decisions.** Use `DEFER` when missing decision-relevant evidence can change a named decision and obtaining it now is impractical or outside authorized scope. In the existing decision record or Learning Card, record why, the observable revisit condition, the default until it occurs, and who checks it in which existing workflow. Link any dependent work. A date or milestone can prompt a review. Reopening requires the recorded condition. For pending work in `WAITING`, name the missing approval or prerequisite, the technical obstacle and affected path, or the evidence needed to justify the work. When qualifying new data, reviewing candidate evidence, or checking an acceptance gate, check the relevant linked decisions at their named observation points. On a trigger match, reassess the decision and priority before proposing new work. Meeting a trigger does not authorize execution or change the status of the closed attempt. Apply rules 1–4 to any justified follow-up. Stop an unchanged comparison when the evidence supports that decision within the tested scope. When sufficient evidence leaves a material choice reserved to the owner, present the choice and a recommendation for decision.
 
+6. **Prioritize eligible research over general process work.** Queue another
+   general audit or governance change only for an observed failure mode, new
+   material evidence, or a measurable unresolved process effect. Preventive
+   work for a critical safety or integrity risk remains eligible. Use the
+   existing quality, verification and approval rules.
+
 ### Work authorization and Definition of Ready
 
 Use the [experiment queue](MILESTONE_STATUS.md#experiment-queue) as the
@@ -263,10 +269,19 @@ cannot yet be justified, scope a bounded calibration with an observable output
 and stop rule. Label its evidence as calibration and qualify the resulting
 threshold on a separately fixed validation case before using it for acceptance.
 
+For a material research hypothesis or scientific design choice, apply the
+[decision-linked literature check](RESEARCH_PROTOCOL.md#decision-linked-literature-checks)
+in this same Card before freeze. Reuse its source, transfer and decision note;
+the research protocol defines proportional depth, mid-research triggers and
+engineering exemptions. This extends the threshold rule without requiring a
+literature review for routine development.
+
 - **Research benefit.** Relate the smallest worthwhile net effect to costs,
   action frequency and the common opportunity population. Check whether
   sample size, dependence and measurement uncertainty let the test distinguish
   that effect. State how a result close to the threshold affects advancement.
+  Use the [research evidence check](SEQUENCE_PREFLIGHT.md#research-evidence-sufficiency)
+  in this same card or linked research definition.
 - **Technical performance.** For a performance decision, measure the baseline
   and change on representative typical and upper workloads on the relevant
   platforms. Use an appropriate clock and record run-to-run variation. Where
@@ -359,7 +374,10 @@ Use the short diagnosis fields above in the existing Learning Card for developme
 For any material unresolved outcome, state the open claim, the specific reason
 the evidence cannot decide it, the decision that applies now, and the smallest
 observable check or trigger that could change it. Use the existing deferral
-rules when that check is unavailable or would cost more than the decision merits.
+rules when the evidence is plausibly obtainable and the trigger justifies a
+future review. If there is no credible decision-changing follow-up, stop the
+current line of work and preserve the uncertainty. Record which work can be
+dropped and reconcile the queue before dispatching another comparison.
 
 If a run both stops and violates a requirement, record both diagnoses under the same attempt or link the two records.
 

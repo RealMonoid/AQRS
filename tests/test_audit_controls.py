@@ -386,7 +386,10 @@ def test_evidence_bundle_preserves_committed_wal_and_index_identity(tmp_path):
             } == {row["experiment_id"] for row in indexed["attempts"]}
 
 
-def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_path):
+@pytest.mark.parametrize("layout", ["flat", "nested", "both", "absent", "empty"])
+def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(
+    tmp_path, layout
+):
     from scripts.evidence_archive import build
 
     config = {"research": {"candidates": [{"id": "synthetic"}]}}
@@ -402,6 +405,16 @@ def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_p
         "validation_intervals": [[12, 20]],
         "horizon_bars": 3,
     }
+    metrics = {
+        "flat": {"diagnostic_exposure": [look]},
+        "nested": {"result": {"diagnostic_exposure": [look]}},
+        "both": {
+            "diagnostic_exposure": [look],
+            "result": {"diagnostic_exposure": [look]},
+        },
+        "absent": {},
+        "empty": {"result": {"diagnostic_exposure": []}},
+    }[layout]
     with closing(journal.connect(tmp_path / "artifacts/journal.sqlite3")) as db:
         for run_id in ("first", "repeat"):
             journal.begin(db, run_id, "config", config, {})
@@ -413,7 +426,7 @@ def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_p
                     "candidate_id": "synthetic",
                     "execution_status": "COMPLETED",
                     "evidence_status": "INSUFFICIENT_EVIDENCE",
-                    "metrics": {"diagnostic_exposure": [look]},
+                    "metrics": metrics,
                 },
                 {"evidence_key": "same-model-and-data"},
             )
@@ -434,10 +447,268 @@ def test_exposure_index_keeps_diagnostic_views_on_duplicate_model_attempts(tmp_p
     assert len(index["variants"]) == 1
     assert len(index["attempts"]) == 2
     assert index["attempts"][1]["duplicate_of_in_original_journal"] == "first:synthetic"
-    assert [attempt["diagnostic_exposure"] for attempt in index["attempts"]] == [
-        [look],
-        [look],
+    expected = None if layout == "absent" else [] if layout == "empty" else [look]
+    assert [attempt.get("diagnostic_exposure") for attempt in index["attempts"]] == [
+        expected,
+        expected,
     ]
+    if layout == "absent":
+        assert all("diagnostic_exposure" not in a for a in index["attempts"])
+
+
+@pytest.mark.parametrize(
+    "metrics",
+    [
+        {
+            "diagnostic_exposure": [],
+            "result": {"diagnostic_exposure": [{"view": "fold"}]},
+        },
+        {"diagnostic_exposure": None},
+        {"result": {"diagnostic_exposure": {"view": "fold"}}},
+        {"result": {"diagnostic_exposure": ["not-a-view-record"]}},
+    ],
+)
+def test_exposure_rejects_conflicting_or_unknown_diagnostic_formats(metrics):
+    from scripts.evidence_archive import diagnostic_views
+
+    with pytest.raises(ValueError, match="diagnostic exposure"):
+        diagnostic_views(metrics)
+
+
+@pytest.fixture
+def exposure_archive(tmp_path):
+    from scripts.evidence_archive import build, digest, write
+
+    config = {"research": {"candidates": [{"id": "synthetic"}]}}
+    with closing(journal.connect(tmp_path / "artifacts/journal.sqlite3")) as db:
+        for run in ("original", "replay"):
+            journal.begin(db, run, "fixed", config, {})
+            journal.finish_experiment(
+                db,
+                run,
+                {
+                    "experiment_id": f"{run}:synthetic",
+                    "candidate_id": "synthetic",
+                    "execution_status": "COMPLETED",
+                    "evidence_status": "INSUFFICIENT_EVIDENCE",
+                    "metrics": {
+                        "result": {
+                            "diagnostic_exposure": [
+                                {"diagnostic_id": "known", "view": "aggregate"}
+                            ]
+                        }
+                    },
+                },
+                {"evidence_key": "same-data-and-model"},
+            )
+    build(tmp_path)
+    path = tmp_path / "evidence/exposure.json"
+    index = json.loads(path.read_text(encoding="utf-8"))
+    index["archive_sources"] = [
+        {
+            "work_item": "EXAMPLE",
+            "bundle": "evidence/acceptance.zip",
+            "sha256": digest((tmp_path / "evidence/acceptance.zip").read_bytes()),
+            "receipt": "evidence/manifest.json",
+        }
+    ]
+    index["future_registrations"] = [
+        {"work_item": "EXAMPLE", "variant_id": "synthetic", "status": "PLANNED_NOT_RUN"}
+    ]
+    index["manual_screens"].append(
+        {
+            "analysis_id": "legacy-unknown",
+            "registration": "historical_timing_unverified",
+        }
+    )
+    write(path, index)
+    return tmp_path, path
+
+
+def test_exposure_consolidation_is_idempotent_and_preserves_legacy(exposure_archive):
+    from scripts.evidence_archive import build, consolidate_exposure, verify_exposure
+
+    root, path = exposure_archive
+    before = json.loads(path.read_text(encoding="utf-8"))
+    summary = consolidate_exposure(root)
+    first = path.read_bytes()
+    assert consolidate_exposure(root) == verify_exposure(root) == summary
+    assert path.read_bytes() == first
+    result = json.loads(first)
+    assert result["manual_screens"] == before["manual_screens"]
+    assert result["unknown_exposure"] == before["unknown_exposure"]
+    assert summary["attempts"] == summary["recorded_diagnostic_views"] == 2
+    assert len(result["variants"]) == 1
+    assert result["future_registrations"][0]["status"] == "COMPLETED"
+    assert (
+        result["future_registrations"][0]["status_before_reconciliation"]
+        == "PLANNED_NOT_RUN"
+    )
+    assert all(a["independent_confirmation"] is False for a in result["attempts"])
+    bundle = (root / "evidence/acceptance.zip").read_bytes()
+    with pytest.raises(ValueError, match="Frozen archive"):
+        build(root)
+    assert path.read_bytes() == first
+    assert (root / "evidence/acceptance.zip").read_bytes() == bundle
+
+
+@pytest.mark.parametrize(
+    "fault",
+    [
+        "missing",
+        "duplicate",
+        "views",
+        "planned",
+        "independence",
+        "parent",
+        "unknown",
+        "definition",
+        "registration_source",
+        "registration_link",
+    ],
+)
+def test_exposure_verifier_rejects_broken_flow(exposure_archive, fault):
+    from scripts.evidence_archive import consolidate_exposure, verify_exposure
+
+    root, path = exposure_archive
+    consolidate_exposure(root)
+    index = json.loads(path.read_text(encoding="utf-8"))
+    if fault == "missing":
+        index["attempts"].pop()
+    elif fault == "duplicate":
+        index["attempts"].append(index["attempts"][0])
+    elif fault == "views":
+        index["attempts"][0]["diagnostic_exposure"] = []
+    elif fault == "planned":
+        index["future_registrations"][0]["status"] = "PLANNED_NOT_RUN"
+    elif fault == "independence":
+        index["attempts"][0]["independent_confirmation"] = True
+    elif fault == "parent":
+        index["variants"][0]["lineage"] = {"parent_variant_ids": ["missing"]}
+    elif fault == "definition":
+        index["variants"][0]["definition"]["horizon"] = 999
+    elif fault == "registration_source":
+        index["future_registrations"][0]["work_item"] = "missing"
+    elif fault == "registration_link":
+        index["future_registrations"][0]["attempt_ids"] = ["missing:attempt"]
+    else:
+        index["unknown_exposure"] = ""
+    with pytest.raises(ValueError):
+        verify_exposure(root, index)
+
+
+def test_exposure_consolidation_fails_before_write_on_corrupt_source(exposure_archive):
+    from scripts.evidence_archive import consolidate_exposure
+
+    root, path = exposure_archive
+    before = path.read_bytes()
+    bundle = root / "evidence/acceptance.zip"
+    bundle.write_bytes(bundle.read_bytes() + b"corruption")
+    with pytest.raises(ValueError, match="digest mismatch"):
+        consolidate_exposure(root)
+    assert path.read_bytes() == before
+
+
+def test_exposure_duplicate_archive_attempt_is_not_silently_merged(exposure_archive):
+    from scripts.evidence_archive import consolidate_exposure, write
+
+    root, path = exposure_archive
+    index = json.loads(path.read_text(encoding="utf-8"))
+    duplicate = root / "evidence/duplicate.zip"
+    duplicate.write_bytes((root / "evidence/acceptance.zip").read_bytes())
+    index["archive_sources"].append(
+        index["archive_sources"][0]
+        | {
+            "work_item": "DUPLICATE",
+            "bundle": "evidence/duplicate.zip",
+        }
+    )
+    write(path, index)
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="Duplicate experiment_id"):
+        consolidate_exposure(root)
+    assert path.read_bytes() == before
+
+
+def test_exposure_archived_value_stream_and_p04_views():
+    """Read archived receipts only: no research entry, estimator or data payload."""
+    from scripts.evidence_archive import verify_exposure
+
+    index = json.loads((ROOT / "evidence/exposure.json").read_text(encoding="utf-8"))
+    summary = verify_exposure(ROOT, index)
+    assert summary["attempts"] >= 95 and summary["variants"] >= 15
+    known = {
+        "AQRS-A06": (80, 0),
+        "M2-E14": (2, 55),
+        "M2-E18": (4, 230),
+        "M2-E19": (4, 0),
+        "M2-E20-P04": (4, 60),
+        "M2-E15": (1, 0),
+    }
+    for source, (attempts, views) in known.items():
+        rows = [a for a in index["attempts"] if a["archive_source"] == source]
+        assert len(rows) == attempts
+        assert sum(len(a.get("diagnostic_exposure", [])) for a in rows) == views
+    variants = {v["variant_id"]: v for v in index["variants"]}
+    receipt = json.loads(
+        (ROOT / "evidence/m2-e20-p04-verification.json").read_text(encoding="utf-8")
+    )
+    rows = [a for a in index["attempts"] if a["archive_source"] == "M2-E20-P04"]
+    assert {a["experiment_id"] for a in rows} == {
+        a["experiment_id"] for a in receipt["attempts"]
+    }
+    assert len(rows) == 4 and all(len(a["diagnostic_exposure"]) == 15 for a in rows)
+    assert all(a["independent_confirmation"] is False for a in rows)
+    for row in rows:
+        variant = variants[row["variant_id"]]
+        assert variant["definition"]["registered_variant"] == "M2-E08/1"
+        assert variant["lineage"]["work_items"] == ["M2-E08", "M2-E09", "M2-E20-P04"]
+        assert len(variant["attempt_ids"]) >= 5
+    for family in ("VOL_CONFIRM", "RIDGE_INCREMENT"):
+        assert variants[f"{family}_E18_V1"]["lineage"]["parent_variant_ids"] == [
+            f"{family}_V1"
+        ]
+        assert (
+            "m2-e17" in variants[f"{family}_E18_V1"]["lineage"]["prerequisite_refs"][0]
+        )
+    assert (
+        "VOL_CONFIRM_E18_V1"
+        in variants["VOL_REGIME_HMM_E19_V1"]["lineage"]["parent_variant_ids"]
+    )
+    scopes = {
+        a["dataset_id"]
+        for a in index["attempts"]
+        if a["archive_source"] in {"M2-E18", "M2-E19"}
+    }
+    assert len(scopes) == 1 and None not in scopes
+    for entry in index["future_registrations"]:
+        if entry["work_item"] in {"M2-E14", "M2-E18"}:
+            assert entry["status"] == "COMPLETED" and entry["attempt_ids"]
+    assert {s["work_item"] for s in index["manual_screens"]} >= {
+        "M2-E02",
+        "M2-E03",
+        "M2-E12",
+        "M2-E15",
+        "M2-E19",
+    }
+    assert any(
+        r["variant_id"] == "M2-E17-TRAIN-MOVE-P90-V1"
+        for r in index["future_registrations"]
+    )
+
+
+@pytest.mark.parametrize(
+    "variant_id", ["historical-fc181f3f5e358ac1", "VOL_REGIME_HMM_E19_V1"]
+)
+def test_exposure_rejects_changed_archived_variant_definition(variant_id):
+    from scripts.evidence_archive import verify_exposure
+
+    index = json.loads((ROOT / "evidence/exposure.json").read_text(encoding="utf-8"))
+    next(v for v in index["variants"] if v["variant_id"] == variant_id)["definition"][
+        "horizon"
+    ] = 999
+    with pytest.raises(ValueError, match="definition"):
+        verify_exposure(ROOT, index)
 
 
 def test_real_lightgbm_comparison_uses_archived_workers(tmp_path, monkeypatch):
@@ -454,6 +725,171 @@ def test_real_lightgbm_comparison_uses_archived_workers(tmp_path, monkeypatch):
     assert sum(t["completed_fits"] for t in report["preflight"].values()) == 2
     assert sum(t["completed_fits"] for t in report["trials"].values()) == 4
     assert report["configuration"]["costs"] == supervised.COSTS
+
+
+@pytest.mark.parametrize(
+    "change, message",
+    [
+        ("none", "Verified source-bound supervised replay"),
+        ("windows_only", "Verified source-bound supervised Windows receipt"),
+        ("source", "source digest mismatch"),
+        ("snapshot", "Archived source digest mismatch"),
+        ("journal", "Journal and supervised receipt disagree"),
+        ("incomplete", "Incomplete supervised receipt"),
+        ("configuration", "Incomplete supervised receipt"),
+        ("dataset", "dataset snapshot does not match its recorded identity"),
+        ("dataset_bytes", "Replay dataset bytes differ"),
+        ("decision", "Replay mismatch at ridge.trading.candidate.trade_count"),
+        ("metric", "Replay mismatch at ridge.prediction.mae"),
+    ],
+)
+def test_supervised_replay_verification(tmp_path, change, message):
+    import subprocess
+    import sys
+    from hashlib import sha256
+
+    from aqrs.storage import fingerprint, write_json
+
+    def git(*args):
+        return subprocess.check_output(["git", *args], cwd=ROOT)
+
+    revision = git("rev-parse", "HEAD").decode().strip()
+    source = {
+        "source/pilot.py": "scripts/m2_supervised_pilot.py",
+        "source/research.yaml": "configs/research.yaml",
+        "source/m1-e04.yaml": "configs/m1-e04.yaml",
+    }
+    source.update(
+        (f"source/aqrs/{path.name}", path.relative_to(ROOT).as_posix())
+        for path in (ROOT / "src/aqrs").glob("*.py")
+    )
+    configuration = {
+        "variant": "M2-E08/1",
+        "days": [day.isoformat() for day in supervised.DAYS],
+        "archive_digests": list(supervised.DIGESTS),
+        "features": supervised.FEATURES,
+        "horizon": 30,
+        "lightgbm_parameters": supervised.PARAMETERS,
+        "lightgbm_version": "4.6.0",
+        "costs": supervised.COSTS,
+        "research": {"candidates": [{"id": name} for name in supervised.MODELS]},
+        "seed": 42,
+    }
+    if change == "configuration":
+        configuration["seed"] = 43
+    bars = generate(42, 5760, 1, "BTCUSDT")
+    bars.values[:, 0] += (
+        datetime(2026, 1, 1, tzinfo=UTC).timestamp() - bars.values[0, 0]
+    )
+    dataset_id = bars.fingerprint
+    systems = ("Windows",) if change == "windows_only" else ("Windows", "Linux")
+    for system in systems:
+        output = tmp_path / system
+        hashes = {}
+        for target, path in source.items():
+            data = git("show", f"{revision}:{path}")
+            if change == "source" and path == "configs/research.yaml":
+                data += b"\n"
+            (output / target).parent.mkdir(parents=True, exist_ok=True)
+            (output / target).write_bytes(data)
+            hashes[target] = sha256(data).hexdigest()
+        dataset = bars.values.copy()
+        if change == "dataset" and system == "Linux":
+            dataset[0, 5] *= 2
+        if change == "dataset_bytes" and system == "Linux":
+            dataset = np.asfortranarray(dataset)
+        np.save(output / "development.npy", dataset, allow_pickle=False)
+        report = {
+            "schema_version": "2",
+            "run_id": system,
+            "platform": f"{system}-test",
+            "execution_status": "COMPLETED",
+            "evaluation_status": "COMPLETED",
+            "configuration": configuration,
+            "config_id": fingerprint(configuration),
+            "dataset_id": dataset_id,
+            "provenance": {"files": hashes, "source_id": fingerprint(hashes)},
+            "holdout": {
+                "start_at": "2026-01-06T00:00:00Z",
+                "authorized_reads": 0,
+                "evaluated": False,
+            },
+            "journal_integrity": "ok",
+            "folds": [
+                {"validation_rows": 1409, "validation_day": f"2026-01-0{day}"}
+                for day in (3, 4)
+            ],
+            "plan": {"preflight_status": "ADMITTED", "planned_fits": 6},
+            "preflight": {
+                name: completed({}, 1) | {"started_fits": 1}
+                for name in supervised.MODELS
+            },
+            "trials": {},
+            "per_day": {name: [{"mae": 0.125}] * 2 for name in supervised.MODELS},
+            "paired_deltas": [{"mae_improvement": 0.0}] * 2,
+            "decision": "DEFER",
+        }
+        if system == "Linux" and change == "incomplete":
+            report["evaluation_status"] = "SCREENED_OUT"
+        with closing(journal.connect(output / "research.sqlite3")) as db:
+            journal.begin(db, system, report["config_id"], configuration, report)
+            for name in supervised.MODELS:
+                altered = system == "Linux" and name == "ridge"
+                mae = 0.125
+                if altered:
+                    mae += 2e-8 if change == "metric" else 1e-9
+                count = int(altered and change == "decision")
+                result = {
+                    "trading": {"candidate": {"trade_count": count}},
+                    "prediction": {"mae": mae},
+                    "stage_wall_seconds": {"simulation": float(len(system))},
+                }
+                outcome = completed(result, 2) | {"started_fits": 2}
+                report["trials"][name] = outcome
+                metadata = {
+                    "source_id": report["provenance"]["source_id"],
+                    "evidence_key": fingerprint([configuration, dataset_id, name]),
+                }
+                journal.start_experiment(db, system, name, metadata)
+                journal.finish_experiment(
+                    db,
+                    system,
+                    {
+                        "experiment_id": f"{system}:{name}",
+                        "candidate_id": name,
+                        "execution_status": "COMPLETED",
+                        "evidence_status": "INSUFFICIENT_EVIDENCE",
+                        "metrics": outcome,
+                    },
+                    metadata,
+                )
+            journal.finish_campaign(db, system, "COMPLETED", report)
+            if system == "Linux" and change == "journal":
+                with db:
+                    db.execute("UPDATE experiments SET evidence_key = 'wrong'")
+        write_json(output / "report.json", report)
+        if change == "snapshot" and system == "Linux":
+            (output / "source/pilot.py").write_bytes(b"Changed snapshot")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "scripts/evidence_archive.py",
+            "--verify-supervised-replay",
+            *(str(tmp_path / system) for system in systems),
+            "--source-revision",
+            revision,
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+    assert result.returncode == (0 if change in {"none", "windows_only"} else 2), (
+        result.stderr
+    )
+    assert message in result.stdout + result.stderr
 
 
 def test_language_checker_includes_suffixless_documentation(tmp_path):

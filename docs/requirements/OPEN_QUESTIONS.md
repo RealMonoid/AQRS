@@ -6,21 +6,7 @@ Check the [project-wide open questions](../OPEN_QUESTIONS.md) first. If a questi
 
 ## Research entry without a formulated hypothesis
 
-**Open. Raised 2026-11-09 in the Requirements Engineer discussion.**
-The owner described difficulty deciding what to look for and turning an
-observation into a testable research question. Decide what input AQRS should
-need to help a user begin research.
-
-- With a user-supplied observation, AQRS could help formulate a hypothesis,
-  a fair comparison and observable success criteria.
-- With a market and an eligible development sample, AQRS could propose
-  evidence-linked research ideas before the user has an observation or a
-  hypothesis. This would require evaluating both useful suggestions and
-  abstention when the evidence is insufficient.
-
-The choice determines the minimum user input and the acceptance cases for
-the [research experience](../PRODUCT_VISION.md#2-the-experience-from-a-users-perspective).
-The [M2-E21 Scout pilot](../MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight)
-can inform the second option. ADR-053 covers the pilot design and queue
-placement. A product requirement and its acceptance criteria await an owner
-decision. No confirmed requirement ID is affected yet.
+**Resolved, 2026-11-14.** Raised on 2026-11-09 in the Requirements Engineer
+discussion. The owner confirmed both a user observation and a selected
+market as research entry points. See [RD-001](DECISIONS.md#rd-001-two-entry-points-for-research)
+and [FR-004](REQUIREMENTS.md#functional-requirements).

@@ -424,6 +424,32 @@ reports remain schema 2 with additive fields; old evidence is not rewritten.
 
 ## H. Audit-compatible reporting and provenance
 
+### Prospective retention selected from the research decision
+
+Before an authorized comparison, the existing Test Card names the question,
+required evidence, storage estimate and stop rule. For paired forecast-loss
+or dependence analysis, retain aligned forecast-origin timestamps, target
+availability, horizon, fold/block IDs and candidate/control losses (or the
+forecasts and targets needed to reproduce those losses). Preserve the common
+eligible population, not only executed trades. Use the existing source/data
+binding; do not retain arbitrary arrays without a named decision need.
+
+For execution diagnosis distinguish: forecast produced; cost/buffer threshold
+crossed; entry eligible or blocked by a position/boundary; order simulated;
+trade filled; gross and net outcome. A zero-trade result alone identifies none
+of the preceding causes. Choose counts and fixed diagnostic views before the
+run; store per-origin values only if the question requires them. Existing
+aggregate reports remain sufficient for questions they can actually answer.
+
+Resource assessment includes origins × policies × retained fields × bytes
+plus serialization overhead, disk retention, runtime and memory. Estimate
+from metadata first; select a bounded format and retention limit within the
+campaign budget. No new default archive, automatic recomputation or permission
+to inspect protected data follows. Historical missing arrays remain missing;
+E18's aggregate forecast metrics cannot supply an ordered paired-loss series.
+
+### Existing report and audit records
+
 Current reports use `schema_version="2"`; records without it remain legacy evidence. Record source bytes/digests, available Git commit and dirty state (null when unavailable), Python/platform and installed dependencies. Source identity is separate from scientific variant identity. New metadata never repairs missing execution-time bindings in M2-E08/E09. Core workers execute their saved source snapshot.
 
 `SCREENED_OUT` belongs only to `evaluation_status`; a completed screen is an execution success. A positive development screen may set a separate decision/boolean but keeps `evidence_status=INSUFFICIENT_EVIDENCE`. Literal holdout fields describe authorization (`authorized_reads=0`, `access_measurement=not_instrumented`), never measured access counts. Existing reservations remain binding. List zero-valued cost/buffer components without silently substituting costs or forbidding synthetic controls.

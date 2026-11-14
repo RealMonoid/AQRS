@@ -2,6 +2,105 @@
 
 **Version boundary:** This document mostly describes the target architecture for the **first walking skeleton**. The binding **v1.0 product state** is in [`PRODUCT_VISION.md`](PRODUCT_VISION.md), and all milestone acceptance gates are in [`MILESTONE_DOD.md`](MILESTONE_DOD.md). The later features described here are **not** an instruction to implement them in v0.1.
 
+## Current research value stream
+
+**Start here for people and LLMs.** M0 and M1 are accepted; M2 is in progress.
+The current workflow combines the core CLI, bounded pilot entries and human
+or agent orchestration under the existing queue. It is not yet the adaptive
+M3 scheduler or the independent M4 confirmation system. Current acceptance,
+authorization and next actions live in the
+[experiment queue](MILESTONE_STATUS.md#experiment-queue).
+
+```mermaid
+flowchart TD
+    A[User observation] --> C[Question and origin in existing Test Card]
+    B[Selected market and qualified data] --> C
+    C --> D[Decision, baseline, minimum evidence and stop rule]
+    D --> E[Existing evidence and family revisit check]
+    E --> F[Authorization, registration and Resource Governor]
+    F --> G[Bounded count, feasibility check or research attempt]
+    G --> H[Predictions and matched controls]
+    H --> I[Threshold crossing and position eligibility]
+    I --> J[Simulated fills and net economic result]
+    G --> K[Source-bound reports and SQLite journal]
+    H --> K
+    I --> K
+    J --> K
+    K --> L[Archive and consolidated exposure index]
+    L --> M[Learning Card: continue, change, stop or defer]
+    M --> E
+    M --> N[Separately authorized frozen-candidate confirmation]
+```
+
+An initial observation and market-first discovery are both valid entry paths.
+The latter's proposed Scout remains subject to M2-E21's start conditions.
+Counts and training-only feasibility checks can end before predictions.
+No branch creates broker orders. The protected final holdout never feeds
+the learning/priority loop; confirmation needs its separate isolation gate.
+
+| Handoff | Existing record and responsibility | Information that must survive |
+|---|---|---|
+| Origin to research question | Owner/Quant Research; [Test Card](MILESTONE_STATUS.md), [requirements](requirements/REQUIREMENTS.md) | Origin, parent question or explicit unknown, baseline, intended decision, eligible population and revisit trigger |
+| Question to admitted attempt | Published definition/card, [research protocol](RESEARCH_PROTOCOL.md), [Governor](RESOURCE_GOVERNOR.md), pilot entry | Variant versus attempt identity, authorized data, source/configuration binding, budget and stop condition |
+| Attempt to evidence | `src/aqrs/journal.py`, report and saved source | Every failed, screened, aborted and completed attempt; predictive, execution and economic conclusions separately |
+| Evidence to recoverable exposure | [archive utility](../scripts/evidence_archive.py), [exposure index](../evidence/exposure.json), original archives/receipts | Original IDs, data reuse, all recorded diagnostic views, source location and unknown history |
+| Evidence to learning and next decision | Existing Learning Card and queue; Quant Research/owner | Result, scoped disposition, missing evidence, default while deferred and observable revisit condition |
+
+The journal is the execution record. The index is its derived cross-campaign
+audit view with existing registration and manual-screen metadata. Learning
+and prioritization remain in the canonical cards and queue; no second
+scheduler, hypothesis database or independent-evidence counter is introduced.
+Index `lineage` fields provide navigation to those records, not new historical
+preregistration. Unknown origins or missing execution-time source bindings
+remain unknown. Most variant definitions are compared directly with archived
+configuration signatures. E19's two original hand-authored declarations are
+retained with their pinned Git reference and an accidental-edit digest; that
+digest is not independent authentication. Their separately verified journal
+signatures retain the inherited configuration defaults without substituting
+those defaults for the declared market experiment.
+
+### Exposure maintenance and interpretation
+
+Run `python scripts/evidence_archive.py --verify-exposure` to compare the
+entire index with the digest-bound SQLite snapshots in `archive_sources`.
+After recording a new independently verified archive source, run
+`--consolidate-exposure` and then `--verify-exposure`. Consolidation updates
+only `evidence/exposure.json`, validates before replacement and refuses to
+drop existing attempts without their sources. Keep its source inventory and
+receipt links in the same index. `--build` is the legacy local archive creator;
+it refuses to overwrite an index with frozen archive sources. Do not use it
+to refresh the consolidated history.
+
+Flat `diagnostic_exposure` and `result.diagnostic_exposure` are both supported.
+Identical mirrored lists count once; conflicting lists fail visibly. Empty
+means explicitly no recorded views, while an absent field means the legacy
+record does not supply that inventory. Each replay retains its own looks.
+Registration totals and manual-screen attempt links are references to those
+attempts and must not be added again. Current index coverage is bounded by
+the listed archives; it does not prove that all historical manual looks are
+known. Report-based precision planning and training-only observations remain
+separate records, not invented outcome trials.
+
+| Example chain | Meaning and current learning boundary |
+|---|---|
+| E08 → E09 → E20-P04 | One fixed LightGBM/Ridge question. Corrected and source-bound platform replays retain separate attempt IDs and diagnostic exposure. P04 does not repair the original execution-time source gap or supply independent alpha evidence. |
+| E14 → E17 → E18 | Two interpretable questions; E17 qualifies a training window, then E18 evaluates the same question families on that development window. Feasibility is not predictive value; the E18 candidates remain deferred under their recorded screens. |
+| E18 → E19 | A new HMM-versus-simple-gate question motivated by the positive-move baseline, using the same December dates. The relation is reuse plus a new question, not an independent replication. |
+| E15 | State lifetime coverage on reused dates, linked to its journal attempt and manual registration. A coverage pass is not an economic outcome. |
+
+M2-E20 still needs an eligible ordered contrast with justified dependence and
+precision. Restoring provenance and diagnostic views supplies no missing
+forecast loss sequence or independent observations. See the
+[capacity and forecast follow-up](MILESTONE_STATUS.md#m2-e20-capacity-and-forecast-evidence-follow-up).
+Before a future authorized comparison, select the smallest evidence retention
+that can answer its decision using the [retention contract](CONTRACTS.md#prospective-retention-selected-from-the-research-decision).
+
+Methodological basis: retaining the exact route from inputs to reported
+results follows [Sandve et al. (2013)](https://doi.org/10.1371/journal.pcbi.1003285).
+Keeping exploratory origins distinct from prospective tests follows
+[Nosek et al. (2018)](https://doi.org/10.1073/pnas.1708274114). These principles
+support traceability; they do not validate AQRS's financial hypotheses.
+
 ## Design vision
 
 **Models are modular without excessive abstraction.** From M2/v0.3, supervised discovery (LightGBM challenger) and unsupervised discovery (Isolation Forest scores subjected to separate future-return tests) must be able to use the same research runner. HDBSCAN, autoencoders, PCA, HMMs, DeepLOB, transformers, LLM/FinBERT and GNNs remain data/budget-dependent catalog candidates. [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md) and [`MODEL_EVALUATION_PROTOCOL.md`](MODEL_EVALUATION_PROTOCOL.md) provide prerequisite, timing, cost and trial contracts. **Do not build a generic plug-in framework for M0**; add a lightweight adapter only when a second model family truly needs it.

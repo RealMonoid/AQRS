@@ -1,0 +1,189 @@
+{
+  "work_item": "M2-E14",
+  "run_id": "d98b5971b2254756a3cf398a0f609e70",
+  "published_revision": "9f8fe4960bc2af5edd08f1df7f73912202f45902",
+  "source_id": "cc5d64fe9a69a9f1d16018e6ec27bac433f36fef7bda95efe5332fffc2d5ce32",
+  "dataset_id": "4feb75312660dd0d4eda3151edd7860e289b3c82dbb17e8c08bb6555640fc0a7",
+  "definition_id": "94633c003c56943f993726ebff82c516ac02e0c6aa7bfe225d933d8d4d60f396",
+  "dataset_scope": [
+    "2025-12-25",
+    "2025-12-26",
+    "2025-12-27",
+    "2025-12-28",
+    "2025-12-29",
+    "2025-12-30",
+    "2025-12-31",
+    "2026-01-01",
+    "2026-01-02",
+    "2026-01-03"
+  ],
+  "ci": {
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/43102295817",
+    "platforms": [
+      "Windows",
+      "Ubuntu 24.04 non-root"
+    ],
+    "versions": [
+      "3.11",
+      "3.12"
+    ],
+    "passed_jobs": 4,
+    "tests_per_job": 236
+  },
+  "independent_review": {
+    "status": "PASS",
+    "revision": "9f8fe4960bc2af5edd08f1df7f73912202f45902",
+    "windows_focused_tests_passed": 65
+  },
+  "execution_status": "COMPLETED",
+  "journal_integrity": "ok",
+  "windows_report_sha256": "4ba728bbd5839b7b457d7b529e3f3709e1bbd76047a3c7e42da5c9b7a76c45d1",
+  "market_replay": {
+    "status": "NOT_ELIGIBLE",
+    "reason": "Windows Ridge comparison screened before fitting."
+  },
+  "governor": {
+    "planned_charges": 7,
+    "started_charges": 3,
+    "completed_charges": 3,
+    "cutoff_calibrations": 2,
+    "timing_fits": 1,
+    "market_estimator_fits": 0,
+    "peak_sampled_rss_mib": 131.58984375,
+    "sum_worker_wall_seconds": 6.484000000000378
+  },
+  "volume": {
+    "matched_pairs": 18,
+    "eligible_policy_opportunities": 4354,
+    "mean_event_net_bps": -22.1560941408178,
+    "mean_control_net_bps": -18.300219838567315,
+    "mean_paired_net_difference_bps": -3.855874302250489,
+    "net_difference_per_opportunity_bps": 0.40854014717384274,
+    "decision": "DEFER"
+  },
+  "ridge": {
+    "training_movement_p90_bps": 22.677230519829084,
+    "required_to_exceed_bps": 27,
+    "evaluation_status": "SCREENED_OUT"
+  },
+  "supports_market_effect_claim": false,
+  "bundle_sha256": "312454a2fdfcb56da87f37231ab46357998c6915c3ca44b02b1c94f2f548e9b3",
+  "files": {
+    "artifacts/m2-e14/windows/report.json": {
+      "bytes": 449989,
+      "sha256": "4ba728bbd5839b7b457d7b529e3f3709e1bbd76047a3c7e42da5c9b7a76c45d1"
+    },
+    "artifacts/m2-e14/windows/report.md": {
+      "bytes": 529,
+      "sha256": "4fb75e30da693af0f424ad8c6b43f82ad7c055a7c4a053ba1637dda7a3622eee"
+    },
+    "artifacts/m2-e14/windows/research.sqlite3": {
+      "bytes": 614400,
+      "sha256": "c6410839ed5adf46a36242038ac2542b180610f98da283ff9c249fb40623e73d"
+    },
+    "artifacts/m2-e14/windows/source/MILESTONE_STATUS.md": {
+      "bytes": 247655,
+      "sha256": "5e001c71dd622f813c090030176a71f3811e8452bca180a67869a6c3da09336b"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/__init__.py": {
+      "bytes": 61,
+      "sha256": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/__main__.py": {
+      "bytes": 2219,
+      "sha256": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/binance_spot_pilot.py": {
+      "bytes": 9021,
+      "sha256": "4f46a471cf9a1391e87c2cf698b922c6853db15fa593970da75f96a1ec950cf7"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/blind_evidence.py": {
+      "bytes": 2127,
+      "sha256": "3363653a3b3568097783ad99d7d1313e5f467d76fed516428c0406e33753e580"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/blind_input.py": {
+      "bytes": 10444,
+      "sha256": "5acd59c5ef38682903e4387f19db8dd8ddd5db2943762c68cb698a3b40cd5ba6"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/blind_search.py": {
+      "bytes": 41719,
+      "sha256": "bc3cd3b5b21cb41f6a73f7449dc5e5ecb5e4740280dbad9fd9dbd177535c8a1e"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/config.py": {
+      "bytes": 8075,
+      "sha256": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/discovery.py": {
+      "bytes": 13244,
+      "sha256": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/evaluation.py": {
+      "bytes": 10923,
+      "sha256": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/events.py": {
+      "bytes": 3756,
+      "sha256": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/governor.py": {
+      "bytes": 6786,
+      "sha256": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/journal.py": {
+      "bytes": 4153,
+      "sha256": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/m2_e14.py": {
+      "bytes": 28379,
+      "sha256": "a3660ffb1906ba51e7a7899cdfb06d226b91c4acc47781654b135259c67e8d81"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/market.py": {
+      "bytes": 4758,
+      "sha256": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/planning.py": {
+      "bytes": 9803,
+      "sha256": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/platform_guard.py": {
+      "bytes": 3614,
+      "sha256": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/provenance.py": {
+      "bytes": 1799,
+      "sha256": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/research.py": {
+      "bytes": 24553,
+      "sha256": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/spot_dataset.py": {
+      "bytes": 15153,
+      "sha256": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/storage.py": {
+      "bytes": 620,
+      "sha256": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d"
+    },
+    "artifacts/m2-e14/windows/source/aqrs/worker.py": {
+      "bytes": 1742,
+      "sha256": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc"
+    },
+    "artifacts/m2-e14/windows/source/exposure.json": {
+      "bytes": 88510,
+      "sha256": "8562fb7836a51bb6d861244ab00232cc7c88db97b8ec61fa20487a5bd1f1da29"
+    },
+    "artifacts/m2-e14/windows/source/manifest.json": {
+      "bytes": 53543,
+      "sha256": "89a9cd4697dfea3f3821703d313571a92772c47771b975ef67c06034b8b33a19"
+    },
+    "artifacts/m2-e14/windows/source/pilot.py": {
+      "bytes": 28379,
+      "sha256": "a3660ffb1906ba51e7a7899cdfb06d226b91c4acc47781654b135259c67e8d81"
+    },
+    "artifacts/m2-e14/windows/source/research.yaml": {
+      "bytes": 2018,
+      "sha256": "fee88cc035176dad0f2db1ddebb4b251a26ff158121681a3b1feb14a1117f531"
+    }
+  }
+}

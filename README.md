@@ -38,6 +38,7 @@ to complete necessary steps and pull the next eligible covered queue item.
 | Find | Location |
 |---|---|
 | Agent instructions and onboarding | [AGENTS.md](AGENTS.md) and [CODEX_START.md](CODEX_START.md) |
+| Research value stream: origin, attempts, evidence and learning | [Current workflow and exposure maintenance](docs/ARCHITECTURE.md#current-research-value-stream) |
 | Requirements engineering and confirmed requirements | [Requirements Engineer](docs/requirements/AGENTS.md) and [requirements register](docs/requirements/REQUIREMENTS.md) |
 | Current milestone, experiment queue, and development evidence | [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md) |
 | Milestone acceptance criteria | [MILESTONE_DOD.md](docs/MILESTONE_DOD.md) |
@@ -299,6 +300,25 @@ the synthetic example, regression results, independent review and CI evidence.
 The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
 
 Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the private Git remote carries the versioned bundle. Refresh evidence and exposure records before accepting a new campaign.
+
+For the complete bound exposure inventory, run `python scripts/evidence_archive.py
+--verify-exposure`. Use `--consolidate-exposure` after adding a verified archive
+source to the existing index. This performs no research and preserves manual
+screens. The [value-stream overview](docs/ARCHITECTURE.md#exposure-maintenance-and-interpretation)
+explains registration links, diagnostic counts, legacy gaps and the distinction
+between replay and independent confirmation.
+
+For source-bound supervised receipts, use `python scripts/evidence_archive.py
+--verify-supervised-replay WINDOWS_DIR [UBUNTU_DIR] --source-revision COMMIT`.
+The Windows-only check verifies the completed receipt before the conditional
+Ubuntu replay. Providing both directories also compares their data and results.
+See the [supervised replay scope](docs/OPEN_QUESTIONS.md#m2-supervised-pilot-replay).
+
+`python -B -m scripts.m2_e15_count plan` checks the fixed count budget
+without opening market files. The matching `run` used the one authorized
+BTCUSDT development count. Its local output directory reserves the attempt.
+The [M2-E15 result](docs/MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
+links the preserved evidence and the scope of any follow-up.
 
 Core report schema `2` adds recoverable source, available Git identity, environment versions and explicit zero-cost flags. Workers execute the archived source. Package version `0.1.0` remains a compatibility label, not an execution identity or milestone status. Old reports remain unchanged legacy records.
 

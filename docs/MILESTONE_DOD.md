@@ -7,7 +7,7 @@
 ## 0. Three different meanings of “done”
 
 1. **Technically complete:** the workflow runs reliably, is tested, reproducible, documented and auditable.
-2. **Scientifically supported:** the claimed relationship survives prespecified comparisons and suitable independent testing; this can result in a **null/negative finding**.
+2. **Scientifically supported:** the claimed relationship survives prespecified comparisons and suitable independent testing.
 3. **Economically interesting:** a particular policy demonstrates adequately robust net value under credible execution, risk and cost assumptions. This judgment depends on time and market, and is never a permanent property of the software.
 
 **AQRS can be technically complete without a single economically viable signal.** Positive returns, a fixed Sharpe threshold or a desired win rate are **not release gates**. Positive alpha claims require a **separate evidence-based candidate admission process**.
@@ -141,6 +141,11 @@
 **Goal:** explicitly control uncertainty, data snooping, time dependence and multiple comparisons; technically separate **research selection** from a **controlled final evaluation**.
 
 **Deliverables:** immutable candidate freeze with dataset/code/config/model hashes; purged/embargoed walk-forward or nested validation where warranted; meaningful uncertainty intervals (e.g. block bootstrap); multiple-testing/reality-check method appropriate to the hypotheses; condition-matched placebos; final gate and audited access.
+
+Use the [validation method-selection guide](MODEL_EVALUATION_PROTOCOL.md#validation-method-selection)
+when choosing the claim-specific procedure. PBO/CSCV, DSR, CPCV, attribution,
+Reality Check and SPA retain their conditional roles; the existing gate below
+does not require implementing all of them.
 
 **Definition of Done:**
 

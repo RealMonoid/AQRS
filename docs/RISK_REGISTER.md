@@ -22,6 +22,44 @@ Repeated failures may lower a research family's priority, but a changing market,
 
 ## Procedure for a new risk
 
+### FTA-AQRS-A16: literature learning and frozen evidence
+
+**Screen, 2026-11-14:** the documentation explicitly maps literature learning
+to existing scientific exposure and protection contracts; no runtime change.
+Top event: an external paper is used to promote an unsupported AQRS claim.
+OR paths: source assumptions do not transfer; counterevidence is omitted;
+external findings are counted as AQRS observations. AND path: literature is
+read after outcomes AND the original gate or protected test is rewritten.
+Safeguards: decision-specific source/transfer notes, targeted countersearch,
+unchanged original tests, prospective origin/parent-linked variants, and the
+existing holdout-independence rules. Negative walkthroughs: supporting paper
+without AQRS evidence, post-result model/gate change, reusing seen protected
+results, unreviewed preprint, contradictory sources, and a three-observation
+shortage that must not launch automatic research. Verify all owner cases A–H
+and obtain independent review under the A16 Test/Learning Card. This check
+establishes documented routing, not runtime enforcement or future adherence.
+
+### FTA-AQRS-A15: exposure reconstruction and value-stream lineage
+
+**Screen, 2026-11-14:** critical provenance/accounting change; runtime science
+and journal schemas are unchanged. Top event: the consolidated index hides
+exposure or presents reused evidence as independent. OR paths: only local
+artifacts are indexed; nested metrics are skipped; duplicated archive rows
+inflate counts; a descriptive replay is recast as a new discovery; a planned
+status survives a completed attempt. AND path: a source is missing or changed
+AND a partial projection is written as complete.
+
+Safeguards: digest-bound archived journals, complete inventory comparison,
+unchanged original identities and statuses, explicit replay non-independence,
+flat/nested format agreement, preserved legacy/manual/unknown records, and
+validation before replacing the index. Negative tests remove an attempt,
+duplicate an identity, alter a diagnostic list, leave an executed registration
+planned, corrupt a source, and present conflicting formats. An independent
+review checks the real archive projection and the named lineage chains.
+The source receipts and prior index remain recoverable; no historical
+registration time or source identity may be invented. The Learning Card in
+`MILESTONE_STATUS.md` records outcomes and remaining limits.
+
 ### FTA-AQRS-B01: blind synthetic search
 
 Top event: a blind-test result is invalid or falsely attributed. OR paths are
@@ -118,6 +156,23 @@ using an actual close/open price jump. Q1's V1 outcome restriction remains;
 Q3's scientific design admission remains open. Verified software and new
 diagnostics do not resolve those remaining research prerequisites.
 
+### FTA-M2-E14: pre-outcome implementation plan
+
+The top event is an invalid comparison or unauthorized outcome run. The
+[design checkpoint](MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint)
+fixes the descriptive scope. The future entry must exercise these paths:
+
+| Failure path | Safeguard and required proof |
+|---|---|
+| Unpublished or changed definition OR incomplete authorization/diagnostics OR altered input allowlist permits an archive read | Bind the exact published definition, source and named authorization. Reject each missing or changed record, wrong date or symbol, and January 6 before the loader is called. Verify historical archive digests before evaluation. |
+| Late features, labels across fold or band boundaries, or cutoff fitted on validation creates apparent value | Reuse causal features and purged folds. Test earlier policy decisions under future-only perturbation, training-only scaling and cutoff, touching/overlapping pair holds, band-end equality and exact next-open fills. Retrospective pair membership can change with a later control. |
+| Unequal costs or dropping skipped rows inflates incremental value | Reuse the simulator with matched policies. Test hand-computed one-sided and both-skipped action cases, a shared-gross-outcome null with equal trade counts and costs, a planted contrast, and the historical V1/V2 null and planted fixtures. Reconcile trade, day, fold and opportunity totals. |
+| Extra fit, expired deadline, or exposure persistence failure makes the result unauditable | Verify two trials and up to seven fit charges including timing and both cutoff calibrations, one deadline and supported memory mode before work. Verify a screened/no-estimator-fit path and reject a tight or unsupported configuration. Retain both candidate records, including screened or failed outcomes. Bind every evaluated view to the attempt, dataset and source. |
+
+Independent full-path review remains a campaign admission condition. The
+matched event comparison is observational. Non-overlap controls the holding
+windows, with serial dependence and trigger contamination still possible.
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.
@@ -161,6 +216,22 @@ call and trial under its declared limit. Test an over-limit request and an
 interruption before blind execution. The [M2-E21 card](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight)
 owns readiness. Qualify the actual isolation and supervision path before
 dispatch. B01's open findings still govern its own admission flow.
+
+### FTA-M2-E15: state persistence count
+
+The top event is an invalid feasibility decision or an out-of-scope read.
+An invalid count can follow (inherited training state OR future-price use OR
+trigger before cooling/invalidation OR acceptance beyond a fold boundary)
+AND credit toward the band gate, or duplicate events being counted as distinct
+bands. An out-of-scope read can follow an expanded date or instrument, a
+substituted archive, or execution without the required worker guard. Bind the
+ten names and D01 digests before parsing. Require the existing containment,
+sampled RSS watchdog and bounded deadline before archive access. Test exact
+age and time boundaries, future-prefix invariance, duplicate band credit,
+substituted input, unsupported memory mode and a single guarded synthetic
+worker. A passing count admits neither forward returns nor a claim of
+independence. Engineering and the independent reviewer check the entry before
+the registered run. Decision: proceed within the bounded count scope.
 
 ### FTA-M2-E20-P03: supervised replay evidence
 

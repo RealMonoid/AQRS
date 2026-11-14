@@ -227,6 +227,124 @@ A discovery on a given dataset is **not** its independent confirmation. Rarity o
 
 Before extensive validation, every candidate has a registered, versioned definition: asset/venue context or synthetic scenario, data range, features, target/horizon, expected effect, comparison hypothesis, execution assumptions and cost model.
 
+### Decision-linked literature checks
+
+**Before a new material research hypothesis or scientific design choice,**
+Quant Research checks relevant external scientific knowledge before freezing
+the Test Card. Apply this to hypothesis-first and data-first proposals. Ask
+what is known, which primary and recent work matters, which counterfindings
+or replication problems exist, what methods can fail, which baselines are
+used, and which data, markets, horizons, costs and out-of-sample tests support
+the external claim. End with the question still open for AQRS. Reuse an
+applicable existing note after checking changed scope, assumptions and relevant
+new evidence; do not repeat a review merely because a new Card is opened.
+
+| Depth | When and minimum purpose |
+|---|---|
+| `LIGHT RECONNAISSANCE` | Default for a new material research question: central primary work, relevant recent work, an explicit countercheck and known failure modes sufficient to choose the hypothesis, method, baseline or interpretation. |
+| `DEEP REVIEW` | Required when a consequential scientific decision, disputed method, conflicting literature, strong dependence of the design on external findings, a strong scientific claim or protected confirmation creates a named decision need. Record that trigger and the specific uncertainty needing closer examination; no deep review without a concrete trigger. Before a strong claim, check whether the result is known, agrees or conflicts with prior work, and has a relevant alternative explanation. |
+
+Routine engineering, regression fixes, purely technical reproductions and
+known bounded tests with no new scientific choice are exempt. This is an
+operator/Quant Research process, not a new CLI admission implementation.
+
+**During research,** revisit literature only when it can change a named
+decision: `METHOD_UNCERTAINTY`; an `UNEXPECTED_RESULT` with competing
+interpretations; methodological `INCONCLUSIVE`; new statistical or effect-size
+uncertainty; an unresolved dependence/sample-sufficiency assumption; a new
+method/model class under consideration; or a newly identified failure mode.
+Record the trigger and learning in the same Card or linked research artifact,
+then choose depth by the table above. An obvious lack of observations, missing
+owner approval, technical defect or missing capability does not automatically
+trigger a literature search. Diagnose and address that cause instead. A new
+paper can support a revisit only through a relevant new mechanism, replication,
+method correction or credible counterevidence that satisfies the existing
+[revisit conditions](DEVELOPMENT_PROCESS.md#experiment-queue); publication on
+the same topic alone is insufficient.
+
+**Search and stop.** Name the decision and a proportional timebox first.
+Start with a thematic search; verify central primary sources, seek a relevant
+review/overview, and check recent work. Follow references backward from central
+papers and check later citing work when practical. Perform at least one
+targeted countersearch: criticism, failed replication, null results, failure,
+data snooping, transaction costs, out-of-sample performance or multiple testing,
+as relevant. Do not stop at the first supportive paper or require equal numbers
+of supportive and critical papers. Record the date, main queries/routes and
+material access or search gaps. An unavailable source is unverified support,
+not a reason to silently rely on its title or a secondary summary.
+
+Stop when central primary/overview material and material counterevidence have
+been checked and another reasonable search is unlikely to change the pending
+decision, or when the declared timebox is exhausted. Record any missing source
+category and its consequence. If an unresolved literature assumption is a hard
+prerequisite, defer only the dependent scientific decision; otherwise proceed
+with the stated limitation. Do not claim systematic completeness. No paper
+quota, weekly review, feed, separate queue or general summary is required.
+If no decision could improve, do not initiate additional literature search.
+
+**One compact note in existing records.** Extend the existing Test/Learning
+Card or linked research artifact only as much as the decision needs; use its
+existing origin, parent and reference links. No literature registry, journal
+schema change or form for every paper. The note has at most these seven parts:
+
+- **Research question:** the existing question/candidate and baseline.
+- **Search purpose:** the decision, trigger/depth, date, main searches and
+  timebox/stop outcome, including unavailable access.
+- **Key sources:** for each material claim, verified authors, title, year,
+  DOI or stable URL/version, and supporting page/section/table where available;
+  identify primary research or review and publication/peer-review status,
+  including preprint/working paper, plus full-text versus abstract-only access.
+- **Contradictory / critical source:** the counterfinding and its relevance,
+  or the actual countersearch and unresolved gap when none was found.
+- **Literature learning:** what supports or challenges the proposed mechanism,
+  method, baseline or interpretation. Assess only decision-relevant quality:
+  data/period and sample design, OOS/holdout, costs, multiple testing, code/data
+  availability, replication and corrections/retractions. Mark material unknowns
+  explicitly; an abstract cannot establish uninspected methods and no observed
+  correction notice is not proof that none exists.
+- **AQRS transferability:** `HIGH`, `PARTIAL`, `LOW` or `NOT DETERMINABLE`,
+  with a short reason. Consider market/instrument, horizon, data availability,
+  timing, execution, costs, sample design, target quantity and research exposure
+  where relevant. Distinguish support for a method from an empirical effect or
+  numeric threshold; no artificial score or borrowed universal sample minimum.
+- **Research decision affected:** state the actual use and limitations, including
+  unchanged or deferred decisions; link any new question/variant to its origin
+  and parent under the existing registration rules.
+
+This records **claim → source → location → AQRS use → transferability → limits**.
+A missing location or abstract-only source limits what can be attributed.
+Existing Card/index references provide navigation; current runtime metadata
+does not automatically collect this chain.
+
+**Evidence and adaptation boundary.** External literature evidence, AQRS
+development evidence and AQRS protected confirmation are distinct. Literature
+can motivate hypotheses, priors, methods and interpretation or identify failure
+paths. It cannot confirm an AQRS candidate, replace its development evidence or
+protected confirmation, supply missing independent observations, or upgrade an
+AQRS evidence status. A paper alone does not justify implementing a model:
+require the open question, mechanism, expected advantage over the existing
+baseline, suitable evidence and the existing
+[model evaluation](MODEL_EVALUATION_PROTOCOL.md#2-evaluation-sequence), revisit
+and resource gates.
+
+Reading papers alone is not a research attempt. If learning changes adaptive
+selection, record the decision and source/parent link. A new feature, model,
+baseline, metric, threshold, horizon, hypothesis or interpretation of a primary
+gate after freeze requires a prospective linked question/variant under
+[existing exposure rules](#10-exposure-and-pre-run-registration); additional
+outcome views use the existing diagnostic-exposure rule. Do not register a
+new attempt merely for an unrun proposal, conceal reused data or rewrite the
+original test, result or gate. Contextual commentary that leaves the primary
+decision intact is labelled as such. Any newly identified invalidity is recorded
+through the existing evidence-failure rules, not by inventing a new passing gate.
+
+Literature seen after protected results cannot justify optimizing, reinterpreting
+the gate or retesting the same evidence as independent confirmation. Record the
+exposure and any loss of independence, retain the frozen result, and apply the
+[protected-evaluation rules](#4-out-of-sample-research-validation): future
+confirmation needs its authorized frozen plan and genuinely untouched evidence.
+Literature access grants no data, implementation, campaign or release authority.
+
 ### Define new signals around the event under study
 
 From M2, define each new signal by the observable market event or decision

@@ -38,6 +38,71 @@ replan on the updated open items, prerequisites, closures, and priorities.
   risk, reversibility, effort, waiting time and displaced work. Treat optional
   ordering preferences as non-blocking and check for future-scope work.
 
+### Research evidence sufficiency
+
+Before dispatching a material research experiment, use the existing Test Card
+and the [research claim admission rules](RESEARCH_PROTOCOL.md#precision-and-claim-admission).
+Start with the research question, the decision and current disposition.
+Work backward from the smallest relevant effect or benefit to the matched
+comparison, observation unit, plausible dependence and required precision.
+State the minimum evidence that could change the decision and derive the
+eligible data window and smallest authorized test from it. The same card
+states what a positive, negative or inconclusive result changes and when to
+stop. For work aimed at an effect claim, complete this check before accessing
+market outcomes or starting fits.
+
+- **Check relevant literature.** Apply the
+  [decision-linked literature gate](RESEARCH_PROTOCOL.md#decision-linked-literature-checks)
+  before a new material hypothesis/design and at a decision-changing method
+  or interpretation trigger. Reuse the same Card's source/transfer note;
+  a clear shortage of data alone does not trigger more literature work.
+- **Check usable information.** Describe label and holding overlap, common
+  shocks, clusters, regime coverage and serial dependence as applicable.
+  Compare available eligible units and plausible dependence with the
+  required precision, for example an interval width around a decision
+  threshold. Use a justified effective count or another defensible
+  uncertainty method for the contrast. Mark the effective count unknown
+  when it cannot be justified. Rows, dates, instruments, non-overlapping
+  trades and repeat runs alone cannot establish independent information.
+  Use ranges and sensitivity to plausible dispersion and dependence.
+  Illustrative power calculations are conditional on their assumptions.
+- **Decide what the evidence can support.** Use the existing dispatch
+  decisions below. Allow a claim-specific outcome test only when the
+  available evidence has a realistic chance of resolving the registered
+  decision. If inputs or assumptions are inadequate, block that test and
+  consider a separately authorized, bounded coverage or methods calibration
+  with a defined output and stop rule on development evidence. A technical
+  replay or descriptive screen may proceed with a smaller justified window
+  for its own registered decision. Market screens retain all applicable
+  admission, publication, exposure and Governor requirements. Match the
+  claim to the evidence through the funnel: a mechanism or question, a
+  cheap screen, a method and sufficiency check, predictive evidence where
+  relevant, economic evidence, robustness and separately authorized protected
+  confirmation. Follow the stages needed for the question.
+  A credible early miss can end the downstream work.
+- **Derive any extension.** First check whether fairer matching, a more
+  informative valid contrast, or dependence-aware aggregation can use
+  existing information. Preserve causality and comparability. If changing
+  the target, population or selection rule, register a prospective variant
+  and retain the original result. For an owner data decision, state the
+  research question, existing evidence, unresolved gap, required data
+  properties, smallest defensible scope, stop rule and holdout boundary.
+  Justify the window by the evidence it can supply, such as eligible events,
+  regimes or precision. A fixed technical or reproduction objective may
+  supply its own window rationale. Combine access requests when justified
+  by shared needs, with separate registrations and usage scope for each
+  study. Count selection of windows, features, models, regimes, thresholds,
+  costs and diagnostic views under the [existing exposure rules](RESEARCH_PROTOCOL.md#10-exposure-and-pre-run-registration).
+  Keep protected data and results outside development and calibration.
+- **Rank by the limiting uncertainty.** Name the dominant research
+  bottleneck in the existing queue or card. Check the journal for prior
+  negative results and the observable [revisit conditions](DEVELOPMENT_PROCESS.md#experiment-queue).
+  Prioritize the authorized action that can resolve the limitation at
+  lowest justified cost. New model work earns priority through a concrete
+  mechanism, a fair simple baseline and adequate evidence for the question.
+  Require a confirmed requirement, a priority research dependency or an
+  observed failure path for new research infrastructure.
+
 ## Dispatch decision
 
 Return exactly one decision for the proposed next action.
@@ -137,3 +202,52 @@ E15 has a fixed count design and synthetic oracle. Its named access and
 count require the recorded owner decision, after which the scoped entry and
 preflight are necessary. SC01 remains owner-deferred. M4-E01 depends on
 authorized M4 planning. No eligible action remains in the current mandate.
+
+### M2-E20-P04 source-bound replay and next dispatch
+
+**2026-11-14. PRE-START — `ALLOW` for the Windows comparison.** The owner
+approved the fixed four-day scope. The
+[published Test Card](MILESTONE_STATUS.md#m2-e20-p04-test-card-source-bound-e09-replay)
+fixed the source, limits and conditional Ubuntu gate. Independent Windows
+verification cleared that replay.
+
+**EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK` for further E20 outcomes.**
+The [paired receipts](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+close the supervised source-reproducibility slice. The
+[capacity follow-up](MILESTONE_STATUS.md#m2-e20-capacity-and-forecast-evidence-follow-up)
+establishes local calendar capacity. The next outcome slice needs an
+eligible ordered comparison and a defensible dependence and precision basis.
+Final M2 release verification requires the remaining evidence and the
+selected release revision. The other pending entries retain their start
+conditions. No additional execution is eligible under this mandate.
+
+### M2-E15 count authorization and dispatch
+
+**2026-11-14. PRE-START — `ALLOW` for count-entry qualification.** The
+[owner authorization](OPEN_QUESTIONS.md#m2-e15-state-persistence-count)
+unblocks independent E15 work. E20 still needs an eligible ordered comparison
+and precision basis. E21 needs the independent benchmark, approved scope and
+qualified isolation. B01 still depends on the capability review. Pull E15 as
+the first eligible row. The [count card](MILESTONE_STATUS.md#m2-e15-count-entry-and-execution)
+gates the single market read on verified source, synthetic checks, an
+independent review and Governor admission. A pass only permits consideration
+of a separately scoped outcome proposal. A miss ends this work item.
+
+**PRE-START — `ALLOW` for one Windows count.** At 07:10:36 UTC the
+independent check matched the reviewed source digest, unused run reservation,
+ten fixed archive and sidecar pairs, preflight limits and prospective
+[exposure record](../evidence/exposure.json). The actual guarded entry
+passed the synthetic input, receipt and duplicate-run checks. The scope
+contains none of the January 6 holdout files.
+
+**EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK`.** The independently
+verified [count](MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
+closes E15. Rescanning the five pending rows found no eligible next action.
+Resume E20 with an eligible ordered comparison, justified dependence and
+precision, and scoped approval for any new market access. Final M2 verification
+requires the effective-count evidence and a selected release revision.
+E21 awaits approved implementation scope and an independent benchmark with
+verified isolation. B01 awaits E21's capability evidence and retains its
+execution gates. SC01 awaits owner reprioritization. M4-E01 awaits authorized
+M4 planning. A new E15 outcome study requires its own decision, evidence plan
+and scope. M2 remains `IN_PROGRESS`.

@@ -4,6 +4,13 @@ This protocol complements [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md) and [
 
 ## 1. Pre-registered model card (required before EVERY comparison)
 
+For a new scientific question or method choice, include the
+[decision-linked literature note](RESEARCH_PROTOCOL.md#decision-linked-literature-checks)
+in the existing Card. A technical reproduction with no scientific change is
+exempt from this literature check. A paper motivates a comparison only through a named open question,
+mechanism and expected baseline advantage; it does not establish adoption.
+Literature-driven changes after freeze use the existing variant/exposure rules.
+
 Store a versioned model card for each new algorithm:
 
 - `registry_id`, release/commit version and dependency versions.
@@ -29,6 +36,14 @@ Store a versioned model card for each new algorithm:
 8. **Multiple testing:** journal every trial, overlapping family, selection method and validation boundary. A final holdout is for frozen candidates only; repeated peeking makes it research data.
 9. **Economic evaluation:** net of fees, spread, slippage and relevant funding; include turnover, drawdown, risk constraints, size/capacity and sensitivity. Do not adopt based only on accuracy/F1.
 10. **Resource review:** is incremental benefit over baseline large and robust enough to justify additional CPU, RAM, data and maintenance costs?
+
+For an exploratory idea, use the existing candidate record to name the proposed
+mechanism, the observation that could contradict it, and when the observable
+input becomes available. A delayed positioning proxy can be useful background
+while being unsuitable for an intraday trigger. Use the existing feasibility
+screen to defer ideas when the available data cannot answer the question. The
+[Open Quant Trading Lab X2 review](https://github.com/privEgem/open-quant-trading-lab/blob/a4270df7d795cfda73ede1aed70371b53bb11f43/research/x2.md)
+illustrates this stopping decision.
 
 ### Agent discovery handoff
 
@@ -137,6 +152,36 @@ workflow and report unavailable diagnostics explicitly.
 
 Passing dimension 1 does not imply passing 2 or 3. An `EVALUATE` candidate may satisfy the software gate but fail the scientific/economic gate without making the software release invalid.
 
+For a forecast comparison, record predictive and economic conclusions
+independently in the existing report or linked Journal evidence, using the
+registered effect and decision criteria. Reuse existing evidence statuses
+and record the reason and tested scope of each conclusion. A supported
+predictive improvement warrants more work only when plausible policy value
+or another named research benefit can change a decision. A failed economic
+screen leaves any separately established predictive result intact. Sparse
+trades can leave economic evidence insufficient even when a fixed policy
+misses its activity floor.
+
+When the decision depends on why a forecast policy rarely trades, preregister
+the decision-relevant aggregate or fold views under the
+[diagnostic exposure rules](RESEARCH_PROTOCOL.md#descriptive-diagnostics-and-additional-exposure).
+Use the forecasts and opportunity/position eligibility available during the
+registered evaluation. Record relevant quantiles and the maximum, positive
+and where relevant negative threshold exceedance counts and shares on the
+same opportunity denominator, executed entries, and exceedances blocked by
+an open position. Use the fixed policy's comparison operators and keep any
+other reason for a skipped opportunity identifiable. Retain only evidence
+needed for the stated decision under the existing budget. Where the saved
+report cannot resolve the cause, state that limitation and assess whether a
+future registered view could change the decision.
+
+Keep costs, buffers and advancement thresholds frozen for the comparison.
+Require better cost evidence, changed market or venue conditions, a confirmed
+requirement, or an explicitly authorized new simulation with a stated
+decision purpose for a new cost scenario. A desire for greater activity or
+better results is insufficient. Register changes prospectively as new
+variants and apply the same costs to comparable controls.
+
 ## 4a. Termination instead of endless calibration
 
 Before comparing models, record a bounded timing/memory pilot and explicit worst-case compute limits. Active execution must stop when limits are reached. The Governor records `REJECTED_PREFLIGHT`, `BUDGET_EXHAUSTED`, `TIMED_OUT` or `MEMORY_LIMIT`, without silently starting another trial. A model that was never adequately trained must not be marked scientifically rejected. Forecasts of months/years of sweeping are **no-go** unless the owner makes a separate explicit scope/budget decision. See [`RESOURCE_GOVERNOR.md`](RESOURCE_GOVERNOR.md).
@@ -163,6 +208,26 @@ Before comparing models, record a bounded timing/memory pilot and explicit worst
 | GNN | No future delisting, index membership or graph-edge knowledge in past-time graphs. |
 | RL/MPC | Same order and cost rules as baseline; RL remains deferred past v1.0. |
 | Scheduler, Optuna, bandits | Final holdout metrics must be inaccessible as reward/tuning targets. |
+
+When reviewing a new timing boundary, prefer a small synthetic case with a
+known answer and a deliberately wrong counterpart. A bar stamped at its open
+still has its final high, low, close and total volume available only at
+completion or later. For a position closed at a scheduled bar open, that bar's
+subsequent low cannot turn the open exit into a stop. Verify that the check
+rejects the wrong clock and accepts the causal path. Reuse the existing
+[momentum clock check](MILESTONE_STATUS.md#m2-e05-learning-card-decision-time-causality-2026-11-09)
+and [known-answer matched-control check](MILESTONE_STATUS.md#aqrs-a08-learning-card-descriptive-signal-diagnostics)
+as patterns. See the [discussion](https://www.reddit.com/r/mltraders/s/tRRqYbTiMt)
+and [the X1-L limitation](https://github.com/privEgem/open-quant-trading-lab/blob/a4270df7d795cfda73ede1aed70371b53bb11f43/docs/LIMITATIONS.md).
+
+If an authorized design uses shuffled training targets as a leakage diagnostic,
+keep the evaluation targets intact, rerun the training-only fit pipeline, and
+count all fits before launch. A null-like result cannot certify causal timing.
+Any inference from a permutation needs a null design that respects relevant
+time dependence. For cost sensitivity, isolate the effect of worse fills on the
+same trades first. A rerun in which higher costs also change trade selection
+answers a separate policy question. Use the same cost accounting for candidate
+and control and avoid charging an explicit spread twice.
 
 ## 7. What does NOT constitute independent incremental value
 

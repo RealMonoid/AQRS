@@ -22,6 +22,12 @@ remains a reference for the implemented baseline.
 
 ## Documentation and change control (mandatory)
 
+For a quick view of how research moves from an observation or selected market
+to a question, attempt, evidence and next decision, read the
+[current research value stream](docs/ARCHITECTURE.md#current-research-value-stream).
+It identifies the canonical records and explains how to verify and maintain
+the consolidated exposure index without running research.
+
 - Update existing canonical project files rather than adding versioned or date-stamped duplicates. New documents need a distinct, necessary purpose and must be linked from an existing index.
 - Maintain **one and only one** `CHANGELOG.md` at the repository root. For every change, add a dated (`YYYY-MM-DD`), concise English entry listing **all** added, modified, renamed or deleted relative file paths (old and new paths for moves). Never create separate milestone or version changelogs.
 - Keep dates and previous versions for history or compatibility **only when they do not interfere with functionality**, stable APIs or current instructions. Git history and the single changelog hold historical states; canonical docs describe the present state.
