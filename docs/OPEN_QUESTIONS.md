@@ -28,12 +28,18 @@ of interrupted rows is outside the current restart contract.
 
 ## M2 supervised pilot replay
 
-**Owner decision.** Authorize a new source-bound M2-E09 reproduction as M2
+**Resolved 2026-11-14.** The owner approved the fixed Windows comparison
+and conditional headless non-root Ubuntu replay. The
+[P04 Learning Card](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+records both completed, independently verified runs. The original
+source-linkage gap remains a historical limitation.
+
+**Original decision.** Authorize a new source-bound M2-E09 reproduction as M2
 software acceptance evidence, or leave the supervised reproducibility
 criterion open until original run-linked source evidence appears. The
 [M2-E16 recovery review](MILESTONE_STATUS.md#m2-e16-learning-card-historical-source-binding-2026-11-10)
-found no exact source binding for both historical runs. Default: no new
-execution. This decision does not admit a new LightGBM research hypothesis.
+found no exact source binding for both historical runs. The executed
+reproduction preserves the LightGBM research disposition.
 
 **Proposed scope.** Freeze and independently verify the
 [versioned pilot](../scripts/m2_supervised_pilot.py), its configuration,

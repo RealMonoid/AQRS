@@ -137,3 +137,21 @@ E15 has a fixed count design and synthetic oracle. Its named access and
 count require the recorded owner decision, after which the scoped entry and
 preflight are necessary. SC01 remains owner-deferred. M4-E01 depends on
 authorized M4 planning. No eligible action remains in the current mandate.
+
+### M2-E20-P04 source-bound replay and next dispatch
+
+**2026-11-14. PRE-START — `ALLOW` for the Windows comparison.** The owner
+approved the fixed four-day scope. The
+[published Test Card](MILESTONE_STATUS.md#m2-e20-p04-test-card-source-bound-e09-replay)
+fixed the source, limits and conditional Ubuntu gate. Independent Windows
+verification cleared that replay.
+
+**EXPERIMENT COMPLETION — `BLOCK_DEPENDENT_WORK` for further E20 outcomes.**
+The [paired receipts](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+close the supervised source-reproducibility slice. The
+[capacity follow-up](MILESTONE_STATUS.md#m2-e20-capacity-and-forecast-evidence-follow-up)
+establishes local calendar capacity. The next outcome slice needs an
+eligible ordered comparison and a defensible dependence and precision basis.
+Final M2 release verification requires the remaining evidence and the
+selected release revision. The other pending entries retain their start
+conditions. No additional execution is eligible under this mandate.

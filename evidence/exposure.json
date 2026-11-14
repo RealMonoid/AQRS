@@ -1404,6 +1404,7 @@
   },
   "future_registrations": [
     {
+      "attempt_receipt": "evidence/m2-e20-p04-verification.json",
       "budget_per_platform": {
         "campaign_wall_seconds": 300,
         "fits_including_timing": 6,
@@ -1412,6 +1413,7 @@
         "trial_wall_seconds": 120,
         "trials": 2
       },
+      "completed_diagnostic_views": 60,
       "data_scope": [
         "2026-01-01",
         "2026-01-02",
@@ -1503,8 +1505,9 @@
       "kind": "source_bound_platform_reproduction",
       "origin": "Existing E08/E09 comparison on exposed development dates.",
       "registered_at": "2026-11-14T01:55:23.454148+00:00",
+      "registration_revision": "295694f272ef4558482c3bd37ca18ebf29a8c40d",
       "source_revision": "2d3469d40079582406d938c11b0274f27d0ed267",
-      "status": "PLANNED_NOT_RUN",
+      "status": "COMPLETED",
       "test_card": "docs/MILESTONE_STATUS.md#m2-e20-p04-test-card-source-bound-e09-replay",
       "variant_id": "M2-E08/1",
       "work_item": "M2-E20-P04"

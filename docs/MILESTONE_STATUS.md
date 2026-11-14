@@ -8,7 +8,7 @@ Allowed milestone statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `ACCEPTED`.
 |---|---|---|---|---|
 | M0 / v0.1 | Reproducible synthetic walking skeleton, **including Resource Governor and native Windows/Linux acceptance** | ACCEPTED | Local paired runs and [four successful GitHub Actions jobs](https://github.com/RealMonoid/AQRS/actions/runs/42275704043) | — |
 | M1 / v0.2 | Real data and market feasibility | ACCEPTED | [Criterion review](#m1-e07-learning-card-acceptance-evidence-review-2026-11-09), [clean Windows replay and acceptance](#m1-e11-learning-card-and-m1-acceptance-2026-11-09), and [fresh Ubuntu campaign](#m1-e06-learning-card-complete-real-data-campaign-2026-11-09) | Acceptance covers local, personal, non-production BTCUSDT spot research. Broader market suitability and scientific evidence remain open. |
-| M2 / v0.3 | Discovery and matched controls | IN_PROGRESS | [Current criterion-by-criterion evidence review](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions) | Supervised pilot source binding, effective independent event counts, and final release verification. |
+| M2 / v0.3 | Discovery and matched controls | IN_PROGRESS | [Criterion review](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions) and [source-bound supervised replay](#m2-e20-p04-learning-card-source-bound-e09-replay) | Effective independent event counts and final release verification. |
 | M3 / v0.4 | Adaptive research management | NOT_STARTED | — | — |
 | M4 / v0.5 | Statistics and final-test candidate gates | NOT_STARTED | — | — |
 | M5 / v0.6 | Net-cost/risk decisions and simulation | NOT_STARTED | — | — |
@@ -75,12 +75,13 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E20 | 2026-11-12 | WAITING | Resolve the [remaining M2 evidence questions](#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions). The [effective-count design](#m2-e20-p02-learning-card-effective-count-design) specifies the E18 matched-volume contrast and its variance comparison. | An eligible ordered comparison with defensible dependence evidence and adequate precision is needed. The present fixed path supplies six validation days. Any additional outcome access or execution needs its applicable authorization and admission. E09 has [replay verification preparation](#m2-e20-p03-learning-card-supervised-replay-readiness) and awaits the [owner's replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay). |
+| M2-E20 | 2026-11-12 | WAITING | Resolve the remaining effective-count criterion using the [fixed contrast design](#m2-e20-p02-learning-card-effective-count-design). The [source-bound E09 replay](#m2-e20-p04-learning-card-source-bound-e09-replay) passed. | An eligible ordered comparison with defensible dependence evidence and adequate precision is needed. The fixed path supplies six validation days. The [capacity follow-up](#m2-e20-capacity-and-forecast-evidence-follow-up) gives the next evidence trigger. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. The [count-only Test Card](#m2-e15-p01-test-card-state-persistence-count-design) fixes the same setup, invalidation, trigger and eligibility for 5- and 30-minute lifetimes. | The [preparation](#m2-e15-p01-learning-card-state-persistence-count-design) is complete. The [named D01 data access and count](OPEN_QUESTIONS.md#m2-e15-state-persistence-count) require separate owner authorization and a verified count entry and Governor preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
+| M2-E20-P04 | 2026-11-14 | CLOSED | [Source-bound E09 replay](#m2-e20-p04-learning-card-source-bound-e09-replay) and [capacity follow-up](#m2-e20-capacity-and-forecast-evidence-follow-up). | SUPPORTED / PERSEVERE for supervised pilot reproducibility. E20 outcome work awaits eligible evidence. |
 | M2-E20-P03 | 2026-11-13 | CLOSED | [Prepared source and receipt verification](#m2-e20-p03-learning-card-supervised-replay-readiness). | SUPPORTED / PERSEVERE for the bounded preparation. Parent: M2-E20. The replay remains reserved. |
 | M2-E15-P01 | 2026-11-13 | CLOSED | [Designed the count-only state-persistence comparison](#m2-e15-p01-learning-card-state-persistence-count-design). | SUPPORTED / PERSEVERE for the design and its synthetic boundary checks. Parent: M2-E15. |
 | M2-E20-P02 | 2026-11-13 | CLOSED | [Designed the effective-count comparison](#m2-e20-p02-learning-card-effective-count-design). | SUPPORTED / PERSEVERE for design. DEFER the market calculation pending decision-changing evidence. Parent: M2-E20. |
@@ -173,6 +174,90 @@ incomplete Windows evidence or platform mismatch. Apply
 An independent exact-path review and the 18 focused Windows checks
 qualified the receipt and admission path before the launch. Start the
 Ubuntu replay only after the independent Windows result review.
+
+### M2-E20-P04 Learning Card: source-bound E09 replay
+
+**2026-11-14. SUPPORTED / PERSEVERE for supervised pilot reproducibility.**
+The [published registration](https://github.com/RealMonoid/AQRS/commit/295694f272ef4558482c3bd37ca18ebf29a8c40d)
+fixed source revision `2d3469d40079582406d938c11b0274f27d0ed267`, the four
+January 1–4 BTCUSDT archives, costs, limits and diagnostic views. An
+independent reviewer verified the exact entry and Windows receipt before
+the Ubuntu run. January 6 was outside both input sets and was not evaluated.
+
+| Platform | Run ID | Wall time | Peak sampled worker RSS | Fits |
+|---|---|---:|---:|---:|
+| Native Windows 11 build 26300, Python 3.12.12 | `c7553beeb994478a8182f82d2b7f68f3` | 7.844 s | 121.219 MiB | 6 |
+| Headless Ubuntu 24.04 x86_64, UID 1000, Python 3.12.3 | `4496fd5d8ed44485846832fe50962b8e` | 4.079 s | 127.887 MiB | 6 |
+
+Each `python -B scripts/m2_supervised_pilot.py <output>` exited 0.
+The first Ubuntu wrapper stopped before Python because `/usr/bin/time`
+was missing. There was no run directory or charge. A standard-library
+timer retained the 300-second cap and the same pilot command. There was
+one actual replay and no campaign retry. The guest used a loopback-only
+host connection with external networking restricted.
+
+The Windows-only and paired `scripts/evidence_archive.py
+--verify-supervised-replay` checks exited 0. The independent review
+matched 24 exact source files, identical dataset snapshots, the fixed
+folds and both intact journals. The replay matched 383 discrete values.
+The largest of 128 numeric differences was `4.336808689942018e-19`, within
+the registered absolute `1e-8` tolerance. Before market execution, the
+focused Windows pytest suite passed 18 checks. Each platform produced
+30 counted descriptive views. The [receipt](../evidence/m2-e20-p04-verification.json)
+binds the [evidence bundle](../evidence/m2-e20-p04-acceptance.zip), both
+run identities and the digest of the local dataset snapshots.
+
+The research disposition remains `DEFER`. Ridge made zero trades and
+LightGBM made one for −21.8716 modeled net bps. The new runs supply the
+M2 supervised-pilot reproducibility evidence. The original executed
+source linkage remains historically unresolved. The two replays add no
+independent market observations. M2 remains `IN_PROGRESS`.
+
+### M2-E20 capacity and forecast evidence follow-up
+
+**2026-11-14. SUPPORTED for metadata capacity. DEFER outcome dispatch.**
+The owner authorized the audit follow-up. A metadata-only check matched
+36 existing BTCUSDT archives and checksum sidecars to qualification and
+coverage records, December 1 through January 5 UTC. The first check
+looked for the reused January 5 file in E03's acquisition directory.
+Resolving it to its original M1-E02 path made the check pass. No raw
+archive payload or outcome was opened for this follow-up.
+
+December 11–24 is the first contiguous local extension outside E18/E19
+before the already viewed December 25–January 5 cohort. Use it first as
+a capacity scenario for the fixed matched-volume estimand. It permits
+at most 42 new pairs at one per eight-hour band or seven disjoint
+two-day groups. The combined 20 validation days permit up to 60 pairs.
+All 36 qualified days could provide up to 96 pairs after four initial
+training days. These are bounds before eligibility and dependence.
+Even the broadest bound is below the illustrative 619 independent
+pairs under the prior 20 bps dispersion and 2 bps target assumptions.
+The actual dispersion and independence are unknown. The fixed E18
+entry admits December 1–10 only.
+
+Resume outcome work when an eligible ordered series and a justified
+block or lag variance and precision plan can inform a fixed decision.
+Retain the frozen contrast, costs and historical disposition. Any
+new entry needs exact scope, admission and Governor preflight. The
+capacity check required zero fits, trials, resamples or new data.
+
+**Forecast evidence.** For the next justified comparison, predeclare
+whether to retain aligned timestamps and folds, forecasts and targets
+or paired losses against the fixed baselines, and position eligibility
+to distinguish score crossings from fills. Reuse values already computed
+by that evaluation. Bind the outputs to the run, count any additional
+views and size the export against the row budget before adoption.
+This is an evidence plan with zero new metrics, fits or reruns.
+
+Elapsed work from registration through evidence retention and the metadata
+check: approximately 11 minutes. Initial entry qualification is outside
+this interval.
+
+**Process observation.** Dispatch advanced after independent Windows
+verification, resolved the setup-only Ubuntu failure and continued to
+the authorized metadata check in the same session. This observation
+does not establish an aggregate time saving. Remaining start conditions
+are in the [sequence record](SEQUENCE_PREFLIGHT.md#m2-e20-p04-source-bound-replay-and-next-dispatch).
 
 ### Historical evidence reconciliation
 
@@ -1013,6 +1098,12 @@ reconciles the completed M2-E14/E17/E18/E19 work and records the remaining gates
 AQRS-D01 and AQRS-A06/A07/A08 remain closed.
 
 ### AQRS-A10 Learning Card: M2 evidence and threshold decisions
+
+**Subsequent evidence, 2026-11-14.** The
+[source-bound E09 reproduction](#m2-e20-p04-learning-card-source-bound-e09-replay)
+supplies the supervised reproducibility evidence that was open at this
+review. Effective independent counts and final release verification are
+still open.
 
 **2026-11-12. M2 remains `IN_PROGRESS`.** The review uses the
 [M2 DoD](MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls),

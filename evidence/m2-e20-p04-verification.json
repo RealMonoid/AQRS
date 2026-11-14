@@ -1,0 +1,192 @@
+{
+  "attempts": [
+    {
+      "candidate_id": "ridge",
+      "diagnostic_views": 15,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "c7553beeb994478a8182f82d2b7f68f3:ridge",
+      "independent_confirmation": false,
+      "platform": "windows",
+      "run_id": "c7553beeb994478a8182f82d2b7f68f3"
+    },
+    {
+      "candidate_id": "lightgbm",
+      "diagnostic_views": 15,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "c7553beeb994478a8182f82d2b7f68f3:lightgbm",
+      "independent_confirmation": false,
+      "platform": "windows",
+      "run_id": "c7553beeb994478a8182f82d2b7f68f3"
+    },
+    {
+      "candidate_id": "ridge",
+      "diagnostic_views": 15,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "4496fd5d8ed44485846832fe50962b8e:ridge",
+      "independent_confirmation": false,
+      "platform": "ubuntu",
+      "run_id": "4496fd5d8ed44485846832fe50962b8e"
+    },
+    {
+      "candidate_id": "lightgbm",
+      "diagnostic_views": 15,
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "execution_status": "COMPLETED",
+      "experiment_id": "4496fd5d8ed44485846832fe50962b8e:lightgbm",
+      "independent_confirmation": false,
+      "platform": "ubuntu",
+      "run_id": "4496fd5d8ed44485846832fe50962b8e"
+    }
+  ],
+  "config_id": "e2148af86913194d8bcb2ff39cfcbcda6073d9626addc54514f89fccf8d84d92",
+  "data_scope": [
+    "2026-01-01",
+    "2026-01-02",
+    "2026-01-03",
+    "2026-01-04"
+  ],
+  "dataset_id": "7d5b6b60bfd00ccc55ff9425c30ed889b9645f92786aac5a23557c36ae4ac4f3",
+  "evidence_bundle": {
+    "dataset_snapshots": "The two identical binary snapshots remain in local run artifacts. Their digest is recorded above.",
+    "members": {
+      "ubuntu-execution.log": "48b3b3b0695a68346e3b101ee2f08ab3a08b575d3b55003e64cb207928d1570d",
+      "ubuntu-input.sha256": "fa9b719a035acab0530406eb14a866a068be86cbaf01f759ee21d82c08882049",
+      "ubuntu-replay.log": "f93bb3add61f13548be7466d96b6cefc0dbb0fa168619baacac17814845d83a9",
+      "ubuntu/report.json": "2b4fd663ba22e7742cd4e43eb5728d6ff0c04f55ee04843ff7a7fe588fd54747",
+      "ubuntu/research.sqlite3": "e25bf32cb10e3e078bcd09661252f5a6288db96772e7367cdc27b6ab52880f01",
+      "ubuntu/source/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+      "ubuntu/source/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+      "ubuntu/source/aqrs/binance_spot_pilot.py": "3bfdd55f23d020a9d4dc4faabfd2b8acf2cdd88c6f5716ad9cd3539a979a4e81",
+      "ubuntu/source/aqrs/blind_audit.py": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+      "ubuntu/source/aqrs/blind_evidence.py": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+      "ubuntu/source/aqrs/blind_input.py": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+      "ubuntu/source/aqrs/blind_search.py": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+      "ubuntu/source/aqrs/blind_sequence.py": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+      "ubuntu/source/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "ubuntu/source/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+      "ubuntu/source/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+      "ubuntu/source/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+      "ubuntu/source/aqrs/journal.py": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+      "ubuntu/source/aqrs/market.py": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+      "ubuntu/source/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+      "ubuntu/source/aqrs/platform_guard.py": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+      "ubuntu/source/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+      "ubuntu/source/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+      "ubuntu/source/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+      "ubuntu/source/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+      "ubuntu/source/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+      "ubuntu/source/m1-e04.yaml": "4041beca6ff34fa7eb70b083f0ddf317f65676d399e3e08c2f1e335db15770e9",
+      "ubuntu/source/pilot.py": "666b36abc95629cc5c314a03cf074158a6d251b75d8b7aee8e2e4a079fe38c21",
+      "ubuntu/source/research.yaml": "fee88cc035176dad0f2db1ddebb4b251a26ff158121681a3b1feb14a1117f531",
+      "verifier/evidence_archive.py": "39810e457e2fba1d0037e304e38c967d86839a7596b57f6d940e0fc14f94db70",
+      "windows-execution.log": "28036a79312281853614bc8efea8e05e9fb870b5a1e042fca4df5278d84500ed",
+      "windows-run.json": "963b52cfdb9080e2ba4203af8397c17ae0fefcacd1c37f5edfcc6c1f4edfa937",
+      "windows/report.json": "61059b7a2bfd17879db5c09d35f9a6911c2342e6e3c07b50052ea7d7e5343209",
+      "windows/research.sqlite3": "d9aae02953ddba81c36aaa608df87210f7c06b9f0ae0f2b15678d7e100bfd7d7",
+      "windows/source/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+      "windows/source/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+      "windows/source/aqrs/binance_spot_pilot.py": "3bfdd55f23d020a9d4dc4faabfd2b8acf2cdd88c6f5716ad9cd3539a979a4e81",
+      "windows/source/aqrs/blind_audit.py": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+      "windows/source/aqrs/blind_evidence.py": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+      "windows/source/aqrs/blind_input.py": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+      "windows/source/aqrs/blind_search.py": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+      "windows/source/aqrs/blind_sequence.py": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+      "windows/source/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "windows/source/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+      "windows/source/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+      "windows/source/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+      "windows/source/aqrs/journal.py": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+      "windows/source/aqrs/market.py": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+      "windows/source/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+      "windows/source/aqrs/platform_guard.py": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+      "windows/source/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+      "windows/source/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+      "windows/source/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+      "windows/source/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+      "windows/source/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+      "windows/source/m1-e04.yaml": "4041beca6ff34fa7eb70b083f0ddf317f65676d399e3e08c2f1e335db15770e9",
+      "windows/source/pilot.py": "666b36abc95629cc5c314a03cf074158a6d251b75d8b7aee8e2e4a079fe38c21",
+      "windows/source/research.yaml": "fee88cc035176dad0f2db1ddebb4b251a26ff158121681a3b1feb14a1117f531"
+    },
+    "path": "evidence/m2-e20-p04-acceptance.zip",
+    "sha256": "22eec84e6f290c1167498494ae7423c3513c06e063ca4237a3ad00eb31cd288a"
+  },
+  "holdout": {
+    "date": "2026-01-06",
+    "evaluated": false,
+    "present_in_staged_inputs": false
+  },
+  "independent_confirmation": false,
+  "independent_verification": {
+    "absolute_numeric_tolerance": 1e-08,
+    "exact_discrete_values": 383,
+    "maximum_absolute_difference": 4.336808689942018e-19,
+    "numeric_values": 128,
+    "status": "PASS",
+    "ubuntu_architecture": "x86_64",
+    "ubuntu_release": "24.04",
+    "ubuntu_uid": 1000,
+    "windows_gate_validated_before_ubuntu": true
+  },
+  "registration_revision": "295694f272ef4558482c3bd37ca18ebf29a8c40d",
+  "research_disposition": "DEFER",
+  "runs": {
+    "ubuntu": {
+      "dataset_snapshot_sha256": "fb49e03b94df91076c78cade3679ef9a805dc36eb694cd2c976654b540f5ff14",
+      "diagnostic_views": 30,
+      "elapsed_seconds": 4.079,
+      "fit_count": 6,
+      "journal_integrity": "ok",
+      "net_bps": {
+        "lightgbm": -21.87162542344021,
+        "ridge": 0.0
+      },
+      "peak_worker_rss_mib": 127.88671875,
+      "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+      "python": "3.12.3",
+      "report_sha256": "2b4fd663ba22e7742cd4e43eb5728d6ff0c04f55ee04843ff7a7fe588fd54747",
+      "run_id": "4496fd5d8ed44485846832fe50962b8e",
+      "trade_counts": {
+        "lightgbm": 1,
+        "ridge": 0
+      },
+      "trial_count": 2,
+      "worker_wall_seconds_total": 3.7046782999999976
+    },
+    "windows": {
+      "dataset_snapshot_sha256": "fb49e03b94df91076c78cade3679ef9a805dc36eb694cd2c976654b540f5ff14",
+      "diagnostic_views": 30,
+      "elapsed_seconds": 7.844,
+      "fit_count": 6,
+      "journal_integrity": "ok",
+      "net_bps": {
+        "lightgbm": -21.87162542344021,
+        "ridge": 0.0
+      },
+      "peak_worker_rss_mib": 121.21875,
+      "platform": "Windows-11-10.0.26300-SP0",
+      "python": "3.12.12",
+      "report_sha256": "61059b7a2bfd17879db5c09d35f9a6911c2342e6e3c07b50052ea7d7e5343209",
+      "run_id": "c7553beeb994478a8182f82d2b7f68f3",
+      "trade_counts": {
+        "lightgbm": 1,
+        "ridge": 0
+      },
+      "trial_count": 2,
+      "worker_wall_seconds_total": 7.139999999984866
+    }
+  },
+  "source_id": "9634dddd709b9ba3c4bf59f9602796ccc7fafbefcdbb26b0c2658284dcacf24f",
+  "source_revision": "2d3469d40079582406d938c11b0274f27d0ed267",
+  "technical_disposition": "SUPPORTED_PERSEVERE",
+  "ubuntu_setup_exit": {
+    "exit_code": 127,
+    "market_runs_started": 0,
+    "reason": "The optional timing wrapper was missing before Python started."
+  },
+  "variant_id": "M2-E08/1",
+  "work_item": "M2-E20-P04"
+}

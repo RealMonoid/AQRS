@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-14 — Verify the source-bound E09 replay and check development capacity
+
+Retain the prospective registration, paired Windows and non-root Ubuntu
+receipts, counted diagnostic views and bounded E20 capacity follow-up.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/OPEN_QUESTIONS.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `evidence/exposure.json`
+- `evidence/m2-e20-p04-acceptance.zip`
+- `evidence/m2-e20-p04-verification.json`
+
+The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
+
+
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
 
