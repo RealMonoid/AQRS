@@ -309,6 +309,28 @@ verify it; consolidate `main`; then complete M2-E20 decision design and the
 existing permission-boundary/queue reconciliation. General governance work
 does not follow this task without the owner's specified concrete trigger.
 
+**Integration checkpoint and correction.** Regular merges retain `96df879`,
+the two dirty-work snapshots `07a0713f`/`a4ffa0b`, and E09 evidence `0a8199f`.
+The original worktrees remain untouched. Resolve older status/queue conflicts
+in favor of the current reconciled records; retain the original source and
+all historical commits. Replay-only CI remains historical. The first focused
+run exposed frozen-registration fixture incompatibility and lost discovery
+binding checks; digest-bound historical metadata fixtures and the current
+flat projection resolve both without reopening registrations. The full
+Windows suite then passed 314 tests in 215.92 seconds.
+
+**Bounded integration postmortem.** Independent verification subsequently
+constructed a synthetic journal whose metadata contradicted its authoritative
+campaign/diagnostic binding. The projection still accepted it: current tests
+covered diagnostic identity but missed conflicting flat metadata. Seven new
+fit-free negative cases reproduced that gap. Validate every present binding
+field against the campaign/report before returning; all ten binding cases
+and the 44 focused archive/exposure checks now pass. The unchanged real index
+still verifies 95 attempts, 15 variants and 345 recorded views. No evidence
+of an altered historical result was found. Recheck the full suite and the
+four-platform CI matrix before `main`; this targeted correction creates no
+new general audit or research work item.
+
 ### Integration publication checkpoint, 2026-11-14
 
 The owner authorized publication of all pending project improvements. This

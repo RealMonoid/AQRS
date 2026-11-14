@@ -109,6 +109,78 @@ def test_campaign_verification_rejects_competing_modes_before_io(monkeypatch, ot
     assert stopped.value.code == 2
 
 
+@pytest.mark.parametrize(
+    "fault",
+    [
+        None,
+        "diagnostic.source_id",
+        "diagnostic.attempt_id",
+        "metadata.source_id",
+        "metadata.prospective_variant_id",
+        "metadata.definition_id",
+        "metadata.dataset_id",
+        "metadata.dataset_scope",
+        "metadata.published_revision",
+        "metadata.attempt_id",
+    ],
+)
+def test_discovery_projection_rejects_misattributed_bindings(fault):
+    from scripts.evidence_archive import journal_projection
+
+    candidate = "VOL_CONFIRM_E18_V1"
+    config = {
+        "campaign_id": "M2-E18",
+        "variant": "M2-E18-SYNTHETIC",
+        "days": ["synthetic"],
+        "definition_id": "definition",
+        "published_revision": None,
+        "research": {
+            "candidates": [{"id": candidate}, {"id": "RIDGE_INCREMENT_E18_V1"}]
+        },
+    }
+    report = {"dataset_id": "dataset", "provenance": {"source_id": "source"}}
+    binding = {
+        "attempt_id": f"run:{candidate}",
+        "prospective_variant_id": candidate,
+        "definition_id": "definition",
+        "published_revision": None,
+        "dataset_scope": ["synthetic"],
+        "dataset_id": "dataset",
+        "source_id": "source",
+    }
+    metadata, diagnostic = binding.copy(), binding.copy()
+    if fault:
+        target, field = fault.split(".")
+        (metadata if target == "metadata" else diagnostic)[field] = "wrong"
+    with closing(sqlite3.connect(":memory:")) as db:
+        db.executescript(journal.SCHEMA)
+        journal.begin(db, "run", "config", config, report)
+        journal.finish_experiment(
+            db,
+            "run",
+            {
+                "experiment_id": f"run:{candidate}",
+                "candidate_id": candidate,
+                "execution_status": "COMPLETED",
+                "evidence_status": "INSUFFICIENT_EVIDENCE",
+                "metrics": {
+                    "result": {"evaluation_status": "COMPLETED"},
+                    "diagnostic_exposure": [diagnostic],
+                },
+            },
+            metadata,
+        )
+        data = db.serialize()
+    if fault:
+        with pytest.raises(ValueError, match="binding differs"):
+            journal_projection(data, "synthetic.sqlite3")
+    else:
+        attempts, _, _ = journal_projection(data, "synthetic.sqlite3")
+        actual = next(row for row in attempts if row["candidate_id"] == candidate)
+        assert actual["variant_id"] == candidate
+        assert actual["source_id"] == "source"
+
+
 EVIDENCE_STATUSES = {
     "NOT_EVALUATED",
     "REJECTED",

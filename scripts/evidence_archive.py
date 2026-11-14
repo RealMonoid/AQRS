@@ -539,6 +539,14 @@ def journal_projection(data, name):
                     "source_id": report["provenance"]["source_id"],
                 }
                 if any(
+                    metadata[key] != value
+                    for key, value in binding.items()
+                    if key in metadata
+                ):
+                    raise ValueError(
+                        "Discovery metadata attempt binding differs from its campaign."
+                    )
+                if any(
                     any(view.get(key) != value for key, value in binding.items())
                     for view in diagnostics or []
                 ):
