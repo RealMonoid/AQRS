@@ -24,6 +24,241 @@ Scenarios:
 
 Data-quality checks: monotonically increasing unique timestamps, consistent bar interval, no negative/nonfinite prices, OHLC invariants, no NaN/Inf volume, nonempty series and documented removal of feature warm-up observations.
 
+### Qualified Spot activity inputs
+
+The data preparation path validates each complete daily one-minute Spot archive
+and its published SHA-256. It normalizes pre-2025 millisecond and 2025-onward
+microsecond timestamps to the same UTC bar boundary. Missing, duplicate,
+out-of-order, foreign-day or wrong-unit rows are rejected. The M1 legacy wrapper
+retains its BTCUSDT/microsecond contract, and January 6, 2026 remains rejected
+before archive access by the supported entries.
+
+`activity.csv` aligns `bar_open_time` and `available_at` with the corresponding
+OHLCV bar. Its fields are `quote_volume`, integer `trade_count`,
+`taker_buy_base_volume` and `taker_buy_quote_volume`. Require finite nonnegative
+values, exactly representable trade counts below 2**53, and taker-buy volumes
+no greater than their corresponding total volumes. Completed activity is known
+at bar close only; it does not reveal within-bar event order or quotes.
+
+Per-symbol manifests bind the archive digests, OHLCV identity and both output
+file digests. A completed preparation is `qualified=true`,
+`data_role=DEVELOPMENT`, `research_ready=false`, `evidence_status=NOT_EVALUATED`.
+This is a quality result, not research admission. A failed overall attempt may
+contain an individually qualified first symbol; consumers must check the
+top-level completion receipt before treating the requested scope as complete.
+
+## A2. External synthetic blind-test input (AQRS-B01)
+
+This contract is frozen before external payload delivery and is independent of
+the market importers and reserved market day.
+
+- Deliver one flat directory, `artifacts/blind-test/inbox/`, containing exactly
+  `manifest.json` and its declared CSV files. Each delivery contains at most 16
+  datasets. Identifiers start at D001 and continue without gaps across deliveries,
+  using the existing three-digit format through D999. Replace the inbox only
+  after the preceding delivery's last verdict has been published. No archives,
+  subdirectories, links, executables,
+  generation code, labels, seeds, effect counts, descriptive filenames or keys.
+- CSV: UTF-8 without BOM, comma separator, decimal point, LF or CRLF, exactly
+  `timestamp_utc,open,high,low,close,volume` as the required header prefix. The
+  optional suffix is defined below. No index, blank rows,
+  comments, missing values, NaN or infinity. Finite positive prices; finite
+  nonnegative volume; `low <= open,close <= high`. Gaps between previous close
+  and next open are permitted. Prices represent synthetic mid prices.
+- Timestamps: exactly `YYYY-MM-DDTHH:MM:00Z`, denoting bar OPEN. All bar values
+  become available 60 seconds later. Use an artificial calendar wholly in year
+  2000, starting at 00:00 UTC, with 30 to 60 complete consecutive UTC days
+  (43,200 to 86,400 rows). Strict increasing one-minute cadence, no gaps or
+  duplicates. Prefer 60 days for precision without adapting hidden effects to
+  the search. Volume uses arbitrary consistent units.
+- Maximum CSV: 16 MiB; manifest: 64 KiB; total CSV payload: 256 MiB.
+  No automatic repair, sorting, resampling, filling or retry.
+- The JSON manifest has exactly these keys, with consecutive dataset entries,
+  integer counts and lowercase SHA-256 over the exact delivered CSV bytes:
+
+```json
+{
+  "schema": "aqrs.external-synthetic-minute.v1",
+  "dataset_type": "synthetic",
+  "source": "external_blind",
+  "timezone": "UTC",
+  "bar_seconds": 60,
+  "price_reference": "mid",
+  "datasets": [
+    {
+      "id": "D001",
+      "file": "D001.csv",
+      "sha256": "<64 lowercase hexadecimal characters>",
+      "rows": 86400,
+      "start_utc": "2000-01-01T00:00:00Z",
+      "end_utc": "2000-02-29T23:59:00Z"
+    }
+  ]
+}
+```
+
+The producer sends the owner a SHA-256 commitment to the exact sealed solution
+bytes before delivery. The owner retains both outside this inbox. Do not send
+the solution, its location, generator notes or hints to AQRS. Reveal and verify
+the commitment only after blind reports are frozen and published. CSV digests
+establish transport consistency, not producer authenticity.
+
+Admission requires the next ascending identifier and its published start
+reservation. The preceding dataset's verdict must already be published. The
+runner checks directory names and manifest declarations. It opens and inspects
+the file type and size of only the authorized current CSV, after its declared
+digest matches the approved digest. Links and Windows reparse points are rejected
+on that turn. Its header, numbers, open/high/low/close relationships, cadence,
+complete days, endpoints and row count are then validated. Sixteen files with
+the individual 16 MiB limit preserve the 256 MiB delivery limit without probing
+later files. The manifest digest and identifier range stay fixed until the
+delivery is complete. Invalid manifest metadata rejects admission. An invalid
+current CSV yields an incomplete dataset and an explicit gap. Reports carry
+`dataset_type=synthetic`, `source=external_blind`, `market_evidence=false`.
+The open rehearsal uses its own directory and `source=internal_open`; it never
+reads the inbox. Data delivery alone is not run authorization.
+
+The external sequence has one active dataset. The next CSV becomes eligible
+after the current dataset's immutable verdict, short summary and gap ledger
+are published together. A missing required artifact makes the verdict
+`NOT_EVALUABLE`. A later correction is a new dated record naming the dataset
+after which it arose and the original verdict digest. The original verdict and
+evidence remain in place. Budget approval and worker time apply per dataset.
+
+### Optional minute order flow
+
+Append any subset of `buy_volume,sell_volume,trade_count` in that order, with
+each chosen column populated on every row. Full header:
+
+```text
+timestamp_utc,open,high,low,close,volume,buy_volume,sell_volume,trade_count
+```
+
+`buy_volume` and `sell_volume` are executed volumes classified by aggressor
+side within the minute, in the same units as `volume`. They are finite and
+nonnegative. Each is at most `volume` and, when both are present, their sum
+equals `volume`, with relative tolerance `1e-9` and zero absolute tolerance.
+`trade_count` is the total number of executions in the minute. Use 1–16 ASCII
+digits representing an integer from 0 through `2**53 - 1`. Omit unavailable
+columns from the header. All aggregates become available with the completed bar.
+
+Admission validates all supplied fields and binds the complete CSV to its
+manifest digest. The search worker stages validated activity with OHLCV and
+records the available fields before registering the [fixed rules](RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure).
+An absent field selects its defined OHLCV fallback rules. The manifest schema,
+cadence and byte limits apply to every allowed header.
+
+### Deferred event input estimates
+
+Single trades and best bid/ask quotes require distinct event contracts and a
+separately authorized implementation. For ordered local synthetic CSVs, estimate
+4–8 engineering hours for trade prints aggregated to minutes, or 8–16 hours
+for quote validation and aggregation. Trades need event timestamps, stable
+ordering, price, size and documented aggressor side. Quotes also need coherent
+bid/ask state, same-time ordering and rules for stale quotes and minute-boundary
+sampling. Both estimates include a bounded importer, validation and tests.
+Event-level simulation, depth reconstruction and vendor integration are
+separate scopes.
+
+Illustrative 60-day storage, before staging or output: 100 trades/minute gives
+8.64 million rows at 64–100 bytes (0.55–0.86 GB). Ten quote updates/second gives
+51.84 million rows at 80–120 bytes (4.15–6.22 GB). Both sizing scenarios exceed
+the 16 MiB minute CSV cap. A future pilot
+could use one streaming worker, at most 100,000 events and 16 MiB, 60 seconds
+and 512 MiB observed RSS, with zero trials or fits. Measure rows/second and peak
+RSS before proposing full-run time, storage or budget. No event path is enabled.
+
+### AQRS-B01 evidence field dictionary
+
+This dictionary describes the machine evidence for one synthetic dataset.
+CSV means comma-separated values, with a header and UTF-8 text encoding.
+JSON means JavaScript Object Notation. JSON Lines has one JSON object per line.
+UTC is Coordinated Universal Time. SHA-256 is Secure Hash Algorithm with a
+256-bit digest, rendered as 64 lowercase hexadecimal characters. A basis point
+(`bps`) is 0.01 percentage points. A MiB is 1,048,576 bytes. A Git revision is
+the full 40-character hexadecimal commit identifier. Fields with timestamps
+use UTC; bar timestamps use `YYYY-MM-DDTHH:MM:SSZ`. Null JSON values and blank
+feature CSV cells indicate an unavailable value. A reference such as
+`report.json#/results/0` identifies the first result using a JSON Pointer.
+
+**Feature table (`features.csv`).** One row per input candle. Returns are
+calculated from the current and earlier completed candles. None of these
+columns uses the next open.
+
+| Field | Meaning and time reference | Unit and allowed values |
+|---|---|---|
+| `bar_index` | Input row position at the candle | Integer, zero-based |
+| `bar_open_time`, `available_at` | Candle start and completed information time, 60 seconds later | UTC timestamps |
+| `partition` | Row use in the frozen split | `warmup`, `calibration`, `evaluation` |
+| `return1`, `return5`, `return20` | Current close relative to close 1, 5, 20 minutes earlier | Basis points, signed number or blank |
+| `relative_volume` | Current volume divided by mean of the preceding 20 completed minutes | Ratio, nonnegative or blank; zero if preceding mean is zero |
+| `range_bps` | Current high minus low, divided by current close | Basis points, nonnegative |
+| `close_location` | Current close minus low, divided by high minus low | Ratio, 0 to 1; 0.5 for a flat candle |
+| `buy_share` | Current buy volume divided by total volume | Ratio, nonnegative, blank if absent, zero at zero volume; input tolerance applies |
+| `sell_share_change20` | Current sell share minus its preceding 20-minute mean | Signed ratio or blank; zero-volume share is zero |
+| `relative_trade_count20` | Current trade count divided by its preceding 20-minute mean | Nonnegative ratio or blank; zero if preceding mean is zero |
+
+**Events and controls (`CANDIDATE-opportunities.csv`).** Each row is one
+eligible signal time for the candidate in the file name.
+
+| Field | Meaning and time reference | Unit and allowed values |
+|---|---|---|
+| `signal_index`, `available_at` | Signal candle index and close time | Zero-based integer and UTC timestamp |
+| `entry_at`, `exit_at` | Reference opens one and four minutes after the signal candle opens | UTC timestamps |
+| `event` | The registered rule fires at the signal close | Integer 0 or 1 |
+| `complement`, `parent_a`, `parent_b` | Control membership at the same close; complement is the rule's non-events, parents are the first or second condition alone | 0 or 1; parent columns only for conjunctions |
+| `evaluation_day`, `utc_band` | Join keys for events and controls in the same evaluation day and eight-hour UTC band | Zero-based day; band 0, 1 or 2 |
+| `complement_matched`, `parent_a_matched`, `parent_b_matched` | Both groups exist in the row's day and band for this comparison. Use the event and control flags to select members | 0 or 1; parent flags only for conjunctions |
+| `gross_long_bps`, `candidate_net_bps` | Observed forward return between entry and exit; candidate return after costs, with zero for flat decisions | Signed basis points |
+
+**Structured records.** The tables below specify field families shared across
+files. Each row applies to the named fields wherever they occur.
+
+| Fields | Meaning and time reference | Unit and allowed values |
+|---|---|---|
+| `schema`, `source`, `dataset_type`, `market_evidence` | Record version and data provenance | Version string; `external_blind` or `internal_open`; `synthetic`; `false` |
+| `dataset_id`, `attempt_id`, `candidate_id`, `candidate_ids`, `registered_candidates`, `claimed_candidates`, `untested_candidates`, `out_of_rehearsal_scope` | Dataset, run and candidate identities and recorded subsets | Identifiers or arrays; `D001`–`D999`, `AQRS-B01-...`, `S01`–`S12`, `P01`–`P12`, `T01`–`T06` |
+| `file`, `path`, `bytes`, `sha256`, `*_sha256`, `source_hashes`, `verified_artifacts`, `artifacts` | Evidence identity at the corresponding checkpoint; file records contain base name, byte count and digest; maps key records by file | Repository-relative or run-relative name, integer bytes, digest or map; verdict/start hashes cover canonical JSON |
+| `dataset_sha256`, `manifest_sha256`, `bars_sha256`, `summary_sha256`, `gaps_sha256` | Exact bytes of the selected input CSV, delivery manifest, staged array, published summary and published gap ledger | SHA-256 digests |
+| `plan_sha256`, `start_sha256`, `previous_verdict_sha256`, `verdict_sha256`, `registration_sha256`, `owner_token_sha256`, `approval_sha256` | Canonical JSON digests of the frozen plan, published start, previous/original verdict, registered settings, local ownership token and owner approval | SHA-256 digest or null where no predecessor or registration exists; canonical JSON uses sorted keys, escaped non-ASCII characters and the serializer in `aqrs.storage` |
+| `created_at`, `recorded_at`, `started_at`, `stopped_at`, `finished_at`, `closed_at`, `timestamp` | When the corresponding record or stage was created, started or ended | UTC timestamp |
+| `source_revision`, `registration_revision`, `verdict_revision`, `admission_base_revision`, `revision` | Code, candidate publication, verdict, preceding sequence or execution Git commit | Full Git revision or null when unavailable |
+| `execution_source` | Source snapshot at preparation; `files`, `source_id`, `git.commit`, `git.dirty`, `python`, `platform`, `dependencies` identify exact source and runtime | File/digest map, digest, commit, Boolean, strings, package-version map |
+| `dataset`, `input_files`, `delivery` | Selected manifest entry, verified input identities, and delivery commitment; `verified` denotes bytes actually read and validated | File records and the input schema above; delivery has `manifest_sha256`, `first_dataset_id`, `last_dataset_id` |
+| `plan`, `configuration`, `approval`, `budget`, `costs` | Frozen parameters, effective settings, owner authorization, resource limits and transaction cost assumptions before outcomes | Named settings in the versioned configuration; counts are integers, durations in seconds, storage bytes or MiB as named, costs in basis points; the approval includes the dataset and plan digests, trial count, wall limit and instruction |
+| `planned_trials`, `planned_fits`, `predictive_model_fits`, `resamples`, `parallel_trials`, `auto_retry_count`, `estimated_wall_seconds`, `estimated_run_storage_bytes`, `memory_estimate_mb`, `limits`, `estimate_method`, `trial_count_exception` | Admission estimates and approved bounds before payload work | Nonnegative counts or seconds, bytes, MiB, configuration object, text, Boolean |
+| `prepared`, `evaluation`, `parameters`, `cutoffs`, `train_start`, `train_end`, `evaluation_start`, `evaluation_end`, `calibration_fits`, `activity_columns`, `feature_table` | Training-only thresholds and split fixed in preparation. Cutoff pairs use the feature units above. Split ends are exclusive | Lower/upper quantile pair or null per feature, row indexes, count 6–9, column names, file record |
+| `rule`, `full_space`, `full_search_space`, `hypothesis`, `order`, `controls`, `available_at`, `entry`, `exit`, `measurement_rule`, `metrics`, `reason`, `budget_allocated_seconds`, `budget_consumed_seconds` | Preregistered mechanical conditions, list/order and provenance before outcomes | Rule terms are feature and tail indexes; text hypothesis/timing; zero-based order; named control arms; null metrics, `PENDING` decision, numeric seconds |
+| `execution_status`, `complete`, `started`, `stop_reason`, `runtime_wall_seconds`, `sampled_cpu_seconds`, `peak_rss_mb`, `started_trials`, `started_fits`, `completed_fits`, `indexed_artifact_bytes` | Lifecycle and observed use in preparation, worker or final checkpoint | Named state such as `PREPARING`, `AWAITING_PUBLICATION`, `RUNNING`, `COMPLETED`, `FAILED`, `CANCELLED`, `TIMED_OUT`, `MEMORY_LIMIT`, `BUDGET_EXHAUSTED` or `REJECTED_PREFLIGHT`; Booleans; text/null reason; seconds, observed MiB, counts, bytes |
+| `results`, `trials`, `resource`, `preparation`, `result`, `candidate_resolution`, `untested_candidate_count` | Ordered result rows, observed worker receipts and unregistered-stop state | Arrays/objects, execution receipt fields above, `NOT_REGISTERED` when appropriate, count |
+| `mechanical_rule`, `decision`, `effect_claimed`, `rationale`, `interpretation`, `uncertainty_assumption`, `parent_gate_failures` | Measured rule, outcome classification and reasons after evaluation | Feature/operator/threshold clauses; `NOT_EVALUATED`, `INSUFFICIENT_COVERAGE`, `UNSTABLE`, `BELOW_THRESHOLD`, `NO_INCREMENTAL_EVIDENCE` or `EFFECT_CLAIMED`; Boolean or null; English text; control-to-gate lists |
+| `contrasts`, `all_opportunity_net`, `estimate_bps`, `interval_bps`, `conditional_event_gross_bps`, `no_trade_bps`, `round_trip_cost_bps` | Group differences and candidate net result across evaluation opportunities | Basis points; signed estimates, interval pairs or null; no-trade value is zero |
+| `strata`, `day`, `band`, `events`, `controls`, `matched`, `difference_bps`, `matched_events`, `matched_controls`, `eligible_opportunities`, `event_count`, `skipped_opportunities` | Counts and comparison differences per day/band and candidate | Indexes, nonnegative counts, Boolean, basis points when matched |
+| `blocks`, `block_values_bps`, `block_ids`, `daily_values_bps`, `half_counts`, `half_means_bps`, `coverage_pass`, `stable`, `excludes_zero`, `passes` | Uncertainty calculation and gates on completed evaluation blocks | Counts, index lists, signed basis point arrays/maps or null, Booleans |
+| `opportunity_file`, `opportunity_sha256`, `opportunity_bytes`, `preregistration`, `*_artifact`, `feature_table` | Links to individual checksummed evidence files | File names, digests, byte counts, file-record objects |
+| `status`, `model_candidate_count`, `columns`, `records`, `fold`, `prediction`, `actual` | Model-prediction evidence for each evaluation candle/fold | Current rule plan emits `NOT_APPLICABLE`, count 0 and empty records. A model record would name a fold and include prediction and observed target in identical declared units. |
+| `stage`, `code`, `item`, `gap_count` | When and why evidence is incomplete; `item` names its file, candidate or state | Phase and reason strings, count; includes `MISSING_EVIDENCE`, `CHANGED_EVIDENCE`, `INCOMPLETE_EXECUTION` and execution stop states |
+| `verdict`, `facts`, `completed_by_kind`, `best`, `estimate_basis_points`, `interval_basis_points`, `planned_budget`, `evidence` | Final eligibility and traced summary statistics after terminal checks | `EVALUABLE` or `NOT_EVALUABLE`; counts by rule type, measurements in basis points or absent, budget object and JSON Pointer references |
+| `corrects_dataset_id`, `after_dataset_id`, `verdict_sha256`, `note` | Separate correction naming its target and last published dataset at recording | Dataset identifiers, original verdict digest, English note |
+| `comparisons`, `expected`, `recomputed`, `opportunity_rows_match`, `matches` | Read-only replay of two measured candidates after publication, using registered costs and comparing every opportunity row | Array with candidate and pointer; two comparable measurement objects and Boolean equality |
+
+**File map.** `search-plan.json` contains the frozen plan and source bindings.
+`registration.json` contains the selected dataset, preparation, budget and
+artifact bindings. `preregistration.jsonl` contains one pending rule row per
+candidate. `preparation.json` and `CANDIDATE-result.json` contain worker receipts
+and measured results. `run-manifest.json` indexes evidence and lifecycle use.
+`report.json` contains the dataset's provisional technical outcome. `terminal.json`
+records completion of execution and expected evidence identities. The published
+`DNNN-start.json`, `DNNN-verdict.json`, `DNNN-gaps.jsonl`, `DNNN-summary.txt` and
+`Cnnnnnn-correction.json` are the ordered sequence, its short traced summary and
+any later corrections. The local `gaps.jsonl` records each gap as it occurs.
+`bars.npy` is a NumPy binary array with open time as seconds since 1970 UTC,
+then open, high, low, close, volume and optional activity in input-column order.
+Absent activity is represented by an unavailable numeric marker. The snapshot
+and ledger supply the inputs for read-only replay. `report.md` mirrors the
+technical report, and `research.sqlite3` is the local attempt journal described
+in the candidate and journal contract below.
+
 ## B. Feature availability and targets
 
 A feature vector `X_t` describes historical bars **up to and including `t` only**, with `available_at = bar_close_time[t]`.
@@ -188,6 +423,32 @@ additional data views, not additional fits or independent confirmations. Current
 reports remain schema 2 with additive fields; old evidence is not rewritten.
 
 ## H. Audit-compatible reporting and provenance
+
+### Prospective retention selected from the research decision
+
+Before an authorized comparison, the existing Test Card names the question,
+required evidence, storage estimate and stop rule. For paired forecast-loss
+or dependence analysis, retain aligned forecast-origin timestamps, target
+availability, horizon, fold/block IDs and candidate/control losses (or the
+forecasts and targets needed to reproduce those losses). Preserve the common
+eligible population, not only executed trades. Use the existing source/data
+binding; do not retain arbitrary arrays without a named decision need.
+
+For execution diagnosis distinguish: forecast produced; cost/buffer threshold
+crossed; entry eligible or blocked by a position/boundary; order simulated;
+trade filled; gross and net outcome. A zero-trade result alone identifies none
+of the preceding causes. Choose counts and fixed diagnostic views before the
+run; store per-origin values only if the question requires them. Existing
+aggregate reports remain sufficient for questions they can actually answer.
+
+Resource assessment includes origins × policies × retained fields × bytes
+plus serialization overhead, disk retention, runtime and memory. Estimate
+from metadata first; select a bounded format and retention limit within the
+campaign budget. No new default archive, automatic recomputation or permission
+to inspect protected data follows. Historical missing arrays remain missing;
+E18's aggregate forecast metrics cannot supply an ordered paired-loss series.
+
+### Existing report and audit records
 
 Current reports use `schema_version="2"`; records without it remain legacy evidence. Record source bytes/digests, available Git commit and dirty state (null when unavailable), Python/platform and installed dependencies. Source identity is separate from scientific variant identity. New metadata never repairs missing execution-time bindings in M2-E08/E09. Core workers execute their saved source snapshot.
 

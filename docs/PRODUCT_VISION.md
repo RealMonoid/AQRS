@@ -6,7 +6,7 @@
 
 ## 1. What we ultimately intend to build
 
-**AQRS is a locally usable, resource-bounded, scientifically controlled research instrument for short-horizon systematic trading, built first for native Windows with verified Linux portability and no cloud-provider lock-in.** One researcher can use legally acquired market data to discover previously unspecified predictive structures, test their net economic feasibility, challenge alternative explanations, allocate research resources deliberately, and monitor reviewed candidates on new observations.
+**AQRS is a locally usable, resource-bounded, scientifically controlled research instrument for short-horizon systematic trading, built first for native Windows with verified Linux portability and no cloud-provider lock-in.** One researcher can use quality-controlled market data to discover previously unspecified predictive structures, test their net economic feasibility, challenge alternative explanations, allocate research resources deliberately, and monitor reviewed candidates on new observations.
 
 The primary output is an **auditable research decision**, not automatic buy/sell advice: *reject, defer, investigate, accept as a research finding, submit a frozen version for one controlled final review, observe in shadow/paper mode, pause, retire*.
 
@@ -17,7 +17,7 @@ The primary output is an **auditable research decision**, not automatic buy/sell
 By v1.0, a single user can operate AQRS locally through a CLI (with an optional simple read-only interface):
 
 1. **Select a research universe:** market, venue, instrument, data availability, candidate horizons, budgets and cost assumptions. Every real instrument has a documented data/trading contract. Old data from 2003 are not presumed predictive for today's intraday market.
-2. **Audit data:** coverage, timestamps, gaps, unusual observations, market sessions, corporate actions/contract rollovers where relevant, licenses and provenance. Invalid inputs block affected experiments.
+2. **Audit data:** coverage, timestamps, gaps, unusual observations, market sessions, corporate actions/contract rollovers where relevant, provenance. Invalid inputs block affected experiments.
 3. **Launch a bounded campaign:** hypothesis-driven and data-driven methods search for **incremental conditional predictive information**. Unusual observations alone do not equal alpha.
 4. **Follow the evidence trail:** every candidate has an immutable ID, feature availability timestamps, prediction horizon, cost model, baselines, matched controls, chronological research folds, variant counts and evidence status.
 5. **Allocate research fairly:** the Research Manager does not rank candidates by prettiest historical backtest. It considers compute effort, uncertainty, independent research-validation evidence and a modest exploration budget. Deferred families can be revisited.
@@ -125,7 +125,7 @@ The project does not optimize `experiments_per_hour`. It aims for **validated fi
 
 ## 6. What “complete” means
 
-Acceptance of **v1.0** means one user can reproducibly run the full research-and-monitoring workflow on at least one real, documented and lawfully sourced historical dataset. **It does not mean** a profitable live-money strategy has been found.
+Acceptance of **v1.0** means one user can reproducibly run the full research-and-monitoring workflow on at least one real, documented historical dataset. **It does not mean** a profitable live-money strategy has been found.
 
 Binding, testable acceptance criteria are in `docs/MILESTONE_DOD.md` under M9/v1.0. Key quality limits:
 

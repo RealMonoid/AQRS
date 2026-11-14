@@ -1,5 +1,221 @@
 # Research protocol — scientific and economic integrity
 
+## 11. AQRS-B01 frozen blind-search procedure
+
+**Scope:** owner-authorized preparation on 2026-11-11. This is a diagnostic of
+the implemented finite search, not an unrestricted search or a market study.
+Input contract: [A2](CONTRACTS.md#a2-external-synthetic-blind-test-input-aqrs-b01).
+The code, this section and `configs/blind_search.json` are frozen and published
+before external delivery. Owner choices that change them require a new freeze
+before looking at external outcomes. The solution stays with the independent
+producer; only the owner verifies its prior commitment after report freeze.
+
+**Search space and order.** Six OHLCV features known at close t: close returns over
+1, 5 and 20 minutes (bps); current volume / mean of the preceding 20 volumes
+(zero when the denominator is zero); (high-low)/close in bps; and
+(close-low)/(high-low), using 0.5 for a zero range. An available optional field
+also contributes one feature at the close of minute t:
+
+| Required CSV field | Feature | Definition at minute t |
+|---|---|---|
+| `buy_volume` | `buy_share` | Buy volume / total volume |
+| `sell_volume` | `sell_share_change20` | Sell share minus the mean sell share of the preceding 20 completed minutes |
+| `trade_count` | `relative_trade_count20` | Trade count / mean trade count of the preceding 20 completed minutes |
+
+Each side share is zero for a zero-volume minute. Relative trade count is zero
+when the preceding mean is zero. Preceding windows are t-20 through t-1.
+Calibrate each available feature's
+20th/80th percentiles on bars 20 through the end of the first floor(0.4*days)
+complete days, once per dataset (six to nine charged calibration fits). Rules use
+`<= q20` or `>= q80`; ties remain included. No outcomes choose cutoffs.
+
+S01–S12 are the low/high tails of each feature in that order. P01–P12 are
+low-low/high-high conjunctions of the fixed pairs (return1, volume), (return5,
+volume), (return20, volume), (return1, range), (return5, close-location), and
+(volume, range), in that order. Evaluate S01–S06, P01–P06, S07–S12, then the
+six final slots in this order:
+
+| Field present | Low and high single-feature tails | Fallback if absent |
+|---|---|---|
+| `buy_volume` | T01–T02 | P07–P08 |
+| `sell_volume` | T03–T04 | P09–P10 |
+| `trade_count` | T05–T06 | P11–P12 |
+
+The qualified header alone determines which slots are replaced. Register its
+available fields and the 24 resolved candidates before outcome measurement,
+even if the approved budget cannot admit
+them. No candidate generation, ranking, horizon changes, additional plots,
+feature engineering, retuning or cross-dataset learning after freeze. Manual
+looks outside the registered views are additional exposure and require a new
+owner decision before proceeding. Payload inspection is allowed by the owner,
+but this chosen procedure intentionally uses a fixed analysis plan.
+
+**Timing and population.** Remaining complete days are evaluation data, with
+first/second halves reported separately; neither half selects candidates.
+No claim of protected confirmation is made. Opportunities are indices
+`t = 20 + 4*k`, inside evaluation, with exit before its end. Signal availability
+is minute t's close; entry open[t+1], exit open[t+4], horizon three minutes,
+at most one position. Persist every opportunity's event/entry/exit time and
+candidate/control membership. Features do not use future bars. Primary outcome
+is long gross forward return in bps. Positive or negative conditional effects
+can be claimed; a negative effect is not silently converted into a new short
+strategy. No fitted trading model, optimization or funding is used.
+
+**Controls and measurements.** Compare a rule with its complement within each
+UTC date and 8-hour band. For a conjunction A&B also compare against A&!B and
+B&!A within the same strata. Record empty/unmatched strata; do not impute them.
+Each matched stratum contributes event mean minus control mean; average those
+within a day, then in fixed adjacent two-day blocks. Record raw event/control
+counts, matched counts, per-day contrasts and both evaluation-half signs.
+Also report conditional event gross return, no-trade (zero), and long-or-flat
+net contributions for all eligible opportunities, including skipped ones. The
+net interval and estimate use the means of complete adjacent two-day blocks.
+An unpaired trailing evaluation day does not enter that block estimate.
+Use existing illustrative costs: fee 4 bps/side, quoted spread 3 bps, slippage
+2 bps/side, total 15 bps per entered round trip. Net-positive is distinct from
+predictability and from recovering the hidden mechanism. There is no cost
+screen that discards a statistically detectable sub-cost effect.
+
+**Uncertainty and decisions.** For each contrast, a two-sided Student interval
+over adjacent two-day block means uses alpha `0.05/(24*4)` (96 predeclared
+endpoint slots: complement, two parent contrasts, all-opportunity net). No
+resampling, repeated seeds or post-hoc selection of dependence length. Require
+at least eight complete blocks, 60 matched events and 60 matched controls per
+contrast, at least four block values in each chronological half, same nonzero
+direction in both halves, and an interval excluding zero. Conjunctions must
+pass all three contrasts in the same direction. Otherwise report
+`INSUFFICIENT_COVERAGE`, `BELOW_THRESHOLD`, `UNSTABLE` or
+`NO_INCREMENTAL_EVIDENCE`, preserving measurements and each failed parent gate.
+A failed parent comparison does not prove that the simpler condition completely
+explains the signal; low coverage, low precision and instability remain distinct.
+These intervals
+assume sufficiently independent, stable two-day block means; arbitrary hidden
+long-memory or regime changes can violate that assumption. The blind exercise
+does not establish calibrated false-positive rates for all possible generators.
+The open fixture tests software behavior only. Mechanical rules and complete
+measurements survive rejection, enabling post-reveal diagnosis.
+
+**Preregistration and stopping.** One immutable JSON object per candidate in
+`preregistration.jsonl`, created and committed/pushed before outcomes. It holds
+ID/order, one-sentence hypothesis, rule AST, feature/cutoff parameters, horizon
+and availability, exact dataset hash/window, controls, fixed metrics/decision
+rules, allocated budget, `metrics=null`, `decision=PENDING`, consumed budget
+zero, plan/source hashes and attempt ID. A single push may publish all entries;
+the remote commit and exact file/source content must be verified before the
+supervisor releases a worker. Each result is a separate immutable JSON linked
+to that entry; SQLite retains all attempts and execution/evidence status.
+Quantile values and coverage-only input metadata are registered before outcome
+access. Git publication proves ordering relative to this runner, not absence
+of out-of-band human analysis. Do not send data payloads to Git.
+
+**Machine-readable evidence.** Publish `configs/blind_search.json` and its
+bound protocol and code before delivery. After authorization, copy the frozen
+plan and source digests into `search-plan.json` before reading the CSV. One
+dataset runs per attempt. `evidence/blind/ATTEMPT/preregistration.jsonl` is the
+published one-row-per-candidate ledger. `registration.json` binds it to the
+selected input and pre-run artifacts. All other files below are local under
+`artifacts/aqrs-b01/runs/ATTEMPT/`.
+
+| File | Format and contents |
+|---|---|
+| `search-plan.json` | UTF-8 JSON with frozen parameters, source identity and SHA-256 bindings. |
+| `features.csv` | UTF-8 CSV, one row per candle, with index, UTC open and availability timestamps, partition and the nine named feature columns. Empty cells represent unavailable features or insufficient history. |
+| `CANDIDATE-opportunities.csv` | UTF-8 CSV, one row per eligible opportunity. `available_at` is the event or control time. Join rows within a file by `(evaluation_day, utc_band)` and the control arm. `event=1` marks events. The named control flag marks control members. `ARM_matched=1` means both arms are present in that group and enter that comparison. The grouping is many-to-many. Entry, exit and observed outcomes are included. |
+| `predictions.json` | UTF-8 JSON with the prediction record fields and `NOT_APPLICABLE` status for the fixed rule-only plan. There are zero model candidates and the records list is empty. |
+| `report.json` | UTF-8 JSON closing statement for the dataset, including status, effect claims and untested IDs. |
+| `run-manifest.json` | UTF-8 JSON with code identity, effective configuration, current input SHA-256 digests, budget, preparation and candidate runtimes, status and artifact file sizes/digests. |
+| `gaps.jsonl` | UTF-8 JSON Lines. Append technical stops and evidence gaps as they are detected. An empty file denotes no recorded gap. |
+| `terminal.json` | UTF-8 JSON with terminal execution status and the expected artifact identities for closure. |
+
+The [central evidence field dictionary](CONTRACTS.md#aqrs-b01-evidence-field-dictionary)
+defines units, timing, allowed values and file relationships.
+
+Feature export is part of supervised preparation and contains no forward
+outcomes. The publication gate checks the candidate ledger's digest and exact
+resolved rows, including order, rules and pending status. It verifies the local
+plan, feature and prediction file digests before any candidate starts.
+The runner promotes opportunity CSVs from `pending-opportunities/` only after
+a completed worker receipt and source/file checks. A stopped attempt retains
+its status and completed evidence. Files remaining in the pending directory
+are unconfirmed. The run manifest records completion after the journal and
+reports are persisted. A process killed outside the supervisor can leave the
+latest checkpoint incomplete. The runner blocks closure without a terminal
+receipt rather than assuming a killed or unobservable process is finished.
+
+**Sequential admission and verdicts.** Publish one `DNNN-start.json` under
+`evidence/blind/sequence/` for the next identifier before admitting its input.
+The start binds the dataset-scoped approval, preceding verdict, frozen source
+and a token held in the local workspace. A competing workspace cannot use that
+start without its token. The runner checks the current remote head and
+append-only Git ancestry and commit ordering. Only the current CSV is opened or probed. A delivery's
+manifest digest and range stay fixed until its last dataset is closed. The next
+delivery begins at the next identifier. There is no shared or carried budget.
+
+After execution, `close` checks the terminal receipt, original published
+candidate ledger and registration, staged bars, worker receipts, feature and
+opportunity files, prediction status, local gap log, reports, run manifest and
+closed SQLite journal. Publish `DNNN-verdict.json`,
+`DNNN-summary.txt` and `DNNN-gaps.jsonl` together in one commit. Missing or changed evidence
+or incomplete execution yields `NOT_EVALUABLE` and no scientific claim. An
+evaluable closure retains the measured claim and its evidence references. The
+summary is at most 40 lines, with counts by rule type, strongest recorded
+contrast and net result when available, decision, budget use and file pointers.
+Earlier verdicts cannot be modified or removed in the published lineage.
+`correct` adds a separate `Cnnnnnn-correction.json` between datasets, naming
+the original verdict digest and the last closed dataset at recording. The
+runner does not use corrections or earlier outcomes to change the search.
+The invariant applies to the runner and inspected published history; an
+administrator rewriting the remote history outside this workflow is a separate
+repository protection boundary.
+
+Stop after 24 candidates or the first worker failure, exhausted budget,
+integrity failure or owner cancellation. Do not stop early because a result is
+positive or negative. Never retry automatically; record all remaining IDs as
+untested with a reason. Refuse an existing attempt directory and any new
+start for the same dataset in this series. Initial external
+execution requires the delivery, an exact dataset-scoped owner start record,
+and explicit approval of the proposed 24-trial exception. Defaults stay at two;
+the base Governor file is unchanged. All datasets need an aggregate approved
+count/time envelope; never launch a 16-dataset batch under a one-dataset budget.
+
+**Dataset result.** `report.json` and `report.md`: synthetic/external provenance,
+market_evidence=false, completeness, execution status, effect_claimed boolean,
+all claimed candidate IDs/mechanical rules/event-time files, signed bps effect
+and interval, parent comparisons, gross/net distinctions, spent/unused budget,
+tested/untested space, source/data/publication identity and limitations. A
+complete `effect_claimed=false` means nothing met this procedure, not that the
+generator contained no effect. An incomplete run is never a completed null.
+These technical reports supply the evidence; the published verdict is the
+final decision. The two-candidate `replay` command verifies recorded artifacts
+and recalculates only the requested previously measured rules under the frozen
+source and published costs. It also compares every event and control CSV row.
+It emits both recorded and recomputed results with their exact JSON
+Pointers. It writes no artifacts and does not select candidates or advance the
+sequence. A candidate without recorded evidence has no expected replay value.
+
+**After owner-authorized reveal.** First freeze and push blind results. Verify
+the owner's solution commitment. Create one adjudication row per hidden effect
+and per unmatched claim: `OUTSIDE_SEARCH_SPACE`, `IN_SPACE_NOT_TESTED`,
+`MEASUREMENT_ERROR`, `BELOW_THRESHOLD`, `VISIBLE_REJECTED`,
+`RELATED_NOT_CAUSE`, `UNPLANTED_CLAIM`, `EARLY_STOP`. Preserve rule expressibility,
+candidate IDs, attempted/skipped stages, numeric contrasts/thresholds, event
+overlap, causal-parent mapping and stop reasons. Assign the earliest decisive
+failure plus secondary tags; do not force a false causal conclusion from price
+data alone. Recommend exact/mechanically equivalent rule AND timing recovery
+as the primary success count, with predictive related conditions counted
+separately. The producer's truth must decide mechanism equivalence.
+
+The informed/oracle comparison applies the true rule/events to the same
+eligible grid, horizon, costs, contrasts and uncertainty procedure; additionally
+report losses from unsupported horizons or off-grid events. It is a diagnostic
+upper reference, not necessarily a passing score. The stubborn single-feature
+baseline exhausts S01–S12 and the available T01–T06 rules under the same
+measurements and reports its separate
+cost/coverage; reuse already obtained results without creating independent
+evidence. Oracle work, missing single-feature attempts and any new measurements
+need their own post-reveal approval and bounded budget. Nothing automatically
+opens a solution file or starts those comparisons.
+
 ## 1. From research question to tradable hypothesis
 
 **Both** approaches are allowed:
@@ -10,6 +226,124 @@
 A discovery on a given dataset is **not** its independent confirmation. Rarity or an “anomaly score” is not automatically a return forecast. A predictor must add out-of-sample information beyond appropriate controls.
 
 Before extensive validation, every candidate has a registered, versioned definition: asset/venue context or synthetic scenario, data range, features, target/horizon, expected effect, comparison hypothesis, execution assumptions and cost model.
+
+### Decision-linked literature checks
+
+**Before a new material research hypothesis or scientific design choice,**
+Quant Research checks relevant external scientific knowledge before freezing
+the Test Card. Apply this to hypothesis-first and data-first proposals. Ask
+what is known, which primary and recent work matters, which counterfindings
+or replication problems exist, what methods can fail, which baselines are
+used, and which data, markets, horizons, costs and out-of-sample tests support
+the external claim. End with the question still open for AQRS. Reuse an
+applicable existing note after checking changed scope, assumptions and relevant
+new evidence; do not repeat a review merely because a new Card is opened.
+
+| Depth | When and minimum purpose |
+|---|---|
+| `LIGHT RECONNAISSANCE` | Default for a new material research question: central primary work, relevant recent work, an explicit countercheck and known failure modes sufficient to choose the hypothesis, method, baseline or interpretation. |
+| `DEEP REVIEW` | Required when a consequential scientific decision, disputed method, conflicting literature, strong dependence of the design on external findings, a strong scientific claim or protected confirmation creates a named decision need. Record that trigger and the specific uncertainty needing closer examination; no deep review without a concrete trigger. Before a strong claim, check whether the result is known, agrees or conflicts with prior work, and has a relevant alternative explanation. |
+
+Routine engineering, regression fixes, purely technical reproductions and
+known bounded tests with no new scientific choice are exempt. This is an
+operator/Quant Research process, not a new CLI admission implementation.
+
+**During research,** revisit literature only when it can change a named
+decision: `METHOD_UNCERTAINTY`; an `UNEXPECTED_RESULT` with competing
+interpretations; methodological `INCONCLUSIVE`; new statistical or effect-size
+uncertainty; an unresolved dependence/sample-sufficiency assumption; a new
+method/model class under consideration; or a newly identified failure mode.
+Record the trigger and learning in the same Card or linked research artifact,
+then choose depth by the table above. An obvious lack of observations, missing
+owner approval, technical defect or missing capability does not automatically
+trigger a literature search. Diagnose and address that cause instead. A new
+paper can support a revisit only through a relevant new mechanism, replication,
+method correction or credible counterevidence that satisfies the existing
+[revisit conditions](DEVELOPMENT_PROCESS.md#experiment-queue); publication on
+the same topic alone is insufficient.
+
+**Search and stop.** Name the decision and a proportional timebox first.
+Start with a thematic search; verify central primary sources, seek a relevant
+review/overview, and check recent work. Follow references backward from central
+papers and check later citing work when practical. Perform at least one
+targeted countersearch: criticism, failed replication, null results, failure,
+data snooping, transaction costs, out-of-sample performance or multiple testing,
+as relevant. Do not stop at the first supportive paper or require equal numbers
+of supportive and critical papers. Record the date, main queries/routes and
+material access or search gaps. An unavailable source is unverified support,
+not a reason to silently rely on its title or a secondary summary.
+
+Stop when central primary/overview material and material counterevidence have
+been checked and another reasonable search is unlikely to change the pending
+decision, or when the declared timebox is exhausted. Record any missing source
+category and its consequence. If an unresolved literature assumption is a hard
+prerequisite, defer only the dependent scientific decision; otherwise proceed
+with the stated limitation. Do not claim systematic completeness. No paper
+quota, weekly review, feed, separate queue or general summary is required.
+If no decision could improve, do not initiate additional literature search.
+
+**One compact note in existing records.** Extend the existing Test/Learning
+Card or linked research artifact only as much as the decision needs; use its
+existing origin, parent and reference links. No literature registry, journal
+schema change or form for every paper. The note has at most these seven parts:
+
+- **Research question:** the existing question/candidate and baseline.
+- **Search purpose:** the decision, trigger/depth, date, main searches and
+  timebox/stop outcome, including unavailable access.
+- **Key sources:** for each material claim, verified authors, title, year,
+  DOI or stable URL/version, and supporting page/section/table where available;
+  identify primary research or review and publication/peer-review status,
+  including preprint/working paper, plus full-text versus abstract-only access.
+- **Contradictory / critical source:** the counterfinding and its relevance,
+  or the actual countersearch and unresolved gap when none was found.
+- **Literature learning:** what supports or challenges the proposed mechanism,
+  method, baseline or interpretation. Assess only decision-relevant quality:
+  data/period and sample design, OOS/holdout, costs, multiple testing, code/data
+  availability, replication and corrections/retractions. Mark material unknowns
+  explicitly; an abstract cannot establish uninspected methods and no observed
+  correction notice is not proof that none exists.
+- **AQRS transferability:** `HIGH`, `PARTIAL`, `LOW` or `NOT DETERMINABLE`,
+  with a short reason. Consider market/instrument, horizon, data availability,
+  timing, execution, costs, sample design, target quantity and research exposure
+  where relevant. Distinguish support for a method from an empirical effect or
+  numeric threshold; no artificial score or borrowed universal sample minimum.
+- **Research decision affected:** state the actual use and limitations, including
+  unchanged or deferred decisions; link any new question/variant to its origin
+  and parent under the existing registration rules.
+
+This records **claim → source → location → AQRS use → transferability → limits**.
+A missing location or abstract-only source limits what can be attributed.
+Existing Card/index references provide navigation; current runtime metadata
+does not automatically collect this chain.
+
+**Evidence and adaptation boundary.** External literature evidence, AQRS
+development evidence and AQRS protected confirmation are distinct. Literature
+can motivate hypotheses, priors, methods and interpretation or identify failure
+paths. It cannot confirm an AQRS candidate, replace its development evidence or
+protected confirmation, supply missing independent observations, or upgrade an
+AQRS evidence status. A paper alone does not justify implementing a model:
+require the open question, mechanism, expected advantage over the existing
+baseline, suitable evidence and the existing
+[model evaluation](MODEL_EVALUATION_PROTOCOL.md#2-evaluation-sequence), revisit
+and resource gates.
+
+Reading papers alone is not a research attempt. If learning changes adaptive
+selection, record the decision and source/parent link. A new feature, model,
+baseline, metric, threshold, horizon, hypothesis or interpretation of a primary
+gate after freeze requires a prospective linked question/variant under
+[existing exposure rules](#10-exposure-and-pre-run-registration); additional
+outcome views use the existing diagnostic-exposure rule. Do not register a
+new attempt merely for an unrun proposal, conceal reused data or rewrite the
+original test, result or gate. Contextual commentary that leaves the primary
+decision intact is labelled as such. Any newly identified invalidity is recorded
+through the existing evidence-failure rules, not by inventing a new passing gate.
+
+Literature seen after protected results cannot justify optimizing, reinterpreting
+the gate or retesting the same evidence as independent confirmation. Record the
+exposure and any loss of independence, retain the frozen result, and apply the
+[protected-evaluation rules](#4-out-of-sample-research-validation): future
+confirmation needs its authorized frozen plan and genuinely untouched evidence.
+Literature access grants no data, implementation, campaign or release authority.
 
 ### Define new signals around the event under study
 

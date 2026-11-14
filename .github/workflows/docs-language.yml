@@ -32,6 +32,8 @@ jobs:
         run: python -m aqrs research run --config configs/research.yaml
       - name: Verify preserved acceptance evidence
         run: python scripts/evidence_archive.py --verify
+      - name: Verify consolidated research exposure
+        run: python scripts/evidence_archive.py --verify-exposure
       - name: Run behavioral tests
         run: python -m pytest -q
       - name: Run lint

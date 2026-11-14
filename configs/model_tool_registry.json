@@ -258,7 +258,7 @@
       "status": "CONDITIONAL",
       "research_role": "Timestamped financial-news sentiment features",
       "baseline": "Lexicons, trivial sentiment/event control",
-      "prerequisites": "Lawfully sourced news, publication lags, model-weight license",
+      "prerequisites": "Traceable news, publication times and processing lags",
       "source": "https://github.com/ProsusAI/finBERT"
     },
     {
@@ -270,7 +270,7 @@
       "status": "CONDITIONAL",
       "research_role": "Features from news, filings and earnings events",
       "baseline": "Text categories / sentiment without an LLM",
-      "prerequisites": "Lawful timestamped texts and no future-knowledge leakage",
+      "prerequisites": "Timestamped texts and no future-knowledge leakage",
       "source": "https://github.com/huggingface/transformers"
     },
     {
@@ -282,7 +282,7 @@
       "status": "DEFERRED",
       "research_role": "Optional local LLM feature extractor, not a required trading agent",
       "baseline": "Small text model / FinBERT",
-      "prerequisites": "RAM/compute budget and license/deployment review",
+      "prerequisites": "RAM/compute budget and deployment review",
       "source": "https://github.com/openai/gpt-oss"
     },
     {
@@ -572,7 +572,7 @@
       "name": "Hugging Face Transformers",
       "earliest_gate": "M1/v0.2",
       "status": "CONDITIONAL",
-      "research_role": "Text and embedding models; separately verify weights/text licenses",
+      "research_role": "Text and embedding models with explicit publication and availability times",
       "source": "https://github.com/huggingface/transformers"
     },
     {

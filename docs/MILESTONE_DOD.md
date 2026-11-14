@@ -7,7 +7,7 @@
 ## 0. Three different meanings of “done”
 
 1. **Technically complete:** the workflow runs reliably, is tested, reproducible, documented and auditable.
-2. **Scientifically supported:** the claimed relationship survives prespecified comparisons and suitable independent testing; this can result in a **null/negative finding**.
+2. **Scientifically supported:** the claimed relationship survives prespecified comparisons and suitable independent testing.
 3. **Economically interesting:** a particular policy demonstrates adequately robust net value under credible execution, risk and cost assumptions. This judgment depends on time and market, and is never a permanent property of the software.
 
 **AQRS can be technically complete without a single economically viable signal.** Positive returns, a fixed Sharpe threshold or a desired win rate are **not release gates**. Positive alpha claims require a **separate evidence-based candidate admission process**.
@@ -63,11 +63,11 @@
 
 **Goal:** correctly process a **deliberately selected real market**, without converting bad data into spurious alpha.
 
-**Deliverables:** adapter for at least **one** lawfully accessible historical source; versioned data manifest; documented venue/instrument/time semantics; quality checks for timestamps, timezone, duplicates, missing bars, sessions/halts, prices/volume and applicable splits/corporate actions/rollovers/funding events; documented market/data-cost suitability.
+**Deliverables:** adapter for at least **one** accessible historical source; versioned data manifest; documented venue/instrument/time semantics; quality checks for timestamps, timezone, duplicates, missing bars, sessions/halts, prices/volume and applicable splits/corporate actions/rollovers/funding events; documented market/data-cost suitability.
 
 **Definition of Done:**
 
-- [ ] One real dataset can be imported and stored locally with reproducible results; provenance, use/license terms, retrieval date, symbol and source version are recorded.
+- [ ] One real dataset can be imported and stored locally with reproducible results; provenance, retrieval date, symbol and source version are recorded.
 - [ ] Reproducible data-quality report covers coverage, gaps, duplicates, out-of-order records and invalid prices/values; at least one intentionally damaged dataset is rejected or quarantined visibly.
 - [ ] Timezone, trading-session and instrument semantics are specified in a `MarketDataContract` or comparable structure.
 - [ ] Synthetic and real adapters fulfill the same research-data interface; the v0.1 analysis modules run on the real source **without source-code modifications**.
@@ -75,7 +75,7 @@
 - [ ] Inadequate coverage or unsuitable horizons are surfaced as research risks, not silently interpolated away.
 - [ ] At least one end-to-end run on **real historical data** is archived. Negative findings are accepted.
 - [ ] The first archived real-data run records separate elapsed times for import, feature calculation, and execution simulation within its approved budget. If measurements identify repeated feature calculation as a bottleneck, evaluate computing shared causal features once per run. Verify equivalent outputs, preserved fold and holdout boundaries, and lower elapsed time before adopting reuse.
-- [ ] Before DeepLOB/FinBERT/GNN or other input-specific pilots, a catalog prereq audit documents whether order-book/text/multi-asset data, licenses and correct timestamps exist. Missing input leads to `BLOCKED_DATA`, not invented observations.
+- [ ] Before DeepLOB/FinBERT/GNN or other input-specific pilots, a catalog prereq audit documents whether order-book/text/multi-asset data and correct timestamps exist. Missing input leads to `BLOCKED_DATA`, not invented observations.
 - [ ] Clean native Windows and headless Linux runs persist the real-data artifacts and respects ordinary CPU/memory budgets.
 
 **Continuation gate:** valid real-market data and time contract for at least one research market; **no alpha claim required**.
@@ -141,6 +141,11 @@
 **Goal:** explicitly control uncertainty, data snooping, time dependence and multiple comparisons; technically separate **research selection** from a **controlled final evaluation**.
 
 **Deliverables:** immutable candidate freeze with dataset/code/config/model hashes; purged/embargoed walk-forward or nested validation where warranted; meaningful uncertainty intervals (e.g. block bootstrap); multiple-testing/reality-check method appropriate to the hypotheses; condition-matched placebos; final gate and audited access.
+
+Use the [validation method-selection guide](MODEL_EVALUATION_PROTOCOL.md#validation-method-selection)
+when choosing the claim-specific procedure. PBO/CSCV, DSR, CPCV, attribution,
+Reality Check and SPA retain their conditional roles; the existing gate below
+does not require implementing all of them.
 
 **Definition of Done:**
 
@@ -265,7 +270,7 @@
 ### Product Definition of Done (all mandatory)
 
 - [ ] **End-to-end:** gates M0–M8 are `ACCEPTED`; users can configure and run a new campaign from the documentation and CLI.
-- [ ] **Real data:** at least one documented, legally usable market/instrument data contract; audit and data-versioning run without manual code patches.
+- [ ] **Real data:** at least one documented market/instrument data contract; audit and data-versioning run without manual code patches.
 - [ ] **Models/tools:** catalog/registry complete and reviewed; at least one supervised and one unsupervised discovery workflow run. Unadopted models (including autoencoders, HDBSCAN, DeepLOB, transformers) have explicit documented gate/status decisions.
 - [ ] **Discovery:** hypothesis-driven **and** data-driven candidate families share the same research interface; every candidate is versioned, testable and allowed to fail.
 - [ ] **Costs/risk/decision:** forecasting, net opportunity, current position, cost/risk policy and simulated fills are separate. `flat` and `pause` are first-class actions.
@@ -306,6 +311,6 @@ AQRS can be v1.0 even when all alpha candidates fail. That is intentional. Each 
 - **Authorization:** Use the milestone status for completed gates and experiment start conditions. Future gates guide extension points and deferred decisions.
 - **After every gate:** choose the next smallest complete vertical increment. No obligation to deploy all cataloged models if simpler methods achieve the same scientifically supported function.
 - **Changes:** substantive alternatives require a recorded ADR with rationale, risks, baseline and revised acceptance test. Never secretly move the goalposts to pass tests.
-- **Blockers:** dataset licenses, real venue rules and execution contracts cannot be invented. Real-data gates stay `BLOCKED` if real inputs are missing; synthetic examples prove technical plumbing but not those gates.
+- **Blockers:** dataset availability, real venue rules and execution contracts cannot be invented. Real-data gates stay `BLOCKED` if real inputs are missing; synthetic examples prove technical plumbing but not those gates.
 - **Optional post-v1.0:** live order execution would be a **new, explicitly authorized product** with its own safety, financial and operational requirements, separate from this roadmap.
 - **Language/platform:** future Codex changes remain English, native-Windows- and Linux-compatible by design, and provider neutral. Treat a failed Windows or Linux acceptance gate as open work, never as a minor cosmetic issue.

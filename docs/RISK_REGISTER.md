@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|
 | R-01 | Research economics | No after-cost economically exploitable alpha exists in the investigated data. | Predictors fail matched/zero/momentum controls; net edge is below realistic costs. | Stop tuning; revisit market/data hypothesis. “No alpha” is a legitimate software output. | M1–M5 |
 | R-02 | Scientific validity | Research Manager prioritizes lucky correlations and generates false alpha. | Excellent in-sample results, weak OOS performance, many variants, low effective count of independent events. | Count trials, matched controls, train-only fits, chronological folds, multiple-testing control and isolated holdout. | M0, M2, M4 |
-| R-03 | Data and execution | Data, timestamps or cost model do not resemble actual executability. | Unexplained volume spikes, missing bars, optimistic next-bar fills, changing spreads/slippage. | Source/license audit, market/venue contract, time-aware costs and execution stress; `INSUFFICIENT_EVIDENCE` on unreliable inputs. | M0, M1, M5 |
+| R-03 | Data and execution | Data, timestamps or cost model do not resemble actual executability. | Unexplained volume spikes, missing bars, optimistic next-bar fills, changing spreads/slippage. | Source and quality audit, market/venue contract, time-aware costs and execution stress; `INSUFFICIENT_EVIDENCE` on unreliable inputs. | M0, M1, M5 |
 | R-04 | Compute explosion | Cartesian model/parameter/fold/seed searches run for months or years. | Exploding fit count, large preflight estimates, unbounded grids. | Resource Governor with fit/trial/wall/RAM/campaign limits and bounded pilot; reject in preflight. | **M0**, M3 |
 | R-05 | Validation explosion | Nested CV, bootstrap, permutation, cost and regime variants multiply uncontrollably. | Validation consumes more than authorized campaign budget; final holdout queried repeatedly. | Cheap staged screens first, explicit statistical-validation budget, report insufficient evidence rather than running indefinitely. | M3, M4 |
 | R-06 | Recalibration loop | Retuning, restart and retesting recur after every miss. | Growing retrain chains, repeated trial IDs, no terminal state. | Terminal statuses, `auto_retry_count=0` at M0, no unapproved budget increases/restarts, controlled pause. | **M0**, M3, M6 |
@@ -22,7 +22,120 @@ Repeated failures may lower a research family's priority, but a changing market,
 
 ## Procedure for a new risk
 
+### FTA-AQRS-A16: literature learning and frozen evidence
+
+**Screen, 2026-11-14:** the documentation explicitly maps literature learning
+to existing scientific exposure and protection contracts; no runtime change.
+Top event: an external paper is used to promote an unsupported AQRS claim.
+OR paths: source assumptions do not transfer; counterevidence is omitted;
+external findings are counted as AQRS observations. AND path: literature is
+read after outcomes AND the original gate or protected test is rewritten.
+Safeguards: decision-specific source/transfer notes, targeted countersearch,
+unchanged original tests, prospective origin/parent-linked variants, and the
+existing holdout-independence rules. Negative walkthroughs: supporting paper
+without AQRS evidence, post-result model/gate change, reusing seen protected
+results, unreviewed preprint, contradictory sources, and a three-observation
+shortage that must not launch automatic research. Verify all owner cases A–H
+and obtain independent review under the A16 Test/Learning Card. This check
+establishes documented routing, not runtime enforcement or future adherence.
+
+### FTA-AQRS-A15: exposure reconstruction and value-stream lineage
+
+**Screen, 2026-11-14:** critical provenance/accounting change; runtime science
+and journal schemas are unchanged. Top event: the consolidated index hides
+exposure or presents reused evidence as independent. OR paths: only local
+artifacts are indexed; nested metrics are skipped; duplicated archive rows
+inflate counts; a descriptive replay is recast as a new discovery; a planned
+status survives a completed attempt. AND path: a source is missing or changed
+AND a partial projection is written as complete.
+
+Safeguards: digest-bound archived journals, complete inventory comparison,
+unchanged original identities and statuses, explicit replay non-independence,
+flat/nested format agreement, preserved legacy/manual/unknown records, and
+validation before replacing the index. Negative tests remove an attempt,
+duplicate an identity, alter a diagnostic list, leave an executed registration
+planned, corrupt a source, and present conflicting formats. An independent
+review checks the real archive projection and the named lineage chains.
+The source receipts and prior index remain recoverable; no historical
+registration time or source identity may be invented. The Learning Card in
+`MILESTONE_STATUS.md` records outcomes and remaining limits.
+
+**AQRS-ER01 integration extension, 2026-11-14.** The older discovery branch
+and the newer exposure projection must coexist without reopening completed
+registrations or losing candidate/source-binding validation. The top event
+is a silently weakened admission or misattributed archived attempt. OR paths:
+resetting completed index records to planned; adapting tests by weakening the
+runtime guard; or discarding the older candidate/scope/binding check during
+the merge. Use the digest-bound historical registration as a test fixture,
+retain current completed statuses byte-for-byte, reject changed candidate or
+diagnostic identities, and verify the entire archive projection unchanged.
+An independent reviewer checks these resolutions before `main` integration.
+
+### FTA-AQRS-B01: blind synthetic search
+
+Top event: a blind-test result is invalid or falsely attributed. OR paths are
+answer leakage (unexpected file OR link escape OR external notes), hindsight
+registration (outcomes read AND no verified remote preregistration), noncausal
+features or labels, a simpler parent masquerading as incremental discovery,
+an uncounted search, or a resource stop mislabeled as no effect. A second top
+event is unauthorized work: payload delivery AND absent start/budget checking,
+or repeated entry AND no exclusive attempt reservation.
+
+Safeguards: exact flat input allowlist and reparse rejection before reads;
+source/dataset/plan binding; remote commit verification before worker release;
+immutable preregistration plus separate results; train-only calibration and
+next-open fills; same opportunity grid/costs, complement and both-parent
+contrasts; finite candidate ledger including untested rows; explicit authorized
+trial-count override only for this test; existing worker handshake/watchdog,
+fit reservation, sampled-RSS policy and exclusive attempt directory. No code
+path searches for a solution. Operator discipline is not an OS sandbox against
+an agent with general filesystem access. Publication and final report I/O are
+bounded control-plane operations, not a strict kernel wall-clock guarantee.
+
+Negative checks follow the AQRS-B01 Test Card, including bad publication/source
+bindings, future mutation, redundant conjunction, null, missing approval and
+duplicate/timeout failures. Independent verification must inspect the actual
+entry, not just isolated helpers. Any accidental solution exposure requires an
+immediate owner report and suspended blind interpretation. No market-evidence
+status or M2 acceptance follows from this synthetic engineering test.
+
+
+**Minute order-flow amendment, 2026-11-11.** An invalid decision can result
+from future-minute values entering features OR a missing field being treated as
+zero OR candidate slots diverging from the recorded header. An over-budget
+preparation can result from extra quantiles without corresponding fit reserves.
+Bind staged activity and availability to the authorized CSV and registered array
+digest. Derive features from the completed row and trailing history. Select
+slots from header presence and reserve each available feature's fit. Test
+future-row mutations, partial headers, known memberships, actual fit receipts,
+and stage-to-registration consistency. Use an independent review before closure.
+
+**Evidence amendment, 2026-11-11.** Incorrect evidence can follow an export
+grouping that differs from the actual comparison OR a partial worker write
+being promoted as complete OR a digest detached from the exact input bytes.
+Bind the selected CSV and original input manifest digests, export group IDs
+and match flags from the measured strata, write files atomically, and include
+candidate evidence only after a completed receipt. Verify counts against
+result strata, reject low disk space and mutated pre-run evidence, and retain
+an incomplete status and untested IDs on a stop. The publication check remains
+before outcome work. Use independent review of these boundaries.
+
+**Sequential delivery amendment, 2026-11-11.** The next payload could be opened
+early because an ID is skipped OR an unpushed or changed verdict is accepted OR
+two processes acquire the same slot OR preparation probes a later file. Bind
+the current published append-only sequence, one token-owned start, delivery
+manifest and exclusive run directory before reading the current CSV. Inspect
+only the current CSV. A false evaluable verdict could follow a missing or changed
+artifact OR closure while work is active. Require a terminal receipt, verify the
+required evidence digests and publish an immutable verdict plus gap log. Verify
+rejections and handoff with a local remote and independent review. A hard stop
+without terminal evidence blocks automatic advancement.
+
 Assign an ID, owner, observable trigger, budget/stop rule, proposed test and affected milestone; add it to this registry and the relevant release gate. Record evidence rather than inventing precision. Apply the [material finding rule](DEVELOPMENT_PROCESS.md#experiment-queue) when a pending action depends on the affected guarantee. If the risk requires a changed norm, add an ADR to `DECISIONS.md`.
+
+### FTA-AQRS-D01: Spot data expansion
+
+**Top events:** (1) a broader importer exposes protected or wrong-time data; (2) an incomplete or misidentified series is published as qualified; (3) acquisition exceeds its declared scope or budget. OR paths include a mutable URL/redirect, path traversal, wrong epoch units, duplicate/missing/foreign minutes, mixing symbols, stale checksums, invalid activity values, an archive bomb, an unbounded socket read or a partial run labeled complete. Safeguards: freeze explicit symbol/date entries before I/O; keep the January 6 reservation and original M1 wrapper/config restrictions; derive one canonical HTTPS URL per entry, deny redirects, validate bytes/member size/digest/cadence and all retained fields; join separately by symbol; execute acquisition and preparation under the existing supervised handshake and common deadline; publish completion only after every entry passes. Negative fixtures cover each affected boundary, including reserved-date rejection before any open, blocked worker termination, resource preflight and no overwrite. External review is required before adoption. Technical file access isolation beyond the supported entry remains under the separate protected-evaluation gate. No financial outcomes are assessed.
 
 ### FTA-AQRS-A08: descriptive diagnostics and admission
 
@@ -54,6 +167,52 @@ using an actual close/open price jump. Q1's V1 outcome restriction remains;
 Q3's scientific design admission remains open. Verified software and new
 diagnostics do not resolve those remaining research prerequisites.
 
+### FTA-M2-E14: pre-outcome implementation plan
+
+The top event is an invalid comparison or unauthorized outcome run. The
+[design checkpoint](MILESTONE_STATUS.md#m2-e14-pre-outcome-design-checkpoint)
+fixes the descriptive scope. The future entry must exercise these paths:
+
+| Failure path | Safeguard and required proof |
+|---|---|
+| Unpublished or changed definition OR incomplete authorization/diagnostics OR altered input allowlist permits an archive read | Bind the exact published definition, source and named authorization. Reject each missing or changed record, wrong date or symbol, and January 6 before the loader is called. Reject a historical digest mismatch before ZIP decoding, including when both the ZIP and its sidecar have changed. |
+| Late features, labels across fold or band boundaries, or cutoff fitted on validation creates apparent value | Reuse causal features and purged folds. Test earlier policy decisions under future-only perturbation, training-only scaling and cutoff, touching/overlapping pair holds, band-end equality and exact next-open fills. Retrospective pair membership can change with a later control. |
+| Unequal costs or dropping skipped rows inflates incremental value | Reuse the simulator with matched policies. Test hand-computed one-sided and both-skipped action cases, a shared-gross-outcome null with equal trade counts and costs, a planted contrast, and the historical V1/V2 null and planted fixtures. Reconcile trade, day, fold and opportunity totals. |
+| Extra fit, expired deadline, or exposure persistence failure makes the result unauditable | Verify two trials and up to seven fit charges including timing and both cutoff calibrations, one deadline and supported memory mode before work. Verify a screened/no-estimator-fit path and reject a tight or unsupported configuration. Retain both candidate records, including screened or failed outcomes. Bind every evaluated view to the attempt, dataset and source. |
+
+Independent full-path review remains a campaign admission condition. The
+matched event comparison is observational. Non-overlap controls the holding
+windows, with serial dependence and trigger contamination still possible.
+
+### FTA-M2-E18: scope-bound reuse
+
+Apply [FTA-M2-E14](#fta-m2-e14-pre-outcome-implementation-plan) to the
+registered December 1–10 BTCUSDT scope. The additional top event is an
+apparently valid result attributed to the wrong campaign or training set.
+Credible paths are an earlier definition, receipt or variant identifier
+being reused across scopes, or a correct calendar with different archive
+bytes or a different first training prefix. Bind the new variants, exact
+D01 archive and checksum digests, and the M2-E17 training dataset ID to
+the published scope. Test rejection of cross-scope input and receipts,
+altered digests, a mismatched training fingerprint and missing diagnostics.
+Preserve the previous scope's CLI and attempt identities. Independent review
+and a frozen-revision platform comparison are required before closing the
+[Test Card](MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+
+### FTA-M2-E19: regime filter
+
+The top event is a false after-cost advantage or access outside the approved
+window. Credible paths include future-smoothed state scores or test-fold
+calibration, unfair fills or costs, outcome access before qualified coverage,
+and a wrong or redirected input path. Reuse E18's exact archive allowlist,
+verified dataset identity and simulator. Verify that deleting or changing
+future observations leaves earlier scores and decisions unchanged, reject a
+planted future-dependent scorer, and exercise the null and planted cost-aware
+comparisons. An incomplete count or outcome admission must fail before outcome
+access. Run with the existing isolated workers and explicit fit and time caps.
+The reused days support descriptive evidence with unresolved dependence and
+cost uncertainty. See the [Test Card](MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter).
+
 ## Mandatory Fault Tree Analysis (FTA) for critical development changes
 
 Fault trees here are **qualitative engineering guards**, not numeric failure-probability predictions. They are written before implementation when a critical contract changes and rechecked after a material incident. The source of truth for thresholds is [`DEVELOPMENT_PROCESS.md`](DEVELOPMENT_PROCESS.md). Codex keeps FTA findings **in this existing risk register** and links the active Test Card rather than generating separate fault-tree documents.
@@ -80,10 +239,57 @@ Actual logical AND dependencies and minimal single-point paths should be derived
 
 The top event is a signal displayed against an earlier or wrong bar. It can follow an active or future bar being exported **OR** an incorrect UTC conversion, chart identity or bar key **OR** stale or duplicate output being accepted after replay or full recalculation. Reuse FTA-M0-A and FTA-M1-A. Require a completed-bar check at export, separate open and availability timestamps, strict key checks at both ends and deterministic recomputation. In [AQRS-SC01](MILESTONE_STATUS.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10), change an active and a later bar, plant a shifted timestamp and a duplicate or wrong chart key, and compare stepped replay with full recalculation. Require the earlier signal prefix to remain identical or the invalid exchange to be rejected. Review source and runtime evidence before adoption. The first fixture covers fixed one-minute UTC bars only. Cross-timeframe joins and session or daylight-saving transitions require separate evidence if introduced.
 
+### FTA-M2-E21: Scout pilot
+
+The top event is a false capability pass. It can follow the Scout having a
+route to later data or benchmark truth **AND** that material being reachable;
+an evaluator accepting a changed rule **OR** timing beyond the available
+prefix; or the null case being dropped **OR** a partial result being promoted.
+Bind the allowed inputs, benchmark commitment, and exact candidate before
+evaluation. Accept data-only candidate definitions through the bounded
+evaluator. Through the chosen entry, reject a substituted or later input,
+a changed rule, and a planted lookahead. Verify that null, abstention and
+interruption stay visible and that the complete planted fixture can pass.
+
+Reuse FTA-M0-B to prevent unbounded invocations and charge each attempted
+call and trial under its declared limit. Test an over-limit request and an
+interruption before blind execution. The [M2-E21 card](MILESTONE_STATUS.md#m2-e21-scout-pilot-feature-preflight)
+owns readiness. Qualify the actual isolation and supervision path before
+dispatch. B01's open findings still govern its own admission flow.
+
+### FTA-M2-E15: state persistence count
+
+The top event is an invalid feasibility decision or an out-of-scope read.
+An invalid count can follow (inherited training state OR future-price use OR
+trigger before cooling/invalidation OR acceptance beyond a fold boundary)
+AND credit toward the band gate, or duplicate events being counted as distinct
+bands. An out-of-scope read can follow an expanded date or instrument, a
+substituted archive, or execution without the required worker guard. Bind the
+ten names and D01 digests before parsing. Require the existing containment,
+sampled RSS watchdog and bounded deadline before archive access. Test exact
+age and time boundaries, future-prefix invariance, duplicate band credit,
+substituted input, unsupported memory mode and a single guarded synthetic
+worker. A passing count admits neither forward returns nor a claim of
+independence. Engineering and the independent reviewer check the entry before
+the registered run. Decision: proceed within the bounded count scope.
+
+### FTA-M2-E20-P03: supervised replay evidence
+
+The top event is acceptance of an unbound or unequal replay. It can follow
+both platform reports agreeing on the same wrong source **OR** a valid-looking
+report and an inconsistent journal **OR** a partial comparison or changed
+decision passing the parity check. Verify snapshot bytes against the exact
+selected Git objects and their report digests, require terminal journal rows
+bound to those results, and compare complete model outputs with exact decision
+identity and the frozen numeric tolerance. Exercise these failures with
+synthetic receipts. Platform identity and the actual run scope still require
+the independent acceptance review under the [replay decision](OPEN_QUESTIONS.md#m2-supervised-pilot-replay).
+
 ## Open execution-path quality debt
 
 Engineering owns closure. The affected entry is a prerequisite under the [queue rules](DEVELOPMENT_PROCESS.md#experiment-queue) whenever a planned task uses or carries forward that entry's admission flow. Use the minimum authorized verification needed for closure and record the independent check before campaign reuse. Shared helpers remain eligible when the selected entry does not inherit the affected admission flow.
 
+- **AQRS-A10-F1 · OPEN · B01 threshold application and reporting.** At `044363c`, the contrast passed with 60 matched observations per arm although only 16 per arm entered the interval. A positive completed trial followed by a timeout also produced a local dataset report with `complete=false` and `effect_claimed=true`. The published verdict correctly withheld the dataset claim. Before external B01 execution, independently verify three cases through the affected entry: discarded days cannot supply the coverage minimum for an interval, a positive trial followed by a stop preserves candidate evidence and withholds the dataset claim, and a mismatch between registered and executed horizon, stride, warmup, block length or trial count is rejected or impossible by construction. Use synthetic fixtures under a separately scoped correction. The existing capability, delivery, budget and start gates also apply. See the [A10 review](MILESTONE_STATUS.md#aqrs-a10-learning-card-m2-evidence-and-threshold-decisions).
 - **AQRS-A02-F2 · CLOSED 2026-11-11 · Supervised replay admission.** The former fixed-limit path now loads the effective validated Governor policy. The real entry rejects tighter fit limits, unsupported strict memory mode and malformed configuration before archive access or fitting; a compatible configuration completes the real synthetic comparison with unchanged research costs. A separate read-only reviewer and all four Windows/Linux CI jobs verified the correction at `70005cc`. See the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). This does not make historical source linkage complete or make pilot parent I/O externally supervised.
 - **AQRS-A02-F5 · CLOSED 2026-11-11 · Core CLI campaign deadline.** Expired admission now rejects before staging even with timing disabled. Core preparation, timing and candidate workers share the original campaign deadline; the blocked-preparation regression and existing watchdog tests pass on Windows and Linux. The independent reviewer verified the corrected boundary at `70005cc`; see the [AQRS-A06 Learning Card](MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence). Source/report persistence, journal finalization and cleanup remain outside the external worker watchdog. This is a bounded compute guarantee, not a hard end-to-end I/O deadline. Future entries must preserve or explicitly qualify this boundary before reuse.
 

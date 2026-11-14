@@ -1,0 +1,205 @@
+{
+  "actual_training_input_checks": 1,
+  "attempt_id": "M2-E17:7b5b57cf3954cc98",
+  "executed_worker_source": "\n\"\"\"One-off M2-E17 training-only movement check.\"\"\"\n\nimport math\nimport sys\nfrom datetime import UTC, date, datetime, timedelta\nfrom hashlib import sha256\nfrom pathlib import Path\n\nimport numpy as np\n\nfrom aqrs.binance_spot_pilot import load_spot_day\nfrom aqrs.discovery import COSTS, HORIZON, folds_for_window\nfrom aqrs.evaluation import cost_components\nfrom aqrs.market import Bars, targets, validate\nfrom aqrs.worker import run\n\nDAYS = tuple(date(2025, 12, 1) + timedelta(days=i) for i in range(4))\nROWS = 5760\n\n\ndef measure(bars):\n    validate(bars)\n    train = folds_for_window()[0][0]\n    last_exit = train.stop - 1 + HORIZON + 1\n    if len(bars.values) != ROWS or bars.time(last_exit) != \"2025-12-04T23:59:00+00:00\":\n        raise ValueError(\"Unexpected training scope or final label exit.\")\n    absolute = np.abs(targets(bars, HORIZON)[train])\n    if len(absolute) != 5717 or not np.isfinite(absolute).all():\n        raise ValueError(\"Unexpected training label count or values.\")\n    movement = float(np.quantile(absolute, 0.9, method=\"linear\"))\n    opens = bars.values[:, 1]\n    ordered = sorted(abs(opens[t + 31] / opens[t + 1] - 1) for t in range(12, 5729))\n    rank = 0.9 * (len(ordered) - 1)\n    index = math.floor(rank)\n    oracle = ordered[index] + (rank - index) * (ordered[index + 1] - ordered[index])\n    if not math.isclose(movement, oracle, abs_tol=1e-14, rel_tol=0):\n        raise ValueError(\"Independent next-open calculation differs.\")\n    threshold = sum(cost_components(COSTS, 1).values()) + COSTS[\"decision_buffer_bps\"] / 10_000\n    if not math.isclose(threshold * 10_000, 27, abs_tol=1e-12, rel_tol=0):\n        raise ValueError(\"The original cost-plus-buffer hurdle changed.\")\n    return {\n        \"signal_interval\": [train.start, train.stop], \"labels\": len(absolute),\n        \"input_rows\": len(bars.values), \"last_exit_at\": bars.time(last_exit),\n        \"movement_p90_bps\": movement * 10_000, \"threshold_bps\": threshold * 10_000,\n        \"clears_hurdle\": movement > threshold, \"training_dataset_id\": bars.fingerprint,\n        \"oracle_agrees\": True,\n    }\n\n\ndef check(request, directory):\n    if request[\"mode\"] == \"synthetic\":\n        start = datetime(2025, 12, 1, tzinfo=UTC).timestamp()\n        t = np.arange(ROWS)\n        opened = 100 * 1.001 ** t\n        values = np.column_stack([start + 60 * t, opened, opened, opened, opened, np.ones(ROWS)])\n        result = measure(Bars(values, \"SYNTH\", 1))\n        expected = (1.001**30 - 1) * 10_000\n        if not math.isclose(result[\"movement_p90_bps\"], expected, abs_tol=1e-9, rel_tol=0):\n            raise ValueError(\"Synthetic known answer differs.\")\n        return result | {\"expected_p90_bps\": expected}\n    if request[\"mode\"] != \"training\":\n        raise ValueError(\"Unexpected input mode.\")\n    pins = request[\"input_archives\"]\n    if [r[\"day\"] for r in pins] != [day.isoformat() for day in DAYS] or [\n        r[\"name\"] for r in pins\n    ] != [f\"BTCUSDT-1m-{day}.zip\" for day in DAYS]:\n        raise ValueError(\"The archive allowlist must contain only the four approved training days.\")\n    root = Path(request[\"archive_root\"]).resolve()\n    daily = []\n    for day, pin in zip(DAYS, pins, strict=True):\n        archive = root / pin[\"name\"]\n        checksum = archive.with_suffix(\".zip.CHECKSUM\")\n        if archive.resolve() != archive or checksum.resolve() != checksum:\n            raise ValueError(\"Unexpected archive or checksum path.\")\n        with checksum.open(\"rb\") as stream:\n            if sha256(stream.read(4097)).hexdigest() != pin[\"checksum_sha256\"]:\n                raise ValueError(\"Checksum bytes differ from qualified D01 evidence.\")\n        daily.append(load_spot_day(\n            archive, checksum, day, symbol=\"BTCUSDT\", expected_digest=pin[\"sha256\"]\n        ).bars.values)\n    return measure(Bars(np.concatenate(daily), \"BTCUSDT\", 1)) | {\n        \"qualified_training_days\": [day.isoformat() for day in DAYS],\n        \"archives_opened\": [pin[\"name\"] for pin in pins],\n        \"validation_dates_selected\": [],\n    }\n\n\nif __name__ == \"__main__\":\n    run(Path(sys.argv[1]), check)\n",
+  "execution_receipt": {
+    "outcome": {
+      "completed_fits": 0,
+      "execution_status": "COMPLETED",
+      "peak_rss_mb": 128.65625,
+      "result": {
+        "archives_opened": [
+          "BTCUSDT-1m-2025-12-01.zip",
+          "BTCUSDT-1m-2025-12-02.zip",
+          "BTCUSDT-1m-2025-12-03.zip",
+          "BTCUSDT-1m-2025-12-04.zip"
+        ],
+        "clears_hurdle": true,
+        "input_rows": 5760,
+        "labels": 5717,
+        "last_exit_at": "2025-12-04T23:59:00+00:00",
+        "movement_p90_bps": 61.51352521138767,
+        "oracle_agrees": true,
+        "qualified_training_days": [
+          "2025-12-01",
+          "2025-12-02",
+          "2025-12-03",
+          "2025-12-04"
+        ],
+        "signal_interval": [
+          12,
+          5729
+        ],
+        "threshold_bps": 27.0,
+        "training_dataset_id": "84b5179bc227facbfab46cf5c786f7c7a432c412f7d9186295787cf2bad470c9",
+        "validation_dates_selected": []
+      },
+      "runtime_wall_seconds": 1.5779999999995198,
+      "sampled_cpu_seconds": 1.453125,
+      "started": true,
+      "started_fits": 0,
+      "stop_reason": null
+    },
+    "platform": "Windows-11-10.0.26300-SP0",
+    "preflight": {
+      "archive_names": [
+        "BTCUSDT-1m-2025-12-01.zip",
+        "BTCUSDT-1m-2025-12-02.zip",
+        "BTCUSDT-1m-2025-12-03.zip",
+        "BTCUSDT-1m-2025-12-04.zip"
+      ],
+      "definition_id": "d6f957d1d11aeb78222ab39a0dbd5c991873d7980d087b33cb1f7cfdb9bfe6fd",
+      "expected_input_rows": 5760,
+      "limits_id": "8a630b0d3da721f3e5fde9677a771273b777e4fd9fdc1212d35983c92380c431",
+      "planned_data_workers": 1,
+      "planned_fits": 0,
+      "planned_market_trials": 0,
+      "registered_revision": "f9094b420784ab9a034d7b1dd82aa30eef6d2aa3",
+      "sampled_rss_limit_mib": 512,
+      "stage_wall_seconds": 30,
+      "status": "ADMITTED",
+      "worker_source_sha256": "1b2d5303bba2cc5533d506ac3914f33d2d1852c2247af9e49be037a009e5f82f"
+    },
+    "python": "3.12.12",
+    "run_at": "2026-11-11T22:41:57.170777+00:00"
+  },
+  "next_proposal": "M2-E18",
+  "parent": "M2-E14",
+  "registered_definition": {
+    "data_scope": [
+      "2025-12-01",
+      "2025-12-02",
+      "2025-12-03",
+      "2025-12-04"
+    ],
+    "definition": {
+      "bar_minutes": 1,
+      "comparison": "strictly_greater",
+      "costs": {
+        "decision_buffer_bps": 2,
+        "fee_bps_per_side": 10,
+        "quoted_spread_bps": 1,
+        "slippage_bps_per_side": 2
+      },
+      "expected_input_rows": 5760,
+      "expected_labels": 5717,
+      "expected_last_exit_utc": "2025-12-04T23:59:00+00:00",
+      "fits": 0,
+      "horizon_bars": 30,
+      "input_archives": [
+        {
+          "checksum_sha256": "64de9a7ff715f56ffed3823b0f07d754316d18a1dd32d670787510dea50ac69f",
+          "day": "2025-12-01",
+          "name": "BTCUSDT-1m-2025-12-01.zip",
+          "sha256": "cda08bfa0f7831c02a5fc78969ee3a6f9557d131966b1e1c18a3e0c3316b3d64"
+        },
+        {
+          "checksum_sha256": "1c2706121824885f9af175c5fad73e8421e432656b018779234f131085b0c9f8",
+          "day": "2025-12-02",
+          "name": "BTCUSDT-1m-2025-12-02.zip",
+          "sha256": "55990f4bbb63927e2e6530064ab529d2db71195f04caf940aebc4a36bc494d8a"
+        },
+        {
+          "checksum_sha256": "080cb79b8e8d14b4711041d00c2e63eb0eaeb9f7b6a6fdc058eefd40f5be3d95",
+          "day": "2025-12-03",
+          "name": "BTCUSDT-1m-2025-12-03.zip",
+          "sha256": "a595afa315db1dc04b9433bd762755c447d02032fe84faa9c71ad9075e1e7359"
+        },
+        {
+          "checksum_sha256": "66d07d850e9c4e8904f591d4f02cc237de0a9a3201b7b50cf1910cb1c6cc23b8",
+          "day": "2025-12-04",
+          "name": "BTCUSDT-1m-2025-12-04.zip",
+          "sha256": "6812537ea88a44f0b012003d43c7ff6fa3aff8b4fba622a13ebe358b9ff5901d"
+        }
+      ],
+      "market_trials": 0,
+      "network_data_requests": 0,
+      "observed_rss_limit_mib": 512,
+      "prospective_window": [
+        "2025-12-01",
+        "2025-12-02",
+        "2025-12-03",
+        "2025-12-04",
+        "2025-12-05",
+        "2025-12-06",
+        "2025-12-07",
+        "2025-12-08",
+        "2025-12-09",
+        "2025-12-10"
+      ],
+      "protected_reads": 0,
+      "signal_interval": [
+        12,
+        5729
+      ],
+      "statistic": "Linear 90th percentile of absolute next-open simple returns.",
+      "symbol": "BTCUSDT",
+      "threshold_bps": 27,
+      "validation_folds_reserved_for_proposal": [
+        [
+          "2025-12-05",
+          "2025-12-06",
+          "2025-12-07"
+        ],
+        [
+          "2025-12-08",
+          "2025-12-09",
+          "2025-12-10"
+        ]
+      ],
+      "validation_reads": 0,
+      "worker_seconds": 30
+    },
+    "execution_authorization": "Owner approved one training-only check on 2026-11-11.",
+    "kind": "training_only_feasibility",
+    "origin": "Calendar-selected first ten qualified AQRS-D01 BTCUSDT days, prior to inspecting the training movement statistic.",
+    "parent": "M2-E14",
+    "status": "PLANNED_NOT_RUN",
+    "test_card": "docs/MILESTONE_STATUS.md#m2-e17-test-card-training-window-feasibility",
+    "variant_id": "M2-E17-TRAIN-MOVE-P90-V1",
+    "work_item": "M2-E17"
+  },
+  "scientific_decision": "TRAINING_MOVEMENT_HURDLE_CLEARED",
+  "setup_attempts": [
+    {
+      "exit_code": 1,
+      "kind": "launcher_setup",
+      "market_input_checks": 0,
+      "reason": "Worker source quoting error before execution."
+    },
+    {
+      "exit_code": 0,
+      "kind": "supervised_fixture_and_training",
+      "market_input_checks": 1
+    }
+  ],
+  "source_path": "artifacts/m2-e17/training_probe.py",
+  "source_revision": "f9094b420784ab9a034d7b1dd82aa30eef6d2aa3",
+  "supports_predictive_or_economic_claim": false,
+  "synthetic_check": {
+    "completed_fits": 0,
+    "execution_status": "COMPLETED",
+    "peak_rss_mb": 128.83984375,
+    "result": {
+      "clears_hurdle": true,
+      "expected_p90_bps": 304.39087548098433,
+      "input_rows": 5760,
+      "labels": 5717,
+      "last_exit_at": "2025-12-04T23:59:00+00:00",
+      "movement_p90_bps": 304.39087548098433,
+      "oracle_agrees": true,
+      "signal_interval": [
+        12,
+        5729
+      ],
+      "threshold_bps": 27.0,
+      "training_dataset_id": "653213517e58305b81479d2e1093e3dfec273e237554560aba0a39d87300e498"
+    },
+    "runtime_wall_seconds": 1.7029999999995198,
+    "sampled_cpu_seconds": 1.453125,
+    "started": true,
+    "started_fits": 0,
+    "stop_reason": null
+  },
+  "work_item": "M2-E17"
+}

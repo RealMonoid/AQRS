@@ -13,4 +13,5 @@ outputs/
 *.sqlite
 *.sqlite3
 .env
+.codex-attachments/
 .ipynb_checkpoints/

@@ -1,0 +1,189 @@
+{
+  "work_item": "AQRS-B01",
+  "date": "2026-11-11",
+  "scope": "Preparation and one open synthetic rehearsal only; external execution awaits data, budget and explicit owner start.",
+  "outcome": "SUPPORTED",
+  "preparation_state": "READY_ON_VERIFIED_WINDOWS",
+  "external_state": "WAITING",
+  "base_revision": "e976e8111fed7823780dc582627f2c75d5eac0eb",
+  "preimplementation_card_revision": "8c763fc",
+  "published_registration_revision": "211fd6e3bd9154d9573c7d96367784b45ffbd0c1",
+  "plan_sha256": "fb12e165f06875347db05465b0b6ad6e3915c6fc19cb3e328c3fb35a081e8d7b",
+  "existing_queue_unchanged": true,
+  "base_governor_unchanged": true,
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -q --tb=short",
+      "exit": 0,
+      "passed": 201,
+      "seconds": 74.16
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -q tests/test_blind_search.py --tb=short",
+      "exit": 0,
+      "passed": 24,
+      "seconds": 12.44
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check .",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe scripts/check_language_policy.py --self-test",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe scripts/check_language_policy.py",
+      "exit": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m aqrs.blind_search register --attempt AQRS-B01-D001 --dataset-id D001",
+      "exit": 1,
+      "expected": "Owner start authorization required before input access."
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m aqrs.blind_search register-open",
+      "exit": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m aqrs.blind_search execute --published-revision 211fd6e3bd9154d9573c7d96367784b45ffbd0c1",
+      "exit": 0
+    }
+  ],
+  "review": {
+    "independent": true,
+    "closed_findings": [
+      "Selected-payload scope and pre-read digest authorization",
+      "Execution source snapshot binding",
+      "Requested, registered and approved attempt identity",
+      "Post-worker integrity failure budget accounting",
+      "Neutral parent-gate interpretation"
+    ],
+    "focused_checks": {
+      "passed": 7,
+      "seconds": 6.28
+    },
+    "open_artifact_audit": "Passed: exact local publication/source/snapshot/data/result hashes, SQLite integrity, every opportunity/event/time/cost row and independent contrast/Student interval reconstruction. No campaign rerun.",
+    "remote_boundary": "Root execution verified the actual remote head before releasing workers. Reviewer audited local commit and guarded-execution evidence without another network call."
+  },
+  "open_rehearsal": {
+    "attempt_id": "AQRS-B01-OPEN",
+    "execution_status": "COMPLETED",
+    "complete": true,
+    "source": "internal_open",
+    "dataset_type": "synthetic",
+    "market_evidence": false,
+    "runtime_wall_seconds": 3.764999999955762,
+    "started_trials": 2,
+    "calibration_fits": 6,
+    "peak_observed_worker_rss_mb": 104.43359375,
+    "findings": [
+      {
+        "candidate_id": "P02",
+        "decision": "NO_INCREMENTAL_EVIDENCE",
+        "event_count": 2528,
+        "eligible_opportunities": 12959,
+        "mechanical_rule": {
+          "all": [
+            {
+              "feature": "return1",
+              "operator": ">=",
+              "threshold": 0.0
+            },
+            {
+              "feature": "relative_volume",
+              "operator": ">=",
+              "threshold": 1.1981162106814187
+            }
+          ]
+        },
+        "effect_bps": 80.60564420830207,
+        "simultaneous_interval_bps": [
+          77.00031069413026,
+          84.21097772247387
+        ],
+        "parent_gate_failures": {
+          "parent_a": [],
+          "parent_b": [
+            "coverage",
+            "stability",
+            "interval_excludes_zero",
+            "same_direction"
+          ]
+        }
+      },
+      {
+        "candidate_id": "S08",
+        "decision": "EFFECT_CLAIMED",
+        "event_count": 2528,
+        "eligible_opportunities": 12959,
+        "mechanical_rule": {
+          "all": [
+            {
+              "feature": "relative_volume",
+              "operator": ">=",
+              "threshold": 1.1981162106814187
+            }
+          ]
+        },
+        "effect_bps": 80.60564420830207,
+        "simultaneous_interval_bps": [
+          77.00031069413026,
+          84.21097772247387
+        ],
+        "parent_gate_failures": {}
+      }
+    ],
+    "limitation": "Planted raw volume >=1.8 changes the eligible three-minute return by 100 bps. S08 uses relative volume and recovers related conditional predictability, not exact generator-rule equivalence. P02 has identical events; its second parent control is empty, so no incremental evidence is claimed.",
+    "report_path": "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/report.json"
+  },
+  "platform": {
+    "verified": "Native Windows 11 x86_64, Python 3.12.12",
+    "linux": "UNVERIFIED for this entry. No suitable AQRS offline runner was used; no download or CI installation was performed. No milestone acceptance is claimed."
+  },
+  "boundaries": [
+    "No external inbox payload access or blind search performed.",
+    "No market data or protected-day access performed.",
+    "No solution or other assistant notes sought or opened.",
+    "No automatic retries or budget increase.",
+    "Two-day block independence is an assumption, not established for every hidden generator.",
+    "No calibration of overall false-positive rates across arbitrary generators or datasets.",
+    "Publication and report persistence are control-plane I/O outside worker deadlines.",
+    "Source hashes are not an adversarial OS sandbox or a backup of ignored runtime artifacts."
+  ],
+  "artifact_hashes": {
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/bars.npy": "b195052a234a75f72476681f9fcc4b7e088cd639d5eebc52c5f6e4186128ed1f",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/execution-reservation.json": "7a5fd74064f931ae41721f7149b7200eeef367fe506488a53717dc3a748b5594",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/P02-opportunities.csv": "27109768f0ce8635436952d85c4ff45693e5b7a0cf56b63fc1414de482579250",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/P02-result.json": "f97fc84bf9a48491f1b3fd552679e21f2c48bfaf79cbbd19dbfa3dcb7f17f18c",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/preparation.json": "2a57d77968a151269d78bf21facf7ccc2ac8a01f36d94ceeefe5824dad5b3f2e",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/report.json": "33ddd10d85e02d782c09c9afabc9bac7605bbf1c79054b6150c975b2b3464588",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/report.md": "2f98c4608282a14264f166c1eff40afd130939f402a0cf6081cc3470e153c322",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/research.sqlite3": "7b038d069660c468ee250aebcf02007fc65a92582c5e349228b1441de8c83da1",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/S08-opportunities.csv": "ff985aadc3317018d0e8dfa1cebeba348543aa43b733780b40f369ddfa8fef79",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/S08-result.json": "5167158330bfc11b8b1efa0d51b6ef37545c56f1b0cfd7960810bd9ae10445ab",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/__init__.py": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/__main__.py": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/binance_spot_pilot.py": "3bfdd55f23d020a9d4dc4faabfd2b8acf2cdd88c6f5716ad9cd3539a979a4e81",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/blind_input.py": "1a53e8e6b27e8d7d44e441d9c6f34c5c8a112834ab90bc81394f5bfeaa0107db",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/blind_search.py": "d257ab0c51c767cee78c9ea804b4a0b41ed12dbcdba54eded19f1eca5c16332f",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/config.py": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/evaluation.py": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/events.py": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/governor.py": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/journal.py": "0e72c8aaf0c5cc0795a1370c3a72772530e2dd5347164a64905f069dbf2ebaa6",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/market.py": "be48f903df0e2c6dce8bbf6ce556a07ad67f78fdc505b4090de06aea15bf8e73",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/planning.py": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/platform_guard.py": "41a6e6b0657e787d319dcb5e8acb50fb9ef5bb3cb6360c3d199313fd5d36e738",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/provenance.py": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/research.py": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/spot_dataset.py": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/storage.py": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/worker.py": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+    "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/pilot.py": "d257ab0c51c767cee78c9ea804b4a0b41ed12dbcdba54eded19f1eca5c16332f"
+  }
+}

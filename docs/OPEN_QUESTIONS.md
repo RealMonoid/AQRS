@@ -26,6 +26,71 @@ the configured observed-RSS policy and rejects strict requests. After an abrupt 
 death, SQLite retains the last committed campaign and attempt states. Automatic reconciliation
 of interrupted rows is outside the current restart contract.
 
+## M2 supervised pilot replay
+
+**Resolved 2026-11-14.** The owner approved the fixed Windows comparison
+and conditional headless non-root Ubuntu replay. The
+[P04 Learning Card](MILESTONE_STATUS.md#m2-e20-p04-learning-card-source-bound-e09-replay)
+records both completed, independently verified runs. The original
+source-linkage gap remains a historical limitation.
+
+**Original decision.** Authorize a new source-bound M2-E09 reproduction as M2
+software acceptance evidence, or leave the supervised reproducibility
+criterion open until original run-linked source evidence appears. The
+[M2-E16 recovery review](MILESTONE_STATUS.md#m2-e16-learning-card-historical-source-binding-2026-11-10)
+found no exact source binding for both historical runs. The executed
+reproduction preserves the LightGBM research disposition.
+
+**Proposed scope.** Freeze and independently verify the
+[versioned pilot](../scripts/m2_supervised_pilot.py), its configuration,
+dependencies, four recorded BTCUSDT development archives for January 1–4,
+2026 UTC and the effective Governor. Use the fixed M2-E08/1 comparison.
+Approve at most one native Windows run and one headless non-root Ubuntu
+replay only after a valid complete Windows comparison. Require source
+snapshots and digest binding in both receipts, identical data,
+configuration, folds and trade decisions, intact journals and the
+existing absolute numeric tolerance of `1e-8`. Stop on a failed
+preflight, scope or budget violation, incomplete Windows result or
+platform mismatch. Keep the original reports and technical/scientific
+dispositions as historical evidence.
+
+**Prepared verification.** [M2-E20-P03](MILESTONE_STATUS.md#m2-e20-p03-learning-card-supervised-replay-readiness)
+checked the source and archive metadata and exercised the read-only verifier
+with synthetic receipts. The verifier implementation is separate from
+the queue handoff. Confirm that it is available for the receipt checks.
+Stage both execution trees from the same selected Git revision to get
+byte-identical source and configuration. After the
+authorized Windows run, use `python scripts/evidence_archive.py
+--verify-supervised-replay WINDOWS_DIR --source-revision COMMIT`. After an
+eligible Ubuntu run, insert `UBUNTU_DIR` after `WINDOWS_DIR` to verify parity.
+The independent review also verifies the actual platform, admitted scope and
+run limits. The archived January 6 holdout remains outside the comparison.
+
+**Resource Governor assessment.** Allow up to two hours of one-time work
+for freeze, qualification, execution and closeout, subject to the final
+Test Card and cumulative effort check. At most one seed, two trials and
+six fits per platform, including timing fits. Retain the existing
+120-second trial, 300-second campaign and 4,096 MiB sampled RSS limits.
+Check the deadline and input scope on the exact entry before execution.
+Zero market-data downloads, protected access, tuning, automatic retries,
+spend or recurring work. No change to defaults or research budgets.
+[M2-E20](MILESTONE_STATUS.md#experiment-queue) tracks the affected gate.
+
+## M2-E15 state persistence count
+
+**Resolved 2026-11-14.** The owner approved the single bounded count in the
+[execution card](MILESTONE_STATUS.md#m2-e15-count-entry-and-execution).
+
+**Original decision.** Authorize the named BTCUSDT spot access for December
+1–10, 2025 UTC and the single count in the
+[M2-E15 Test Card](MILESTONE_STATUS.md#m2-e15-p01-test-card-state-persistence-count-design),
+or keep the count deferred. The count uses the same completed-bar inputs
+for both fixed rules and uses no forward outcomes, estimator fits, new
+downloads or protected data. Require the exact data-scope guard, synthetic
+entry checks and Governor preflight before reading the input. A coverage
+pass only permits considering a
+separately scoped outcome study.
+
 ## Protected evaluation design
 
 The [adaptive research design](DECISIONS.md#adaptive-research-integration) leaves the deployment-specific threat model, runtime identities, eligible submission formats and release authority open. Resolve them before authorizing a real protected evaluation. Keep initial tests on synthetic data with planted secrets. The first bounded probe would inventory actual read, write and deployment rights, show that development data remain accessible, and attempt a direct protected read from the real research identity. Budget this as one development session on an already available test environment with zero trials, fits or real protected data. Infrastructure setup and ongoing costs require a separate estimate.
@@ -41,7 +106,7 @@ An initial denied read is limited evidence. The [protected evaluation gate](MILE
 
 ## Prerequisites for later model families
 
-Before DeepLOB: are legally usable L2/L3 order-book and realistic fill data available? Before FinBERT/LLM: are text rights, publication times and weight licenses understood? Before HDBSCAN/autoencoders: is compute available for causal out-of-sample anomaly testing? Before RL: is there a credible interactive simulation and a classical policy worth beating? See [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md).
+Before DeepLOB: are sufficiently complete L2/L3 order-book and realistic fill data available? Before FinBERT/LLM: are publication times, processing delays and text availability understood? Before HDBSCAN/autoencoders: is compute available for causal out-of-sample anomaly testing? Before RL: is there a credible interactive simulation and a classical policy worth beating? See [`MODEL_TOOL_CATALOG.md`](MODEL_TOOL_CATALOG.md).
 
 ## Compute and platform rules are not open-ended blockers
 

@@ -110,6 +110,58 @@ Additionally, verify timeout/process-tree behavior on **native Windows and actua
 
 ## 8. Execution scope and audit records
 
+AQRS-B01 preparation proposes 24 sequential research trials per external
+dataset, six to nine shared quantile calibrations charged as fits, zero predictive
+model fits, seeds or resamples, and one fixed horizon. The base two-trial limit
+is unchanged: a dataset-scoped owner record must explicitly approve 24 before
+blind execution. Preserve <=120 seconds/trial, <=300 seconds/dataset, <=4096
+MiB observed RSS, concurrency one and zero retries; tighter configured limits
+apply. Before CSV access, budget nine calibration fits per dataset. Charge only
+the six OHLCV features plus the available order-flow features after validation.
+Budget the whole authorized dataset list, not only its first member.
+Conservative preflight uses a bounded open rehearsal or a registered per-trial
+upper limit that fits the complete plan, plus supervised validation/calibration.
+Missing estimates, unavailable guards or excess fits reject before data reads.
+Input qualification/calibration is one separately counted preparation worker;
+each candidate remains a research trial, never hidden inside a batch worker.
+Source snapshots, Git publication, journal/report finalization are control-plane
+I/O with finite subprocess timeouts, outside the worker's hard deadline. No
+network payload downloads are needed. The open two-candidate rehearsal uses
+the unchanged defaults. This is not approval of any external run.
+
+AQRS-B01 evidence storage estimate per dataset: 32 MiB for up to 86,400
+feature rows, 64 MiB for up to 24 opportunity CSVs of about 13,000 rows each,
+and 32 MiB for staged bars, source, reports, journals and temporary writes.
+Add 1 MiB for sequencing, the short closure and gap records. Preflight records
+129 MiB and checks free space before opening inputs and
+before candidate release. This is a space check without a filesystem quota
+or a reserved allocation. A full 16-dataset delivery with retained outputs
+has an estimated 2.27 GiB envelope including up to 256 MiB of input CSVs.
+For successive deliveries, estimate 129 MiB times all retained dataset runs
+plus the current delivery and any separately retained input archives.
+Streaming export and checksums run under the existing worker time and RSS
+limits. Manifest and journal persistence remain parent-side I/O. This evidence
+adds zero trials, fits, resamples or workers. No prediction row budget is
+needed for the rule-only plan. Sequence, publication, closure and replay add
+no search trials or fits. Read-only replay reconstructs two existing results.
+The per-dataset budget is initialized afresh, with no transfer from prior runs.
+
+AQRS-D01's data-only preparation counts sequential data workers separately from
+research trials and performs zero fits. Worker count cannot exceed the configured
+trial-count ceiling. The entry caps itself at two symbols, 31 UTC days per symbol,
+512 KiB per ZIP/uncompressed member, 4 KiB per checksum, 128 MiB total preparation
+storage, 120 seconds per worker and 300 seconds overall; tighter configured time/RSS
+limits apply. The conservative RSS admission estimate is 512 MiB. Online first-day
+timing must leave room for a twofold extrapolation plus five seconds before the
+remaining days are fetched. No redirects, retries or automatic alternate windows.
+
+Archive network reads, validation and derived-file publication execute under the
+existing process watchdog and sampled-RSS guard. Scope/configuration loading,
+source snapshots, parent report finalization and directory-size accounting are
+control-plane I/O outside that hard worker deadline. The receipt explicitly
+distinguishes resource/execution outcomes from data qualification and research
+readiness. A quality-only acquisition does not satisfy a research preflight.
+
 AQRS-A06 checks remaining time even when timing is disabled. Core data staging runs in an isolated worker after static admission and before timing/model fits; all these workers share the original campaign deadline and sampled-RSS policy. Preparation CPU/RSS is recorded separately and included in campaign totals. Source snapshot, journal/report I/O and cleanup remain outside a hard external deadline. Both pilots validate the approved configuration; their parent-side archive/report I/O also remains outside hard timeout enforcement. A new entry needs its own boundary review.
 
 Supported estimator/calibration calls reserve the fit allowance before starting. A reserved attempt remains in `started_fits` even if fitting fails; a rejected reservation starts no fit. Keep this count separate from `completed_fits`. This protects trusted AQRS workers, not hostile Python. No global lifetime budget is invented: each manual campaign requires its own authorization, and the exposure index retains repetitions. No automatic retries or budget increases are introduced.

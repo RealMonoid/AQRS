@@ -2,7 +2,7 @@
 
 **English-only repository policy (permanent):** All AQRS documentation and future Codex additions or revisions must be written in English. See [`docs/LANGUAGE_POLICY.md`](docs/LANGUAGE_POLICY.md).
 
-**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
+**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. A separate [Spot data preparation entry](#prepare-broader-spot-datasets) now qualifies bounded multi-day inputs for two symbols and retains activity fields. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
 
 AQRS is designed as a local, CPU-friendly research platform for **short-horizon systematic trading**. Its goal is not impressive backtest graphics. It must discover potential *incremental predictive information* in market data, translate such information into plausible net-of-cost simulated decisions, and challenge apparent discoveries using independent controls. “No defensible tradable edge found” is a valid research result.
 
@@ -10,7 +10,7 @@ AQRS is designed as a local, CPU-friendly research platform for **short-horizon 
 
 ## Target product at v1.0
 
-The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over legally usable, quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
+The final product is a **locally deployable alpha-research laboratory, not an autonomous live-money trader**. One researcher can run campaigns over quality-controlled real market data; discover alpha candidates; measure incremental out-of-sample predictive and net economic value relative to condition-matched baselines; allocate research resources adaptively; freeze promising candidates for independent final checks; and monitor eligible candidates with **shadow/paper predictions** as new data arrive. The journal retains every variant, failure, cost assumption, decision and provenance.
 
 - **Product vision / end state:** [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md)
 - **All discussed models and tools, gates and status:** [`docs/MODEL_TOOL_CATALOG.md`](docs/MODEL_TOOL_CATALOG.md)
@@ -29,17 +29,37 @@ Read [`AGENTS.md`](AGENTS.md), [`CODEX_START.md`](CODEX_START.md) and the curren
 [`docs/MILESTONE_STATUS.md`](docs/MILESTONE_STATUS.md). The original handoff archive and its
 checksum manifest are historical inputs. The checked-out source and the current project documents
 govern development.
+Codex uses the recorded owner authorization and the
+[work-item lifecycle](docs/DEVELOPMENT_PROCESS.md#work-authorization-and-definition-of-ready)
+to complete necessary steps and pull the next eligible covered queue item.
+
+## Preserved M2-E19 volatility regime pilot
+
+The [registered pilot](docs/MILESTONE_STATUS.md#m2-e19-test-card-volatility-regime-filter)
+used only the ten qualified M2-E18 BTCUSDT Spot archives. The completed
+comparison remains `INCONCLUSIVE / DEFER`; integration does not authorize
+another count or model run. The historical `--archives` and `--output`
+entry and its coverage-first behavior remain available for reproducibility.
+
+The conditional comparison requires the published, clean reviewed revision,
+the qualifying count, a matching review receipt supplied with `--admission`,
+and the pilot-local `hmmlearn==0.3.3` dependency. Use a new output directory
+for the comparison. A non-root Ubuntu replay also requires the qualifying
+Windows report supplied with `--windows-report`. The pilot uses the existing
+simulator and the original illustrative costs.
 
 ## Repository map
 
 | Find | Location |
 |---|---|
 | Agent instructions and onboarding | [AGENTS.md](AGENTS.md) and [CODEX_START.md](CODEX_START.md) |
+| Research value stream: origin, attempts, evidence and learning | [Current workflow and exposure maintenance](docs/ARCHITECTURE.md#current-research-value-stream) |
 | Requirements engineering and confirmed requirements | [Requirements Engineer](docs/requirements/AGENTS.md) and [requirements register](docs/requirements/REQUIREMENTS.md) |
 | Current milestone, experiment queue, and development evidence | [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md) |
 | Milestone acceptance criteria | [MILESTONE_DOD.md](docs/MILESTONE_DOD.md) |
 | Decisions, open questions, and file changes | [DECISIONS.md](docs/DECISIONS.md), [OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md), and [CHANGELOG.md](CHANGELOG.md) |
 | Development process and research rules | [DEVELOPMENT_PROCESS.md](docs/DEVELOPMENT_PROCESS.md) and [RESEARCH_PROTOCOL.md](docs/RESEARCH_PROTOCOL.md) |
+| Work-order checks and material sequencing decisions | [SEQUENCE_PREFLIGHT.md](docs/SEQUENCE_PREFLIGHT.md) |
 | Python code and component responsibilities | [src/aqrs/](src/aqrs/) and [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Run settings and model registry | [configs/](configs/) |
 | Tests, maintenance checks, and CI | [tests/](tests/), [scripts/](scripts/), and [.github/workflows/](.github/workflows/) |
@@ -98,6 +118,111 @@ The importer validates the checksum and all 1,440 UTC minute intervals before wr
 `dataset.csv` and `import_report.json`. Keep the source and output local for this
 non-commercial technical pilot.
 
+## Prepare or run the synthetic blind diagnostic
+
+[AQRS-B01](docs/MILESTONE_STATUS.md#aqrs-b01-test-card-external-synthetic-blind-search-preparation)
+is an owner-gated, external-synthetic diagnostic. Its
+[delivery contract](docs/CONTRACTS.md#a2-external-synthetic-blind-test-input-aqrs-b01)
+and [fixed procedure](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
+define the entire search. It never downloads data or reads the protected day.
+Delivery does not authorize search. Global Governor settings are unchanged.
+The CSV may include validated minute buy volume, sell volume and trade count.
+Each supplied activity field activates two fixed order-flow rules in the
+24-slot search. Absent fields select the predefined OHLCV fallback rules.
+The [machine-readable evidence table](docs/RESEARCH_PROTOCOL.md#11-aqrs-b01-frozen-blind-search-procedure)
+lists the published ledger and local files. Preflight estimates 129 MiB of
+run storage per dataset in addition to the input CSVs.
+
+The single open rehearsal has a separate generated input and a two-trial budget:
+
+```text
+python -m aqrs.blind_search register-open
+```
+
+This qualifies the known fixture, charges six quantile calibrations and writes
+the candidate entries under `evidence/blind/AQRS-B01-OPEN/`, with no outcome
+measurements. Commit and push both registration files and the bound source to
+`codex/aqrs-b01-blind-preparation`, then execute with that exact remote revision:
+
+```text
+python -m aqrs.blind_search execute --published-revision FULL_COMMIT_SHA
+```
+
+The runner verifies the remote revision, exact registration and source before
+releasing any candidate worker. A reserved or existing attempt cannot rerun.
+The supervisor enforces worker deadlines and sampled RSS, not a strict RAM cap.
+Git subprocesses have finite timeouts; publication and final receipt I/O are
+outside worker deadlines. No network payload is downloaded. Use `[skip ci]`
+publication messages while the owner's no-download restriction applies.
+
+For a later authorized external run, the owner must explicitly supply data,
+approve the 24-trial exception and start each named dataset attempt. Record that
+instruction in a local JSON under `artifacts/blind-test/` with exactly
+`owner_start_approved=true`, `approved_trials=24`, `trial_count_exception=true`,
+`plan_sha256`, `dataset_id`, `dataset_sha256`, `attempt_id`,
+`max_wall_seconds` (at most 300), and the nonempty English `owner_instruction`.
+This is an auditable operator authorization record, not cryptographic identity
+verification; Codex must not fabricate approval. Approve the aggregate dataset
+count and budget before multiple individual runs. Use the same arguments for
+`claim`, `register`, and `close` for that dataset:
+
+```text
+python -m aqrs.blind_search claim --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search register --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search execute --attempt AQRS-B01-D001 --published-revision REGISTRATION_COMMIT --authorization artifacts/blind-test/D001-authorization.json
+python -m aqrs.blind_search close --attempt AQRS-B01-D001 --dataset-id D001 --dataset-sha256 DATASET_SHA256 --authorization artifacts/blind-test/D001-authorization.json
+```
+
+Run one command at a time. After `claim`, commit and push only the printed
+`D001-start.json`. After `register`, commit and push its registration and
+pending ledger, and use that full commit in `execute`. After `close`, commit
+and push the three printed verdict, summary and gap files together before
+opening the next dataset. Keep the local ownership token in the same workspace.
+An incomplete controlled run can close as `NOT_EVALUABLE`. A hard stop with no
+terminal receipt leaves the sequence blocked for owner review. A correction is
+recorded with `correct --dataset-id D001 --note "English explanation"` between
+datasets and published as its own new file.
+
+To verify any two recorded candidates, use the full published verdict commit:
+
+```text
+python -m aqrs.blind_search replay --dataset-id D001 --published-revision VERDICT_COMMIT --candidate S01 --candidate P01
+```
+
+The expected values are the named candidate rows in `report.json#/results`.
+Replay prints `expected`, `recomputed`, and `matches=true` for both on success.
+Substitute any two measured candidate identifiers. Required files and field
+definitions are in the [evidence dictionary](docs/CONTRACTS.md#aqrs-b01-evidence-field-dictionary).
+
+Outputs are under `artifacts/aqrs-b01/runs/ATTEMPT/`: JSON/Markdown report,
+SQLite journal, per-candidate result and full opportunity/event CSV with hashes.
+All results remain synthetic and never count as market evidence. A partial
+execution is distinguishable from a completed no-finding result.
+
+## Prepare broader Spot datasets
+
+For broader **data preparation**, the optional Spot dataset entry qualifies one
+or two explicitly selected symbols over up to 31 contiguous UTC days. The checked-in
+scope is BTCUSDT and ETHUSDT, December 1–24, 2025. This prepares development data;
+it does not run a research campaign or change M1's fixed campaign input.
+
+```bash
+python -m aqrs.spot_dataset plan --scope configs/spot_data.json
+python -m aqrs.spot_dataset acquire --scope configs/spot_data.json --output artifacts/spot-data
+```
+
+`acquire` is the explicit online action. For already available ZIP/checksum pairs,
+use `qualify --scope configs/spot_data.json --archive-dir <directory> --output <new-directory>`.
+The existing `configs/research.yaml` supplies Governor settings; `--config` can
+select another validated research configuration with equal or tighter limits.
+Each instrument receives its own `dataset.csv`, `activity.csv` and `manifest.json`.
+Activity retains quote volume, trade count and taker-buy base/quote volume, available
+only at bar close. The top-level `report.json` records the frozen plan, source,
+per-worker outcome and observed resources. Failed or partial attempts remain explicit;
+an existing output directory is never overwritten. More than one symbol is not
+automatically independent evidence. See [AQRS-D01](docs/MILESTONE_STATUS.md#aqrs-d01-test-card-free-spot-data-expansion)
+for the fixed acquisition budget and verification status.
+
 ## M1 pilot: run the BTCUSDT spot campaign
 
 Place the verified January 5 archive and its checksum in `artifacts/m1-e02/`.
@@ -115,6 +240,29 @@ are stored in the pilot's SQLite journal. Use the run command alone for this
 budget because `research plan` performs a separate synthetic preflight fit.
 See the [M1-E04 Test Card](docs/MILESTONE_STATUS.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
 for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_STATUS.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
+
+## Preserved M2-E14 and M2-E18 discovery comparisons
+
+Exercise the retained comparison and admission code with synthetic fixtures:
+
+```bash
+python -m pytest -q tests/test_m2_e14.py tests/test_m2_e19.py
+```
+
+The historical entry writes an attempt journal, recoverable execution source, machine
+report and short Markdown report. The market entry requires the verified
+published revision and an exact admission record for the registered ten
+BTCUSDT Spot days. An Ubuntu market replay also requires the valid Windows
+report bound by digest. See the [Test Card](docs/MILESTONE_STATUS.md#m2-e14-guarded-campaign-entry-test-card)
+for eligibility, the shared Governor plan and the descriptive claim.
+
+Select `--campaign M2-E18` to exercise the same entry with the fixed
+December 1–10, 2025 AQRS-D01 scope. Its market preparation also verifies
+the D01 archive and checksum digests and the M2-E17 training-prefix
+fingerprint. See the [M2-E18 Test Card](docs/MILESTONE_STATUS.md#m2-e18-guarded-campaign-entry-test-card).
+Both campaigns are closed. Current completed registration records deliberately
+reject fresh admission. The tests stage digest-bound historical registrations
+in temporary directories; they do not reset the canonical exposure index.
 
 ## Compute Budget First: avoid multi-year calibrations
 
@@ -190,6 +338,38 @@ the synthetic example, regression results, independent review and CI evidence.
 The [versioned exposure index](evidence/exposure.json) distinguishes reconstructed variants, individual attempts, count-only screens and synthetic checks. Unknown historical exposure remains explicit; these are not independent discoveries. The [frozen configurations](evidence/configurations.json), [digest manifest](evidence/manifest.json) and `evidence/acceptance.zip` preserve historical acceptance records. Eight scripts under `evidence/historical/` are immutable reference inputs, not supported campaign entrypoints. See the [AQRS-A06 Learning Card](docs/MILESTONE_STATUS.md#aqrs-a06-learning-card-audit-controls-and-recoverable-evidence) and [durable verification record](evidence/aqrs-a06-verification.json) for four-job CI, remote-restoration proof and limitations.
 
 Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the private Git remote carries the versioned bundle. Refresh evidence and exposure records before accepting a new campaign.
+
+For the complete bound exposure inventory, run `python scripts/evidence_archive.py
+--verify-exposure`. Use `--consolidate-exposure` after adding a verified archive
+source to the existing index. This performs no research and preserves manual
+screens. The [value-stream overview](docs/ARCHITECTURE.md#exposure-maintenance-and-interpretation)
+explains registration links, diagnostic counts, legacy gaps and the distinction
+between replay and independent confirmation.
+
+For source-bound supervised receipts, use `python scripts/evidence_archive.py
+--verify-supervised-replay WINDOWS_DIR [UBUNTU_DIR] --source-revision COMMIT`.
+The Windows-only check verifies the completed receipt before the conditional
+Ubuntu replay. Providing both directories also compares their data and results.
+See the [supervised replay scope](docs/OPEN_QUESTIONS.md#m2-supervised-pilot-replay).
+
+`python -B -m scripts.m2_e15_count plan` checks the fixed count budget
+without opening market files. The matching `run` used the one authorized
+BTCUSDT development count. Its local output directory reserves the attempt.
+The [M2-E15 result](docs/MILESTONE_STATUS.md#m2-e15-learning-card-state-persistence-count)
+links the preserved evidence and the scope of any follow-up.
+
+Verify the named campaign archives and their
+report digests with these read-only commands.
+
+```sh
+python scripts/evidence_archive.py --verify --campaign M2-E14
+python scripts/evidence_archive.py --verify --campaign M2-E18
+```
+
+For E18, add `--replay-revision <revision>` to check the Windows report bytes
+stored in a locally available Git revision. The replay correction `1eebbfa`
+matches the receipt. Its parent `1eebbfa^` fails the digest check. The
+campaign mode rejects `--build` and `--restore`.
 
 Core report schema `2` adds recoverable source, available Git identity, environment versions and explicit zero-cost flags. Workers execute the archived source. Package version `0.1.0` remains a compatibility label, not an execution identity or milestone status. Old reports remain unchanged legacy records.
 
