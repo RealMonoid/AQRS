@@ -4582,3 +4582,76 @@ document move after the unchanged state was verified.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | AQRS-C01 | 2026-11-14 | CLOSED | [Bounded status cleanup and research learning](#aqrs-c01-bounded-status-cleanup-and-research-learning) | Direct owner instruction, 2026-11-14; no market access or research; owner cleanup completed; no additional dispatch. |
+
+## AQRS-W01-P00: selection format and public cases
+
+**Test Card, 2026-11-14, before artifact creation.** Hypothesis: a small, explicit
+contract can represent central decisions, rule qualification, selection, stop
+and invalid input without a selector or free-text ranking. Baseline: the chat
+proposal has no machine-readable boundary or independent quality evidence.
+Minimum proof: one schema, one central public question registry and exactly five
+public cases, with expected outputs separated from requests. Four requests must
+pass structural validation and one deliberate proposal-level action override
+must fail. All expected responses and registry references must be consistent.
+No selection result or independent quality pass is claimed from these checks.
+
+Resource assessment: estimate 60-90 minutes for this format slice, included in
+the earlier 6-10 hour selector estimate; the separately approved proposals 1-5
+retain the earlier 12-20 hour rough estimate, with overlap not yet measured.
+Zero research trials, model fits, resamples, new market data or model calls.
+Local JSON/schema and documentation checks only, sequential, with a 60-second
+per-command stop bound. No budget increase; format checks require measurement.
+Timing starts at 16:12:00 UTC; preceding intake is unmeasured (estimated 10
+minutes). Earlier discussion effort is unmeasured and is not reset by this card.
+
+Risk screen: no execution contract is changed in this slice. Record prospective
+selection risks in the [risk register](RISK_REGISTER.md#structured-selection-boundary)
+before the later implementation. STOP this slice if selection/execution code,
+market data, secret cases or a changed research budget becomes necessary.
+Success permits the requested first delivery and then P01; failure means revise
+the format/public cases, not launch research or claim selection quality.
+
+### Learning and first-delivery checkpoint
+
+**2026-11-14, 16:31:35 UTC: SUPPORTED for format consistency; PERSEVERE to P01.**
+Measured artifact preparation/review interval: 19m 35s from 16:12:00 UTC.
+Intake is separately estimated at 10 minutes; subsequent Git finalization is
+outside that measured interval. Earlier related discussion remains unmeasured.
+No research trial, model fit, selector call or hidden-case access occurred.
+
+Native Windows/Python 3.14.2 checks using installed `jsonschema 4.25.1` passed:
+`Draft202012Validator.check_schema`; registry/suite validation; four valid
+requests; one expected rejection; five valid expected responses; unique IDs,
+rule/action/plan references, matching revisions/response identities, and proof
+that removing only the forbidden override makes case 02 structurally valid.
+These were inline Python format/reference checks, not a new selection program.
+The two check commands completed in 0.853 and 0.719 seconds respectively;
+peak memory was not measured. Public evidence receipts/costs are assumptions.
+
+Review base: canonical main `122a213f77e0aec6f9503ef86836b056be6b68ec`.
+The initial inline link checker failed on Windows default text decoding;
+explicit UTF-8 corrected the checker and its rerun passed all 12 added local
+links/anchors and exact 11-path changelog coverage. This was a check-helper
+failure, not a selector test. SHA-256 comparison preserved all 12 pre-existing
+changed/untracked study files in the other working tree byte for byte.
+
+`python scripts/check_language_policy.py --self-test`,
+`python scripts/check_language_policy.py` and `git diff --check` passed.
+Manual English/scope review found no executable implementation, dependency,
+workflow or existing scientific-evidence change. Final integrated checks and
+publication identity are reported at delivery. No fresh Linux run is claimed:
+this is a format/document change, not a runtime or milestone acceptance.
+Use `[skip ci]` for this delivery because the existing push workflow explicitly
+starts `aqrs research run`; preserve the owner's research stop and run the
+applicable local document/format checks instead.
+
+Known limitation: binary relevance plus cost can displace expensive important
+questions (public case 05). Public expected outputs are specifications, not
+quality evidence. No hidden checksum was supplied and no executable version
+is frozen. Next authorized work is P01, then P02/P03 before selector P04;
+P05 combines proposals 3+5. Pause at the owner's expressly requested first-format
+delivery checkpoint; no renewed approval is needed for that recorded sequence.
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| AQRS-W01-P00 | 2026-11-14 | CLOSED | Selection format and five public cases delivered without selector code. | Owner-requested first delivery; independent quality and executable freeze remain open. |

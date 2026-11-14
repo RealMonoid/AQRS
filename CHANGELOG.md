@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-11-14 — Specify workflow selection and five public cases
+
+Record the owner's workflow-first objective, approved implementation order and
+continuing research stop. Deliver a strict JSON format, one central public
+question registry and exactly five illustrative cases without selection code.
+Central maps cannot be overridden by proposals; exact-rule known-answer/null
+qualification, explicit STOP and binary-relevance cost bias are specified.
+Hidden cases remain owner-controlled outside agent access; only their checksum
+may later be recorded. The three JSON files have distinct necessary purposes:
+machine format, shared public registry and reviewer cases. Existing documents
+remain canonical; no per-experiment document, runtime or dependency is added.
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/research_selection.schema.json`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_ARCHIVE.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/SEQUENCE_PREFLIGHT.md`
+- `examples/research_selection_questions.json`
+- `examples/research_selection_cases.json`
+
 ## 2026-11-14 — Require evidence-based blocker explanations
 
 At the owner's request, require every blocker report to identify the affected

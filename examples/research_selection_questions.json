@@ -1,0 +1,85 @@
+{
+  "document_type": "QUESTION_REGISTRY",
+  "format_version": 1,
+  "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+  "revision": "1",
+  "evidence_mode": "PUBLIC_ASSUMPTIONS",
+  "notice": "Illustrative trusted input states only. No named rule or qualification test has been implemented or executed by this delivery. PUBLIC_ASSUMPTION references are not evidence receipts and cannot admit real work.",
+  "actions": [
+    "KEEP_RESEARCH_STOPPED", "ACCEPT_ATTEMPT_CONTROL", "FIX_ATTEMPT_CONTROL",
+    "KEEP_CURRENT_REPORT", "ADOPT_PORTABLE_REPORT", "DEFER_REPORT_CHANGE",
+    "ACCEPT_MEASUREMENT_RULE", "REVISE_MEASUREMENT_RULE", "DEFER_MEASUREMENT_USE",
+    "ACCEPT_TRANSFER_CHECK", "REVISE_TRANSFER_CHECK", "DEFER_TRANSFER", "STOP_AFFECTED_PATH"
+  ],
+  "evaluation_rules": [
+    {
+      "evaluation_rule_id": "RULE_ATTEMPTS", "revision": "1",
+      "qualification": {
+        "known_answer": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:ATTEMPTS_KNOWN"},
+        "null_case": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:ATTEMPTS_NULL"}
+      },
+      "qualification_task_id": null
+    },
+    {
+      "evaluation_rule_id": "RULE_REPORTS", "revision": "1",
+      "qualification": {
+        "known_answer": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:REPORTS_KNOWN"},
+        "null_case": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:REPORTS_NULL"}
+      },
+      "qualification_task_id": null
+    },
+    {
+      "evaluation_rule_id": "RULE_SMALL_EFFECT", "revision": "1",
+      "qualification": {
+        "known_answer": {"status": "NOT_RUN", "tested_rule_revision": null, "evidence_ref": null},
+        "null_case": {"status": "NOT_RUN", "tested_rule_revision": null, "evidence_ref": null}
+      },
+      "qualification_task_id": "QUALIFY_SMALL_EFFECT"
+    },
+    {
+      "evaluation_rule_id": "RULE_TRANSFER", "revision": "1",
+      "qualification": {
+        "known_answer": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:TRANSFER_KNOWN"},
+        "null_case": {"status": "PASSED", "tested_rule_revision": "1", "evidence_ref": "PUBLIC_ASSUMPTION:TRANSFER_NULL"}
+      },
+      "qualification_task_id": null
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "Q_ATTEMPT_RECORDING",
+      "description": "Does the workflow retain each failed or repeated attempt without consuming an extra variant slot for an unchanged variant?",
+      "state": "OPEN", "evaluation_rule_id": "RULE_ATTEMPTS",
+      "current_action_id": "KEEP_RESEARCH_STOPPED", "blocks": ["GUARDED_RESEARCH_ADMISSION"],
+      "outcome_actions": {"SUPPORTED": "ACCEPT_ATTEMPT_CONTROL", "REFUTED": "FIX_ATTEMPT_CONTROL", "INCONCLUSIVE": "KEEP_RESEARCH_STOPPED", "EXECUTION_ERROR": "STOP_AFFECTED_PATH"}
+    },
+    {
+      "question_id": "Q_REPORT_PORTABILITY",
+      "description": "Does the shared report retain identical meaning on the supported platforms?",
+      "state": "OPEN", "evaluation_rule_id": "RULE_REPORTS",
+      "current_action_id": "KEEP_CURRENT_REPORT", "blocks": [],
+      "outcome_actions": {"SUPPORTED": "ADOPT_PORTABLE_REPORT", "REFUTED": "KEEP_CURRENT_REPORT", "INCONCLUSIVE": "DEFER_REPORT_CHANGE", "EXECUTION_ERROR": "STOP_AFFECTED_PATH"}
+    },
+    {
+      "question_id": "Q_SMALL_EFFECT_MEASUREMENT",
+      "description": "Can the measurement procedure distinguish a known small effect from insufficient information and a null case?",
+      "state": "OPEN", "evaluation_rule_id": "RULE_SMALL_EFFECT",
+      "current_action_id": "DEFER_MEASUREMENT_USE", "blocks": [],
+      "outcome_actions": {"SUPPORTED": "ACCEPT_MEASUREMENT_RULE", "REFUTED": "REVISE_MEASUREMENT_RULE", "INCONCLUSIVE": "DEFER_MEASUREMENT_USE", "EXECUTION_ERROR": "STOP_AFFECTED_PATH"}
+    },
+    {
+      "question_id": "Q_REDUNDANT_REPORT_NOTE",
+      "description": "Would another note change the current reporting decision? All substantive outcomes retain the existing action.",
+      "state": "OPEN", "evaluation_rule_id": "RULE_REPORTS",
+      "current_action_id": "KEEP_CURRENT_REPORT", "blocks": [],
+      "outcome_actions": {"SUPPORTED": "KEEP_CURRENT_REPORT", "REFUTED": "KEEP_CURRENT_REPORT", "INCONCLUSIVE": "KEEP_CURRENT_REPORT", "EXECUTION_ERROR": "STOP_AFFECTED_PATH"}
+    },
+    {
+      "question_id": "Q_SOURCE_TRANSFER",
+      "description": "Does the shared evaluation preserve its meaning under a second instrument contract? This is important to the product but is not a registered immediate blocker in the public snapshot.",
+      "state": "OPEN", "evaluation_rule_id": "RULE_TRANSFER",
+      "current_action_id": "DEFER_TRANSFER", "blocks": [],
+      "outcome_actions": {"SUPPORTED": "ACCEPT_TRANSFER_CHECK", "REFUTED": "REVISE_TRANSFER_CHECK", "INCONCLUSIVE": "DEFER_TRANSFER", "EXECUTION_ERROR": "STOP_AFFECTED_PATH"}
+    }
+  ]
+}

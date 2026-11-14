@@ -4,7 +4,19 @@
 
 **Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. A separate [Spot data preparation entry](#prepare-broader-spot-datasets) now qualifies bounded multi-day inputs for two symbols and retains activity fields. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
 
-AQRS is designed as a local, CPU-friendly research platform for **short-horizon systematic trading**. Its goal is not impressive backtest graphics. It must discover potential *incremental predictive information* in market data, translate such information into plausible net-of-cost simulated decisions, and challenge apparent discoveries using independent controls. “No defensible tradable edge found” is a valid research result.
+AQRS's product is a reproducible, automated quant research workflow that learns
+about its own procedures and generalizes justified improvements. Bitcoin and
+other market studies are interchangeable tests of that workflow. The eventual
+research scope remains short-horizon systematic trading, with separate predictive,
+economic and independent evidence. A useful workflow improvement does not require
+a profitable market finding.
+
+**Current owner instruction:** new research runs remain stopped. The first
+[structured selection format](docs/CONTRACTS.md#f3-structured-next-question-selection-format-only)
+and [five public examples](examples/research_selection_cases.json) specify the
+next-question interface only. There is no selector implementation or independent
+selection-quality result. The [authorized implementation sequence](docs/MILESTONE_STATUS.md#experiment-queue)
+starts with workflow questions, central attempt accounting and general data locks.
 
 **Repository language: English. Local target: native Windows. Required secondary target: headless Linux. Future deployments: cloud-provider neutral, CPU-first.** See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 

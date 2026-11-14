@@ -389,6 +389,111 @@ Minimum campaign/trial record: `planned_trials`, `started_trials`, `planned_fits
 
 The Resource Governor must use a genuinely supported Windows/Linux enforcement mechanism for the active platform or reject work that requires unavailable guarantees. An RSS polling value is a measurement, not proof of strict kernel-backed RAM limiting; see [`PLATFORM_COMPATIBILITY.md`](PLATFORM_COMPATIBILITY.md).
 
+## F3. Structured next-question selection: format only
+
+AQRS-W01-P00 supplies a format and five public examples, not a selector or
+research authorization. The machine contract is
+[`research_selection.schema.json`](../configs/research_selection.schema.json).
+The single [public question registry](../examples/research_selection_questions.json)
+is shared by all [five cases](../examples/research_selection_cases.json).
+Selector implementation waits for workflow questions per run, central attempt
+accounting and general data locks. Research remains stopped.
+
+### Ownership of fields
+
+| Object | Fields and authority |
+|---|---|
+| Central question registry | `question_id`, `state`, `evaluation_rule_id`, `current_action_id`, `blocks`, and complete `outcome_actions`. Only the trusted registry defines or changes these. |
+| Evaluation rule | ID/revision, separate `known_answer` and `null_case` qualification records, optional registered `qualification_task_id`. Each test records status, tested revision and evidence reference. |
+| Trusted request envelope | Registry/policy/state identity, remaining time and admitted plans. Cost bounds and admission receipts come from preflight/history, not proposal self-ratings. |
+| Proposal | Exactly `proposal_id`, `question_id`, `plan_id`. Extra fields, including outcome maps, scores, qualification claims or costs, invalidate the request. |
+| Response | `SELECT`, `QUALIFY_RULE`, `STOP` or `REJECT_INPUT`, identities, selected proposal or qualification task, and a fixed reason code. STOP/rejection carry neither selection. |
+
+The orchestrator supplies the trusted envelope and registry separately from
+proposals. Schema validation proves structure, not receipt truth, cost adequacy
+or trusted origin. Later code must bind records to the actual rule revision,
+source, permitted data scope, attempt history and remaining budget. Reject
+generator-supplied replacements. IDs must be unique within each namespace;
+resolve every reference, match registry revisions, match workflow-plan targets
+to questions and qualification-plan targets to rules. Missing, duplicate, stale
+or conflicting references reject the request before ranking. Canonical action
+IDs denote distinct next decisions; aliases earn no credit. Descriptions and
+public case notes never enter ranking.
+
+### Qualification and outcome meaning
+
+Both known-answer and null-case checks must be `PASSED` for the exact rule
+revision and applicable scope. `FAILED`, `NOT_RUN`, an unresolvable receipt or
+a revision/scope mismatch makes the proposal unselectable. No default true
+value or qualification inferred from prose is allowed. A changed rule requires
+new qualification. The registry maps the four complete outcomes `SUPPORTED`,
+`REFUTED`, `INCONCLUSIVE`, `EXECUTION_ERROR` to actions. The registered evaluator
+must define disjoint, exhaustive, executable outcome conditions before use.
+These outcomes concern the workflow question. A proposal cannot add conditions
+or mappings; technical failure is not scientific evidence.
+
+An otherwise admissible, decision-relevant proposal with an unqualified rule
+first requires its registered, ready, affordable engineering qualification
+task: return `QUALIFY_RULE`. Fixed known-answer/null checks judge that task;
+the unqualified rule cannot certify itself. A failed check for the current rule
+revision is terminal in this first policy: do not return its qualification task
+again automatically. Correction creates a new revision with fresh qualification
+records; an unchanged retry needs separate recorded authority and is outside this
+policy. Without an admitted qualification task, keep the
+proposal ineligible and consider independent work. Only qualify rules referenced
+by relevant current proposals; do not launch a qualification sweep.
+
+### Proposed deterministic policy, not yet implemented
+
+1. Reject malformed/inconsistent inputs. Apply scope, data, variant and resource
+   admission before ranking. `blocks` records verified dependencies, not a
+   proposal's importance claim.
+2. For OPEN questions, binary relevance is 1 exactly when the three substantive
+   outcomes map to at least two distinct actions, with at least one differing
+   from the current action; otherwise it is 0. Exclude `EXECUTION_ERROR`.
+   Count a question once; duplicate wording/outcomes add no relevance.
+3. Ready qualification tasks have priority as above. Among them use blocking
+   question first, smallest bounded wall time next, then task ID.
+4. Among admitted proposals with qualified rules and relevance 1, use blocking
+   question first, smallest bounded wall time next, then lexicographically
+   smallest proposal ID. Array order has no priority meaning.
+5. Return `STOP` when no proposal or prerequisite qualification task qualifies.
+   Use `NO_DECISION_CHANGING_PROPOSAL` if no OPEN question in the request has
+   relevance 1; otherwise `NO_ADMISSIBLE_WORK`. Never invent work to continue.
+   Selection is a recommendation, not a launch: recheck actual admission at use.
+
+Known limitation `BINARY_RELEVANCE_COST_BIAS`: a cheap less important question
+can repeatedly displace an expensive important question of equal binary
+relevance and blocking status. Public case 05 exposes this behavior. Binary
+relevance is not expected scientific utility. Do not invent probabilities or
+silently add importance weights. Improvements require a new policy version
+and evidence against the fixed-order baseline under the same total budget.
+
+### Public examples and external freeze
+
+The public cases file is a reviewer wrapper. Validate each `request` separately:
+01/03/04/05 are structurally valid; 02 deliberately adds a forbidden proposal
+field. `expected_response` is a specification, never a selector input. The
+wrapper and registry label qualification receipts and costs as public assumed
+inputs. No evaluator, qualifier or selector ran. `PUBLIC_ASSUMPTION` references
+are not evidence and cannot admit real work. These cases cover blocking priority,
+central mapping protection, qualification priority, STOP and cost bias. They
+do not establish independent selection quality or full implementation coverage.
+Later tests must also cover ties/order invariance, failed/stale qualifications,
+missing references, budget exhaustion, blocked tasks and preserved research locks.
+
+Before the owner's hidden test, freeze executable, schema, policy, registry
+interface, budget, fixed-order comparison and scoring/release protocol. This
+format delivery is not an executable freeze. The owner retains encrypted cases,
+answers and scoring outside agent-accessible storage and runs the test while
+Codex is inactive. Only the owner-supplied SHA-256 of the exact encrypted bundle
+belongs in the repository: no bundle, key, location, generator, secret seed or
+answer. No checksum is supplied yet; do not invent one or request secret contents.
+The frozen program receives only its request and trusted registry; expected
+answers stay with the scorer. Cases/results used to revise a policy become
+development exposure; a new independent claim needs fresh hidden cases. The
+owner may release results afterward. Another local folder/chat is not isolation.
+
 ## G. Reporting contract
 
 Machine-readable `report.json` and readable `report.md` include:

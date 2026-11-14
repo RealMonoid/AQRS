@@ -1,5 +1,27 @@
 # AQRS — Project risks and mitigations
 
+## Structured selection boundary
+
+**AQRS-W01-P00, 2026-11-14:** format-only risk screen; no runtime guard or
+selector is changed. Prospective top event: unauthorized or misleading work is
+selected. Paths: proposal override of the central map OR false/stale qualification
+receipt OR fabricated admission/cost record; execution additionally requires
+a missing independent launch guard. Before implementation, verify strict fields,
+reference/version binding, both qualification checks, admission before ranking
+and recheck before dispatch. Cases 02/03/04 specify rejection, qualification and
+STOP; their expected outputs are not executed safeguards.
+
+Independent-evidence failure: developer access to hidden cases OR adaptive
+retuning on their results. Freeze code/scoring first, keep encrypted cases and
+keys outside agent access, store only the owner's checksum, and test while
+Codex is inactive. Check release records before an independence claim.
+
+Known weakness `BINARY_RELEVANCE_COST_BIAS`: cheap questions may repeatedly
+displace expensive important questions with equal relevance/blocking status.
+Case 05 records this limitation. Do not call a schema pass quality evidence or
+silently add weights. Revisit after an external comparison demonstrates harm
+and a bounded alternative can be tested.
+
 ## Lessons retained from archived cards
 
 One-time owner cleanup, 2026-11-14. These nine lines retain untested implications

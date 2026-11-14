@@ -1,0 +1,297 @@
+{
+  "document_type": "PUBLIC_SELECTION_CASES",
+  "format_version": 1,
+  "notice": "Exactly five public contract examples. Expected responses are specifications, not selector outputs. No selector is implemented or tested. Costs and qualification receipts are illustrative assumptions only. Pass only request plus the trusted registry to a future selector; never pass expected_response or this wrapper.",
+  "registry_file": "research_selection_questions.json",
+  "cases": [
+    {
+      "case_id": "PUBLIC_01",
+      "description": "A registered blocking workflow question precedes a cheaper nonblocking question. The qualification and costs are stipulated public inputs, not executed evidence.",
+      "expected_format_valid": true,
+      "request": {
+        "document_type": "SELECTION_REQUEST",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_01",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "snapshot_id": "PUBLIC_SNAPSHOT_01",
+        "authorization_scope": "ENGINEERING_CHECKS_ONLY",
+        "research_runs_permitted": false,
+        "remaining_wall_seconds": 100,
+        "plans": [
+          {
+            "plan_id": "PLAN_ATTEMPTS",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_ATTEMPT_RECORDING",
+            "wall_seconds_bound": 40,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_ATTEMPTS"
+          },
+          {
+            "plan_id": "PLAN_REPORT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "wall_seconds_bound": 5,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+          }
+        ],
+        "proposals": [
+          {
+            "proposal_id": "P_REPORT",
+            "question_id": "Q_REPORT_PORTABILITY",
+            "plan_id": "PLAN_REPORT"
+          },
+          {
+            "proposal_id": "P_ATTEMPTS",
+            "question_id": "Q_ATTEMPT_RECORDING",
+            "plan_id": "PLAN_ATTEMPTS"
+          }
+        ]
+      },
+      "expected_response": {
+        "document_type": "SELECTION_RESPONSE",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_01",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "status": "SELECT",
+        "selected_proposal_id": "P_ATTEMPTS",
+        "qualification_task_id": null,
+        "reason_code": "BLOCKING_QUESTION_FIRST"
+      }
+    },
+    {
+      "case_id": "PUBLIC_02",
+      "description": "A proposal tries to add an outcome/action mapping. Reject the whole malformed request before ranking; do not silently ignore the forbidden field.",
+      "expected_format_valid": false,
+      "request": {
+        "document_type": "SELECTION_REQUEST",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_02",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "snapshot_id": "PUBLIC_SNAPSHOT_02",
+        "authorization_scope": "ENGINEERING_CHECKS_ONLY",
+        "research_runs_permitted": false,
+        "remaining_wall_seconds": 100,
+        "plans": [
+          {
+            "plan_id": "PLAN_REPORT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "wall_seconds_bound": 5,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+          }
+        ],
+        "proposals": [
+          {
+            "proposal_id": "P_OVERRIDE",
+            "question_id": "Q_REPORT_PORTABILITY",
+            "plan_id": "PLAN_REPORT",
+            "outcome_actions": {
+              "SUPPORTED": "RUN_PROTECTED_RESEARCH"
+            }
+          }
+        ]
+      },
+      "expected_response": {
+        "document_type": "SELECTION_RESPONSE",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_02",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "status": "REJECT_INPUT",
+        "selected_proposal_id": null,
+        "qualification_task_id": null,
+        "reason_code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "case_id": "PUBLIC_03",
+      "description": "An unqualified rule cannot be selected, even at the lowest cost. Its ready, admitted qualification task precedes the otherwise eligible report proposal; no workflow proposal is selected.",
+      "expected_format_valid": true,
+      "request": {
+        "document_type": "SELECTION_REQUEST",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_03",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "snapshot_id": "PUBLIC_SNAPSHOT_03",
+        "authorization_scope": "ENGINEERING_CHECKS_ONLY",
+        "research_runs_permitted": false,
+        "remaining_wall_seconds": 100,
+        "plans": [
+          {
+            "plan_id": "PLAN_MEASUREMENT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_SMALL_EFFECT_MEASUREMENT",
+            "wall_seconds_bound": 1,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_MEASUREMENT"
+          },
+          {
+            "plan_id": "QUALIFY_SMALL_EFFECT",
+            "kind": "RULE_QUALIFICATION",
+            "target_id": "RULE_SMALL_EFFECT",
+            "wall_seconds_bound": 8,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:QUALIFY_SMALL_EFFECT"
+          },
+          {
+            "plan_id": "PLAN_REPORT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "wall_seconds_bound": 5,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+          }
+        ],
+        "proposals": [
+          {
+            "proposal_id": "P_MEASUREMENT",
+            "question_id": "Q_SMALL_EFFECT_MEASUREMENT",
+            "plan_id": "PLAN_MEASUREMENT"
+          },
+          {
+            "proposal_id": "P_REPORT",
+            "question_id": "Q_REPORT_PORTABILITY",
+            "plan_id": "PLAN_REPORT"
+          }
+        ]
+      },
+      "expected_response": {
+        "document_type": "SELECTION_RESPONSE",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_03",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "status": "QUALIFY_RULE",
+        "selected_proposal_id": null,
+        "qualification_task_id": "QUALIFY_SMALL_EFFECT",
+        "reason_code": "RULE_QUALIFICATION_REQUIRED"
+      }
+    },
+    {
+      "case_id": "PUBLIC_04",
+      "description": "All substantive outcomes retain the current action. A different action for execution error creates no decision relevance. Explicit STOP with neither a proposal nor a qualification task.",
+      "expected_format_valid": true,
+      "request": {
+        "document_type": "SELECTION_REQUEST",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_04",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "snapshot_id": "PUBLIC_SNAPSHOT_04",
+        "authorization_scope": "ENGINEERING_CHECKS_ONLY",
+        "research_runs_permitted": false,
+        "remaining_wall_seconds": 100,
+        "plans": [
+          {
+            "plan_id": "PLAN_NOTE",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REDUNDANT_REPORT_NOTE",
+            "wall_seconds_bound": 1,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_NOTE"
+          }
+        ],
+        "proposals": [
+          {
+            "proposal_id": "P_NOTE",
+            "question_id": "Q_REDUNDANT_REPORT_NOTE",
+            "plan_id": "PLAN_NOTE"
+          }
+        ]
+      },
+      "expected_response": {
+        "document_type": "SELECTION_RESPONSE",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_04",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "status": "STOP",
+        "selected_proposal_id": null,
+        "qualification_task_id": null,
+        "reason_code": "NO_DECISION_CHANGING_PROPOSAL"
+      }
+    },
+    {
+      "case_id": "PUBLIC_05",
+      "description": "Known weakness: two qualified, relevant, nonblocking questions have equal binary relevance. The cheaper report test wins over the more important but expensive source-transfer test. This expected behavior documents cost bias; it is not a claim of good research allocation.",
+      "expected_format_valid": true,
+      "request": {
+        "document_type": "SELECTION_REQUEST",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_05",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "snapshot_id": "PUBLIC_SNAPSHOT_05",
+        "authorization_scope": "ENGINEERING_CHECKS_ONLY",
+        "research_runs_permitted": false,
+        "remaining_wall_seconds": 100,
+        "plans": [
+          {
+            "plan_id": "PLAN_REPORT",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_REPORT_PORTABILITY",
+            "wall_seconds_bound": 3,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_REPORT"
+          },
+          {
+            "plan_id": "PLAN_TRANSFER",
+            "kind": "WORKFLOW_TEST",
+            "target_id": "Q_SOURCE_TRANSFER",
+            "wall_seconds_bound": 80,
+            "admission_status": "ALLOW",
+            "admission_reason": "ALLOWED",
+            "evidence_ref": "PUBLIC_ASSUMPTION:PLAN_TRANSFER"
+          }
+        ],
+        "proposals": [
+          {
+            "proposal_id": "P_TRANSFER",
+            "question_id": "Q_SOURCE_TRANSFER",
+            "plan_id": "PLAN_TRANSFER"
+          },
+          {
+            "proposal_id": "P_REPORT",
+            "question_id": "Q_REPORT_PORTABILITY",
+            "plan_id": "PLAN_REPORT"
+          }
+        ]
+      },
+      "expected_response": {
+        "document_type": "SELECTION_RESPONSE",
+        "format_version": 1,
+        "request_id": "PUBLIC_REQUEST_05",
+        "policy_version": "STRUCTURED_SELECTION_V1",
+        "registry_id": "PUBLIC_WORKFLOW_QUESTIONS",
+        "registry_revision": "1",
+        "status": "SELECT",
+        "selected_proposal_id": "P_REPORT",
+        "qualification_task_id": null,
+        "reason_code": "LOWEST_BOUNDED_COST"
+      }
+    }
+  ]
+}

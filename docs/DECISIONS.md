@@ -76,6 +76,33 @@ expected or actual cumulative effort reaches eight hours. Preserve the
 governance freeze and Resource Governor. See the [canonical data rule](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout)
 and [working method](../AGENTS.md#working-method).
 
+## ADR-055: workflow growth and bounded selection
+
+**Accepted owner scope, 2026-11-14.** The product is an automated quant research
+workflow that learns about its procedures and generalizes justified lessons.
+Bitcoin and other market studies are replaceable workflow test cases; market
+success is not the development acceptance criterion. Grow through bounded
+increments, with an evidenced, visible reason for a justified no-change finding.
+
+The owner authorizes the [AQRS-W01 sequence](MILESTONE_STATUS.md#experiment-queue):
+workflow question/proof per run (1), pre-start variant/attempt accounting (2),
+general data locks (4), bounded structured selection, then combined study
+inputs/shared orchestration (3+5). First deliver the format and five public
+cases without a selector. The selector cannot precede 1, 2 and 4. New research
+runs remain stopped; public engineering checks are authorized. This overrides
+standing research dispatch. Cumulative eight-hour effort is a progress notice,
+not new scope or permission for a research run.
+
+The [selection contract](CONTRACTS.md#f3-structured-next-question-selection-format-only)
+keeps outcome/action maps in the central registry, requires known-answer and
+null qualification for the exact rule, prioritizes ready qualification tasks,
+and returns explicit STOP. Retain binary-relevance cost bias as a known weakness.
+Public examples establish no independent quality. The owner supplies/runs hidden
+cases after executable freeze, outside agent access and while Codex is inactive;
+only the encrypted bundle checksum belongs in the repository. Reuse existing
+journals, Governor and canonical documents; no agent framework or research
+campaign is part of the first delivery.
+
 ## Rejected and deferred engineering ideas (durable decision memory)
 
 **AQRS-B01 bounded implementation choice, 2026-11-11.** Prepare the owner's

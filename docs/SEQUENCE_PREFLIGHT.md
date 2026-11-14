@@ -1,5 +1,15 @@
 # AQRS Sequence Preflight
 
+**2026-11-14, AQRS-W01 PRE-START / OWNER REQUIREMENT CHANGE.** `ALLOW` the
+selection format and five public examples first, without selection code.
+Then follow the [authorized queue](MILESTONE_STATUS.md#experiment-queue):
+workflow questions (1), central counting (2), general data locks (4), selector,
+combined study inputs/orchestration (3+5). This is a bounded implementation
+sequence, not a general audit. New research runs, including E26, remain `STOP`.
+Public engineering checks are authorized. Hidden tests follow executable freeze
+and run under owner control while Codex is inactive. The first-format delivery
+is an explicit handoff checkpoint, not a request to renew existing authorization.
+
 **2026-11-14, M2-E22 PRE-START / REQUIREMENT CHANGE.** `ALLOW` preparation
 under the owner's direct study instruction and [new data scope](RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
 The [Test Card](MILESTONE_ARCHIVE.md#m2-e22-test-card-predictive-first-spot-reversal)
