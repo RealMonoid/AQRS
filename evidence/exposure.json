@@ -10213,6 +10213,43 @@
   ],
   "manual_screens": [
     {
+      "analysis_id": "M2-E19-PRECISION-P01",
+      "work_item": "M2-E19",
+      "variant_id": "VOL_REGIME_HMM_E19_V1",
+      "kind": "report_based_precision_planning",
+      "registration": "before_saved_daily_outcome_read",
+      "registered_at_utc": "2026-11-12T11:30:50.677Z",
+      "data_scope": [
+        "2025-12-05/2025-12-10"
+      ],
+      "source_revision": "ff862a631bb5429044828013add41da7a313a202",
+      "source_attempt_id": "f27ed19d922f4ee9b43369e6b5c388d6:VOL_REGIME_HMM_E19_V1",
+      "source_member": "artifacts/m2-e19/windows/report.json",
+      "source_bundle": "evidence/m2-e19-acceptance.zip",
+      "receipt": "docs/MILESTONE_STATUS.md#m2-e19-precision-and-data-capacity-check",
+      "metric": "Paired UTC day dispersion for the opportunity-weighted net contrast",
+      "views": [
+        "aggregate"
+      ],
+      "new_forward_outcomes": false,
+      "protected_reads": 0,
+      "status": "completed",
+      "source_sha256": "17f2438ada6b6ef41391dc217c9d2ce88eb4950682129bfef275fe16fd6b2faf",
+      "alpha": 0.05,
+      "power": 0.8,
+      "effect_bps": 0.1,
+      "independent_unit": "UTC day",
+      "pilot_days": 6,
+      "pilot_dispersion_bps": 0.040312734561547214,
+      "available_days": 36,
+      "days_after_pilot": 26,
+      "t_required_units": [
+        3,
+        4,
+        6
+      ]
+    },
+    {
       "data_scope": [
         "2026-01-05"
       ],

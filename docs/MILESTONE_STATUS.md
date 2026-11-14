@@ -226,6 +226,59 @@ conditional in the catalog. Revisit a new design only on evidence of a
 named gap and adequate development coverage. The next M2 acceptance review
 starts with the unresolved M2-E09 source binding.
 
+### M2-E19 precision and data capacity check
+
+**Planning record, 2026-11-12T11:30:50.677Z, before reading the saved daily outcomes.**
+Use the published Windows comparison's six UTC day totals and opportunity
+counts from December 5–10, 2025. Estimate the sample standard deviation of
+daily paired net bps differences after subtracting the pooled per-opportunity
+difference times the day count and dividing by mean daily opportunity count.
+Reconcile the pooled result with the saved report. Plan a one-sided test of
+a true +0.10 bps per opportunity against zero at alpha 0.05 and 80% power.
+Use the AQRS normal and one-sample t approximations with one, 1.5 and two
+times pilot dispersion. Illustrate two days per independent unit. Compare
+with metadata for the available BTCUSDT Spot archives through January 5,
+2026. Record one aggregate planning look. Stop after arithmetic and
+inventory checks. Zero new market outcomes, raw market archive reads,
+fits, downloads, resamples, protected reads or spend.
+
+**Result, 2026-11-12T11:33:55.779Z.** The six saved day rows reconcile to 4,296
+opportunities and +0.020727 net bps per opportunity. The estimated
+day-level dispersion is 0.040313 bps per opportunity. Treat this
+estimate as provisional because the six days are a short, reused sample.
+
+| Dispersion assumption | Net bps per opportunity | Normal units | t units | Calendar days at two days per unit |
+| --- | ---: | ---: | ---: | ---: |
+| 1 times pilot | 0.0403 | 2 | 3 | 6 |
+| 1.5 times pilot | 0.0605 | 3 | 4 | 8 |
+| 2 times pilot | 0.0806 | 5 | 6 | 12 |
+
+The t calculation uses day-level linearized contrasts and independent
+normal units. The two-day scenario illustrates calendar capacity. The
+pilot does not estimate the dependence length. At 26 independent days,
+the assumed dispersion could be as high as 0.199 bps for
+80% power. With 13 independent units in the same calendar span, the
+corresponding limit is 0.137 bps per opportunity at the
+unit level. These planning thresholds test against zero. The original
+two-fold advancement gate and a claim that the effect exceeds +0.10
+require separate designs.
+
+Archive metadata and local archive and checksum presence matched all 36
+BTCUSDT Spot UTC dates from December 1 through January 5. This includes
+24 D01 dates and 12 earlier-qualified archives from M2-E12, M2-E03 and
+M1-E02. There are 26 dates after the ten-day M2-E19 scope, including
+14 D01 dates and 12 dates already used by other AQRS exercises. The
+available span fits the planning sensitivities. Independent evidence,
+regime breadth and the realized dispersion remain unverified. The
+original M2-E19 disposition stays in place. No campaign is dispatched.
+
+Verified the saved comparison digest and run ID, daily-to-pooled
+reconciliation, the first t-test sample size attaining the target and
+the 36 archive pairs using a Python calculation and read-only file
+metadata checks. 185 seconds elapsed from the planning record
+through the arithmetic and inventory. Zero market payload reads, fits,
+trials, resamples, new data or protected reads.
+
 ### AQRS-B01 evidence amendment Test Card
 
 **2026-11-11, 20:21:18 UTC orientation checkpoint; before implementation.**

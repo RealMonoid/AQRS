@@ -2,6 +2,17 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Assess M2-E19 precision and development data capacity
+
+Use the saved daily comparisons and archive metadata to plan a paired
+test of the incremental HMM effect.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+
 ## 2026-11-12 — Screen an HMM regime filter on the M2-E18 rule
 
 Register and execute a coverage-first comparison of two gates on the
