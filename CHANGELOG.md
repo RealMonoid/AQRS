@@ -2,6 +2,19 @@
 
 The **only** changelog in this repository. Entries are in English, newest first, and include the date (`YYYY-MM-DD`), purpose and every added, modified, moved or deleted file path. Keep older entries here, not in separate `CHANGELOG_V*.md` files. Historical version labels below document prior handoffs; they do not govern runtime behavior or replace current specifications.
 
+## 2026-11-12 — Verify archived M2-E14 and M2-E18 evidence
+
+Add a read-only campaign archive check and an optional exact-byte Git check
+for the M2-E18 Windows replay report. Record the verification and a Resource
+Governor assessment of repeated work in the research workflow.
+
+**Paths**
+
+- `CHANGELOG.md`
+- `README.md`
+- `docs/MILESTONE_STATUS.md`
+- `scripts/evidence_archive.py`
+
 ## 2026-11-12 — Close the matched M2-E18 market comparison
 
 Preserve the two complete platform runs, candidate outcomes, replay setup

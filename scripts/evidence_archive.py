@@ -3,13 +3,15 @@
 import argparse
 import hashlib
 import json
+import os
 import sqlite3
+import subprocess
 from collections import Counter
 from contextlib import closing
 from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
 from tempfile import TemporaryDirectory
-from zipfile import ZIP_DEFLATED, ZipFile
+from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 SUFFIXES = {
@@ -39,6 +41,10 @@ def write(path, value):
 def verify(bundle, manifest, restore=None):
     """Check every member before optionally restoring to a new directory."""
     expected = json.loads(manifest.read_text(encoding="utf-8"))
+    return verify_members(bundle, expected, restore)
+
+
+def verify_members(bundle, expected, restore=None):
     if digest(bundle.read_bytes()) != expected["bundle_sha256"]:
         raise ValueError("Evidence bundle digest mismatch.")
     with ZipFile(bundle) as archive:
@@ -79,6 +85,63 @@ def verify(bundle, manifest, restore=None):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(archive.read(name))
     return len(names)
+
+
+def verify_campaign(root, campaign, replay_revision):
+    slug = campaign.lower()
+    evidence = root / "evidence"
+    manifest = evidence / f"{slug}-verification.json"
+    expected = json.loads(manifest.read_text(encoding="utf-8"))
+    if expected["work_item"] != campaign:
+        raise ValueError("Verification receipt belongs to a different campaign.")
+
+    if campaign == "M2-E14":
+        reports = {"windows": expected["windows_report_sha256"]}
+    else:
+        reports = {
+            platform: expected["comparison"]["report_sha256"][platform]
+            for platform in ("windows", "ubuntu")
+        }
+    for platform, sha256 in reports.items():
+        member = f"artifacts/{slug}/{platform}/report.json"
+        if expected["files"][member]["sha256"] != sha256:
+            raise ValueError(f"Verification receipt report digest mismatch: {member}.")
+    count = verify_members(evidence / f"{slug}-acceptance.zip", expected)
+
+    if replay_revision is not None:
+        path = "evidence/m2-e18-replay/windows.json"
+        git = {
+            "cwd": root,
+            "stderr": subprocess.PIPE,
+            "env": {**os.environ, "GIT_NO_LAZY_FETCH": "1"},
+        }
+        try:
+            commit = (
+                subprocess.check_output(
+                    [
+                        "git",
+                        "rev-parse",
+                        "--verify",
+                        "--end-of-options",
+                        f"{replay_revision}^{{commit}}",
+                    ],
+                    **git,
+                )
+                .decode("ascii")
+                .strip()
+            )
+            report = subprocess.check_output(
+                ["git", "cat-file", "blob", f"{commit}:{path}"], **git
+            )
+        except subprocess.CalledProcessError as error:
+            raise ValueError(
+                f"Cannot read the local Git replay report at {replay_revision}."
+            ) from error
+        if digest(report) != reports["windows"]:
+            raise ValueError(
+                f"Windows replay report digest mismatch at {replay_revision}."
+            )
+    return count
 
 
 def build(root):
@@ -344,7 +407,30 @@ def main():
     parser.add_argument(
         "--restore", type=Path, help="Restore verified members to a new directory."
     )
+    parser.add_argument(
+        "--campaign",
+        choices=("M2-E14", "M2-E18"),
+        help="Verify a campaign archive and its receipt without writing files.",
+    )
+    parser.add_argument(
+        "--replay-revision",
+        help="Also verify the E18 Windows replay report bytes at this local Git revision.",
+    )
     args = parser.parse_args()
+    if args.replay_revision is not None and args.campaign != "M2-E18":
+        parser.error("--replay-revision requires --campaign M2-E18.")
+    if args.campaign:
+        if args.build or args.restore is not None:
+            parser.error("--campaign cannot be combined with --build or --restore.")
+        try:
+            count = verify_campaign(ROOT, args.campaign, args.replay_revision)
+        except (BadZipFile, KeyError, OSError, ValueError, sqlite3.Error) as error:
+            parser.exit(1, f"{args.campaign} verification failed: {error}\n")
+        print(f"Verified {count} preserved evidence files for {args.campaign}.")
+        if args.replay_revision is not None:
+            print(f"Verified the Windows replay report at {args.replay_revision}.")
+        return
+
     count = (
         build(ROOT)
         if args.build

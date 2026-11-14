@@ -290,6 +290,19 @@ The [versioned exposure index](evidence/exposure.json) distinguishes reconstruct
 
 Verify with `python scripts/evidence_archive.py --verify`. Add `--restore <new-directory>` to restore; extraction refuses an existing destination and unsafe or nonportable member names. SQLite backup snapshots preserve committed WAL records. Restoration proves integrity and journal readability, not historical preregistration or missing source linkage. Keep a verified copy outside the local disk; the private Git remote carries the versioned bundle. Refresh evidence and exposure records before accepting a new campaign.
 
+From the E18 evidence checkout, verify the named campaign archives and their
+report digests with these read-only commands.
+
+```sh
+python scripts/evidence_archive.py --verify --campaign M2-E14
+python scripts/evidence_archive.py --verify --campaign M2-E18
+```
+
+For E18, add `--replay-revision <revision>` to check the Windows report bytes
+stored in a locally available Git revision. The replay correction `1eebbfa`
+matches the receipt. Its parent `1eebbfa^` fails the digest check. The
+campaign mode rejects `--build` and `--restore`.
+
 Core report schema `2` adds recoverable source, available Git identity, environment versions and explicit zero-cost flags. Workers execute the archived source. Package version `0.1.0` remains a compatibility label, not an execution identity or milestone status. Old reports remain unchanged legacy records.
 
 The core deadline covers supervised input validation/staging, timing fits and candidate workers. Configuration loading, source snapshots, SQLite/report persistence and cleanup are control-plane work outside that hard compute boundary; elapsed setup is checked before admission. This is not an OS deadline for arbitrary filesystem I/O. Pilots validate approved Governor settings and retain frozen costs; their parent-side archive/report I/O still has no hard external timeout. Strict RAM containment remains unsupported and is rejected. Supported estimator/calibration calls reserve fits before starting. A new manual campaign still needs its separately authorized budget.

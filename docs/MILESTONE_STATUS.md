@@ -50,6 +50,7 @@ outcome follow-ups remain deferred.
 |---|---|---|---|---|
 | M2-E15 | 2026-11-10 | WAITING | Decide whether a state machine merits a separate outcome study. On one development slice, compare two fixed filters on the same eligible entry opportunities: a rolling lookback rule and a state machine using the same events. Count disagreements and the days they span. Defer if coverage misses the predeclared minimum. Count only, with zero model fits and no parameter search. | Follow-up to M2-E14. Review its result and identify a concrete entry rule for which longer state persistence could matter. Before starting, record both rules, the data slice, the minimum coverage and the Resource Governor assessment in a Test Card. Apply the [synthetic setup checks](#m2-e15-library-check) if the selected rule waits for a trigger. The owner approved the queue entry. The named data access and count run require separate authorization and preflight. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
+| AQRS-A10 | 2026-11-12 | CLOSED | [Verified both campaign archives and rejected the superseded E18 replay report.](#aqrs-a10-learning-card) | Owner authorized the standalone read-only tooling increment. |
 | M2-E18 | 2026-11-11 | CLOSED | [Two complete real-data comparisons matched on Windows and non-root Ubuntu.](#m2-e18-windows-and-ubuntu-learning-card) | Owner approved on 2026-11-12. Both candidates defer on the fixed development screens. The separate M2 acceptance review remains open. |
 | M2-E17 | 2026-11-11 | CLOSED | [Reviewed M2 evidence and cleared the training movement screen at 61.51 bps.](#m2-e17-learning-card-training-window-feasibility) | One owner-approved training-only data check. Follow-up to M2-E14. |
 | M2-E14 | 2026-11-10 | CLOSED | [Windows campaign completed. Volume gates missed and Ridge screened before fitting.](#m2-e14-windows-campaign-learning-card) | Owner-approved fixed development attempt. The missing Ridge comparison makes the conditional Ubuntu market replay ineligible. The two-family market milestone criterion stays open. |
@@ -94,9 +95,75 @@ outcome follow-ups remain deferred.
 ## Current Build–Measure–Learn development loop
 
 **Status:** The [M2-E18 paired campaign](#m2-e18-windows-and-ubuntu-learning-card)
-is recorded. No development loop is active.
+and the [AQRS-A10 archive check](#aqrs-a10-learning-card) are recorded.
+No development loop is active.
 AQRS-B01 preparation is complete and its external search is waiting.
 AQRS-D01 and AQRS-A06/A07/A08 remain closed.
+
+### AQRS-A10 Test Card: read-only campaign evidence check
+
+**2026-11-12.** Baseline `e26e65e` on the E18 evidence branch. The existing
+archive checker verifies the historical bundle. The E14 and E18 closing
+checks were performed with inline commands. The riskiest assumption is
+that one CLI path can reuse the archive verifier while checking the exact
+Git bytes that the Ubuntu replay would receive. The prior E18 setup
+rejection gives a known negative control. ADR-048 and the rejected-idea
+ledger were reviewed. Reuse the existing script and published receipts.
+
+Pass if the CLI verifies all 29 E14 and 60 E18 archive members, including
+the receipt's report digests and SQLite integrity, then accepts the
+corrected E18 Windows report from `1eebbfa` and rejects `1eebbfa^` with a
+nonzero exit and a digest mismatch. The legacy historical check must still
+verify 295 members. Capture commands, exit codes and elapsed time. Keep the
+campaign mode read-only, including when conflicting write flags are passed.
+The risk screen finds no change to the journal contract, research execution
+or replay admission. FTA is not triggered.
+
+**Budget and stop.** Up to one hour once, with seconds of local evidence I/O
+per later check. Use the committed archives, receipts and local Git objects.
+Zero campaigns, fits, market-input reads, protected reads, dependencies or
+spend. The potential benefit is replacing repeated ad hoc integrity checks
+without displacing the M2 research queue. Adopt the scoped command after all
+checks pass. Stop or narrow on ambiguous receipt bindings, unavailable
+objects or a change to a research contract.
+
+### AQRS-A10 Learning Card
+
+**2026-11-12.** `SUPPORTED / PERSEVERE` for the [read-only CLI](../README.md#auditable-evidence-and-execution-boundaries).
+On Windows Python 3.11.14 and 3.12.12, `python -B scripts/evidence_archive.py
+--verify --campaign M2-E14` verified 29 members and the equivalent M2-E18
+command verified 60, both exit 0. Adding `--replay-revision 1eebbfa` for
+M2-E18 matched the receipt, exit 0. Its parent `1eebbfa^` failed the digest
+check, exit 1. A missing local revision also exited 1. Invalid replay and
+write-flag combinations exited 2. The legacy `--verify` verified 295
+members. At baseline, `--campaign` was unrecognized, exit 2. Three existing
+archive and exposure tests passed, as did Ruff lint, both language checks
+and the diff/changelog checks. About five minutes elapsed from the recorded
+orientation checkpoint through verification and documentation. Zero new
+research runs, fits, market or protected input reads, dependencies or
+spend. No fresh Linux verification. The M2-E09 source evidence gap remains
+open.
+
+**Resource Governor follow-up, 2026-11-12.** Highest-value research
+automation candidate is an earlier, reusable training-only feasibility
+check for the next comparable campaign. E14 hit the Ridge movement screen
+after campaign preparation. E17 ran the corresponding check separately
+with zero fits. Its worker took 1.58 seconds, while setup and evidence
+verification took the work item to about seven minutes. E18 already binds
+that training result to the campaign. Reuse the current screening rule,
+supervisor and receipt when this workflow recurs. A first engineering
+proof would use synthetic inputs and the saved E17 receipt, take roughly
+60–90 minutes once, and add zero research fits or market reads. Any later
+authorized screen would have one bounded training-only worker and the
+existing admission and exposure accounting. The observed E17 resource
+use is a baseline, not a budget increase or a measured saving.
+
+The core `research plan` and `research run` both execute a timing fit when
+used consecutively with the current settings. Reserve the standalone plan
+for cases that require a separate planning receipt. The run still performs
+its own admission. Reusing a completed artifact for a technical check can
+also avoid a rerun when its source and input identities match. Treat a new
+market view or a required platform replay as separately counted work.
 
 ### AQRS-B01 evidence amendment Test Card
 
