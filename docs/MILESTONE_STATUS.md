@@ -58,6 +58,7 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| AQRS-GIT01 | 2026-11-14 | ACTIVE | [Autonomous repository completion](#aqrs-git01-autonomous-repository-completion): define the normal commit/integrate/publish/verify path and apply safe cleanup. | Owner's attached 27-part request explicitly authorizes this standalone change, ordinary publication to the existing remote and safe cleanup. No research or wider governance work. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
@@ -270,6 +271,67 @@ ends here: H01 awaits its trigger, and all six existing pending rows retain
 their recorded prerequisites with no eligible covered next item.
 
 ## Current Build–Measure–Learn development loop
+
+### AQRS-GIT01: autonomous repository completion
+
+**Owner authorization and Test Card, 2026-11-14, before implementation.**
+The attached request in chat `01a1d9b4-2b13-7530-b920-7d772cbd5678`
+authorizes permanent routine Git completion and one safe cleanup of the
+existing repository. This specific owner instruction covers the work despite
+the general governance freeze; it does not reopen other audits or research.
+
+- **Assumption and minimum proof:** the existing Git tools and five canonical
+  documents can make normal completion autonomous without losing work or
+  changing research source identities. A required new service or unresolved
+  ownership conflict would favor narrowing the cleanup instead.
+- **Baseline:** clean local and remote `main` at
+  `3e85eb28d4ab64df623cea25a710b0502e861818`; the previous Execution Reset
+  consolidated the project once. Current DoD has no routine commit, merge,
+  push or remote-SHA gate. Eight worktrees and eight additional local branches
+  remain; three branch tips have unique historical commits. GitHub reports
+  `main` as default, no branch protection/rulesets and no open PRs.
+- **Acceptance fixed by the owner request:** exercise A normal branch to
+  synchronized main, B remote-ahead integration, C merged-branch cleanup,
+  D unknown unique work retained, E dirty worktree retained, F failed main
+  check prevents push, G rejected divergent push reconciled without force,
+  H suspicious file excluded, and I historical source reference unchanged.
+  Use disposable local Git repositories for destructive/negative cases and
+  the actual AQRS repository for publication and preservation checks.
+  Pass requires all nine expected dispositions, unchanged tracked research
+  evidence/runtime, reviewed exact changed paths and freshly equal local/
+  remote main SHAs. A real remote/owner blocker leaves completion explicitly
+  open; no declaration of DONE based on a local branch alone.
+- **Reuse and sequencing:** amend AGENTS, Development Process and Codex Start;
+  use this card and the sole changelog for evidence. Reuse existing language,
+  archive/exposure checks and CI. The owner-directed closure comes before
+  any new item; no covered research item is READY. IDEA-002/003 favor bounded
+  checks without a new audit system or per-item documentation.
+- **Risk screen:** no scientific, journal, runtime or platform contract is
+  changed; FTA not triggered. The concrete cleanup failure paths are deleting
+  unique commits or ignored/dirty evidence, publishing a failed merge, and
+  leaking a credential. Check ancestry, all worktrees including ignored
+  files, exact staged content, remote heads and post-integration results;
+  retain any uncertain artifact. Cases D–I challenge these boundaries.
+- **Budget and stop:** at most 90 minutes total development including intake,
+  verification, publication and cleanup; no spending, dependencies, market
+  data access, research fits or holdout reads. Disposable Git cases have a
+  120-second bound; existing CI retains its 15-minute job limit and synthetic
+  fixtures. No research-budget change or recurring service. Stop only the
+  dependent path on failed validation, uncertain unique work, unsafe history
+  replacement or a reserved owner gate. Reuse valid unchanged-runtime evidence.
+  Elapsed-time measurement starts at the first clock observation,
+  10:57:54 UTC; preceding intake is excluded from the measured interval.
+
+**Pre-publication measurement.** The disposable `check_cases.py` operator
+exercise passed all nine cases A–I in 7.88 seconds (exit 0). Actual Git
+operations included an ordinary merge/push with SHA equality, remote-ahead
+fast-forward, refusal to delete a unique branch or dirty worktree, and a
+non-fast-forward rejection followed by a preserving merge. F injected a
+failed validation result and withheld publication; H excluded a suspicious
+dummy file through explicit staging. I preserved the original source-bound
+receipt. These are procedural scenarios, not a new automatic Git enforcement
+service or proof of every future agent's adherence. The one-shot script and
+command/result JSON remain in the session's temporary directory.
 
 ### AQRS-ER01 Execution Reset
 

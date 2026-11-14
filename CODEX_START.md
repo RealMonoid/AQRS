@@ -20,6 +20,10 @@ Apply
 before reporting completion or handing off material work. The M0 brief below
 remains a reference for the implemented baseline.
 
+Before material work, apply the [Git start preflight](docs/DEVELOPMENT_PROCESS.md#git-start-preflight).
+Finish repository changes through [autonomous Git completion](docs/DEVELOPMENT_PROCESS.md#autonomous-git-completion)
+before next dispatch; a validated local working branch is not the published project state.
+
 ## Documentation and change control (mandatory)
 
 For a quick view of how research moves from an observation or selected market

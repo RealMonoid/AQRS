@@ -230,6 +230,15 @@ can complete its declared investigation. A feature with unmet acceptance
 criteria remains incomplete. Record its blocked or stopped disposition
 explicitly.
 
+For repository changes, DONE also requires the [Git completion flow](#autonomous-git-completion):
+coherent committed changes, integration into `main`, relevant checks on that
+result, ordinary publication to the official remote, fresh local/remote main
+SHA equality, and safe cleanup or an explicit retention reason. If a real
+remote or owner blocker prevents this, keep repository completion `WAITING`
+in the existing card/queue with the completed technical result, exact blocker
+and resumption condition. Do not report full DONE while publication remains
+open. Read-only work needs no artificial empty commit.
+
 Retain the existing queue statuses. Record a finished attempt as `CLOSED`
 with its result. State explicitly when an attempt closes `BLOCKED`, `DEFER`
 or `REJECTED` while the requested capability remains open, and link its
@@ -251,6 +260,119 @@ Identify the next item actually started or the exact condition that prevents
 further authorized work. An explicit owner instruction to pause still
 governs. A new chat follows the [handoff rule](../AGENTS.md#working-method)
 and carries the same authorization and cumulative estimate.
+
+### Autonomous Git completion
+
+The **canonical published AQRS state** is the successfully validated commit
+on `main` at the configured official remote. Currently this is `origin`,
+`https://github.com/RealMonoid/AQRS.git`. Normal completion establishes
+`local main SHA = live remote main SHA = validated canonical commit`.
+Git supplies the state; do not add a branch registry, merge queue, status
+document per item or recurring Git audit. Record only material results and
+blockers in the existing work card and changelog.
+
+#### Git start preflight
+
+Before each material item, inspect the current branch, staged/unstaged and
+untracked changes, local `main`, configured fetch/push destinations, relevant
+branches and `git worktree list --porcelain`. Fetch the official remote when
+reachable; compare `main` with its freshly fetched main, including unique
+commits in either direction. Check relevant existing work before creating
+another line. An unreachable remote is an explicit publication prerequisite,
+not evidence of synchronization or a reason to stop independent preparation.
+
+Use a temporary `codex/...` branch for substantive work. Start from current
+canonical main after safe synchronization, or resume the relevant existing
+branch. Preserve unrelated changes: use a separate clean worktree when needed,
+never silently stage, stash, reset or discard another item's work. No new
+direct-on-main exception is introduced here.
+
+#### Commit, integrate, validate and publish
+
+1. Finish the authorized item or a coherent independently complete slice;
+   run relevant tests and verification, reconcile completion and update the
+   existing evidence and changelog. Review the exact staged paths and diff
+   for scope and secrets before committing. Exclude unknown files, keys,
+   tokens, passwords and credentials; investigate suspicious content without
+   printing it. Stage explicit known paths. Use concise factual commits for
+   coherent changes, avoiding both edit-by-edit micro-commits and unrelated
+   bulk commits. Preserve research source identity as described below.
+2. Before integration, repeat the preservation check below and fetch fresh
+   remote heads. If remote main advanced, compare and integrate it normally
+   (fast-forward when possible, otherwise a reviewed merge). Integrate the
+   completed authorized branch into clean local `main`; use a clean worktree
+   if another worktree has unrelated changes. Routine conflicts may be
+   resolved from the work item, requirements, canonical documents and tests.
+   Escalate only a substantive choice that changes scope, requirements or
+   scientific meaning, could misrepresent evidence, or discards unique work.
+3. Run relevant checks on the **resulting main**, including `git diff --check`
+   and the integrated change diff, applicable tests, documentation/language
+   checks and evidence verification. Reuse valid unchanged-runtime evidence;
+   run broader Windows/Linux gates when the change or milestone requires
+   them. A failed check prevents publishing that result as validated main.
+   Correct within scope and retest, or retain the unpublished work and record
+   the blocker. A pre-merge branch pass alone is insufficient.
+4. Push ordinary `main` to the existing official remote (currently
+   `git push origin main:main`). A working-branch push is needed only when
+   the existing review/CI path requires it. Respect branch protection and
+   required checks. If a PR is required, create/update it, wait for required
+   checks and approvals, merge with existing permissions, then fetch and
+   synchronize local main to the actual resulting remote commit and verify
+   it. Do not invent a PR requirement where none exists. Required human
+   approval is an owner gate; a normal push or merge is not.
+5. Verify `git rev-parse refs/heads/main` against a fresh
+   `git ls-remote <official-remote> refs/heads/main`; a cached tracking ref is
+   insufficient. Require equality and check any required post-push CI before
+   declaring DONE. A rejected non-fast-forward push triggers fetch, comparison,
+   safe ordinary integration and fresh relevant checks before retrying.
+   Never force a divergent push. Stop only the dependent path if divergence
+   threatens unique work or its correct resolution is materially ambiguous.
+6. Apply safe cleanup, record the final synchronization/check outcome or real
+   blocker, and perform [next dispatch](#work-item-definition-of-done-and-next-dispatch).
+   A completed item must not remain solely on a temporary branch.
+
+#### Preservation and cleanup
+
+Before **any** merge, branch deletion, worktree removal, reset, clean, rebase,
+cherry-pick or other cleanup, inspect staged/unstaged changes, relevant
+untracked **and ignored** files, unique commits, other worktrees and current
+remote status. A clean `git status` does not prove ignored research artifacts
+are disposable. Do not discard work whose origin or purpose is uncertain.
+
+After verified publication, delete an obsolete local branch with ordinary
+`git branch -d` only when fully integrated into main, no open work or unique
+evidence depends on it, and no active worktree uses it. Verify ancestry with
+`git merge-base --is-ancestor <tip> main`; patch equivalence alone does not
+preserve a source commit. Remote working branches may be deleted only after
+the same proof against their freshly fetched tips and confirmation that no
+active worktree, PR or review needs them. Retain uncertain refs with a reason.
+
+Remove a completed worktree using `git worktree remove`, never manual directory
+deletion, only after confirming it is inactive and clean, its branch/commits
+are integrated or otherwise safely retained, and no relevant untracked or
+ignored files would be lost. Retain dirty or uncertain worktrees. Inspect the
+resulting refs/worktrees again after cleanup; never use a force option to
+silence a failed preservation check.
+
+Research reports, source snapshots and receipts stay bound to the actually
+executed commit/digest. Preserve required historical commits through reachable
+refs or integrated history before deleting any ref; retain and publish a
+necessary historical source ref when canonical history does not contain it.
+Do not rewrite old evidence references to the merge commit, rebase published
+research sources or treat technical integration as a new research attempt.
+
+#### Reserved decisions
+
+Separate explicit owner approval is still required for `push --force`,
+`push --force-with-lease`, published-history rewrites (including rebases that
+would replace remote history), overwriting remote tags, discarding unknown
+unique work, deleting unclear remote branches, changing branch protection or
+repository security, changing the official remote, publication to a new
+external remote, making a private repository public, and material secret or
+credential decisions. Existing AQRS scope, data, research, budget and release
+gates remain in force. Analyze a routine failure and complete available safe
+preparation before asking; a normal commit, merge, push or proven cleanup
+requires no repeated owner confirmation.
 
 ### Sequence preflight
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-14 — Make routine repository completion autonomous
+
+Make validated main publication and live remote SHA equality part of normal
+work-item completion. Reuse existing Git tools and canonical records for start
+preflight, ordinary integration, protection of historical evidence, explicit
+exception gates and safe branch/worktree cleanup. Exercise the owner's nine
+cases and apply the process to the current repository without changing research.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+- `CODEX_START.md`
+- `docs/DEVELOPMENT_PROCESS.md`
+- `docs/MILESTONE_STATUS.md`
+
 ## 2026-11-14 — Canonicalize AQRS and prepare E20 evidence design
 
 Carry out the owner-directed Execution Reset with preserved history and dirty

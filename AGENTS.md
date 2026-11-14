@@ -51,6 +51,15 @@ At intake and resumption in any AQRS chat, including `/goal`, start from the [ex
 
 **Standing approval for work under eight hours.** Estimate the entire work item or authorized sequence using time already spent plus the estimated time remaining. Proceed without a separate start signal when the total is expected to be under eight hours and the work fits the authorized project scope and existing resource limits. Keep work in small, verifiable increments. If the total is expected to reach or exceed eight hours, obtain approval for that effort before starting or continuing. The time rule does not expand milestone scope, change spending or compute limits, or replace required data-access and release approvals.
 
+**Autonomous repository completion.** For authorized AQRS work, normal commits,
+integration into canonical `main`, pushes to the existing official remote and
+safe cleanup of completed branches/worktrees are routine actions, not owner
+gates. Follow the [Git completion flow](docs/DEVELOPMENT_PROCESS.md#autonomous-git-completion)
+through validation and fresh local/remote `main` SHA equality before reporting
+DONE. Stop only the affected path for unknown unique work, a substantive
+ambiguous conflict, failed validation, unavailable remote, required history
+rewrite/force push or an existing reserved owner gate.
+
 If a material owner decision or missing input blocks progress, explain the problem in plain language, recommend a way forward, and describe any viable alternatives and their trade-offs. Assume no specialist background in mathematics, quantitative research, or software engineering. Explain essential technical terms.
 
 **Owner decision reminder.** End each user-facing AQRS reply and progress update with one short German line naming the decisions currently awaiting the owner. Use the current [experiment queue](docs/MILESTONE_STATUS.md#experiment-queue) and the linked [project](docs/OPEN_QUESTIONS.md) and [requirements](docs/requirements/OPEN_QUESTIONS.md) records. Name each item by ID or subject and state the choice in a few words. Include a deferred choice once its recorded review trigger is met. Omit the line whenever no owner decision is open for action.
