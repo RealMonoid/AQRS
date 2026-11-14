@@ -72,11 +72,17 @@ apply. The owner approved [continuing Spot research](RESEARCH_PROTOCOL.md#standi
 on 2026-11-14. Start with the three E22 filters below; unrelated infrastructure,
 benchmark and audit prerequisites remain unchanged.
 
+**Current owner stop, 2026-11-14:** an explicitly authorized message from the
+other AQRS chat (`01a1da94-f3ec-70b1-8dcc-07004812d00d`) stops new research runs
+pending the owner's cross-study-reuse questions and decision. This temporary
+instruction overrides autonomous research dispatch. E23–E25 had completed;
+E26 has not run. Keep its unfinished implementation on a separate branch.
+
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| M2-E23 | 2026-11-14 | ACTIVE | Large completed-bar move strengthens next-bar reversal; [common card](#m2-e23-to-e25-test-card-three-e22-filters). | Direct owner approval of the revised proposal and final corrections; publish definition and pass synthetic/independent review before outcomes. |
-| M2-E24 | 2026-11-14 | READY | Relative volume strengthens reversal; same fixed E22 year, separately counted. | Same standing mandate and common card; complete E23 learning and all technical admission checks. |
-| M2-E25 | 2026-11-14 | READY | Absolute taker-buy imbalance strengthens reversal; same fixed year, separately counted. | Same standing mandate and common card; complete E24 learning and all technical admission checks. |
+| M2-E23 | 2026-11-14 | COMPLETED | Large-move filter: 52.36% versus 51.84% unselected; INCONCLUSIVE, costs not run. | Counted slot 2; see learning row and preserved run artifacts. |
+| M2-E24 | 2026-11-14 | COMPLETED | Calendar-adjusted volume: 51.86% versus 51.95% unselected; INCONCLUSIVE, costs not run. | Counted slot 3; E23 learning and all technical admission checks passed before execution. |
+| M2-E25 | 2026-11-14 | COMPLETED | Taker imbalance: 52.59% versus 51.71% unselected; INCONCLUSIVE, costs not run. | Counted slot 4; E24 learning and the same published technical admission passed. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](MILESTONE_ARCHIVE.md#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](MILESTONE_ARCHIVE.md#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
@@ -168,4 +174,20 @@ One row per run under the [closeout rule](RESEARCH_PROTOCOL.md#research-and-back
 
 | Question | Result | Weakness | Change | Effect | Time |
 |---|---|---|---|---|---|
+| M2-E25: does absolute taker-buy imbalance strengthen reversal? | INCONCLUSIVE: 4,455 selected cases on all 365 days; 52.59% versus 51.71% unselected. Difference +0.88 percentage points, HAC-14 interval [-1.37, +3.13]; selected up/down controls 50.84%/49.16%. Costs not run. | Three valid filters have not established stronger reversal; this is insufficient evidence, not proof of absence. | No procedural defect found. Prioritize a different mechanism instead of tuning these filters: continuation over completed four-hour blocks, with a separately frozen question. | Clean negative/inconclusive research requires no artificial workflow change. Four of ten variants on this evaluation year are now used, including E22. | 2026-11-14: 9m 23s from final registration to result (overlapping shared preparation/waiting); campaign 0.860s, worker 0.547s. |
+| M2-E24: does calendar-adjusted unusual volume strengthen reversal? | INCONCLUSIVE: 2,560 selected cases on 314/365 days; 51.86% versus 51.95% unselected. Difference -0.09 percentage points, HAC-7 interval [-2.36, +2.17]; selected up/down controls 51.27%/48.73%. HAC-14/28 also do not pass; costs not run. | Calendar matching removes the tested periodic synthetic artifact, but changing seasonality, other confounding and imprecision remain. | No procedural change needed after the clean run. Proceed to the separately registered taker-imbalance question. | The four-week same-slot feature ran causally; no stronger reversal established. Actual elimination of every calendar confound is not demonstrated. | 2026-11-14: 8m 49s from final registration to result (overlapping shared preparation/waiting); campaign 0.844s, worker 0.547s. |
+| M2-E23: does a large completed-bar move strengthen next-bar reversal? | INCONCLUSIVE: 3,075 selected cases on 342/365 days; 52.36% versus 51.84% unselected. Difference +0.51 percentage points, HAC-7 interval [-1.53, +2.56]; selected up/down controls 51.02%/48.98%. Costs not run. | Filtered estimates are imprecise; effective independent count and adaptive error control remain unknown. | No procedural defect found; no change needed. Proceed to the separately registered volume question. | The predictive stage measured all selected opportunities without a cost gate; no stronger reversal established. | 2026-11-14: 7m 53s from final registration to result, including shared CI waiting; campaign 1.000s, worker 0.625s. Shared preparation since approximately 14:23 UTC is separate, not additive per run. |
 | M2-E22: reversal prediction, evaluation year **2024-12-01–2025-11-30** | 51.93% accuracy; predictive screen passed; illustrative net -24.45 bps/trade ([original](MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs)). | 61 locked days lack demonstrated confirmation power; large synthetic effects alone cannot qualify a small-effect design. | Added the prospective 61/365-day small-effect and null regression in `tests/test_predictive_spot.py`, reusing HAC and the existing conditional planner; 2 cases passed. No old result recalculated. | Pending the next separately authorized run; the fixture does not establish actual power. | At least 34m 07s from first committed question (`3608670`, 11:52:56 UTC) to result (12:27:02.648 UTC); earlier drafting unmeasured. Execution alone: 32.703s. |
+
+## Current verification checkpoint
+
+E23–E25 executed once each on published source `a9bd003`. All four native
+Windows/non-root Ubuntu CI jobs passed with 374 tests each
+([run 43607040650](https://github.com/RealMonoid/AQRS/actions/runs/43607040650)).
+The independent read-only result review reproduced all 21 registered HAC
+intervals within 1e-12, verified the three terminal journals and all 30 bundle
+members per study, and confirmed E24's corrected registration preceded its
+outcome. No raw input was reopened by that reviewer. All three results remain
+INCONCLUSIVE and all three cost stages were skipped. Exposure records contain
+100 attempts and 20 variants across the project; E22–E25 use four of the ten
+slots for this evaluation year. These receipts preserve the completed runs on the separate study branch.

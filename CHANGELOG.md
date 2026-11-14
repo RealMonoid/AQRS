@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-14 - Preserve the E23-E25 study evidence
+
+Save the three completed study bundles, receipts and journal projection separately from the unexecuted E26 draft. Preserve the historical outcomes and research stop.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+- `evidence/exposure.json`
+- `evidence/m2-e23-acceptance.zip`
+- `evidence/m2-e23-verification.json`
+- `evidence/m2-e24-acceptance.zip`
+- `evidence/m2-e24-verification.json`
+- `evidence/m2-e25-acceptance.zip`
+- `evidence/m2-e25-verification.json`
+
 ## 2026-11-14 — Authorize continuing Spot research and protect future data
 
 Implement the owner's approved continuing research mandate, cumulative

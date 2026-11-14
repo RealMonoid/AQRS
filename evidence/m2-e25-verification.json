@@ -1,0 +1,285 @@
+{
+  "work_item": "M2-E25",
+  "source_revision": "a9bd0035e96f106a37f99986f2981d223d25c5da",
+  "bundle_sha256": "e2a1df578c6f028c3969935c87cc60fa0e73c6fe946ba3600ea5ed9bb3dcd71d",
+  "files": {
+    "m2-e25/run-01/report.json": {
+      "sha256": "c8acd13cc5600e0cdcc0de808cff3adbf833617de3f140eeb50b13940bf3cb4a",
+      "bytes": 285128
+    },
+    "m2-e25/run-01/research.sqlite3": {
+      "sha256": "8cf0794b4e97b51abbe163dc7aaf04ca410c5b28477f6d186e15fa4ea4087851",
+      "bytes": 311296
+    },
+    "m2-e25/run-01/source/aqrs/__init__.py": {
+      "sha256": "ea322cbee39b303ec6f61d7360ab1f5d02a91a678bcb8fcfdff4a43e2c155670",
+      "bytes": 61
+    },
+    "m2-e25/run-01/source/aqrs/__main__.py": {
+      "sha256": "b21b15ff20ac4649603dac25c30dfcdf981715a8f8773fc74a43f0bdc50df922",
+      "bytes": 2219
+    },
+    "m2-e25/run-01/source/aqrs/binance_spot_pilot.py": {
+      "sha256": "729531aefcba54ee011de37d30a0cc8eaa68bb8b1e31e41a174c3cc21cf440c6",
+      "bytes": 9922
+    },
+    "m2-e25/run-01/source/aqrs/blind_audit.py": {
+      "sha256": "c886344a7a3f6256d84d45311ea0435f46171dc0a56b1c6424cb405a87421383",
+      "bytes": 10392
+    },
+    "m2-e25/run-01/source/aqrs/blind_evidence.py": {
+      "sha256": "28b0899044a8b884f8426313447eed8d3f9d27e98aa7adb8c9fee45e9cc87dac",
+      "bytes": 2579
+    },
+    "m2-e25/run-01/source/aqrs/blind_input.py": {
+      "sha256": "8f5fb3b612454eaaa396e8e90f3ebacc58d1a04943bf18562d4104e97bd4bc59",
+      "bytes": 11098
+    },
+    "m2-e25/run-01/source/aqrs/blind_search.py": {
+      "sha256": "fdc6f4d28b7ea4ec0df96300ea3beb0827149ec4fec0d0fe6e69190b208c6ed4",
+      "bytes": 54845
+    },
+    "m2-e25/run-01/source/aqrs/blind_sequence.py": {
+      "sha256": "3297c4fb1f06edaf842676133f08327d004f2e04575139a6bdc2b9d329e01293",
+      "bytes": 6769
+    },
+    "m2-e25/run-01/source/aqrs/config.py": {
+      "sha256": "69030d1cf3dc3e11c2778ab8d57558d81c8b9bb90f264e72eacada6dbdb44114",
+      "bytes": 8075
+    },
+    "m2-e25/run-01/source/aqrs/discovery.py": {
+      "sha256": "8a0e99ca729838a29c63a19b26db9203bd2a2cc2e6ae270d77e81533c2909b9e",
+      "bytes": 13244
+    },
+    "m2-e25/run-01/source/aqrs/evaluation.py": {
+      "sha256": "eb38e9ec149efab0d5fbff19cae446d9cdd16c5e878f2188717ed1b48479b5e2",
+      "bytes": 10923
+    },
+    "m2-e25/run-01/source/aqrs/events.py": {
+      "sha256": "8398987ac0089f670a72d47649356845041c8b42c5dda3aa32661fe057559e0a",
+      "bytes": 3756
+    },
+    "m2-e25/run-01/source/aqrs/governor.py": {
+      "sha256": "4c587b589b40b8abd98e19985aa75baaa8e268238c22f528459a24558d926bff",
+      "bytes": 6786
+    },
+    "m2-e25/run-01/source/aqrs/journal.py": {
+      "sha256": "c60f1aaddd79c41229b97f393c990f7657a05cca8d13e9830c68c63f6dfbc6f4",
+      "bytes": 4153
+    },
+    "m2-e25/run-01/source/aqrs/m2_e14.py": {
+      "sha256": "4e2ee2ba377c981c9b6ccd80641f0c9b6d9296e6e6cb9101a5fa047b683ec74c",
+      "bytes": 35079
+    },
+    "m2-e25/run-01/source/aqrs/m2_e19.py": {
+      "sha256": "7d1534ce5c4c8164e131845bebc7ba88798c02fb54ef222371d580818178ed19",
+      "bytes": 19724
+    },
+    "m2-e25/run-01/source/aqrs/market.py": {
+      "sha256": "f7032059c3bfb5f87bf54033d41cca8732525b8fb5644364104998611879c9d5",
+      "bytes": 4758
+    },
+    "m2-e25/run-01/source/aqrs/planning.py": {
+      "sha256": "0a304bf02597b9f411c7a12c2b93fedce7ad70d0a0fc82604c2ab01b756ba1f4",
+      "bytes": 9803
+    },
+    "m2-e25/run-01/source/aqrs/platform_guard.py": {
+      "sha256": "d0a63fc8b3cbeb3ca429ea3b7fbf7a0adeffe0664decf8b423d6fe10fd4a342c",
+      "bytes": 3614
+    },
+    "m2-e25/run-01/source/aqrs/predictive_spot.py": {
+      "sha256": "fb43bcfa668c98678b7f3e47b58e97b525b1ad1fcbdccd4ba1fadddb5420dd44",
+      "bytes": 27355
+    },
+    "m2-e25/run-01/source/aqrs/provenance.py": {
+      "sha256": "2c2ff644e4c9d801424bdc1acddd4d4263f7547b155a311b6bd7a8366d987c6e",
+      "bytes": 1799
+    },
+    "m2-e25/run-01/source/aqrs/research.py": {
+      "sha256": "82f01ad0e119bd8205ff7ba525bf6444ebcc820fca693fd43d597bdb846055d7",
+      "bytes": 24553
+    },
+    "m2-e25/run-01/source/aqrs/reversal_filters.py": {
+      "sha256": "a267c544fcae4a0b6ba89e077876339f86e7f18c3db8e873dcb94f3866cfd4ea",
+      "bytes": 25118
+    },
+    "m2-e25/run-01/source/aqrs/spot_dataset.py": {
+      "sha256": "e37f05c1424c758722c10846bcbcd1fb1f9527501bec818c41a754d10dd0a178",
+      "bytes": 15153
+    },
+    "m2-e25/run-01/source/aqrs/storage.py": {
+      "sha256": "2ec8107d258e13acc01be8499c78819efaee5c10d0da78aab473447a1e4cc93d",
+      "bytes": 620
+    },
+    "m2-e25/run-01/source/aqrs/worker.py": {
+      "sha256": "9b78fb5edc353bc4074bb28b2cbd64442ff2ee12b75f85b803cf4e988d6a6bdc",
+      "bytes": 1742
+    },
+    "m2-e25/run-01/source/pilot.py": {
+      "sha256": "a267c544fcae4a0b6ba89e077876339f86e7f18c3db8e873dcb94f3866cfd4ea",
+      "bytes": 25118
+    },
+    "m2-e25/preregistration.json": {
+      "sha256": "03a6e1a3550953d238816d5a5aff428f2d9c6ae05ded392e8b9405f1c2be4f3a",
+      "bytes": 14197
+    }
+  },
+  "scope": "Frozen source, preregistration, report with declared daily sufficient statistics and terminal SQLite journal. Original E22 raw inputs remain local, bound by registered SHA256 digests; no raw payload included.",
+  "ci": {
+    "url": "https://github.com/RealMonoid/AQRS/actions/runs/43607040650",
+    "head_sha": "a9bd0035e96f106a37f99986f2981d223d25c5da",
+    "jobs": 4,
+    "all_conclusions": "success",
+    "tests_per_job": 374,
+    "platforms": "Native Windows and non-root Ubuntu 24.04, Python 3.11/3.12; synthetic only"
+  },
+  "market_execution": {
+    "run_id": "m2-e25-20261114-01",
+    "started_utc": "2026-11-14T14:58:54.433866+00:00",
+    "ended_utc": "2026-11-14T14:58:55.299413+00:00",
+    "elapsed_seconds": 0.8599999999860302,
+    "execution_status": "COMPLETED",
+    "journal_integrity": "ok"
+  },
+  "prediction": {
+    "decision": "INCONCLUSIVE",
+    "selected_cases": 4455,
+    "unselected_cases": 13065,
+    "ineligible_cases": 0,
+    "days": {
+      "selected": 365,
+      "unselected": 365
+    },
+    "months": {
+      "selected": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06",
+        "2025-07",
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11"
+      ],
+      "unselected": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06",
+        "2025-07",
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11"
+      ]
+    },
+    "threshold": 0.2261095832680069,
+    "training_majority": 1,
+    "selected_accuracy": 0.5259259259259259,
+    "unselected_accuracy": 0.5171067738231917,
+    "selected_controls": {
+      "up": 0.5084175084175084,
+      "down": 0.49158249158249157
+    },
+    "contrasts": {
+      "selected_minus_unselected": {
+        "7": {
+          "estimate": 0.008819152102734207,
+          "se": 0.008724714122990262,
+          "lower": -0.013654222200351052,
+          "upper": 0.03129252640581946,
+          "lags": 7,
+          "one_sided_alpha": 0.005
+        },
+        "14": {
+          "estimate": 0.008819152102734207,
+          "se": 0.008746036233206177,
+          "lower": -0.013709144316658706,
+          "upper": 0.03134744852212712,
+          "lags": 14,
+          "one_sided_alpha": 0.005
+        }
+      },
+      "selected_minus_up": {
+        "7": {
+          "estimate": 0.017508417508417508,
+          "se": 0.009504541367357462,
+          "lower": -0.006973658662414572,
+          "upper": 0.04199049367924959,
+          "lags": 7,
+          "one_sided_alpha": 0.005
+        },
+        "14": {
+          "estimate": 0.017508417508417508,
+          "se": 0.009971938212392404,
+          "lower": -0.00817759315224188,
+          "upper": 0.0431944281690769,
+          "lags": 14,
+          "one_sided_alpha": 0.005
+        }
+      },
+      "selected_minus_down": {
+        "7": {
+          "estimate": 0.03434343434343434,
+          "se": 0.011295392026266483,
+          "lower": 0.005248432567104548,
+          "upper": 0.06343843611976413,
+          "lags": 7,
+          "one_sided_alpha": 0.005
+        },
+        "14": {
+          "estimate": 0.03434343434343434,
+          "se": 0.011255300618812516,
+          "lower": 0.005351701189244995,
+          "upper": 0.06333516749762369,
+          "lags": 14,
+          "one_sided_alpha": 0.005
+        }
+      }
+    },
+    "protected_confirmation": false,
+    "effective_independent_count": null,
+    "family_error_calibrated": false
+  },
+  "costs": {
+    "status": "NOT_RUN_PREDICTION_GATE"
+  },
+  "resource_observations": {
+    "runtime_wall_seconds": 0.5469999999913853,
+    "peak_rss_mb": 55.55859375,
+    "started_fits": 2,
+    "completed_fits": 2
+  },
+  "independent_result_review": {
+    "status": "PASS",
+    "reviewer": "Separate read-only e22_review agent",
+    "source_revision": "a9bd0035e96f106a37f99986f2981d223d25c5da",
+    "checks": [
+      "365 consecutive daily rows and 17520 total predictions per study; hit counts, controls, coverage and all 21 registered HAC intervals across the three studies reproduced within 1e-12.",
+      "One completed experiment and campaign per study; SQLite integrity ok, two calibrations and resource observations consistent.",
+      "31 registered Git hashes, 27 source snapshots and all 30 bundle members per study verified.",
+      "E24 same-week-slot volume and HAC28 registered at 14:49:30 UTC before execution at 14:58:18 UTC.",
+      "Original E22 acquisition receipt and 15 registered input digest pairs match."
+    ],
+    "unverified": [
+      "No raw archives reopened; feature thresholds and case memberships not rederived from raw inputs.",
+      "No independent power, complete dependence correction or calibrated adaptive family error established.",
+      "E26 implementation is excluded from this review."
+    ],
+    "additional_market_attempts": 0,
+    "additional_model_fits": 0
+  },
+  "limitations": [
+    "Exploratory reused development year; no calibrated adaptive family error or independent confirmation.",
+    "Effective independent event count and real-market power are unknown; HAC bandwidths are sensitivity assumptions.",
+    "Economic stage not run because the predictive gate failed.",
+    "Market run executed once on Windows; Linux used synthetic fixtures. All locked dates remained excluded."
+  ]
+}
