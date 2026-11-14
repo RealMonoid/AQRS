@@ -109,12 +109,14 @@ authorization and preflight rules.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| AQRS-ER01 | 2026-11-14 | ACTIVE | [Execution Reset](#aqrs-er01-execution-reset): preserve and consolidate the current repository, freeze untriggered general audits, and derive E20's next decision-changing evidence step. | Explicit owner request in this chat; regular integration and verification are authorized. No new model trials, market-outcome looks, protected access, remote deletion or history rewrite. |
 | AQRS-A16-P01 | 2026-11-14 | WAITING | [Observe actual literature behavior in the next practical research test](#aqrs-a16-p01-test-card-observed-literature-behavior), using the owner's seven checks. | Parent: AQRS-A16. Planning and companion observation are authorized; bind to the next otherwise authorized practical research test before it starts. No standalone campaign or added data/model work. Does not block or reorder its host. |
 | M2-E20 | 2026-11-12 | WAITING | Resolve the remaining effective-count criterion using the [fixed contrast design](#m2-e20-p02-learning-card-effective-count-design). The [source-bound E09 replay](#m2-e20-p04-learning-card-source-bound-e09-replay) passed. | An eligible ordered comparison with defensible dependence evidence and adequate precision is needed. The fixed path supplies six validation days. The [capacity follow-up](#m2-e20-capacity-and-forecast-evidence-follow-up) gives the next evidence trigger. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | AQRS-SC01 | 2026-11-10 | WAITING | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
+| AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](#aqrs-h01-research-harness-enforcement-review): assess reliable adherence to existing research rules and evidence for targeted technical enforcement. | Owner-directed follow-up. Revisit after the next three material, genuine research work items or immediately after the first observed material research-governance violation, whichever occurs first. Existing research priorities and start conditions remain unchanged. |
 | AQRS-A16 | 2026-11-14 | CLOSED | [Audited and closed confirmed literature-process gaps](#aqrs-a16-learning-card-literature-process-audit). | Owner-authorized standalone audit and documentation correction; A–H and three protection/stop cases verified. No research campaign, variant registration or wider dispatch. |
 | M2-E15 | 2026-11-10 | CLOSED | [Authorized state-persistence count](#m2-e15-learning-card-state-persistence-count) completed and passed the coverage gate. | A separate outcome proposal requires a fixed decision, defensible precision basis and scoped approval. |
 | AQRS-A15 | 2026-11-14 | CLOSED | [Repaired the research value stream](#aqrs-a15-learning-card-research-value-stream-repair): consolidated exposure, preserved diagnostic views and linked origin to learning. | Owner-authorized engineering repair verified; zero new research campaigns or fits. E20's scientific prerequisites remain open. |
@@ -169,7 +171,135 @@ authorization and preflight rules.
 
 **Queue Learning Card.** `SUPPORTED / PERSEVERE` for the documentation. The focused review traced the M1 start conditions and the pass, rejection, and deferral paths. At the time of that review, both M1 entries were waiting.
 
+### AQRS-H01: Research Harness Enforcement Review
+
+**Status: `DEFERRED`. Owner direction, 2026-11-14.** Retain exactly one
+follow-up in this canonical work plan. Use evidence from actual future research
+to determine which existing rules Codex reliably follows on its own and which,
+if any, need technical enforcement. No enforcement implementation is planned now.
+
+**Revisit trigger.** After the next three material, genuine research work items,
+or immediately after the first observed material violation of an existing
+research-governance rule, whichever occurs first. A material research work item
+is actual scientific work with a research question/hypothesis and evidence;
+documentation, audits, bug fixes and routine engineering do not count.
+
+**Observation and responsibility.** Count prospectively from this entry:
+**0/3 qualifying work items recorded**. Quant Research checks the trigger at
+existing research-work-item closeouts and immediately upon observing a material
+violation. Retain qualifying work-item IDs and evidence references in this
+entry, reusing existing Cards, Research Journal, verification and session
+records, including relevant AQRS-A16-P01 observations. No separate observation
+workstream or new role is created. Missing observations remain unassessed;
+prompted recovery is not evidence of unprompted adherence.
+
+**Questions at revisit, answered from the evidence actually produced:**
+
+1. Which existing research rules did Codex apply correctly without an owner reminder?
+2. Where was owner intervention necessary?
+3. Where did Verification detect a violation?
+4. Which rule was applied correctly only after an additional prompt?
+5. Which failure modes recurred?
+6. Which violations could materially or irreversibly contaminate scientific evidence?
+7. Which rules demonstrably benefit from technical enforcement?
+8. Which rules should deliberately remain judgment-dependent Quant Research decisions?
+
+**Categories to assess for technical enforcement if a failure mode is observed:**
+
+- Holdout/protected-data boundaries.
+- Look-ahead and availability timing.
+- Registration and freeze.
+- Source/data identity.
+- Resource Governor limits.
+- Exposure and variant counting.
+- Unauthorized adaptive changes to an already frozen outcome test.
+
+**Revisit decision:** record the evidence and one of these outcomes here:
+
+- `NO ADDITIONAL ENFORCEMENT JUSTIFIED`
+- `TARGETED ENFORCEMENT JUSTIFIED`
+- `MATERIAL HARNESS GAP`
+
+Propose technical implementation only when a specific observed failure mode or
+a clearly irreversible evidence risk justifies it. This follow-up does not
+prescribe a general research-orchestration engine, a new workflow platform or
+additional governance. Literature checks, hypothesis formulation, mechanism
+assessment and similar research judgments remain with Quant Research; technical
+feasibility alone is no reason to automate them.
+
+**Default, priority and resources.** Continue current research under existing
+rules. H01 creates no prerequisite or blocking gate for current work and does
+not reorder any existing research item. The trigger opens an evidence review,
+not implementation authorization. Reuse existing records with zero additional
+campaigns, trials, fits, resamples, market/protected-data access, dependencies or
+spend; existing Resource Governor limits remain unchanged. Any justified implementation proposal
+must follow the existing scope, resource-assessment and authorization rules.
+
+**Recording scope and verification.** Routine documentation change, estimated
+at under ten minutes; no critical contract change, so FTA is not triggered.
+Baseline: the queue-row lookup found no H01 entry (exit 1). Success requires one
+H01 row with the requested trigger and scope, unchanged prior queue rows, both
+changed paths in the sole changelog, and passing documentation checks. Stop
+after recording and verification; the review awaits future qualifying evidence.
+
+**Recording checkpoint, 2026-11-14.** Native Windows: the queue lookup now
+passes; the inline `python -B -` scope/link/preservation check, both language
+checker commands and `git diff --check` passed, exit 0. Manual English and
+scope review passed. Measured from 09:44:52 to 09:48:40 UTC: 3 minutes 48 seconds,
+excluding final bookkeeping and rechecks. No runtime, research or Linux test
+ran; behavioral adherence remains unassessed. This standalone recording mandate
+ends here: H01 awaits its trigger, and all six existing pending rows retain
+their recorded prerequisites with no eligible covered next item.
+
 ## Current Build–Measure–Learn development loop
+
+### AQRS-ER01 Execution Reset
+
+**Owner authorization and Test Card, 2026-11-14.** The attached Execution
+Reset request authorizes repository inspection, safe ordinary consolidation
+onto `main`, local branch hygiene, a persistent freeze of untriggered general
+governance audits, and scientific preparation of M2-E20 through the actual
+data or execution gate. This is an execution and evidence-design task, not
+another A-series audit. Start: 09:53:01 UTC. Estimate: two to four hours for
+the entire sequence, including review, corrections, checks and reconciliation;
+the standing eight-hour limit applies cumulatively.
+
+**Assumption and minimum proof.** The current work can be made canonical
+without losing unique history or dirty work, and existing definitions,
+qualified metadata and already recorded evidence can distinguish a justified
+E20 calibration from an unsupported calendar-data request. Baseline:
+`main`/`origin/main` at `ebfabb0`, current published branch at `cb6f2b7`,
+plus H01 edits and dirty E18/E19 evidence worktrees. Intake fetched `origin`
+and inspected every local/remote head and worktree. This baseline inspection
+precedes the card; no new E20 outcome or precision calculation informed it.
+
+**Pass and stop.** Preserve all original refs and dirty bytes; identify
+unique versus contained/equivalent work; integrate only reviewed authorized
+content and pass applicable Windows, documentation and evidence checks before
+moving `main`. Existing historical source and evidence identities remain
+reachable. Any unresolved unique-work conflict stops only its dependent
+integration. For E20, reconstruct the sample calculation, observation unit,
+dependence assumptions, event yield and calendar bound; produce either a
+quantitatively justified scope or the cheapest bounded calibration packet.
+No outcome read, new download, model family, forecast infrastructure, automatic
+data extension or research run is authorized by this card.
+
+**Risk and resources.** Preservation and integration errors are the material
+risk: a verified Git bundle plus byte/diff snapshots cover all original refs
+and nine dirty tracked files before mutation. Inspect semantic conflicts,
+verify original evidence digests and use an independent read-only integration
+review. Reuse the existing tests, archive/exposure verifier, precision planner
+and historical definitions. No scientific or safety contract change is
+planned; apply the existing FTA gate if a necessary correction changes one.
+Research budget: zero new trials, fits, resamples, raw/protected payload reads,
+downloads, dependencies or spend. Synthetic software checks use existing
+bounded tests; Linux execution is required if integration changes executable
+content. Metadata and assumption-only arithmetic stay within this sequence.
+
+**Sequence.** Preserve and inspect; construct the smallest coherent integration;
+verify it; consolidate `main`; then complete M2-E20 decision design and the
+existing permission-boundary/queue reconciliation. General governance work
+does not follow this task without the owner's specified concrete trigger.
 
 ### Integration publication checkpoint, 2026-11-14
 

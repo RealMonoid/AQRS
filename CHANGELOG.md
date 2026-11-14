@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-14 — Canonicalize AQRS and prepare E20 evidence design
+
+Carry out the owner-directed Execution Reset with preserved history and dirty
+work, tested ordinary integration, a freeze of untriggered general audits, and
+a decision-specific E20 calibration rather than an assumed data duration.
+The final integration and verification record is AQRS-ER01.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
+## 2026-11-14 — Defer the Research Harness Enforcement Review
+
+Record the owner-directed AQRS-H01 follow-up with its three-research-item or
+first-material-violation trigger, evidence questions and enforcement boundaries.
+Keep current research priorities and start conditions unchanged; add no technical
+governance, implementation, file or role.
+
+- `CHANGELOG.md`
+- `docs/MILESTONE_STATUS.md`
+
 ## 2026-11-14 — Publish accumulated AQRS improvements
 
 Publish the pending research evidence, implementation and process changes
