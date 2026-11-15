@@ -135,6 +135,7 @@ def reversal_config(
     year,
     pattern,
     *,
+    volumes=(1,),
     n_bars=160,
     validation_bars=34,
     start=None,
@@ -161,7 +162,8 @@ def reversal_config(
     for i in range(n_bars):
         opened = start + timedelta(minutes=i * bar_minutes)
         close = 100 + pattern[i % len(pattern)]
-        rows.append(f"{opened.isoformat()},100,102,98,{close},1,synthetic")
+        volume = volumes[i % len(volumes)]
+        rows.append(f"{opened.isoformat()},100,102,98,{close},{volume},synthetic")
     path.with_name("input.csv").write_text("\n".join(rows) + "\n", encoding="utf-8")
     return path
 
@@ -276,12 +278,91 @@ def test_reversal_random_null_does_not_advance_on_one_extra_hit(tmp_path):
     assert all(bound["lower_95_one_sided"] <= 0 for bound in worse_gap.values())
 
 
+@pytest.mark.parametrize(
+    "volumes, decision, accuracy",
+    [
+        ((3, 1), "VOLUME_MOVEMENT_ADVANTAGE", 1.0),
+        ((2,), "NO_VOLUME_MOVEMENT_ADVANTAGE", 0.5),
+    ],
+)
+def test_common_run_scores_volume_movement(tmp_path, volumes, decision, accuracy):
+    path = reversal_config(
+        tmp_path,
+        "TEST_VOLUME",
+        30,
+        2025,
+        (0.5, 1.5),
+        volumes=volumes,
+        n_bars=2500,
+        validation_bars=962,
+    )
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["research"]["candidates"].insert(
+        0, {"id": "VOLUME", "model": "volume_movement"}
+    )
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    result = cli("run", path)
+    assert result.returncode == 0, result.stderr or result.stdout
+    output = Path(json.loads(result.stdout)["output_dir"])
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    plan = report["plan"]
+    assert plan["started_trials"] == 2 and plan["planned_pilot_fits"] == 0
+    assert plan["planned_fits"] == plan["started_fits"] == plan["completed_fits"] == 4
+    admission = report["variant_admission"]
+    assert set(admission["variant_keys"]) == {"VOLUME", "REVERSAL"}
+    assert (
+        len(set(admission["variant_keys"].values())) == admission["requested_new"] == 2
+    )
+    assert (
+        report["trials"][1]["metrics"]["directional_reversal"]["observations"] == 1920
+    )
+    trial = report["trials"][0]
+    comparison = trial["metrics"]["volume_movement"]
+    assert comparison["observations"] == 1920
+    assert comparison["accuracy"] == accuracy
+    assert (
+        comparison["always_above_accuracy"]
+        == comparison["always_below_accuracy"]
+        == 0.5
+    )
+    assert comparison["decision"] == decision
+    assert comparison["scored_utc_days"] == 41
+    assert set(comparison["contrasts"]) == {"always_above", "always_below"}
+    for limits in comparison["contrasts"].values():
+        assert set(limits) == {"7", "14"}
+    if accuracy == 1.0:
+        assert all(
+            bound["lower_95_one_sided"] > 0
+            for limits in comparison["contrasts"].values()
+            for bound in limits.values()
+        )
+    else:
+        assert all(
+            bound["upper_95_one_sided"] == 0
+            for bound in comparison["contrasts"]["always_below"].values()
+        )
+    assert (output / "report.md").read_text(encoding="utf-8").count(decision) == 1
+    with sqlite3.connect(output / report["journal_path"]) as db:
+        status, metadata, metrics = db.execute(
+            "SELECT execution_status, metadata_json, metrics_json "
+            "FROM experiments WHERE experiment_id = ?",
+            (trial["experiment_id"],),
+        ).fetchone()
+    assert status == "COMPLETED"
+    metadata = json.loads(metadata)
+    assert metadata["folds"] == report["research_intervals"]
+    assert metadata["workflow_question"] == trial["workflow_question"]
+    assert json.loads(metrics)["volume_movement"] == comparison
+
+
+@pytest.mark.parametrize("model", ["bar_reversal", "volume_movement"])
 @pytest.mark.parametrize("source", ["binance_vision_spot", "unknown"])
-def test_reversal_rejects_foreign_source_before_campaign(tmp_path, source):
+def test_bar_rule_rejects_foreign_source_before_campaign(tmp_path, model, source):
     path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
     path.with_name("input.csv").unlink()
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["market"]["source"] = source
+    config["research"]["candidates"][0]["model"] = model
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     result = cli("run", path)
     assert result.returncode == 2
@@ -318,7 +399,7 @@ def assert_admission_rejection(result, base, config, reason_code):
     return summary
 
 
-@pytest.mark.parametrize("model", ["ridge", "bar_reversal"])
+@pytest.mark.parametrize("model", ["ridge", "bar_reversal", "volume_movement"])
 @pytest.mark.parametrize(
     "defect",
     [
@@ -338,6 +419,8 @@ def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect
         config["research"]["candidates"] = [
             {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
         ]
+    else:
+        config["research"]["candidates"][0]["model"] = model
     if defect == "protected":
         # The interval crosses midnight into the protected day. The
         # training/input scope alone is sufficient for rejection.
@@ -422,6 +505,8 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
     del config["resource_governor"]["max_variants_per_evaluation_period"]
     original_journal = config["journal"]["sqlite_path"]
     config["journal"]["sqlite_path"] = "alternate.sqlite3"
+    assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
+    config["research"]["candidates"] = [{"id": "VOLUME", "model": "volume_movement"}]
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
     config["journal"]["sqlite_path"] = original_journal
 
@@ -728,8 +813,20 @@ def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
         assert "outside the declared UTC cadence" in plan["stop_reason"]
 
 
-def test_reversal_scores_and_identity_exclude_reserved_csv_rows(tmp_path):
-    path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
+@pytest.mark.parametrize("model", ["bar_reversal", "volume_movement"])
+def test_bar_rule_scores_and_identity_exclude_reserved_csv_rows(tmp_path, model):
+    volume_rule = model == "volume_movement"
+    path = reversal_config(
+        tmp_path,
+        "TEST_ALPHA",
+        5,
+        2024,
+        (0.5, 1.5) if volume_rule else (1, -1),
+        volumes=(3, 1),
+    )
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["research"]["candidates"][0]["model"] = model
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
 
     def run():
         result = cli("run", path)
@@ -738,16 +835,17 @@ def test_reversal_scores_and_identity_exclude_reserved_csv_rows(tmp_path):
         return json.loads((output / "report.json").read_text(encoding="utf-8"))
 
     before = run()
-    directional = before["trials"][0]["metrics"]["directional_reversal"]
-    assert directional["accuracy"] == 1.0
-    assert directional["decision"] == "INCONCLUSIVE"
-    assert directional["uncertainty_status"] == "INSUFFICIENT_UTC_DAYS"
-    assert directional["contrasts"] == {}
+    key = "volume_movement" if volume_rule else "directional_reversal"
+    comparison = before["trials"][0]["metrics"][key]
+    assert comparison["accuracy"] == 1.0
+    assert comparison["decision"] == "INCONCLUSIVE"
+    assert comparison["uncertainty_status"] == "INSUFFICIENT_UTC_DAYS"
+    assert comparison["contrasts"] == {}
     csv_path = path.with_name("input.csv")
     rows = csv_path.read_text(encoding="utf-8").splitlines()
     for i in range(129, len(rows)):
         timestamp = rows[i].split(",")[0]
-        rows[i] = f"{timestamp},200,202,198,201,1,synthetic"
+        rows[i] = f"{timestamp},200,230,198,229,1000,synthetic"
     csv_path.write_text("\n".join(rows) + "\n", encoding="utf-8")
     after = run()
     assert before["dataset_fingerprint"] != after["dataset_fingerprint"]

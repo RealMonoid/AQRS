@@ -37,6 +37,28 @@ def test_features_use_only_completed_bars():
     assert bars.time(41) == bars.time(40, close=True)
 
 
+def test_volume_movement_uses_past_volume_and_fold_local_medians():
+    from aqrs.market import volume_movement_predictions
+
+    bars = generate(7, 9, 5, "SYNTH")
+    bars.values[:, 1] = 128
+    bars.values[:, 4] = 128 + np.array([9, 1, -3, 2, 6, 2, -5, 4, 10])
+    bars.values[:, 5] = [90, 10, 30, 99, 20, 31, 19, 50, 6]
+    medians, predicted, actual = volume_movement_predictions(
+        bars, slice(1, 3), slice(4, 7)
+    )
+    assert medians == (20, 2 / 128)
+    np.testing.assert_array_equal(predicted, [1, -1, 1])
+    np.testing.assert_array_equal(actual, [1, -1, 1])
+
+    medians, predicted, actual = volume_movement_predictions(
+        bars, slice(2, 6), slice(6, 9)
+    )
+    assert medians == (30.5, 2.5 / 128)
+    np.testing.assert_array_equal(predicted, [1, -1, 1])
+    np.testing.assert_array_equal(actual, [1, 1, 1])
+
+
 def test_horizon_and_purged_research_prefix():
     bars = generate(7, 200, 5, "SYNTH")
     prefix = replace(bars, values=bars.values[:160])

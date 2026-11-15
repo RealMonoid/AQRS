@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-15 — Evaluate synthetic volume and next-bar movement in the common CLI
+
+The owner accepted the shared admission guards in `98f361a` after 16
+independent checks across 35 calls. The common command now adds the
+`volume_movement` candidate. For each fold it compares completed-bar volume
+with the training median and classifies the next bar's absolute open-to-close
+return against its training median. Equality goes in the lower group.
+
+The rule and its candidate settings add 12 and 14 production lines,
+respectively. Shared production code adds 96 lines and removes 46 because
+validation, worker dispatch, candidate metadata, and reports named reversal
+directly. The common comparison now reads the rule's labels and controls.
+The existing folds, uncertainty formulas, decision inequalities, budget
+accounting, locks, variant ledger, and journal storage are reused.
+
+Changed paths: `CHANGELOG.md`, `README.md`, `docs/MILESTONE_ARCHIVE.md`,
+`docs/MILESTONE_STATUS.md`, `docs/RISK_REGISTER.md`, `src/aqrs/config.py`,
+`src/aqrs/evaluation.py`, `src/aqrs/market.py`, `src/aqrs/research.py`,
+`src/aqrs/worker.py`, `tests/test_cli.py`, `tests/test_market.py`.
+
 ## 2026-11-15 — Prefer deterministic computation across AQRS
 
 Record the owner's project-wide preference for deterministic calculations,

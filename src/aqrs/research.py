@@ -21,7 +21,7 @@ from aqrs.binance_spot_pilot import (
 )
 from aqrs.config import validate_data_admission, variant_limit
 from aqrs.governor import supervise
-from aqrs.market import generate, read_synthetic_csv, validate, write_dataset
+from aqrs.market import BAR_RULES, generate, read_synthetic_csv, validate, write_dataset
 from aqrs.planning import preflight
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json, write_text
@@ -118,9 +118,7 @@ def run(
             if real_spot
             else "No real-world alpha has been demonstrated. This is a synthetic engineering exercise.",
             "Observations and forward targets can overlap. No market significance is inferred."
-            if any(
-                c["model"] == "bar_reversal" for c in config["research"]["candidates"]
-            )
+            if any(c["model"] in BAR_RULES for c in config["research"]["candidates"])
             else "Observations and forward targets can overlap. No statistical significance is inferred.",
             "Next-bar opens and constant illustrative costs approximate fills.",
         ],
@@ -516,21 +514,21 @@ def run_candidate(
 ):
     run_id = report["run_id"]
     candidate_id = candidate["id"]
-    reversal = candidate["model"] == "bar_reversal"
+    rule = BAR_RULES.get(candidate["model"])
     features = candidate.get("features", [])
     metadata = {
         "candidate_id": candidate_id,
-        "family": "rule_based" if reversal else "linear",
-        "version": "2" if reversal else "1",
+        "family": "rule_based" if rule else "linear",
+        "version": rule.version if rule else "1",
         "hypothesis": (
-            "The next bar direction may reverse the last completed bar."
-            if reversal
+            rule.hypothesis
+            if rule
             else "The configured trailing features may predict the next-open horizon return."
         ),
         "feature_list": features,
         "model_type": candidate["model"],
-        "model_params": {"flat_signal": "training_majority", "majority_tie": "up"}
-        if reversal
+        "model_params": rule.parameters
+        if rule
         else {"alpha": 1.0, "solver": "svd", "transform": "StandardScaler"},
         "seed": report["seed"],
         "scenario": report["scenario"],
@@ -550,9 +548,9 @@ def run_candidate(
         if research_id
         else None,
     }
-    if reversal:
+    if rule:
         metadata["workflow_question"] = (
-            "Can a synthetic reversal rule use the shared preflight, budget and journal?"
+            f"Can a synthetic {rule.label} rule use the shared preflight, budget and journal?"
         )
     if admission := report.get("variant_admission"):
         metadata.update(
@@ -603,12 +601,12 @@ def run_candidate(
     }
     if metrics:
         trial["metrics"] = metrics
-    if reversal:
+    if rule:
         trial["workflow_question"] = metadata["workflow_question"]
         learning = (
-            "The common preflight, supervised worker and journal handled the synthetic reversal rule."
+            f"The common preflight, supervised worker and journal handled the synthetic {rule.label} rule."
             if outcome["execution_status"] == "COMPLETED" and metrics
-            else "No workflow conclusion: the synthetic reversal trial did not complete."
+            else f"No workflow conclusion: the synthetic {rule.label} trial did not complete."
         )
         metadata["workflow_learning"] = trial["workflow_learning"] = learning
     journal.finish_experiment(db, run_id, trial, metadata | outcome)
@@ -661,6 +659,11 @@ def write_reports(output: Path, report: dict) -> None:
     lines += ["", "## Cost assumptions", ""]
     for name, value in report["configuration"]["costs"].items():
         lines.append(f"- `{name}` = {value} bps")
+    configured_rules = {
+        candidate["id"]: BAR_RULES[candidate["model"]]
+        for candidate in report["configuration"]["research"]["candidates"]
+        if candidate["model"] in BAR_RULES
+    }
     for trial in report["trials"]:
         lines += [
             "",
@@ -674,19 +677,22 @@ def write_reports(output: Path, report: dict) -> None:
         if not metrics:
             continue
         lines += ["", metrics["rationale"]]
-        if directional := metrics.get("directional_reversal"):
+        if rule := configured_rules.get(trial["candidate_id"]):
+            comparison = metrics[rule.result_key]
+            controls = ", ".join(
+                f"{name.replace('_', ' ')} {comparison[f'{name}_accuracy']:.2%}"
+                for name in rule.controls
+            )
             lines += [
                 "",
                 f"Workflow question: {trial['workflow_question']}",
                 trial["workflow_learning"],
-                f"**{directional['decision']}** on {directional['observations']} observations. "
-                f"Reversal accuracy {directional['accuracy']:.2%}, always up "
-                f"{directional['always_up_accuracy']:.2%}, always down "
-                f"{directional['always_down_accuracy']:.2%}.",
-                f"Daily uncertainty: {directional['uncertainty_status']} "
-                f"across {directional['scored_utc_days']} scored UTC days.",
+                f"**{comparison['decision']}** on {comparison['observations']} observations. "
+                f"{rule.label.capitalize()} accuracy {comparison['accuracy']:.2%}, {controls}.",
+                f"Daily uncertainty: {comparison['uncertainty_status']} "
+                f"across {comparison['scored_utc_days']} scored UTC days.",
             ]
-            for control, bounds in directional["contrasts"].items():
+            for control, bounds in comparison["contrasts"].items():
                 for lag, bound in bounds.items():
                     lines.append(
                         f"- Against {control}, lag {lag} days: "

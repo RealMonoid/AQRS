@@ -309,6 +309,15 @@ run directory and keeps attempts in SQLite. Reports for preflight rejections con
 research metrics. Exit codes are 0 for a completed run or admitted plan, 2 for an invalid config or
 preflight rejection, 130 for cancellation and 1 for other execution failures.
 
+For a synthetic next-bar comparison, set the candidate's `model` to
+`volume_movement` and `horizon_bars` to 1. It compares completed-bar volume
+with the training volume median and predicts whether the next bar's absolute
+open-to-close return exceeds its training median. Values equal to a median are
+in the lower group. The report compares the rule with always above and always
+below using the same daily bounds as `bar_reversal`.
+The `volume_movement` result is `VOLUME_MOVEMENT_ADVANTAGE`,
+`NO_VOLUME_MOVEMENT_ADVANTAGE`, or `INCONCLUSIVE`.
+
 Relative artifact and journal paths resolve against `project.path_base`, itself relative to the
 configuration file. The supplied configuration resolves paths from the project root. An explicit
 new run receives its own campaign budget and run ID. SQLite links previous attempts and identifies

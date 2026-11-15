@@ -8,7 +8,7 @@ from sklearn.linear_model import Ridge
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from aqrs.market import FEATURE_NAMES, Bars, bar_reversal_predictions, features, targets
+from aqrs.market import FEATURE_NAMES, BarRule, Bars, features, targets
 from aqrs.storage import write_json
 from aqrs.worker import reserve_fit
 
@@ -264,7 +264,7 @@ def hac(values: np.ndarray, lags: int) -> dict:
     }
 
 
-def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
+def evaluate_bar_rule(request: dict, directory: Path, rule: BarRule) -> dict:
     """Compare paired next-bar hits using calendar-day uncertainty."""
     bars = Bars(
         np.load(request["prefix"], allow_pickle=False),
@@ -279,7 +279,7 @@ def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
     daily_hits = np.zeros((3, len(day_counts)))
     for fit_count, (tr_start, tr_end, va_start, va_end) in enumerate(folds, 1):
         reserve_fit(request, directory, len(folds))
-        _, pred, truth = bar_reversal_predictions(
+        _, pred, truth = rule.predictions(
             bars, slice(tr_start, tr_end), slice(va_start, va_end)
         )
         days = calendar_days[va_start:va_end] - first_day
@@ -289,15 +289,13 @@ def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
         write_json(directory / "fits.json", fit_count)
 
     observations = int(day_counts.sum())
-    accuracy, up, down = (daily_hits.sum(axis=1) / observations).tolist()
+    accuracy, *control_accuracies = (daily_hits.sum(axis=1) / observations).tolist()
     scored_days = int(np.count_nonzero(day_counts))
     lags = (7, 14)
     decision = "INCONCLUSIVE"
     contrasts = {}
     if scored_days > max(lags):
-        for name, control_hits in zip(
-            ("always_up", "always_down"), daily_hits[1:], strict=True
-        ):
+        for name, control_hits in zip(rule.controls, daily_hits[1:], strict=True):
             differences = daily_hits[0] - control_hits
             gap = differences.sum() / observations
             # Ratio influence scores preserve the per-bar contrast when days
@@ -309,23 +307,27 @@ def evaluate_bar_reversal(request: dict, directory: Path) -> dict:
             for limits in contrasts.values()
             for bound in limits.values()
         ):
-            decision = "REVERSAL_ADVANTAGE"
+            decision = f"{rule.decision_stem}_ADVANTAGE"
         elif any(
             all(bound["upper_95_one_sided"] <= 0 for bound in limits.values())
             for limits in contrasts.values()
         ):
-            decision = "NO_REVERSAL_ADVANTAGE"
+            decision = f"NO_{rule.decision_stem}_ADVANTAGE"
     return {
         "rationale": (
-            "Synthetic next-bar direction check with nominal daily HAC bounds. "
+            f"Synthetic next-bar {rule.target} check with nominal daily HAC bounds. "
             "No market inference or execution simulation."
         ),
-        "directional_reversal": {
+        rule.result_key: {
             "decision": decision,
             "observations": observations,
             "accuracy": accuracy,
-            "always_up_accuracy": up,
-            "always_down_accuracy": down,
+            **{
+                f"{control}_accuracy": score
+                for control, score in zip(
+                    rule.controls, control_accuracies, strict=True
+                )
+            },
             "scored_utc_days": scored_days,
             "hac_lags_days": lags,
             "uncertainty_status": "ESTIMATED" if contrasts else "INSUFFICIENT_UTC_DAYS",

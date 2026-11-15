@@ -7,7 +7,7 @@ import yaml
 
 from aqrs.admission import SOURCES, AdmissionRejected, data_scope
 from aqrs.binance_spot_pilot import MINUTES_PER_DAY, SYMBOL, require_m1_development_day
-from aqrs.market import FEATURE_NAMES
+from aqrs.market import BAR_RULES, FEATURE_NAMES
 
 SECTIONS = {
     "project": "name seed artifact_dir",
@@ -166,14 +166,22 @@ def validate_data_admission(config: dict) -> None:
     market = config["market"]
     if market["source"] not in SOURCES:
         raise AdmissionRejected("UNKNOWN_SOURCE", "Unknown data source.")
-    if any(c["model"] == "bar_reversal" for c in config["research"]["candidates"]):
+    bar_rule = next(
+        (
+            c["model"]
+            for c in config["research"]["candidates"]
+            if c["model"] in BAR_RULES
+        ),
+        None,
+    )
+    if bar_rule:
         if market["source"] not in ("synthetic", "synthetic_csv"):
             raise AdmissionRejected(
                 "SOURCE_NOT_ALLOWED_FOR_CANDIDATE",
-                "bar_reversal requires an explicitly synthetic source.",
+                f"{bar_rule} requires an explicitly synthetic source.",
             )
         if config["research"]["horizon_bars"] != 1:
-            raise ValueError("bar_reversal requires horizon_bars=1.")
+            raise ValueError(f"{bar_rule} requires horizon_bars=1.")
     data_scope(market)
     if market["source"] == "binance_vision_spot":
         try:
@@ -189,7 +197,8 @@ def validate_candidates(candidates: object) -> None:
     for candidate in candidates:
         fields(candidate, "id model", "features")
         string(candidate, "id")
-        if candidate["model"] == "bar_reversal":
+        string(candidate, "model")
+        if candidate["model"] in BAR_RULES:
             fields(candidate, "id model")
         else:
             fields(candidate, "id model features")

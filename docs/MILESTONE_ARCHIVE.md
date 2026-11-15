@@ -4742,3 +4742,12 @@ Reconcile the preserved study work before P01 and retain the research stop.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | AQRS-W01-P00A | 2026-11-14 | CLOSED | Sequence, comparison and invocation contract added without program code. | Owner-requested documentation delivery; runtime proof and independent quality remain open. |
+
+## AQRS-W01-P02/P03 shared admission acceptance
+
+On 2026-11-15 the owner accepted `98f361a` after 16/16 independent checks
+across 35 CLI calls and closed the admission safeguards.
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| AQRS-W01-P02/P03 | 2026-11-14 | WAITING | The owner's 36-call review of `9ba03c9` confirmed the four prior fixes and found silent ledger creation, separate checkout ledgers, and symbol padding. Three baseline cases failed. Six focused CLI checks passed with a shared user ledger, one initialization signal in a race, padded and blank symbols covered, and both old reservation formats imported. Imported counts survived removal of the old fixture files. | Six minutes from test card to focused proof on 2026-11-15 within the two-hour cap. Tests use isolated homes and read-only legacy inputs. No added fits per campaign or market data access. `SUPPORTED` on public cases, `PERSEVERE` to independent recheck of the published revision. |

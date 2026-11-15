@@ -1,4 +1,5 @@
 import csv
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from hashlib import sha256
@@ -96,6 +97,64 @@ def bar_reversal_predictions(
     prediction = -signs[evaluation.start - 1 : evaluation.stop - 1].copy()
     prediction[prediction == 0] = majority
     return majority, prediction, signs[evaluation]
+
+
+def volume_movement_predictions(
+    bars: Bars, train: slice, evaluation: slice
+) -> tuple[tuple[float, float], np.ndarray, np.ndarray]:
+    """Use completed-bar volume to predict next-bar absolute movement."""
+    _, opens, _, _, closes, volumes = bars.values.T
+    volume_median = float(np.median(volumes[train]))
+    movement_median = float(np.median(np.abs(closes[train] / opens[train] - 1)))
+    previous_volume = volumes[evaluation.start - 1 : evaluation.stop - 1]
+    actual_movement = np.abs(closes[evaluation] / opens[evaluation] - 1)
+    prediction = np.where(previous_volume > volume_median, 1, -1)
+    actual = np.where(actual_movement > movement_median, 1, -1)
+    return (volume_median, movement_median), prediction, actual
+
+
+@dataclass(frozen=True)
+class BarRule:
+    predictions: Callable[
+        [Bars, slice, slice], tuple[int | tuple[float, float], np.ndarray, np.ndarray]
+    ]
+    result_key: str
+    decision_stem: str
+    controls: tuple[str, str]
+    label: str
+    target: str
+    hypothesis: str
+    parameters: dict[str, str]
+    version: str = "1"
+
+
+BAR_RULES = {
+    "bar_reversal": BarRule(
+        predictions=bar_reversal_predictions,
+        result_key="directional_reversal",
+        decision_stem="REVERSAL",
+        controls=("always_up", "always_down"),
+        label="reversal",
+        target="direction",
+        hypothesis="The next bar direction may reverse the last completed bar.",
+        parameters={"flat_signal": "training_majority", "majority_tie": "up"},
+        version="2",
+    ),
+    "volume_movement": BarRule(
+        predictions=volume_movement_predictions,
+        result_key="volume_movement",
+        decision_stem="VOLUME_MOVEMENT",
+        controls=("always_above", "always_below"),
+        label="volume-movement",
+        target="absolute movement",
+        hypothesis="Above-median volume may predict above-median next-bar movement.",
+        parameters={
+            "thresholds": "per_fold_training_medians",
+            "return": "absolute_open_to_close_simple_return",
+            "tie": "below",
+        },
+    ),
+}
 
 
 def validate(bars: Bars) -> None:

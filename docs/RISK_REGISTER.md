@@ -1,5 +1,16 @@
 # AQRS — Project risks and mitigations
 
+## Second synthetic next-bar rule
+
+**AQRS-W01-P05, 2026-11-15.** The top event is an invalid comparison that appears
+to show an advantage. It can arise from a cutoff fitted on validation or
+holdout rows, a volume and return aligned to the same bar, or different scores
+or uncertainty for the two rules. Retain the common purged folds and worker
+prefix. Check exact training medians and the one-bar shift, mutate reserved rows,
+and verify known positive, negative and short cases against both constants.
+Keep real sources blocked before opening data and report synthetic evidence
+under the existing conservative status. Engineering owns these guards.
+
 ## Structured selection boundary
 
 **AQRS-W01-P00, 2026-11-14:** format-only risk screen; no runtime guard or
