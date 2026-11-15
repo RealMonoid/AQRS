@@ -20,6 +20,22 @@ starts with workflow questions, central attempt accounting and general data lock
 
 **Repository language: English. Local target: native Windows. Required secondary target: headless Linux. Future deployments: cloud-provider neutral, CPU-first.** See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 
+**FR-005 start gate:** the common CLI requires the explicit `study` contract in
+`configs/research.yaml`. Its current qualification covers the synthetic engineering
+workflow only. Missing/unreviewed questions, unsupported designs or claims, and
+missing prerequisites stop the affected action with a journaled reason and rework.
+`plan` is declarative and no longer runs a timing fit. Each actual worker receives
+a single-use, source/configuration-bound admission and rechecks current conditions.
+See the [execution contract](docs/CONTRACTS.md#f4-fr-005-study-admission).
+
+Legacy E14/E18, E19, E22, supervised/Isolation Forest pilots, E15, blind-search
+registration/execution/replay and Spot acquisition entries are
+`BLOCKED_FR005_QUALIFICATION`, including their legacy synthetic launch modes.
+Their algorithms and historical evidence remain preserved; historical commands
+below describe past workflows and do not grant current execution permission.
+General scientific review still requires independent qualification. The common
+synthetic workflow is the currently admitted engineering entry.
+
 ## Target product at v1.0
 
 The owner-authorized [M2-E22 study](docs/MILESTONE_ARCHIVE.md#m2-e22-test-card-predictive-first-spot-reversal)
@@ -27,8 +43,8 @@ tests a fixed 30-minute Spot reversal against both constant directions on
 365 evaluation days after 91 training days. Prediction is measured before
 any cost or trading gate. September–October 2026 and January 6 remain
 [locked](docs/RESEARCH_PROTOCOL.md#owner-data-authorization-and-fixed-holdout).
-`python -m aqrs.predictive_spot --smoke NEW_OUTPUT` exercises synthetic data
-only. The single market attempt uses `--run PUBLISHED_SHA` after source-bound
+The historical `python -m aqrs.predictive_spot --smoke NEW_OUTPUT` used synthetic
+data only; FR-005 now blocks this unqualified legacy entry. The single market attempt used `--run PUBLISHED_SHA` after source-bound
 registration, publication and verification; it refuses an existing output.
 The [completed study](docs/MILESTONE_ARCHIVE.md#m2-e22-learning-card-prediction-before-costs)
 passed the predictive screen but lost under the fixed illustrative costs.
@@ -68,7 +84,8 @@ The [registered pilot](docs/MILESTONE_ARCHIVE.md#m2-e19-test-card-volatility-reg
 used only the ten qualified M2-E18 BTCUSDT Spot archives. The completed
 comparison remains `INCONCLUSIVE / DEFER`; integration does not authorize
 another count or model run. The historical `--archives` and `--output`
-entry and its coverage-first behavior remain available for reproducibility.
+entry and its coverage-first implementation are preserved but blocked pending
+FR-005 qualification; old admission receipts cannot reopen them.
 
 The conditional comparison requires the published, clean reviewed revision,
 the qualifying count, a matching review receipt supplied with `--admission`,

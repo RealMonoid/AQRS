@@ -38,6 +38,7 @@ from aqrs.market import Bars, generate, validate
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json, write_text
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import run as run_worker
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -104,6 +105,8 @@ VOLUME_TABLES = {
     ],
 }
 DIAGNOSTIC_COUNTS = {CANDIDATES[0]: 54, CANDIDATES[1]: 61}
+
+
 
 
 def read_json(path: Path):
@@ -524,6 +527,7 @@ def read_archive_directory(root: Path, archives: list):
     return Bars(np.concatenate(daily), SYMBOL, 1)
 
 
+@unqualified_entry("src.aqrs.m2_e14.worker")
 def worker(request: dict, directory: Path):
     stage = request["stage"]
     if stage == "timing":
@@ -571,6 +575,7 @@ def worker(request: dict, directory: Path):
     return trial(bars, request, directory)
 
 
+@unqualified_entry("src.aqrs.m2_e14.run_campaign")
 def run_campaign(
     output: Path,
     config_path: Path,

@@ -81,7 +81,14 @@ def load_request(path: Path) -> tuple[dict, Path, AdmissionRejected | None]:
         config = yaml.load(path.read_text(encoding="utf-8"), Loader=UniqueKeysLoader)
     except (yaml.YAMLError, TypeError) as error:
         raise ValueError("Configuration is not valid YAML.") from error
-    fields(config, " ".join(SECTIONS))
+    return validate_request(config, path)
+
+
+def validate_request(
+    config: dict, path: Path
+) -> tuple[dict, Path, AdmissionRejected | None]:
+    """Validate file and direct callers through the same configuration contract."""
+    fields(config, " ".join(SECTIONS), "study")
     for section, keys in SECTIONS.items():
         optional = {
             "project": "path_base",

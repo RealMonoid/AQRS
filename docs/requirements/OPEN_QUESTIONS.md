@@ -218,9 +218,9 @@ and justified before automatic use; no numerical threshold is invented here.
 Record unsupported paths explicitly and prevent their research use until they
 meet the same conditions. This does not require rewriting historical artifacts.
 
-**Current boundary:** retain the market-research stop. Requirements work may
-prepare the handoff; production implementation remains separately authorized
-under the [requirements role](AGENTS.md#scope-and-authority). This focused gap
-does not dispatch the broader AQRS-H01 audit or other queued research. No new
-owner approval is requested for this documentation; future implementation
-scope and any missing scientific qualification evidence must be concrete first.
+**Implementation authorized, 2026-11-15, same owner chat:** implement the FR-005
+start gate and verify negative/valid cases on Windows and Linux. The active
+[FR-005 card](../MILESTONE_STATUS.md#fr-005-test-card-enforced-study-admission)
+supersedes the requirements-only boundary for this engineering item. Retain the
+market-research stop; this does not dispatch broader AQRS-H01 work. Runtime
+coverage and scientific-review qualification remain open until evidenced.

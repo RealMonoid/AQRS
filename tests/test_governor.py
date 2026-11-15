@@ -2,14 +2,18 @@ import sys
 import time
 from pathlib import Path
 
-from aqrs.governor import supervise
+from aqrs.governor import _supervise_process as supervise
 from aqrs.planning import make_plan
 
 
 def probe(code):
-    source = "from aqrs.worker import run; import sys; from pathlib import Path\n"
+    # This probe tests the OS containment primitive, not research admission.
+    source = "import os, sys; from pathlib import Path\n"
+    source += "from aqrs.storage import write_json\nfrom aqrs.platform_guard import arm_parent_loss_guard\n"
     source += "def evaluate(request, directory):\n    " + code + "\n"
-    source += "run(Path(sys.argv[1]), evaluate)\n"
+    source += "directory = Path(sys.argv[1]); write_json(directory / 'ready.json', os.getpid())\n"
+    source += "fd = sys.stdin.fileno()\nif os.read(fd, 1) == b'1':\n"
+    source += "    arm_parent_loss_guard(fd)\n    result = evaluate({}, directory)\n    write_json(directory / 'result.json', result)\n"
     return [sys.executable, "-c", source]
 
 
@@ -96,7 +100,7 @@ def test_parent_loss_terminates_worker_and_descendant(tmp_path):
     )
     supervisor_ready = tmp_path / "supervisor"
     harness = (
-        "import os, time; from pathlib import Path; from aqrs.governor import supervise; "
+        "import os, time; from pathlib import Path; from aqrs.governor import _supervise_process as supervise; "
         f"Path({str(supervisor_ready)!r}).write_text(str(os.getpid())); "
         f"supervise(Path({str(tmp_path)!r}), {{}}, 15, time.monotonic() + 20, 512, "
         f"command={probe(task)!r})"

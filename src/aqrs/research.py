@@ -1,8 +1,10 @@
 import csv
 import os
 from contextlib import closing
+from copy import deepcopy
 from dataclasses import replace
 from datetime import date, timedelta
+from hashlib import sha256
 from importlib.metadata import version
 from pathlib import Path
 from time import monotonic
@@ -19,12 +21,13 @@ from aqrs.binance_spot_pilot import (
     import_manifest,
     require_m1_development_day,
 )
-from aqrs.config import validate_data_admission, variant_limit
+from aqrs.config import validate_data_admission, validate_request, variant_limit
 from aqrs.governor import supervise
 from aqrs.market import BAR_RULES, generate, read_synthetic_csv, validate, write_dataset
 from aqrs.planning import preflight
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json, write_text
+from aqrs.study_admission import admitted_run, assess, require_parent, require_worker
 
 
 def spot_holdout(market: dict) -> dict:
@@ -46,6 +49,9 @@ def run(
     plan_only: bool,
     rejection: AdmissionRejected | None = None,
 ) -> tuple[dict, int]:
+    config = deepcopy(config)
+    _, _, direct_rejection = validate_request(config, base / "request.yaml")
+    rejection = rejection or direct_rejection
     started = monotonic()
     run_id = uuid4().hex
     output = base / config["project"]["artifact_dir"] / run_id
@@ -55,18 +61,22 @@ def run(
         if rejection is not None:
             raise rejection
         validate_data_admission(config)
+        study_admission = assess(config, base)
     except AdmissionRejected as denial:
-        if plan_only:
-            raise denial
         return reject_data_request(config, database, run_id, denial)
     real_spot = market["source"] == "binance_vision_spot"
     holdout = spot_holdout(market) if real_spot else None
     output.mkdir(parents=True, exist_ok=False)
     config_hash = fingerprint(config)
     if plan_only:
-        plan, _ = preflight(config, output, started)
+        # Planning is declarative: even a representative timing fit needs a run.
+        plan, _ = preflight(config, output, started, validate_only=True)
         plan.update(
-            run_id=run_id, config_fingerprint=config_hash, output_dir=str(output)
+            run_id=run_id,
+            config_fingerprint=config_hash,
+            output_dir=str(output),
+            study_admission=study_admission,
+            execution_authorized=False,
         )
         if real_spot:
             plan.update(holdout=holdout, source_data_validated=False)
@@ -77,6 +87,7 @@ def run(
 
     report = {
         "run_id": run_id,
+        "study_admission": study_admission,
         "schema_version": "2",
         "provenance": snapshot(output, Path(worker.__file__)),
         "zero_cost_components": [
@@ -128,7 +139,8 @@ def run(
     with closing(journal.connect(database)) as db:
         journal.begin(db, run_id, config_hash, config, report)
         try:
-            execute(config, db, output, report, started, base=base)
+            with admitted_run(database, run_id, config, base, study_admission):
+                execute(config, db, output, report, started, base=base)
             write_reports(output, report)
         except (Exception, KeyboardInterrupt) as error:
             status = "CANCELLED" if isinstance(error, KeyboardInterrupt) else "FAILED"
@@ -154,6 +166,8 @@ def run(
         "output_dir": str(output),
         "stop_reason": report["plan"]["stop_reason"],
         "reason_code": report["plan"].get("reason_code"),
+        "required_action": report["plan"].get("required_action"),
+        "resumption_condition": report["plan"].get("resumption_condition"),
         "variant_ledger_created": report["variant_ledger_created"],
     }, {"COMPLETED": 0, "REJECTED_PREFLIGHT": 2, "CANCELLED": 130}.get(status, 1)
 
@@ -168,6 +182,19 @@ def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRe
         "variant_ledger_created": False,
         "reason_code": denial.code,
         "stop_reason": str(denial),
+        "required_action": getattr(
+            denial,
+            "required_action",
+            "Correct the declared data scope or prerequisite.",
+        ),
+        "resumption_condition": getattr(
+            denial,
+            "resumption_condition",
+            "Current admission checks pass for a corrected request.",
+        ),
+        "study_data_accesses": 0,
+        "started_workers": 0,
+        "started_fits": 0,
     }
     with closing(journal.connect(database)) as db:
         journal.begin(
@@ -247,6 +274,7 @@ def reserve_campaign_variants(config, db, database_path, report, plan):
 def execute(
     config, db, output: Path, report: dict, started: float, *, base: Path
 ) -> None:
+    require_parent()
     run_id = report["run_id"]
     market = config["market"]
     real_spot = market["source"] == "binance_vision_spot"
@@ -287,6 +315,9 @@ def execute(
                 admission_execution_status=preparation["execution_status"],
                 stop_reason=preparation["stop_reason"],
             )
+            for key in ("reason_code", "required_action", "resumption_condition"):
+                if preparation.get(key):
+                    plan[key] = preparation[key]
     plan.update(run_id=run_id, config_fingerprint=report["config_fingerprint"])
     if report.get("preparation"):
         usage = report["preparation"]
@@ -322,6 +353,7 @@ def execute(
         request = {
             "_worker_entry": str((output / "source/pilot.py").resolve()),
             "prefix": str(prefix_path),
+            "prefix_sha256": prepared["prefix_sha256"],
             "bar_minutes": market["bar_minutes"],
             "symbol": market["symbol"],
             "horizon": horizon,
@@ -382,6 +414,10 @@ def execute(
             trial["stop_reason"] for trial in trials if trial["stop_reason"]
         )
         report["stop_reason"] = plan["stop_reason"]
+        failed = next(t for t in trials if t["execution_status"] != "COMPLETED")
+        for key in ("reason_code", "required_action", "resumption_condition"):
+            if failed.get(key):
+                plan[key] = report[key] = failed[key]
         if plan.get("reason_code"):
             report["reason_code"] = plan["reason_code"]
     if report["execution_status"] == "COMPLETED":
@@ -408,6 +444,7 @@ def execute(
 
 def prepare_data(request: dict) -> dict:
     """Prepare the research prefix under the same external campaign deadline."""
+    require_worker()
     config = request["config"]
     market, research = config["market"], config["research"]
     start_at, _ = data_scope(market)
@@ -488,6 +525,7 @@ def prepare_data(request: dict) -> dict:
         dataset_fingerprint=bars.fingerprint,
         dataset_path="dataset.csv",
         prefix_fingerprint=prefix.fingerprint,
+        prefix_sha256=sha256((output / "research-prefix.npy").read_bytes()).hexdigest(),
     )
     if not real_spot:
         result["holdout"] = {
@@ -512,6 +550,7 @@ def prepare_data(request: dict) -> dict:
 def run_candidate(
     db, output, report, plan, request, candidate, priority, research_id, deadline
 ):
+    require_parent(validate=False)
     run_id = report["run_id"]
     candidate_id = candidate["id"]
     rule = BAR_RULES.get(candidate["model"])
@@ -581,6 +620,9 @@ def run_candidate(
             execution_status=previous["execution_status"],
             stop_reason=previous["stop_reason"],
         )
+        for key in ("reason_code", "required_action", "resumption_condition"):
+            if previous.get(key):
+                outcome[key] = previous[key]
     elif plan["preflight_status"] == "ADMITTED":
         journal.start_experiment(db, run_id, candidate_id, metadata)
         outcome = supervise(

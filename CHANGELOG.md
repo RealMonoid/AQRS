@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026-11-15 - Enforce FR-005 study admission before execution
+
+Add a fail-closed parent/worker admission boundary, current-condition monitoring,
+single-use journaled worker requests and frozen input identity. Admit the explicit
+common synthetic engineering contract; block unqualified legacy research entries
+with actionable records. Keep scientific-review qualification separate. Make
+planning declarative and verify rejected/valid and revoked execution paths.
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/research.yaml`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+- `scripts/m2_e15_count.py`
+- `scripts/m2_isolation_forest_pilot.py`
+- `scripts/m2_supervised_pilot.py`
+- `src/aqrs/binance_spot_pilot.py`
+- `src/aqrs/blind_search.py`
+- `src/aqrs/config.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/governor.py`
+- `src/aqrs/journal.py`
+- `src/aqrs/m2_e14.py`
+- `src/aqrs/m2_e19.py`
+- `src/aqrs/predictive_spot.py`
+- `src/aqrs/research.py`
+- `src/aqrs/spot_dataset.py`
+- `src/aqrs/study_admission.py` (added)
+- `src/aqrs/worker.py`
+- `tests/test_governor.py`
+- `tests/test_study_admission.py` (added)
+
 ## 2026-11-15 - Specify enforceable admission for every research execution
 
 Clarify FR-005 with scientific and execution readiness, study-bound admission,

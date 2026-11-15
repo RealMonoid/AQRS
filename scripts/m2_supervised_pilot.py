@@ -13,6 +13,7 @@ from aqrs.config import fields, load, number
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import run as run_worker
 
 DAYS = tuple(date(2026, 1, day) for day in (1, 2, 3, 4))
@@ -44,6 +45,8 @@ COSTS = {
 }
 
 
+
+
 def read_window(archive_root, days=DAYS):
     import numpy as np
 
@@ -64,6 +67,7 @@ def read_window(archive_root, days=DAYS):
     return window
 
 
+@unqualified_entry("scripts.m2_supervised_pilot.evaluate_worker")
 def evaluate_worker(request, directory):
     from aqrs.evaluation import evaluate, model
 
@@ -108,6 +112,7 @@ def archive_source(
     return snapshot(output, entry, support)
 
 
+@unqualified_entry("scripts.m2_supervised_pilot.compare")
 def compare(output, report, db, run_id, config):
     import numpy as np
 
@@ -279,6 +284,7 @@ def compare(output, report, db, run_id, config):
     return "COMPLETED"
 
 
+@unqualified_entry("scripts.m2_supervised_pilot.main")
 def main(
     output,
     config_path=Path("configs/research.yaml"),

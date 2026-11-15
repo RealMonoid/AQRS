@@ -1,7 +1,9 @@
 import json
 import os
+import sqlite3
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -9,8 +11,43 @@ from traceback import extract_tb
 
 import psutil
 
+from aqrs.admission import AdmissionRejected
 from aqrs.platform_guard import WindowsJob, stop_tree, tree_usage
 from aqrs.storage import write_json
+from aqrs.study_admission import authorize_worker, require_parent
+
+
+class _AdmissionWatch:
+    """Keep metadata I/O off the deadline watcher; stale checks fail closed."""
+
+    def __init__(self, check):
+        self.stop = threading.Event()
+        self.state = (time.monotonic(), None)
+        self.thread = threading.Thread(target=self._observe, args=(check,), daemon=True)
+        self.thread.start()
+
+    def _observe(self, check):
+        while not self.stop.is_set():
+            issue = None
+            try:
+                check()
+            except (ValueError, OSError, sqlite3.Error, TypeError, KeyError) as error:
+                issue = (getattr(error, "code", "ADMISSION_UNVERIFIABLE"), str(error))
+            self.state = (time.monotonic(), issue)
+            if issue or self.stop.wait(0.25):
+                return
+
+    def issue(self):
+        checked, issue = self.state
+        if issue:
+            return issue
+        # Engineering freshness limit; the worker deadline is never extended.
+        if time.monotonic() - checked > 1.0:
+            return (
+                "ADMISSION_WATCH_STALE",
+                "Current admission could not be rechecked within one second.",
+            )
+        return None
 
 
 def supervise(
@@ -22,6 +59,58 @@ def supervise(
     *,
     command: list[str] | None = None,
 ) -> dict:
+    """Dispatch research only after durable, current study admission."""
+    try:
+        if command is not None:
+            raise AdmissionRejected(
+                "ENTRY_UNQUALIFIED",
+                "Custom research worker commands require a qualified admission contract.",
+            )
+        context = require_parent()
+        admitted = authorize_worker(request)
+    except (ValueError, OSError, sqlite3.Error, TypeError, KeyError) as error:
+        return {
+            "execution_status": "REJECTED_PREFLIGHT",
+            "stop_reason": str(error),
+            "reason_code": getattr(error, "code", "ADMISSION_STORAGE_FAILED"),
+            "required_action": getattr(
+                error,
+                "required_action",
+                "Restore a verifiable qualified study admission.",
+            ),
+            "resumption_condition": getattr(
+                error,
+                "resumption_condition",
+                "A fresh checked request satisfies the missing prerequisite.",
+            ),
+            "started": False,
+            "peak_rss_mb": None,
+            "sampled_cpu_seconds": 0.0,
+            "completed_fits": 0,
+            "started_fits": 0,
+            "runtime_wall_seconds": 0.0,
+        }
+    return _supervise_process(
+        workdir,
+        admitted,
+        trial_seconds,
+        campaign_deadline,
+        max_rss_mb,
+        admission_watch=context.check,
+    )
+
+
+def _supervise_process(
+    workdir: Path,
+    request: dict,
+    trial_seconds: float,
+    campaign_deadline: float,
+    max_rss_mb: float,
+    *,
+    command: list[str] | None = None,
+    admission_watch=None,
+) -> dict:
+    """Private process-containment primitive; no research permission is issued."""
     started_at = time.monotonic()
     trial_deadline = started_at + trial_seconds
     deadline = min(trial_deadline, campaign_deadline)
@@ -56,7 +145,7 @@ def supervise(
     with TemporaryDirectory(prefix="worker-", dir=workdir) as temporary:
         directory = Path(temporary)
         write_json(directory / "request.json", request)
-        job = process = None
+        job = process = watcher = None
         try:
             job = WindowsJob() if windows else None
             with (directory / "worker.log").open("wb") as log:
@@ -69,6 +158,8 @@ def supervise(
                     env=env,
                     creationflags=subprocess.CREATE_NO_WINDOW if windows else 0,
                 )
+                if admission_watch is not None:
+                    watcher = _AdmissionWatch(admission_watch)
                 _watch(
                     process,
                     job,
@@ -77,6 +168,7 @@ def supervise(
                     campaign_deadline <= trial_deadline,
                     max_rss_mb,
                     outcome,
+                    watcher,
                 )
         except KeyboardInterrupt:
             outcome.update(
@@ -93,6 +185,8 @@ def supervise(
                 f"({type(error).__name__}, errno {getattr(error, 'errno', None)}).",
             )
         finally:
+            if watcher is not None:
+                watcher.stop.set()
             if process is not None:
                 stop_tree(process, job)
             elif job is not None:
@@ -119,7 +213,16 @@ def _read(path: Path, deadline: float = float("inf")):
             time.sleep(0.01)
 
 
-def _watch(process, job, directory, deadline, campaign_limited, max_rss_mb, outcome):
+def _watch(
+    process,
+    job,
+    directory,
+    deadline,
+    campaign_limited,
+    max_rss_mb,
+    outcome,
+    admission_watch=None,
+):
     ready = directory / "ready.json"
     pid = process.pid
     while True:
@@ -131,10 +234,27 @@ def _watch(process, job, directory, deadline, campaign_limited, max_rss_mb, outc
             )
             return
 
+        if admission_watch is not None and (issue := admission_watch.issue()):
+            outcome.update(
+                execution_status="CANCELLED"
+                if outcome["started"]
+                else "REJECTED_PREFLIGHT",
+                reason_code=issue[0],
+                stop_reason=issue[1],
+                required_action="Restore the failed prerequisite and reassess the affected study.",
+                resumption_condition="A new attempt passes current admission; no automatic retry.",
+            )
+            return
+
         code = process.poll()
         if code is not None:
             result = directory / "result.json"
-            if code == 3 and (directory / "budget_stop.json").exists():
+            if code == 4 and (directory / "admission_stop.json").exists():
+                outcome.update(
+                    execution_status="REJECTED_PREFLIGHT",
+                    **_read(directory / "admission_stop.json"),
+                )
+            elif code == 3 and (directory / "budget_stop.json").exists():
                 outcome.update(
                     execution_status="BUDGET_EXHAUSTED",
                     stop_reason="Fit budget exhausted before fit.",

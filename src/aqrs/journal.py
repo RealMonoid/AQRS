@@ -31,6 +31,13 @@ CREATE TABLE IF NOT EXISTS experiments (
     UNIQUE (run_id, candidate_id)
 );
 CREATE INDEX IF NOT EXISTS experiments_evidence ON experiments(evidence_key);
+CREATE TABLE IF NOT EXISTS study_launches (
+    launch_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES campaigns(run_id),
+    request_fingerprint TEXT NOT NULL,
+    payload_json TEXT NOT NULL,
+    consumed INTEGER NOT NULL CHECK (consumed IN (0, 1))
+);
 """
 
 VARIANT_LEDGER = """

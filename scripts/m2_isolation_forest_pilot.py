@@ -17,6 +17,7 @@ from aqrs import journal
 from aqrs.governor import supervise
 from aqrs.platform_guard import capability
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import reserve_fit
 from aqrs.worker import run as run_worker
 
@@ -62,6 +63,8 @@ CONFIG = {
     "limits": LIMITS,
     "research": {"candidates": [{"id": name} for name in ARMS]},
 }
+
+
 
 
 def fixed_folds(bars):
@@ -161,6 +164,7 @@ def score_fold(
     }
 
 
+@unqualified_entry("scripts.m2_isolation_forest_pilot.evaluate_worker")
 def evaluate_worker(request, directory):
     import numpy as np
 
@@ -370,6 +374,7 @@ def governor_limits(source):
     return limits
 
 
+@unqualified_entry("scripts.m2_isolation_forest_pilot.compare")
 def compare(output, report, db, deadline):
     import numpy as np
 
@@ -662,6 +667,7 @@ def verify_replay():
     print("Windows and Ubuntu receipts match.")
 
 
+@unqualified_entry("scripts.m2_isolation_forest_pilot.main")
 def main():
     import os
 

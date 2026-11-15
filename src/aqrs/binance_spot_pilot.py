@@ -21,6 +21,7 @@ from aqrs.admission import SPOT_HOLDOUT_END as SPOT_HOLDOUT_END
 from aqrs.admission import SPOT_HOLDOUT_START as SPOT_HOLDOUT_START
 from aqrs.admission import check_unlocked
 from aqrs.market import Bars, validate, write_dataset
+from aqrs.study_admission import unqualified_entry
 
 ARCHIVE_BASE = "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m"
 SYMBOL = "BTCUSDT"
@@ -44,6 +45,8 @@ class SpotDay:
     activity: np.ndarray | None
     digest: str
     source_timestamp_unit: str
+
+
 
 
 def require_spot_identity(symbol: str, day: date) -> None:
@@ -85,6 +88,7 @@ def require_m1_development_day(day: str) -> None:
         raise ValueError(f"The M1 spot campaign only admits {M1_DEVELOPMENT_DAY} UTC.")
 
 
+@unqualified_entry("src.aqrs.binance_spot_pilot.import_day")
 def import_day(archive: Path, checksum: Path, day: date) -> tuple[Bars, str]:
     require_spot_identity(SYMBOL, day)
     reserved_archive = f"{SYMBOL}-1m-{M1_HOLDOUT_DAY}.zip".casefold()

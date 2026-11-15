@@ -28,6 +28,7 @@ from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.spot_dataset import NoRedirect
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import reserve_fit
 from aqrs.worker import run as run_worker
 
@@ -42,6 +43,8 @@ MONTHS = tuple(
 BASE = "https://data.binance.vision/data/spot/monthly/klines/BTCUSDT/30m"
 INPUT_LIMIT = 1024 * 1024
 STORAGE_LIMIT = 128 * 1024 * 1024
+
+
 
 
 def definition() -> dict:
@@ -140,6 +143,7 @@ def parse_month(month: str, payload: bytes, checksum: bytes) -> Bars:
     return bars
 
 
+@unqualified_entry("src.aqrs.predictive_spot.acquire_month")
 def acquire_month(month: str, output: Path) -> tuple[Bars, dict]:
     require_month(month)  # Must precede every network/file operation.
     stem = f"BTCUSDT-30m-{month}.zip"
@@ -339,6 +343,7 @@ def synthetic_bars() -> Bars:
     return Bars(values, "BTCUSDT", 30)
 
 
+@unqualified_entry("src.aqrs.predictive_spot.worker")
 def worker(request: dict, directory: Path) -> dict:
     output = Path(request["output"])
     if request["stage"] == "acquire":
@@ -417,6 +422,7 @@ def worker(request: dict, directory: Path) -> dict:
     return result
 
 
+@unqualified_entry("src.aqrs.predictive_spot.campaign")
 def campaign(
     output: Path,
     limits: dict,

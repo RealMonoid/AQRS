@@ -2,6 +2,25 @@
 
 This file is **normative**. Add each new architectural decision as a numbered ADR with status, rationale, consequences and reversal condition. A market-feasibility decision must be revisitable when data/costs change.
 
+### ADR-056: enforce study admission at parent and worker boundaries
+
+**Status: experimental implementation, 2026-11-15.** FR-005's owner-authorized
+increment reuses the common journal, source snapshots and native supervisor.
+An installed deterministic contract qualifies only the current synthetic
+engineering workflow. Unknown questions, scientific claims and unqualified legacy
+entries stop; caller-written review flags cannot grant authority. A durable
+single-use worker receipt binds the actual request to current campaign admission.
+Current conditions are monitored without blocking the external wall watchdog.
+
+This avoids inventing a scientific reviewer or unsupported power threshold.
+Historical algorithms and records remain, but their old launch receipts no longer
+suffice. See the [contract](CONTRACTS.md#f4-fr-005-study-admission) and
+[Test Card](MILESTONE_STATUS.md#fr-005-test-card-enforced-study-admission).
+Adoption requires observed negative and valid cases on both platforms and review.
+Revisit the limited qualification when independent scientific assessment cases
+and a justified review procedure exist; extending the installed contract requires
+its own evidence. Do not relax the gate to recover an unsupported launch path.
+
 | ID | Status | Decision | Rationale and consequence |
 |---|---|---|---|
 | ADR-001 | Accepted | **Walking Skeleton** over full upfront platform | Build one genuine end-to-end run first, then add vertical increments. |

@@ -52,6 +52,7 @@ from aqrs.governor import supervise
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import canonical, fingerprint, write_json, write_text
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import reserve_fit, run
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -59,6 +60,8 @@ SOURCE_PATHS = [f"src/aqrs/{path.name}" for path in sorted(Path(__file__).parent
     ".gitattributes", "configs/blind_search.json", "pyproject.toml",
     "configs/research.yaml", "docs/CONTRACTS.md", "docs/RESEARCH_PROTOCOL.md",
 ]
+
+
 
 
 def load_plan() -> dict:
@@ -428,6 +431,7 @@ def candidate_ledger(registration: dict, selected: list[dict]) -> str:
     return "".join(canonical(row) + "\n" for row in rows)
 
 
+@unqualified_entry("src.aqrs.blind_search.evaluate_worker")
 def evaluate_worker(request: dict, directory: Path) -> dict:
     plan = request["plan"]
     output = Path(request["output"])
@@ -489,6 +493,7 @@ def owned_sequence(root: Path, dataset_id: str, attempt: str, approval: dict, br
     return state, assert_owned(root, state, dataset_id, attempt, approval, source_hashes())
 
 
+@unqualified_entry("src.aqrs.blind_search.register")
 def register(root: Path, attempt: str, source: str, dataset_id: str,
              expected_digest: str, approval_path: Path | None, branch: str = BRANCH) -> Path:
     if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
@@ -602,6 +607,7 @@ def register(root: Path, attempt: str, source: str, dataset_id: str,
     return registration_dir
 
 
+@unqualified_entry("src.aqrs.blind_search.execute")
 def execute(root: Path, attempt: str, revision: str, branch: str, approval_path: Path | None) -> dict:
     if not re.fullmatch(r"AQRS-B01-[A-Z0-9-]{1,48}", attempt):
         raise ValueError("Invalid attempt ID.")
@@ -820,6 +826,7 @@ def add_correction(root: Path, dataset_id: str, note: str, branch: str = BRANCH)
     return path
 
 
+@unqualified_entry("src.aqrs.blind_search.replay_evidence")
 def replay_evidence(root: Path, dataset_id: str, revision: str, identifiers: list[str], branch: str = BRANCH) -> dict:
     claim_paths(root, dataset_id)
     if len(identifiers) != 2 or len(set(identifiers)) != 2 or not re.fullmatch(r"[0-9a-f]{40}", revision):

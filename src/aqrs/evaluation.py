@@ -1,3 +1,5 @@
+from hashlib import sha256
+from io import BytesIO
 from math import sqrt
 from pathlib import Path
 from statistics import NormalDist
@@ -10,6 +12,7 @@ from sklearn.preprocessing import StandardScaler
 
 from aqrs.market import FEATURE_NAMES, BarRule, Bars, features, targets
 from aqrs.storage import write_json
+from aqrs.study_admission import reject
 from aqrs.worker import reserve_fit
 
 RIDGE_ALPHA = 1.0
@@ -24,6 +27,21 @@ DIAGNOSTIC_IDS = {
 
 def model():
     return make_pipeline(StandardScaler(), Ridge(alpha=RIDGE_ALPHA, solver="svd"))
+
+
+def load_prefix(request: dict):
+    """Parse the same bytes whose identity was admitted for this worker."""
+    payload = Path(request["prefix"]).read_bytes()
+    if (
+        request.get("prefix_sha256")
+        and sha256(payload).hexdigest() != request["prefix_sha256"]
+    ):
+        raise reject(
+            "DATA_CHANGED",
+            "Prepared study input changed after admission.",
+            "Prepare and admit the corrected input in a new attempt.",
+        )
+    return np.load(BytesIO(payload), allow_pickle=False)
 
 
 def cost_components(costs: dict, notional: float) -> dict[str, float]:
@@ -120,7 +138,7 @@ def evaluate(request: dict, directory: Path, *, model_factory=None) -> dict:
         return {"fit_wall_seconds": elapsed, "rows": len(x), "columns": x.shape[1]}
 
     bars = Bars(
-        np.load(request["prefix"], allow_pickle=False),
+        load_prefix(request),
         request["symbol"],
         request["bar_minutes"],
     )
@@ -267,7 +285,7 @@ def hac(values: np.ndarray, lags: int) -> dict:
 def evaluate_bar_rule(request: dict, directory: Path, rule: BarRule) -> dict:
     """Compare paired next-bar hits using calendar-day uncertainty."""
     bars = Bars(
-        np.load(request["prefix"], allow_pickle=False),
+        load_prefix(request),
         request["symbol"],
         request["bar_minutes"],
     )

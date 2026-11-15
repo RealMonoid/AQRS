@@ -41,6 +41,7 @@ from aqrs.market import features, validate
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 from aqrs.worker import reserve_fit
 from aqrs.worker import run as run_worker
 
@@ -65,6 +66,8 @@ QUANTILE = 0.75
 MIN_DAYS = 2
 MIN_ENTRIES = 4
 DATASET_ID = "f24e81c97227b0932978a240ae20411f6ffea7242bed11294c43b16ce9904568"
+
+
 
 
 def cutoff(values, request, directory):
@@ -293,6 +296,7 @@ def compare(bars, request, directory):
     }
 
 
+@unqualified_entry("src.aqrs.m2_e19.worker")
 def worker(request, directory):
     stage = request["stage"]
     if stage == "timing":
@@ -373,6 +377,7 @@ def require_admission(path, windows_report=None):
     return admission, counted["outcome"]["result"]["folds"]
 
 
+@unqualified_entry("src.aqrs.m2_e19.run_pilot")
 def run_pilot(archives, output, admission_path=None, windows_report=None):
     outcome_stage = admission_path is not None
     admission, coverage_folds = (

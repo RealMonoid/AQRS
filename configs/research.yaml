@@ -1,4 +1,10 @@
 # Default configuration for the v0.1 synthetic research campaign.
+study:
+  question: Can the configured synthetic workflow execute and report its declared measurements within its guards?
+  design: common_synthetic_workflow_v1
+  claim: engineering
+  prerequisites: []
+
 project:
   name: AQRS
   seed: 42

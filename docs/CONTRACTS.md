@@ -675,6 +675,49 @@ no bundle, key, location, generator, secret seed or answer. None is supplied
 here and this is not an executable freeze. Any case/result used to revise a
 policy becomes development exposure; a new independent claim needs fresh cases.
 
+## F4. FR-005 study admission
+
+`study_admission.py` enforces a versioned, installed procedure contract before
+the common run can access study inputs. The initial contract is
+`FR005_ENGINEERING_V1` / `common_synthetic_workflow_v1`, for the exact operational
+engineering question in `configs/research.yaml`. It measures whether the declared
+synthetic pipeline executes, records its measurements and respects its guards.
+It makes no market-effect, statistical-power or general scientific-review claim.
+An unknown question/design is unresolved, not automatically judged scientifically
+false. Correcting a public engineering case to this contract permits assessment;
+changing the owner's scientific question to obtain admission is prohibited.
+
+The receipt binds the question, design, complete configuration (including data
+scope and limits), installed Python source, prerequisite file metadata and policy.
+The existing data, exposure, resource and platform gates still apply. Preparation
+returns the byte digest of its frozen research prefix; each candidate parses the
+same bytes it verifies against that admitted digest. An available input's file
+metadata is monitored; this is not a tamper-proof data vault.
+
+SQLite campaign records hold the decision; `study_launches` issues one nonce per
+exact worker request. Workers atomically consume it after containment and before
+study access. Missing/changed/replayed admissions and custom commands fail closed.
+The installed application and local journal are trusted: this is an application
+boundary, not a sandbox against an operator rewriting trusted code/database or
+calling numerical library internals from arbitrary Python. Direct supported
+campaign, preparation, worker and replay entries enforce the same boundary.
+
+Current source/configuration, prerequisite availability and campaign status are
+rechecked before dispatch and at worker entry. A supervisory thread checks during
+execution every 250 ms; a result older than one second stops affected work. This
+is an engineering freshness bound, not scientific sufficiency. Metadata I/O does
+not run on the wall-time watchdog thread. No later dependent trial starts after
+an admission stop. New attempts receive new decisions; no automatic retry.
+
+Unsupported legacy entries listed in the README stop before study work and record
+`ENTRY_UNQUALIFIED` under the current directory's `artifacts/research.sqlite3`.
+They require entry-specific qualification, not merely adding a `PASS` field.
+This status does not reject a model family or rewrite historical evidence.
+Acquisition can eventually be admitted for its own bounded purpose without
+requiring the data it is meant to obtain; no acquisition contract is currently
+qualified. Missing data blocks analysis, not metadata-only preparation of that
+contract. Scientific-review qualification remains separately open under FR-005.
+
 ## G. Reporting contract
 
 Machine-readable `report.json` and readable `report.md` include:

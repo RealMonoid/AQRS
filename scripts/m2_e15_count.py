@@ -19,6 +19,7 @@ from aqrs.market import Bars, build_folds, validate
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/research.yaml"
@@ -35,6 +36,8 @@ DAY = 1_440
 ROWS = 10 * DAY
 HORIZON = 30
 BASELINE_AGE, PERSISTENT_AGE = 5, 30
+
+
 
 
 def registration():
@@ -217,6 +220,7 @@ def summarize(bars):
     }
 
 
+@unqualified_entry("scripts.m2_e15_count.count_worker")
 def count_worker(request, directory):
     try:
         archives = archive_scope(json.loads(D01.read_text(encoding="utf-8")))
@@ -241,6 +245,7 @@ def count_worker(request, directory):
         return {"input_status": "REJECTED", "input_error": str(error)}
 
 
+@unqualified_entry("scripts.m2_e15_count.execute")
 def execute(plan, archives, registered):
     started = monotonic()
     OUTPUT.mkdir(parents=True, exist_ok=False)

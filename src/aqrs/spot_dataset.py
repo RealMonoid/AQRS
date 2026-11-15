@@ -26,9 +26,12 @@ from aqrs.market import Bars, validate, write_dataset
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json
+from aqrs.study_admission import unqualified_entry
 
 BASE = "https://data.binance.vision/data/spot/daily/klines"
 MAX_STORAGE = 128 * 1024 * 1024
+
+
 
 
 def build_plan(scope: dict, limits: dict, *, acquire: bool) -> dict:
@@ -257,6 +260,7 @@ def process_symbol(request: dict, directory: Path) -> dict:
         }
 
 
+@unqualified_entry("src.aqrs.spot_dataset.prepare")
 def prepare(
     plan: dict, output: Path, *, archive_dir: Path | None = None
 ) -> tuple[dict, int]:

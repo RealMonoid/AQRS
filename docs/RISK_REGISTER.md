@@ -1,5 +1,33 @@
 # AQRS — Project risks and mitigations
 
+## FTA-FR-005: study admission
+
+**2026-11-15, Engineering owns implementation; independent review verifies it.**
+Top event: an unclear, unsuitable, unqualified or unauthorized study accesses
+outcomes or computes despite FR-005. Credible OR paths: only the CLI checks;
+parent-side import/registration/replay bypasses workers; a caller invents PASS;
+an approved plan changes before execution; an old request is replayed; required
+data/authorization/containment disappears; audit storage fails but execution
+continues. A scientific false approval is a separate path: an accepted review
+AND an unqualified reviewer can enforce the wrong decision perfectly.
+
+Reuse existing scope checks, journal transactions, source fingerprints and
+worker containment. Enforce admission before parent study I/O and Popen, bind
+the actual request/source/configuration, verify the worker launch record and
+recheck required conditions. Block unqualified entry paths rather than invent
+approval. Only a narrowly qualified public engineering contract is eligible
+for automatic positive cases; no caller flag qualifies market science.
+Independent scientific qualification remains a prerequisite for that scope.
+
+Negative tests cover missing/unclear questions, incompatible design, unsupported
+claim, missing prerequisites, forged/stale/replayed records, changed requests,
+direct/legacy entry, storage failure and revoked conditions. Observe zero
+blocked study reads/workers/fits; a real valid execution prevents an always-deny
+implementation from passing. Verify native Windows and headless Linux. Existing
+historical artifacts and pure calculation unit tests are not admission evidence.
+This is an application-interface control, not isolation against arbitrary Python
+or an operator who rewrites executable code or the trusted local journal.
+
 ## Second synthetic next-bar rule
 
 **AQRS-W01-P05, 2026-11-15.** The top event is an invalid comparison that appears
