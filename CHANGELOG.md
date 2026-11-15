@@ -4,6 +4,7 @@
 
 Add a fail-closed parent/worker admission boundary, current-condition monitoring,
 single-use journaled worker requests and frozen input identity. Admit the explicit
+worker only with a one-time proof sent over its supervisor control pipe. Admit the
 common synthetic engineering contract; block unqualified legacy research entries
 with actionable records. Keep scientific-review qualification separate. Make
 planning declarative and verify rejected/valid and revoked execution paths.

@@ -174,6 +174,18 @@ with zero study reads/fits; this is not a measurement of the entire campaign
 or scientific-review cost. Admission adds one monitoring thread per active
 worker and byte verification inside the existing memory/time guards.
 
+**Channel correction checkpoint:** `be14e46` passed all four Windows/Ubuntu
+jobs in [CI 43756045496](https://github.com/RealMonoid/AQRS/actions/runs/43756045496),
+including 447 tests in each Linux job. A separate local Windows run had 446
+passes and one false `ADMISSION_PARENT_MISMATCH` on a valid preparation worker.
+Its precise process-graph cause was not captured; do not dismiss it as flaky.
+Replace ancestry inference with a one-time, 32-byte supervisor-pipe proof;
+retain live issuer identity, expiry, current-condition checks and single-use
+request binding. The first corrected control/OS/affected-CLI set passed 58
+tests in 71.06 s. Add real EOF/truncation rejection and a dead issuer with an
+otherwise correct proof before fresh full-platform verification. No scientific
+qualification or market-study authorization follows from this correction.
+
 ## Research and backtesting learning
 
 One row per run under the [closeout rule](RESEARCH_PROTOCOL.md#research-and-backtesting-improvement-loop); older rows move with their cards into the archive.

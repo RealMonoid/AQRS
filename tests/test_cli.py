@@ -1178,7 +1178,8 @@ def test_holdout_changes_do_not_affect_research_metrics_or_priority(
 
     def admitted_preparation(request):
         from aqrs.study_admission import admitted_worker, authorize_worker
-        with admitted_worker(authorize_worker(request)):
+        admitted, secret = authorize_worker(request)
+        with admitted_worker(admitted, lambda: secret):
             return research.prepare_data(request)
 
     def changed_preparation(directory, request, *args):

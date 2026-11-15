@@ -10,6 +10,8 @@ An installed deterministic contract qualifies only the current synthetic
 engineering workflow. Unknown questions, scientific claims and unqualified legacy
 entries stop; caller-written review flags cannot grant authority. A durable
 single-use worker receipt binds the actual request to current campaign admission.
+An in-memory one-time proof sent through the supervisor's control pipe prevents
+a copied receipt from granting execution; only its digest is persisted.
 Current conditions are monitored without blocking the external wall watchdog.
 
 This avoids inventing a scientific reviewer or unsupported power threshold.
@@ -157,6 +159,7 @@ Log only **consequential** alternatives that were actually considered. Each entr
 | IDEA-002 | Rejected as default, 2026-11-06 | Exhaustive fault tree for every code or documentation edit | Conceptual process-cost objection, **not an empirical comparison**: routine changes do not justify intensive safety analysis. | Risk-triggered qualitative FTA for critical boundaries; revisit if recurring unanalysed failures show this is insufficient. |
 | IDEA-003 | Rejected as default, 2026-11-06 | Standalone postmortem file for every failed unit test | Untested process-cost concern; trivial failures are already captured by tests and the active learning loop. | Concise postmortem after *material or repeated* incidents in existing milestone record/issue. Revisit if recurring issues cannot be tracked there. |
 | IDEA-004 | Rejected as default, 2026-11-07 | Recurring comparison of standard and shifted candle grids before independent validation | The owner rejected the recurring workload. No AQRS runtime was measured for the proposed comparison. | Define new signals around the event under study under ADR-043. Revisit a separately budgeted comparison only if observed sensitivity to a grid boundary could change a named research decision and the owner approves. |
+| IDEA-005 | Rejected for worker authorization, 2026-11-15 | Inferring a worker's authority from its process ancestry | FR-005's `be14e46` passed all four hosted jobs, but a valid local Windows launch was rejected with `ADMISSION_PARENT_MISMATCH` (446 passed, one failed). The precise process-graph cause was not captured. | Use a one-time supervisor-pipe proof, live issuer identity, request binding and finite validity. Revisit ancestry only with a reproduced platform guarantee and a concrete need the channel proof cannot satisfy. |
 
 ## Adaptive research integration
 

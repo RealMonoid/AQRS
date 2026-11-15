@@ -165,20 +165,61 @@ def admitted_context(study_config, tmp_path):
 
 
 def test_changed_and_replayed_worker_requests_are_rejected(admitted_context):
+    from hashlib import sha256
+
     from aqrs.admission import AdmissionRejected
     from aqrs.study_admission import admitted_worker, authorize_worker
 
-    request = authorize_worker({"pilot_rows": 40, "pilot_columns": 1, "fit_limit": 1})
+    request, secret = authorize_worker(
+        {"pilot_rows": 40, "pilot_columns": 1, "fit_limit": 1}
+    )
+    with sqlite3.connect(admitted_context) as db:
+        stored = db.execute("SELECT payload_json FROM study_launches").fetchone()[0]
+    assert json.loads(stored)["release_digest"] == sha256(secret).hexdigest()
+    assert secret.hex() not in stored + json.dumps(request)
+    assert set(request["_admission"]) == {"journal", "run_id", "launch_id"}
     with pytest.raises(AdmissionRejected, match="changed, unregistered"):
-        with admitted_worker(request | {"fit_limit": 100}):
+        with admitted_worker(request | {"fit_limit": 100}, lambda: secret):
             pytest.fail("Changed request was admitted.")
-    with admitted_worker(request):
+    with admitted_worker(request, lambda: secret):
         pass
     with pytest.raises(AdmissionRejected, match="already consumed"):
-        with admitted_worker(request):
+        with admitted_worker(request, lambda: secret):
             pytest.fail("Consumed worker approval was reused.")
     with pytest.raises(AdmissionRejected, match="caller cannot supply"):
         authorize_worker(request)
+
+
+@pytest.mark.parametrize("proof_length", [0, 17])
+def test_real_worker_rejects_missing_or_truncated_channel_proof(
+    admitted_context, tmp_path, proof_length
+):
+    import os
+    import subprocess
+    import sys
+
+    from aqrs.storage import write_json
+    from aqrs.study_admission import authorize_worker
+
+    request, secret = authorize_worker(
+        {"pilot_rows": 40, "pilot_columns": 1, "fit_limit": 1}
+    )
+    directory = tmp_path / "incomplete-release"
+    directory.mkdir()
+    write_json(directory / "request.json", request)
+    result = subprocess.run(
+        [sys.executable, "-m", "aqrs.worker", str(directory)],
+        env=dict(os.environ, PYTHONPATH=str(ROOT / "src")),
+        input=b"1" + secret[:proof_length],
+        capture_output=True,
+        timeout=10,
+    )
+    assert result.returncode == 4, result.stderr
+    record = json.loads((directory / "admission_stop.json").read_text())
+    assert record["reason_code"] == "WORKER_CHANNEL_INVALID"
+    assert not (directory / "started_fits.json").exists()
+    with sqlite3.connect(admitted_context) as db:
+        assert db.execute("SELECT consumed FROM study_launches").fetchone() == (0,)
 
 
 def test_revoked_record_and_changed_config_stop_before_dispatch(
@@ -496,7 +537,7 @@ def test_lost_prerequisite_prevents_next_dependent_trial(
 
 
 @pytest.mark.parametrize("issuer_exits", [True, False])
-def test_real_worker_rejects_orphan_or_unrelated_issuer(
+def test_real_worker_rejects_orphan_or_copied_receipt(
     study_config, tmp_path, issuer_exits
 ):
     import os
@@ -512,15 +553,17 @@ import json, os, sys
 from pathlib import Path
 from contextlib import closing
 from aqrs import journal
-from aqrs.storage import fingerprint
+from aqrs.storage import fingerprint, write_json
 from aqrs.study_admission import assess, admitted_run, authorize_worker
 root=Path(sys.argv[1]); config=json.loads((root/'config.json').read_text())
 decision=assess(config,root); database=root/'orphan.sqlite3'
 with closing(journal.connect(database)) as db:
     journal.begin(db,'orphan',fingerprint(config),config,{'study_admission':decision})
 with admitted_run(database,'orphan',config,root,decision):
-    request=authorize_worker({'pilot_rows':40,'pilot_columns':1,'fit_limit':1})
-    (root/'grant.json').write_text(json.dumps(request))
+    request,secret=authorize_worker({'pilot_rows':40,'pilot_columns':1,'fit_limit':1})
+    write_json(root/'grant.json', request)
+    # Test-only pipe handoff: never persist the production release secret.
+    print(secret.hex(), flush=True)
     if sys.argv[2] == "exit":
         os._exit(0)
     sys.stdin.read(1)
@@ -540,11 +583,20 @@ with admitted_run(database,'orphan',config,root,decision):
             time.sleep(0.01)
         if issuer_exits:
             assert parent.wait(timeout=10) == 0
+        secret = bytes.fromhex(parent.stdout.readline().strip())
+        assert len(secret) == 32
         request = json.loads((tmp_path / "grant.json").read_text())
-        result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
+        result = _supervise_process(
+            tmp_path,
+            request,
+            8,
+            time.monotonic() + 10,
+            512,
+            release_secret=secret if issuer_exits else bytes(32),
+        )
         assert result["execution_status"] == "REJECTED_PREFLIGHT"
         assert result["reason_code"] == (
-            "ADMISSION_PARENT_LOST" if issuer_exits else "ADMISSION_PARENT_MISMATCH"
+            "ADMISSION_PARENT_LOST" if issuer_exits else "WORKER_CHANNEL_INVALID"
         )
         assert result["started_fits"] == result["completed_fits"] == 0
     finally:

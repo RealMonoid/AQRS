@@ -29,11 +29,10 @@ def reserve_fit(request: dict, directory: Path, default: int) -> None:
 
 def run(directory: Path, evaluate) -> None:
     write_json(directory / "ready.json", os.getpid())
-    # The supervisor sends one byte only after the worker is contained.
+    # Containment release precedes the one-time channel proof.
     stdin_fd = sys.stdin.fileno()
     if os.read(stdin_fd, 1) != b"1":
         return
-    arm_parent_loss_guard(stdin_fd)
     from aqrs.worker import FitBudgetExhausted as FitStop
 
     with ExitStack() as stack:
@@ -54,7 +53,17 @@ def run(directory: Path, evaluate) -> None:
                     "ENTRY_UNQUALIFIED",
                     "The worker callback is not the qualified common entry.",
                 )
-            stack.enter_context(admitted_worker(request))
+
+            def read_release():
+                secret = b""
+                while len(secret) < 32:
+                    part = os.read(stdin_fd, 32 - len(secret))
+                    if not part:
+                        break
+                    secret += part
+                return secret
+
+            stack.enter_context(admitted_worker(request, read_release))
         except AdmissionRejected as error:
             write_json(
                 directory / "admission_stop.json",
@@ -92,6 +101,9 @@ def run(directory: Path, evaluate) -> None:
                 },
             )
             raise SystemExit(4)
+        # On Linux this guard reads the same pipe; arm it only after consuming
+        # the proof, and before any study computation. EOF before proof rejects.
+        arm_parent_loss_guard(stdin_fd)
         try:
             result = evaluate(request, directory)
         except AdmissionRejected as error:

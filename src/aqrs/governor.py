@@ -76,7 +76,7 @@ def supervise(
             record_stopped("common.custom_command", error, {"command": command})
             raise error
         context = require_parent()
-        admitted = authorize_worker(request)
+        admitted, release_secret = authorize_worker(request)
     except (ValueError, OSError, sqlite3.Error, TypeError, KeyError) as error:
         return {
             "execution_status": "REJECTED_PREFLIGHT",
@@ -106,6 +106,7 @@ def supervise(
         campaign_deadline,
         max_rss_mb,
         admission_watch=context.check,
+        release_secret=release_secret,
     )
 
 
@@ -118,6 +119,7 @@ def _supervise_process(
     *,
     command: list[str] | None = None,
     admission_watch=None,
+    release_secret: bytes = b"",
 ) -> dict:
     """Private process-containment primitive; no research permission is issued."""
     started_at = time.monotonic()
@@ -178,6 +180,7 @@ def _supervise_process(
                     max_rss_mb,
                     outcome,
                     watcher,
+                    release_secret,
                 )
         except KeyboardInterrupt:
             outcome.update(
@@ -231,6 +234,7 @@ def _watch(
     max_rss_mb,
     outcome,
     admission_watch=None,
+    release_secret: bytes = b"",
 ):
     ready = directory / "ready.json"
     pid = process.pid
@@ -298,7 +302,7 @@ def _watch(
                 job.attach(pid)
             rss, cpu_seconds = tree_usage(pid)
             if rss <= max_rss_mb and time.monotonic() < deadline:
-                process.stdin.write(b"1")
+                process.stdin.write(b"1" + release_secret)
                 process.stdin.flush()
                 outcome["started"] = True
         else:

@@ -30,8 +30,14 @@ or an operator who rewrites executable code or the trusted local journal.
 
 Independent review found two concrete missed paths in the first implementation:
 the direct Spot acquisition callback and unused grants surviving abrupt issuer
-death. Guard the callback and bind grants to live PID plus process creation time,
-worker ancestry and finite campaign validity. Test an actual orphan-grant worker.
+death. Guard the callback and bind grants to live PID plus process creation time
+and finite campaign validity. Test an actual orphan-grant worker with an otherwise
+correct release proof. A later valid Windows worker was falsely rejected by
+ancestry inference; its precise process-graph cause was not captured. Replace
+that inference with a one-time proof sent only over the supervisor's control
+pipe after containment, with a digest stored in the grant. Verify complete framing,
+missing/truncated/wrong proof, copied receipts and single-use consumption. Arm
+the Linux parent-loss reader only after consuming the proof on the same pipe.
 The running admission check uses a separate thread with a five-second freshness
 limit; delayed metadata I/O must not delay the external wall watchdog. Windows CI
 refuted the initial one-second bound with two valid-run cancellations. The new

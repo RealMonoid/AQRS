@@ -13,7 +13,9 @@ from contextlib import closing, contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
 from functools import wraps
+from hashlib import sha256
 from pathlib import Path
+from secrets import compare_digest, token_bytes
 from time import monotonic
 from uuid import uuid4
 
@@ -219,7 +221,7 @@ def require_parent(*, validate: bool = True) -> _Run:
     return context
 
 
-def authorize_worker(request: dict) -> dict:
+def authorize_worker(request: dict) -> tuple[dict, bytes]:
     context = require_parent()
     if "prefix" in request and not request.get("prefix_sha256"):
         raise reject(
@@ -253,29 +255,32 @@ def authorize_worker(request: dict) -> dict:
             "Qualify the changed worker before execution.",
         )
     launch_id = uuid4().hex
+    release_secret = token_bytes(32)
     payload = {
         "decision": context.decision,
         "base": str(context.base),
         "configuration": context.config,
         "owner_process": context.owner_process,
         "deadline": context.deadline,
+        "release_digest": sha256(release_secret).hexdigest(),
     }
     with closing(journal.connect(context.database)) as db, db:
         db.execute(
             "INSERT INTO study_launches VALUES (?, ?, ?, ?, 0)",
             (launch_id, context.run_id, fingerprint(request), json.dumps(payload)),
         )
-    return request | {
+    admitted = request | {
         "_admission": {
             "journal": str(context.database),
             "run_id": context.run_id,
             "launch_id": launch_id,
         }
     }
+    return admitted, release_secret
 
 
 @contextmanager
-def admitted_worker(request: dict):
+def admitted_worker(request: dict, read_release):
     if not isinstance(request, dict):
         raise reject(
             "ADMISSION_REQUIRED",
@@ -325,15 +330,19 @@ def admitted_worker(request: dict):
                 payload["deadline"],
             )
             context.check()
-            # The current process is allowed for isolated context checks; a real
-            # worker must descend from the original issuer, including Windows launchers.
-            ancestry = [psutil.Process(), *psutil.Process().parents()]
-            if not any(
-                (p.pid, p.create_time()) == context.owner_process for p in ancestry
+            # The one-time proof travels only over the supervisor-owned pipe.
+            # A copied journal receipt cannot supply this in-memory capability.
+            secret = read_release()
+            if (
+                not isinstance(secret, bytes)
+                or len(secret) != 32
+                or not compare_digest(
+                    sha256(secret).hexdigest(), payload["release_digest"]
+                )
             ):
                 raise reject(
-                    "ADMISSION_PARENT_MISMATCH",
-                    "The worker is not supervised by its admission issuer.",
+                    "WORKER_CHANNEL_INVALID",
+                    "The worker has no valid one-time supervisor-channel proof.",
                     "Use a fresh dispatch from the admitted parent.",
                 )
             cursor = db.execute(

@@ -696,8 +696,13 @@ metadata is monitored; this is not a tamper-proof data vault.
 
 SQLite campaign records hold the decision; `study_launches` issues one nonce per
 exact worker request, bound to the live issuing process instance and finite
-campaign validity. Workers verify ancestry and atomically consume it after
-containment and before study access. An orphaned `RUNNING` row cannot authorize
+campaign validity. After containment the supervisor sends a random, single-use
+32-byte proof through its anonymous control pipe. Only its digest is stored;
+the request, arguments, environment and reports contain no plaintext proof.
+Workers verify the complete proof and atomically consume the grant before study
+access; absent, truncated or incorrect proofs reject without consuming it.
+The Linux parent-loss reader is armed after the proof on that same pipe.
+An orphaned `RUNNING` row cannot authorize
 resumption. Missing/changed/replayed admissions and custom commands fail closed.
 The installed application and local journal are trusted: this is an application
 boundary, not a sandbox against an operator rewriting trusted code/database or
