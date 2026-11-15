@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-11-15 — Share the variant ledger across project copies
+
+The owner's 36-call review of `9ba03c9` confirmed its four fixes and found
+that deleting a ledger, changing project copies, or padding a symbol could
+evade the count. The shared command now keeps one ledger per operating-system
+user at `~/.aqrs/variant-ledger.sqlite3`. The `variant_ledger_created` Boolean
+in the run's JSON output and report marks initialization, including after
+deletion. The Markdown report also notes initialization when it occurs.
+
+The command imports old bookings from the current checkout, discoverable
+linked Git worktrees, and the configured run journal. An independent checkout
+contributes its previous ledger when it first runs the updated command.
+Migration leaves the old files intact and retains historical variant keys.
+Deleting the shared ledger can still lose bookings absent from those sources.
+
+Variant admission trims surrounding whitespace before using symbols and
+rejects empty values. Synthetic CSV configurations can still choose any
+distinct valid symbol.
+
+Changed paths: `CHANGELOG.md`, `README.md`, `docs/CONTRACTS.md`,
+`docs/MILESTONE_STATUS.md`, `src/aqrs/config.py`, `src/aqrs/journal.py`,
+`src/aqrs/research.py`, `tests/test_audit_controls.py`, `tests/test_cli.py`.
+
 ## 2026-11-14 — Close common research admission bypasses
 
 The owner's 27-call check of `302ab6b` confirmed ordinary admission and

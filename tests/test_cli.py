@@ -19,21 +19,26 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture(autouse=True)
 def isolated_cli_project(tmp_path, monkeypatch):
-    """Use the normal CLI with an isolated project-local ledger."""
-    root = tmp_path / "test application"
+    """Use the normal CLI with a temporary user directory."""
+    copy_application(tmp_path / "test application")
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: tmp_path / "test home"))
+    monkeypatch.setattr(
+        "aqrs.journal.legacy_checkout_artifacts",
+        lambda: [tmp_path / "test application" / "artifacts"],
+    )
+
+
+def copy_application(root):
     shutil.copytree(
         ROOT / "src/aqrs",
         root / "src/aqrs",
         ignore=shutil.ignore_patterns("__pycache__"),
     )
     shutil.copyfile(ROOT / "pyproject.toml", root / "pyproject.toml")
-    monkeypatch.setattr(
-        "aqrs.journal.project_ledger_path", lambda: ledger_path(tmp_path)
-    )
 
 
 def ledger_path(tmp_path):
-    return tmp_path / "test application" / "artifacts" / "variant-ledger.sqlite3"
+    return tmp_path / "test home" / ".aqrs" / "variant-ledger.sqlite3"
 
 
 def test_precision_cli_is_planning_only_and_leaves_no_campaign(tmp_path):
@@ -89,10 +94,25 @@ def config_at(tmp_path, **limits):
     return path
 
 
-def cli(action, path):
-    source = path.parent / "test application" / "src"
+def cli(action, path, *, project=None):
+    source = (project or path.parent / "test application") / "src"
+    entry = (
+        "import runpy, sys; from pathlib import Path; "
+        "test_home = Path(sys.argv.pop(1)); "
+        "Path.home = classmethod(lambda cls: test_home); "
+        "runpy.run_module('aqrs', run_name='__main__', alter_sys=True)"
+    )
     return subprocess.run(
-        [sys.executable, "-m", "aqrs", "research", action, "--config", str(path)],
+        [
+            sys.executable,
+            "-c",
+            entry,
+            str(path.parent / "test home"),
+            "research",
+            action,
+            "--config",
+            str(path),
+        ],
         check=False,
         cwd=path.parent,
         env=os.environ
@@ -474,6 +494,10 @@ def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
     assert sorted(r.returncode for r in results) == [0, 2], [
         r.stderr or r.stdout for r in results
     ]
+    assert sorted(json.loads(r.stdout)["variant_ledger_created"] for r in results) == [
+        False,
+        True,
+    ]
     rejected = next(r for r in results if r.returncode == 2)
     rejected_config = yaml.safe_load(
         (first if rejected is results[0] else second).read_text(encoding="utf-8")
@@ -492,7 +516,7 @@ def test_legacy_variant_reservations_survive_project_ledger_upgrade(tmp_path):
 
     path = reversal_config(tmp_path, "LEGACY_TEST", 5, 2024, (1, -1))
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
-    database = ledger_path(tmp_path).with_name("research.sqlite3")
+    database = tmp_path / "test application" / "artifacts" / "research.sqlite3"
     with closing(journal.connect(database)) as db:
         journal.begin(db, "old-run", "old-config", config, {})
         with db:
@@ -519,6 +543,143 @@ def test_legacy_variant_reservations_survive_project_ledger_upgrade(tmp_path):
         assert db.execute(
             "SELECT source, symbol, first_experiment_id FROM variant_exposures"
         ).fetchall() == [("synthetic_csv", "LEGACY_TEST", "old-run:REVERSAL")]
+
+
+def test_cli_reports_ledger_creation_after_deletion(tmp_path):
+    path = reversal_config(tmp_path, "NEW_LEDGER", 5, 2024, (1, -1))
+    path.with_name("input.csv").unlink()
+
+    def check_creation(expected):
+        result = cli("run", path)
+        assert result.returncode == 2, result.stderr or result.stdout
+        summary = json.loads(result.stdout)
+        assert summary["reason_code"] == "INVALID_SYNTHETIC_CSV"
+        assert summary["variant_ledger_created"] is expected
+        output = Path(summary["output_dir"])
+        report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+        assert report["variant_ledger_created"] is expected
+        markdown = (output / "report.md").read_text(encoding="utf-8")
+        assert ("Variant ledger initialized" in markdown) is expected
+
+    check_creation(True)
+    check_creation(False)
+    ledger_path(tmp_path).unlink()
+    check_creation(True)
+
+
+def test_cli_shares_ledger_across_project_copies(tmp_path):
+    path = reversal_config(tmp_path, "SHARED_LEDGER", 5, 2024, (1, -1))
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 1
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    assert cli("run", path).returncode == 0
+    path.with_name("input.csv").unlink()
+    config["journal"]["sqlite_path"] = "second copy.sqlite3"
+    config["research"]["candidates"] = [
+        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
+    ]
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    second_copy = tmp_path / "second checkout"
+    copy_application(second_copy)
+    summary = assert_admission_rejection(
+        cli("run", path, project=second_copy), tmp_path, config, "VARIANT_LIMIT"
+    )
+    assert summary["variant_ledger_created"] is False
+    assert ledger_path(tmp_path).is_file()
+
+
+def test_cli_imports_legacy_ledgers_from_linked_worktrees(tmp_path):
+    from contextlib import closing
+
+    first = tmp_path / "test application"
+    second = tmp_path / "second checkout"
+    for arguments in (
+        ["init", "--quiet"],
+        [
+            "-c",
+            "user.name=AQRS",
+            "-c",
+            "user.email=aqrs@example.invalid",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "--allow-empty",
+            "--quiet",
+            "-m",
+            "Fixture",
+        ],
+        ["worktree", "add", "--quiet", "--detach", str(second)],
+    ):
+        subprocess.run(["git", *arguments], cwd=first, check=True, capture_output=True)
+    copy_application(second)
+    prior_ledgers = [
+        root / "artifacts" / "variant-ledger.sqlite3" for root in (first, second)
+    ]
+    for index, old_path in enumerate(prior_ledgers):
+        old_path.parent.mkdir()
+        with closing(sqlite3.connect(old_path)) as old_ledger, old_ledger:
+            old_ledger.execute(
+                "CREATE TABLE variant_exposures "
+                "(source, symbol, period_start, period_end, variant_key, first_experiment_id)"
+            )
+            old_ledger.execute(
+                "INSERT INTO variant_exposures VALUES (?, ?, ?, ?, ?, ?)",
+                (
+                    "synthetic_csv",
+                    "  LEGACY_SYMBOL  " if index else "LEGACY_SYMBOL",
+                    "2024-01-07T15:20:00+00:00",
+                    "2024-01-07T21:00:00+00:00",
+                    f"old-variant-{index}",
+                    f"old-run-{index}:REVERSAL",
+                ),
+            )
+    prior_contents = [p.read_bytes() for p in prior_ledgers]
+    path = reversal_config(tmp_path, "LEGACY_SYMBOL", 5, 2024, (1, -1))
+    path.with_name("input.csv").unlink()
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 2
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+
+    summary = assert_admission_rejection(
+        cli("run", path, project=second), tmp_path, config, "VARIANT_LIMIT"
+    )
+    assert summary["variant_ledger_created"] is True
+    assert [p.read_bytes() for p in prior_ledgers] == prior_contents
+    for old_path in prior_ledgers:
+        old_path.unlink()
+    summary = assert_admission_rejection(
+        cli("run", path, project=first), tmp_path, config, "VARIANT_LIMIT"
+    )
+    assert summary["variant_ledger_created"] is False
+
+
+def test_cli_symbol_padding_shares_quota_and_variant_identity(tmp_path):
+    path = reversal_config(tmp_path, "TEST_SYMBOL", 5, 2024, (1, -1))
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["resource_governor"]["max_variants_per_evaluation_period"] = 1
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    assert cli("run", path).returncode == 0
+    config["market"]["symbol"] = "  TEST_SYMBOL \t"
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    rerun = cli("run", path)
+    assert rerun.returncode == 0, rerun.stderr or rerun.stdout
+    report = json.loads(
+        (Path(json.loads(rerun.stdout)["output_dir"]) / "report.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert report["variant_admission"]["requested_new"] == 0
+    assert report["variant_admission"]["symbol"] == "TEST_SYMBOL"
+    path.with_name("input.csv").unlink()
+    config["research"]["candidates"] = [
+        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
+    ]
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    assert_admission_rejection(cli("run", path), tmp_path, config, "VARIANT_LIMIT")
+    config["market"]["symbol"] = " \t "
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    blank = cli("run", path)
+    assert blank.returncode == 2 and "symbol must be a nonempty string" in blank.stderr
 
 
 @pytest.mark.parametrize(

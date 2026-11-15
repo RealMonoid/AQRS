@@ -92,7 +92,7 @@ simulator and the original illustrative costs.
 | Python code and component responsibilities | [src/aqrs/](src/aqrs/) and [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Run settings and model registry | [configs/](configs/) |
 | Tests, maintenance checks, and CI | [tests/](tests/), [scripts/](scripts/), and [.github/workflows/](.github/workflows/) |
-| Local run inputs and evidence | The run configuration sets the paths. Defaults use `artifacts/` for reports and the SQLite Research Journal. Git ignores these outputs. Find evidence for a specific experiment from its entry in [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md). |
+| Local run inputs and evidence | The run configuration sets the report and Research Journal paths, which default to `artifacts/`. All project copies use the variant ledger at `~/.aqrs/variant-ledger.sqlite3`. The run output and report show `variant_ledger_created` when the ledger is initialized. Find study evidence from its entry in [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md). |
 
 ## Documentation maintenance
 

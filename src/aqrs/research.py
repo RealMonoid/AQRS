@@ -103,6 +103,7 @@ def run(
         "execution_status": "RUNNING",
         "evaluation_status": "NOT_COMPLETED",
         "holdout": holdout,
+        "variant_ledger_created": False,
         "trials": [],
         "journal_path": os.path.relpath(database, output)
         if database.anchor == output.anchor
@@ -155,6 +156,7 @@ def run(
         "output_dir": str(output),
         "stop_reason": report["plan"]["stop_reason"],
         "reason_code": report["plan"].get("reason_code"),
+        "variant_ledger_created": report["variant_ledger_created"],
     }, {"COMPLETED": 0, "REJECTED_PREFLIGHT": 2, "CANCELLED": 130}.get(status, 1)
 
 
@@ -165,6 +167,7 @@ def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRe
         "evaluation_status": "NOT_COMPLETED",
         "output_dir": None,
         "journal_path": str(database),
+        "variant_ledger_created": False,
         "reason_code": denial.code,
         "stop_reason": str(denial),
     }
@@ -226,6 +229,7 @@ def reserve_campaign_variants(config, db, database_path, report, plan):
     admission = journal.reserve_variants(
         db, database_path, report["run_id"], scope, period, variants, limit
     )
+    report["variant_ledger_created"] = admission.pop("ledger_created")
     report["variant_admission"] = {
         "source": scope[0],
         "symbol": scope[1],
@@ -652,6 +656,8 @@ def write_reports(output: Path, report: dict) -> None:
         )
     if plan["stop_reason"]:
         lines.append(f"- Stop reason: {plan['stop_reason']}")
+    if report["variant_ledger_created"]:
+        lines.append("- Variant ledger initialized for this run.")
     lines += ["", "## Cost assumptions", ""]
     for name, value in report["configuration"]["costs"].items():
         lines.append(f"- `{name}` = {value} bps")

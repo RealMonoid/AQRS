@@ -108,6 +108,7 @@ def load_request(path: Path) -> tuple[dict, Path, AdmissionRejected | None]:
     for key in ("horizon_bars", "train_bars", "validation_bars", "walk_forward_folds"):
         integer(research, key, 1, 100_000)
     string(market, "symbol")
+    market["symbol"] = market["symbol"].strip()
     integer(market, "n_bars", 20, 100_000)
     integer(market, "bar_minutes", 1, 1440)
     validate_governor(config["resource_governor"])

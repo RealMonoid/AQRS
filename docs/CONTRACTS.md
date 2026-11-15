@@ -363,6 +363,8 @@ metrics_json, cost_model_json, artifact_paths_json
 
 If practical store fold- and trade-level detail in linked tables or structured artifacts. Rejected variants retain their identity and are never overwritten silently.
 
+Variant counting trims surrounding whitespace from symbols and rejects empty symbols, while a different valid symbol in a synthetic CSV configuration keeps its own count.
+
 ## F. Research Manager v0.1
 
 Minimum functionality: register two candidates, compute an explainable priority, choose the next, update run state and journal results.

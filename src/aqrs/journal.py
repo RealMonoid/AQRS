@@ -1,7 +1,9 @@
 import json
 import sqlite3
+import subprocess
 from contextlib import closing
 from datetime import UTC, datetime
+from os import fsdecode
 from pathlib import Path
 
 from aqrs.storage import canonical
@@ -99,18 +101,54 @@ def begin(
 
 
 def project_ledger_path() -> Path:
-    """Anchor the ledger to the installed project, independent of a run config."""
-    source_root = Path(__file__).resolve().parents[1]
-    if source_root.name == "src" and (source_root.parent / "pyproject.toml").is_file():
-        return source_root.parent / "artifacts" / "variant-ledger.sqlite3"
+    """Return the ledger shared by all AQRS installations for this OS user."""
     return Path.home() / ".aqrs" / "variant-ledger.sqlite3"
 
 
+def legacy_checkout_artifacts() -> list[Path]:
+    """Find legacy locations in the active checkout and its linked worktrees."""
+    source_root = Path(__file__).resolve().parents[1]
+    root = source_root.parent
+    if source_root.name != "src" or not (root / "pyproject.toml").is_file():
+        return []
+    roots = [root]
+    if (root / ".git").exists():
+        try:
+            output = subprocess.check_output(
+                ["git", "worktree", "list", "--porcelain", "-z"],
+                cwd=root,
+                timeout=3,
+                stderr=subprocess.DEVNULL,
+            )
+        except (OSError, subprocess.SubprocessError):
+            pass  # Git is optional for a standalone checkout.
+        else:
+            roots.extend(
+                Path(fsdecode(record.removeprefix(b"worktree ")))
+                for record in output.split(b"\0")
+                if record.startswith(b"worktree ")
+            )
+    return list(dict.fromkeys(root / "artifacts" for root in roots))
+
+
+def has_table(db: sqlite3.Connection, name: str) -> bool:
+    return (
+        db.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (name,)
+        ).fetchone()
+        is not None
+    )
+
+
 def legacy_reservations(db: sqlite3.Connection):
-    """Recover 302ab6b reservations without changing their source journal."""
-    if not db.execute(
-        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'variant_reservations'"
-    ).fetchone():
+    """Import both prior reservation formats without changing their files."""
+    if has_table(db, "variant_exposures"):
+        for source, symbol, start, end, key, attempt in db.execute(
+            "SELECT source, symbol, period_start, period_end, variant_key, "
+            "first_experiment_id FROM variant_exposures"
+        ):
+            yield source, symbol.strip().upper(), start, end, key, attempt
+    if not has_table(db, "variant_reservations"):
         return
     for start, end, key, attempt, config in db.execute(
         "SELECT r.period_start, r.period_end, r.variant_key, r.first_experiment_id, "
@@ -119,7 +157,14 @@ def legacy_reservations(db: sqlite3.Connection):
         "JOIN campaigns c ON c.run_id = e.run_id"
     ):
         market = json.loads(config)["market"]
-        yield market["source"], market["symbol"].upper(), start, end, key, attempt
+        yield (
+            market["source"],
+            market["symbol"].strip().upper(),
+            start,
+            end,
+            key,
+            attempt,
+        )
 
 
 def reserve_variants(
@@ -132,25 +177,34 @@ def reserve_variants(
     limit: int,
 ) -> dict:
     """Count distinct overlapping variants and reserve the campaign atomically."""
-    path = project_ledger_path()
+    path = project_ledger_path().resolve()
     path.parent.mkdir(parents=True, exist_ok=True)
-    default_journal = (path.parent / "research.sqlite3").resolve()
+    previous_paths = [path.with_name("research.sqlite3")]
+    for directory in legacy_checkout_artifacts():
+        previous_paths.extend(
+            (directory / "variant-ledger.sqlite3", directory / "research.sqlite3")
+        )
     insert = "INSERT OR IGNORE INTO variant_exposures VALUES (?, ?, ?, ?, ?, ?)"
     with closing(sqlite3.connect(path, timeout=3)) as ledger, ledger:
         ledger.execute("BEGIN IMMEDIATE")
+        created = not has_table(ledger, "variant_exposures")
         ledger.execute(VARIANT_LEDGER)
-        if default_journal != journal_path and default_journal.exists():
-            uri = default_journal.as_uri() + "?mode=ro"
+        for previous_path in dict.fromkeys(p.resolve() for p in previous_paths):
+            if previous_path in (path, journal_path) or not previous_path.is_file():
+                continue
+            uri = previous_path.as_uri() + "?mode=ro"
             with closing(sqlite3.connect(uri, uri=True, timeout=3)) as previous:
                 ledger.executemany(insert, legacy_reservations(previous))
-        ledger.executemany(insert, legacy_reservations(db))
+        if path != journal_path:
+            ledger.executemany(insert, legacy_reservations(db))
         used = {
             key
-            for (key,) in ledger.execute(
-                "SELECT DISTINCT variant_key FROM variant_exposures "
-                "WHERE source = ? AND symbol = ? AND period_start < ? AND period_end > ?",
-                (*scope, period[1], period[0]),
+            for symbol, key in ledger.execute(
+                "SELECT DISTINCT symbol, variant_key FROM variant_exposures "
+                "WHERE source = ? AND period_start < ? AND period_end > ?",
+                (scope[0], period[1], period[0]),
             )
+            if symbol.strip().upper() == scope[1]
         }
         new = set(variants.values()) - used
         requested_new = len(new)
@@ -165,6 +219,7 @@ def reserve_variants(
             )
         return {
             "ledger_path": str(path),
+            "ledger_created": created,
             "limit": limit,
             "used_before": len(used),
             "requested_new": requested_new,
