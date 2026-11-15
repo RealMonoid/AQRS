@@ -32,9 +32,15 @@ Independent review found two concrete missed paths in the first implementation:
 the direct Spot acquisition callback and unused grants surviving abrupt issuer
 death. Guard the callback and bind grants to live PID plus process creation time,
 worker ancestry and finite campaign validity. Test an actual orphan-grant worker.
-The running admission check uses a separate thread with a one-second freshness
-limit; delayed metadata I/O must not delay the external wall watchdog. Reuse
+The running admission check uses a separate thread with a five-second freshness
+limit; delayed metadata I/O must not delay the external wall watchdog. Windows CI
+refuted the initial one-second bound with two valid-run cancellations. The new
+engineering bound allows transient scheduling/I/O delay while retaining a finite
+safe stop and the unchanged shorter trial/campaign watchdog deadlines. Reuse
 the original process-tree/parent-loss tests and verify no next dependent trial.
+Keep named prerequisite evidence separate from input identity: a filename equal
+to an internal field name must not overwrite another binding. The collision
+regression first reached trapped dispatch and then stopped before it after repair.
 
 ## Second synthetic next-bar rule
 

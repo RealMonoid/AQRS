@@ -297,6 +297,31 @@ def test_slow_admission_io_cannot_delay_the_wall_watchdog(tmp_path):
     assert time.monotonic() - begin < 3
 
 
+def test_stale_monitor_stops_before_the_trial_deadline(tmp_path):
+    from test_governor import probe
+
+    from aqrs.governor import _supervise_process
+
+    release = threading.Event()
+    begin = time.monotonic()
+    try:
+        result = _supervise_process(
+            tmp_path,
+            {},
+            12,
+            begin + 15,
+            512,
+            command=probe("import time; time.sleep(20)"),
+            admission_watch=lambda: release.wait(15),
+        )
+    finally:
+        release.set()
+    assert result["execution_status"] == "CANCELLED"
+    assert result["reason_code"] == "ADMISSION_WATCH_STALE"
+    assert time.monotonic() - begin < 8
+    assert result["completed_fits"] == 0
+
+
 LEGACY_ENTRIES = [
     ("aqrs.m2_e14", "run_campaign"),
     ("aqrs.m2_e14", "worker"),
@@ -398,6 +423,7 @@ def test_real_worker_rejects_missing_or_forged_admission(tmp_path, reference):
     result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
     assert result["execution_status"] == "REJECTED_PREFLIGHT"
     assert result["reason_code"] in {"ADMISSION_REQUIRED", "ADMISSION_UNVERIFIABLE"}
+    assert result["required_action"] and result["resumption_condition"]
     assert result["completed_fits"] == result["started_fits"] == 0
 
 
@@ -469,7 +495,10 @@ def test_lost_prerequisite_prevents_next_dependent_trial(
     assert result["required_action"] and result["resumption_condition"]
 
 
-def test_real_worker_rejects_grant_from_abruptly_exited_parent(study_config, tmp_path):
+@pytest.mark.parametrize("issuer_exits", [True, False])
+def test_real_worker_rejects_orphan_or_unrelated_issuer(
+    study_config, tmp_path, issuer_exits
+):
     import os
     import subprocess
     import sys
@@ -492,21 +521,35 @@ with closing(journal.connect(database)) as db:
 with admitted_run(database,'orphan',config,root,decision):
     request=authorize_worker({'pilot_rows':40,'pilot_columns':1,'fit_limit':1})
     (root/'grant.json').write_text(json.dumps(request))
-    os._exit(0)
+    if sys.argv[2] == "exit":
+        os._exit(0)
+    sys.stdin.read(1)
 """
-    parent = subprocess.run(
-        [sys.executable, "-c", code, str(tmp_path)],
+    parent = subprocess.Popen(
+        [sys.executable, "-c", code, str(tmp_path), "exit" if issuer_exits else "wait"],
         env=dict(os.environ, PYTHONPATH=str(ROOT / "src")),
-        capture_output=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
-        timeout=15,
     )
-    assert parent.returncode == 0, parent.stderr
-    request = json.loads((tmp_path / "grant.json").read_text())
-    result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
-    assert result["execution_status"] == "REJECTED_PREFLIGHT"
-    assert result["reason_code"] == "ADMISSION_PARENT_LOST"
-    assert result["started_fits"] == result["completed_fits"] == 0
+    try:
+        deadline = time.monotonic() + 10
+        while not (tmp_path / "grant.json").exists():
+            assert time.monotonic() < deadline and parent.poll() is None
+            time.sleep(0.01)
+        if issuer_exits:
+            assert parent.wait(timeout=10) == 0
+        request = json.loads((tmp_path / "grant.json").read_text())
+        result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
+        assert result["execution_status"] == "REJECTED_PREFLIGHT"
+        assert result["reason_code"] == (
+            "ADMISSION_PARENT_LOST" if issuer_exits else "ADMISSION_PARENT_MISMATCH"
+        )
+        assert result["started_fits"] == result["completed_fits"] == 0
+    finally:
+        if parent.poll() is None:
+            parent.communicate("x", timeout=10)
     with sqlite3.connect(tmp_path / "orphan.sqlite3") as db:
         assert db.execute("SELECT consumed FROM study_launches").fetchone() == (0,)
 
@@ -518,3 +561,44 @@ def test_expired_grant_stops_before_dispatch(admitted_context, tmp_path, monkeyp
     monkeypatch.setattr(study_admission, "monotonic", lambda: float("inf"))
     result = supervise(tmp_path, {}, 8, time.monotonic() + 10, 512)
     assert not result["started"] and result["reason_code"] == "ADMISSION_EXPIRED"
+
+
+def test_prerequisite_named_declared_input_cannot_lose_its_binding(
+    study_config, tmp_path, monkeypatch
+):
+    from aqrs import governor, journal
+    from aqrs.storage import fingerprint
+    from aqrs.study_admission import admitted_run, assess
+
+    prerequisite = tmp_path / "declared_input"
+    prerequisite.write_text("Initial evidence")
+    (tmp_path / "input.csv").write_text("Not accessed by this admission test.")
+    study_config["study"]["prerequisites"] = [prerequisite.name]
+    study_config["market"].update(
+        source="synthetic_csv", csv_path="input.csv", start_at="2024-02-01T00:00:00Z"
+    )
+    database = tmp_path / "journal.sqlite3"
+    decision = assess(study_config, tmp_path)
+    with closing(journal.connect(database)) as db:
+        journal.begin(
+            db,
+            "collision",
+            fingerprint(study_config),
+            study_config,
+            {"study_admission": decision},
+        )
+    monkeypatch.setattr(
+        governor.subprocess,
+        "Popen",
+        lambda *a, **k: pytest.fail("Changed prerequisite reached Popen."),
+    )
+    with admitted_run(database, "collision", study_config, tmp_path, decision):
+        prerequisite.write_text("Changed evidence, with another size")
+        result = governor.supervise(
+            tmp_path,
+            {"pilot_rows": 40, "pilot_columns": 1},
+            8,
+            time.monotonic() + 10,
+            512,
+        )
+    assert not result["started"] and result["reason_code"] == "ADMISSION_CHANGED"

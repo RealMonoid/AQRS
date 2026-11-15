@@ -157,6 +157,23 @@ No market data, hidden benchmark or scientific reviewer was evaluated. The
 language audit/self-test, whitespace/lint, 295 archived-file verification and
 exposure verification (97 attempts, 17 variants, 1,461 diagnostic views) passed.
 
+**Platform/review correction checkpoint:** `49e544d` passed 444 local Windows
+tests in 275.64 s and both non-root Ubuntu jobs (Python 3.11/3.12) in
+[CI 43755004739](https://github.com/RealMonoid/AQRS/actions/runs/43755004739).
+Both hosted Windows jobs had 443 passes and one cancellation: the initial
+one-second background-check freshness bound was too short under hosted load.
+Use a five-second engineering bound, checked by an actual stalled-monitor stop,
+while the independent hard trial/campaign deadline remains unchanged. This does
+not change statistical sufficiency or fit/runtime budgets. Review also found a
+prerequisite/input field-name collision; its red test reached trapped Popen,
+and the corrected separate binding rejects before dispatch. Added real rejection
+for a live unrelated issuer. All 60 focused control/OS and affected CLI cases
+passed in 56.03 s; the corrected full platform matrix remains pending.
+One hundred local `assess` metadata checks averaged 5.51 ms (maximum 7.42 ms),
+with zero study reads/fits; this is not a measurement of the entire campaign
+or scientific-review cost. Admission adds one monitoring thread per active
+worker and byte verification inside the existing memory/time guards.
+
 ## Research and backtesting learning
 
 One row per run under the [closeout rule](RESEARCH_PROTOCOL.md#research-and-backtesting-improvement-loop); older rows move with their cards into the archive.

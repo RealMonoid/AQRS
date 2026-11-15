@@ -58,7 +58,20 @@ def run(directory: Path, evaluate) -> None:
         except AdmissionRejected as error:
             write_json(
                 directory / "admission_stop.json",
-                {"reason_code": error.code, "stop_reason": str(error)},
+                {
+                    "reason_code": error.code,
+                    "stop_reason": str(error),
+                    "required_action": getattr(
+                        error,
+                        "required_action",
+                        "Restore a qualified worker entry and current admission.",
+                    ),
+                    "resumption_condition": getattr(
+                        error,
+                        "resumption_condition",
+                        "A fresh admitted dispatch passes all current checks.",
+                    ),
+                },
             )
             raise SystemExit(4)
         except (
@@ -74,6 +87,8 @@ def run(directory: Path, evaluate) -> None:
                 {
                     "reason_code": "ADMISSION_UNVERIFIABLE",
                     "stop_reason": f"Worker admission could not be verified ({type(error).__name__}).",
+                    "required_action": "Restore readable, valid admission records before dispatch.",
+                    "resumption_condition": "A fresh admitted dispatch passes all current checks.",
                 },
             )
             raise SystemExit(4)

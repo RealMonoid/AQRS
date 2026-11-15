@@ -706,7 +706,7 @@ campaign, preparation, worker and replay entries enforce the same boundary.
 
 Current source/configuration, prerequisite availability and campaign status are
 rechecked before dispatch and at worker entry. A supervisory thread checks during
-execution every 250 ms; a result older than one second stops affected work. This
+execution every 250 ms; a result older than five seconds stops affected work. This
 is an engineering freshness bound, not scientific sufficiency. Metadata I/O does
 not run on the wall-time watchdog thread. No later dependent trial starts after
 an admission stop. New attempts receive new decisions; no automatic retry.

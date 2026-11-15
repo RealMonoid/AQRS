@@ -20,6 +20,8 @@ from aqrs.study_admission import (
     require_parent,
 )
 
+ADMISSION_MAX_AGE_SECONDS = 5.0
+
 
 class _AdmissionWatch:
     """Keep metadata I/O off the deadline watcher; stale checks fail closed."""
@@ -46,10 +48,10 @@ class _AdmissionWatch:
         if issue:
             return issue
         # Engineering freshness limit; the worker deadline is never extended.
-        if time.monotonic() - checked > 1.0:
+        if time.monotonic() - checked > ADMISSION_MAX_AGE_SECONDS:
             return (
                 "ADMISSION_WATCH_STALE",
-                "Current admission could not be rechecked within one second.",
+                "Current admission could not be rechecked within five seconds.",
             )
         return None
 

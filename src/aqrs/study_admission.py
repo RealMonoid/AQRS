@@ -104,12 +104,12 @@ def assess(config: dict, base: Path) -> dict:
             )
         stat = path.stat()
         stamps[name] = [stat.st_size, stat.st_mtime_ns]
+    input_file = None
     if config["market"]["source"] == "synthetic_csv":
         path = (base / config["market"]["csv_path"]).resolve()
-        stamps["declared_input"] = None
         if path.is_file():
             stat = path.stat()
-            stamps["declared_input"] = [str(path), stat.st_size, stat.st_mtime_ns]
+            input_file = [str(path), stat.st_size, stat.st_mtime_ns]
     return {
         "policy": POLICY,
         "decision": "ADMITTED_ENGINEERING_ONLY",
@@ -119,6 +119,7 @@ def assess(config: dict, base: Path) -> dict:
         "configuration": fingerprint(config),
         "source": source_identity(),
         "prerequisites": stamps,
+        "input_file": input_file,
         "supports_market_claim": False,
     }
 
@@ -229,7 +230,7 @@ def authorize_worker(request: dict) -> dict:
     if (
         request.get("stage") == "prepare"
         and context.config["market"]["source"] == "synthetic_csv"
-        and context.decision["prerequisites"].get("declared_input") is None
+        and context.decision["input_file"] is None
     ):
         raise reject(
             "PREREQUISITE_MISSING",
