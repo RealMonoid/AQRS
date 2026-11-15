@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-15 — Prefer deterministic computation across AQRS
+
+Record the owner's project-wide preference for deterministic calculations,
+validation, and rule-based decisions, with LLMs used primarily for workflow
+coordination.
+
+Changed paths: `AGENTS.md`, `CHANGELOG.md`.
+
 ## 2026-11-15 — Share the variant ledger across project copies
 
 The owner's 36-call review of `9ba03c9` confirmed its four fixes and found

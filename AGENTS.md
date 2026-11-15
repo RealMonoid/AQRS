@@ -85,6 +85,7 @@ Recommend a new chat in the same AQRS project only when the next objective is ma
 
 ## Model and technology governance
 
+- Prefer deterministic software for calculations, validation, and decisions governed by explicit rules. Use LLMs primarily to automate workflow coordination, including preparing inputs and invoking the appropriate tools.
 - The model/tool registry and catalog are long-term **planning documents**, not an instruction to install every library in v0.1.
 - `CORE`: working capability required by the specified gate. `EVALUATE`: fair comparison or documented reproducible no-go/blocker at that gate. `CONDITIONAL`: assess only if data and use case warrant it. `DEFERRED`: requires explicit later scope authorization.
 - Follow the [M2 Definition of Done](docs/MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls) for the required supervised and unsupervised discovery pilots. An anomaly score alone is never alpha.
