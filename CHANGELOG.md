@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-15 - Draft probabilistic strategy-assessment requirements
+
+Record RQ-001 for owner review: four probability output groups, their distinct
+interpretations, a separate research decision policy, qualification criteria,
+resource limits and the remaining reporting-versus-decision scope choice.
+The draft changes no current evaluation rule, research authorization or code.
+
+- `CHANGELOG.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+
 ## 2026-11-15 — Evaluate synthetic volume and next-bar movement in the common CLI
 
 The owner accepted the shared admission guards in `98f361a` after 16
