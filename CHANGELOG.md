@@ -1,5 +1,37 @@
 # Changelog
 
+## 2026-11-16 - Check conditional detectability before synthetic studies
+
+Replace the fixed sentence with required study fields for the two bar rules.
+Use the actual scorer on bounded synthetic quiet/volatile scenarios, report
+minimum-effect detectability and prospective scope guidance, and bind a pass
+before study access. Remove old-worktree booking imports while retaining current
+ledger entries and execution guards. Record the owner blind result and revised
+LLM-review requirement; no human expert or runtime LLM is assumed. Verification
+is in the existing FR-005-P01 card; no new documentation file is introduced.
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/research.yaml`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_ARCHIVE.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+- `docs/requirements/REQUIREMENTS.md`
+- `src/aqrs/detectability.py`
+- `src/aqrs/evaluation.py`
+- `src/aqrs/governor.py`
+- `src/aqrs/journal.py`
+- `src/aqrs/research.py`
+- `src/aqrs/study_admission.py`
+- `src/aqrs/worker.py`
+- `tests/test_audit_controls.py`
+- `tests/test_cli.py`
+- `tests/test_detectability.py`
+- `tests/test_study_admission.py`
+
 ## 2026-11-15 - Enforce FR-005 study admission before execution
 
 Add a fail-closed parent/worker admission boundary, current-condition monitoring,

@@ -677,56 +677,44 @@ policy becomes development exposure; a new independent claim needs fresh cases.
 
 ## F4. FR-005 study admission
 
-`study_admission.py` enforces a versioned, installed procedure contract before
-the common run can access study inputs. The initial contract is
-`FR005_ENGINEERING_V1` / `common_synthetic_workflow_v1`, for the exact operational
-engineering question in `configs/research.yaml`. It measures whether the declared
-synthetic pipeline executes, records its measurements and respects its guards.
-It makes no market-effect, statistical-power or general scientific-review claim.
-An unknown question/design is unresolved, not automatically judged scientifically
-false. Correcting a public engineering case to this contract permits assessment;
-changing the owner's scientific question to obtain admission is prohibited.
+The shared command requires `study.question`, `rule`, `minimum_effect`,
+`on_advantage`, `on_no_advantage` and `on_inconclusive`. All text fields must
+be nonempty; question meaning is not judged in this step. `minimum_effect` is
+an accuracy fraction above the stronger constant control, strictly between
+zero and 0.5. The rule must match all configured candidates and be
+`bar_reversal` or `volume_movement`, with synthetic inputs and one-bar horizon.
 
-The receipt binds the question, design, complete configuration (including data
-scope and limits), installed Python source, prerequisite file metadata and policy.
-The existing data, exposure, resource and platform gates still apply. Preparation
-returns the byte digest of its frozen research prefix; each candidate parses the
-same bytes it verifies against that admitted digest. An available input's file
-metadata is monitored; this is not a tamper-proof data vault.
+Before submitted data access, a supervised worker generates 256 known-effect
+series at the planned cadence and fold layout and uses the same daily HAC
+scorer as the study. At least 80% must report advantage; the finite Monte Carlo
+interval is reported. Alternating seven-day quiet/volatile phases include
+volume control prevalence 0.50/0.60 relative to each fold's training medians
+and symmetric weekly accuracy shocks up to 0.04/0.16. The planted population
+accuracy gap is exact in expectation; individual realizations fluctuate.
+These are explicit stress assumptions, not fitted claims about unseen data.
 
-SQLite campaign records hold the decision; `study_launches` issues one nonce per
-exact worker request, bound to the live issuing process instance and finite
-campaign validity. After containment the supervisor sends a random, single-use
-32-byte proof through its anonymous control pipe. Only its digest is stored;
-the request, arguments, environment and reports contain no plaintext proof.
-Workers verify the complete proof and atomically consume the grant before study
-access; absent, truncated or incorrect proofs reject without consuming it.
-The Linux parent-loss reader is armed after the proof on that same pipe.
-An orphaned `RUNNING` row cannot authorize
-resumption. Missing/changed/replayed admissions and custom commands fail closed.
-The installed application and local journal are trusted: this is an application
-boundary, not a sandbox against an operator rewriting trusted code/database or
-calling numerical library internals from arbitrary Python. Direct supported
-campaign, preparation, worker and replay entries enforce the same boundary.
+Four doubled validation scopes may be simulated for rejected-plan guidance.
+The first sufficient tested scope is not a proven minimum and never changes
+or authorizes the requested run. Simulated calendar geometry is not access to
+protected data. Actual acquisition/run scope retains all data locks. All draws
+are sequential within the existing trial/campaign watchdog and RSS guard;
+replicate and rule-evaluation counts are recorded separately from model fits.
+`plan` remains declarative and does not establish detectability admission.
 
-Current source/configuration, prerequisite availability and campaign status are
-rechecked before dispatch and at worker entry. A supervisory thread checks during
-execution every 250 ms; a result older than five seconds stops affected work. This
-is an engineering freshness bound, not scientific sufficiency. Metadata I/O does
-not run on the wall-time watchdog thread. No later dependent trial starts after
-an admission stop. New attempts receive new decisions; no automatic retry.
+The journal records the check bound to the configuration. Parent dispatch,
+worker entry and ongoing checks preserve source/configuration identity, the
+one-time control-pipe proof, live issuer, finite validity and prepared-input
+byte identity. No preparation or study worker is admitted without a successful
+bound detectability result. Failure stops with an explicit reason; resource
+failure is not evidence against the research hypothesis. Outcome actions are
+recorded in the report and journal, not executed as arbitrary commands.
 
-Unsupported legacy entries listed in the README, including direct acquisition
-worker callbacks, stop before study work and record
-`ENTRY_UNQUALIFIED` under the current directory's `artifacts/research.sqlite3`.
-The record preserves declared arguments, the reason, correction and resumption
-condition. Missing direct common-entry admission is also recorded there.
-They require entry-specific qualification, not merely adding a `PASS` field.
-This status does not reject a model family or rewrite historical evidence.
-Acquisition can eventually be admitted for its own bounded purpose without
-requiring the data it is meant to obtain; no acquisition contract is currently
-qualified. Missing data blocks analysis, not metadata-only preparation of that
-contract. Scientific-review qualification remains separately open under FR-005.
+Old study/acquisition/replay modules remain blocked. The global variant ledger
+retains existing bookings, but no old journal/worktree bookings are imported.
+The installed application and local journal remain trusted; this is not a
+sandbox against arbitrary code or database rewriting. General scientific
+question review is a later step under the revised FR-005 known-answer rule;
+no human expert or runtime LLM decision is required for this increment.
 
 ## G. Reporting contract
 

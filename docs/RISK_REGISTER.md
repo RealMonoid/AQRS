@@ -2,6 +2,15 @@
 
 ## FTA-FR-005: study admission
 
+**FR-005-P01, 2026-11-16:** false power admission can follow iid-only simulation,
+an absolute accuracy mistaken for a control-relative gap, a different simulated
+scorer, or finite-simulation error. Use the same daily HAC decision, known-effect
+synthetic regimes and reported binomial uncertainty. A direct/changed worker or
+stale receipt must not bypass detection. Bound all simulations and extent guidance
+by the existing supervisor; never read the submitted CSV to tune the simulation.
+Negative/positive cases and held-back owner plans test these claims. Mathematical
+question sense and general scientific adequacy remain outside this bounded step.
+
 **2026-11-15, Engineering owns implementation; independent review verifies it.**
 Top event: an unclear, unsuitable, unqualified or unauthorized study accesses
 outcomes or computes despite FR-005. Credible OR paths: only the CLI checks;

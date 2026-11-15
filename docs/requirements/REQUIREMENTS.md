@@ -112,13 +112,11 @@ controls and resource guards). Satisfying one does not establish the other.
 Mechanical completeness checks cannot establish scientific adequacy. Require
 a reasoned scientific review with attributable provenance and resolved material
 findings, assessed separately from the plan author's assertion. A bare `PASS`,
-filled fields or a confident LLM response is insufficient. A review procedure
-must be qualified on independently assessed clear, ambiguous and unsuitable
-cases before its decisions are relied on automatically. Unresolved uncertainty
-about a required admission condition stops the dependent test; expected
-statistical uncertainty does not itself prohibit a justified study.
-The review mechanism is an implementation choice, not a claim
-that software or an LLM can guarantee scientific correctness.
+filled fields or a confident LLM response is insufficient. A language model may perform scientific review once its accuracy on known-answer cases has been measured.
+The author of a question must not supply its reference judgment.
+Record the measured results, applicable scope and unresolved findings; a human reviewer is not required.
+Material unresolved admission conditions stop dependent work; ordinary statistical uncertainty alone does not.
+Measured review accuracy does not guarantee scientific correctness.
 
 Bind admission to the reviewed question/design revision, relevant code and
 configuration, data identity/scope, evidence and applicable authorization.

@@ -2,6 +2,20 @@
 
 This file is **normative**. Add each new architectural decision as a numbered ADR with status, rationale, consequences and reversal condition. A market-feasibility decision must be revisitable when data/costs change.
 
+### ADR-057: bounded synthetic detectability, not a general review layer
+
+**Experimental, 2026-11-16; owner-authorized four-hour increment.** Replace the
+fixed sentence contract with explicit study fields for the two existing synthetic
+bar rules. Reuse the same scorer and native supervisor for 256 conditional
+simulations; require 80% detection of the declared control-relative minimum effect.
+The owner rejected the preceding five-part plan and a mandatory human reviewer.
+Known-answer evaluation may qualify an LLM; the question author does not supply
+its reference judgment. No runtime LLM, new documents, external literature or
+market data are in this step. Remove old-worktree ledger import and artificial
+sentence/design/prerequisite checks; retain actual launch, source, input, resource
+and replay protections. Revisit the simulation assumptions on independent
+known-answer failures, not by tuning against submitted study outcomes.
+
 ### ADR-056: enforce study admission at parent and worker boundaries
 
 **Status: accepted for engineering enforcement, 2026-11-15.** FR-005's owner-authorized

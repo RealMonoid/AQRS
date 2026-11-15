@@ -105,7 +105,9 @@ def supervise(
         trial_seconds,
         campaign_deadline,
         max_rss_mb,
-        admission_watch=context.check,
+        admission_watch=lambda: context.check(
+            ready=request.get("stage") != "detectability"
+        ),
         release_secret=release_secret,
     )
 

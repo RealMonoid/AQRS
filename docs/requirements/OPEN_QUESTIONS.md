@@ -188,23 +188,15 @@ records current implementation evidence and limits. This supersedes the earlier
 requirements-only boundary for this bounded engineering item, without resuming
 market research or the general AQRS-H01 audit.
 
-The baseline `cae45c9` checked data, resources and some study-specific receipts;
-it had no universal question/design admission. The new
-[execution contract](../CONTRACTS.md#f4-fr-005-study-admission) admits only the
-explicit common synthetic engineering workflow, records actionable stops and
-blocks unqualified legacy entries. Pure planning no longer launches a timing fit.
-The card records verified parent/worker behavior on native Windows and non-root
-Ubuntu: 449 tests per environment, plus independent fixed-diff review. Engineering
-enforcement is supported for the stated contract; the qualification gap below
-remains open.
+**Owner correction, 2026-11-16:** the five-part prerequisite plan was rejected;
+automated research is the goal and no human expert is assumed. Other LLMs are
+allowed under the revised FR-005 known-answer accuracy requirement; the question
+author does not supply its reference judgment. Question-meaning assessment is
+a later step, with no runtime LLM judgment in the current increment.
 
-**Remaining scientific qualification:** no general scientific reviewer is
-qualified by these public engineering tests. Independently assessed clear,
-ambiguous and unsuitable cases, a reasoned method and justified error/escalation
-criteria are still required before scientific decisions can be relied on
-automatically. The owner supplies independent qualification cases when needed;
-separate agent context is not independent empirical evidence. No universal
-numerical threshold is invented here. Until this prerequisite is satisfied,
-scientific studies and unsupported legacy entries stay blocked. Historical
-artifacts remain unchanged; a successful software gate cannot establish the
-scientific validity or economic value of a strategy.
+[FR-005-P01](../MILESTONE_STATUS.md#fr-005-p01-detectability-before-a-synthetic-study)
+replaces the fixed sentence with structured fields and adds bounded conditional
+detectability for `bar_reversal` and `volume_movement` on synthetic data. Its
+card records implementation and verification. This does not lift the market
+stop or enable legacy study entries. The owner will assess unseen study plans;
+local generated cases are public engineering fixtures, not that blind evidence.

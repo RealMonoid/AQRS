@@ -437,7 +437,6 @@ def test_preparation_timeout_is_terminal_without_candidate_start(tmp_path, monke
     monkeypatch.setattr(
         "aqrs.journal.project_ledger_path", lambda: tmp_path / "variant-ledger.sqlite3"
     )
-    monkeypatch.setattr("aqrs.journal.legacy_checkout_artifacts", lambda: [])
 
     config, _ = load(ROOT / "configs/research.yaml")
     config["project"]["artifact_dir"] = "output"

@@ -22,10 +22,7 @@ def isolated_cli_project(tmp_path, monkeypatch):
     """Use the normal CLI with a temporary user directory."""
     copy_application(tmp_path / "test application")
     monkeypatch.setattr(Path, "home", classmethod(lambda cls: tmp_path / "test home"))
-    monkeypatch.setattr(
-        "aqrs.journal.legacy_checkout_artifacts",
-        lambda: [tmp_path / "test application" / "artifacts"],
-    )
+
 
 
 def copy_application(root):

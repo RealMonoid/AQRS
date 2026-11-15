@@ -20,7 +20,6 @@ QUESTION = "Can the configured synthetic workflow execute and report its declare
 @pytest.fixture
 def study_config(tmp_path, monkeypatch):
     monkeypatch.setattr(Path, "home", classmethod(lambda cls: tmp_path / "home"))
-    monkeypatch.setattr("aqrs.journal.legacy_checkout_artifacts", lambda: [])
     config = yaml.safe_load(
         (ROOT / "configs/research.yaml").read_text(encoding="utf-8")
     )

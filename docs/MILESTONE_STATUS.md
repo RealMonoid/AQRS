@@ -74,19 +74,58 @@ apply. The owner authorized AQRS-W01 on 2026-11-14 and moved the common
 synthetic reversal trial ahead of central counting and general data locks.
 The [selection contract](CONTRACTS.md#f3-structured-next-question-selection-format-only)
 is retained for later use. New market studies remain stopped. Public engineering
-checks are authorized. The next handoff is the owner's independent check of
-the frozen common run, using files outside Codex access.
+checks are authorized. The owner supplied the independent common-run result; FR-005-P01 now addresses
+pre-run detectability, followed by the owner's unseen study plans.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
+| FR-005-P01 | 2026-11-16 | ACTIVE | Structured synthetic study request and regime-aware detectability before study access, for the two existing bar rules only. | Owner's four-hour implementation order in chat `01a1e020-aa73-7120-a42c-bd3d16a153ba`; see the bounded card below. No market data, external research, new documents or runtime LLM judgment. |
 | AQRS-W01-P04 | 2026-11-14 | DEFERRED | Bounded selector and independent comparison. | Revisit when multiple admissible procedure questions compete for the same budget. |
-| AQRS-W01-P05 | 2026-11-14 | WAITING | Second synthetic next-bar rule. Three baseline checks failed. Sixteen focused tests passed, covering both rules in the same campaign, all three volume-rule outcomes, fold-local medians, holdout changes, and source/time guards. Diff from `98f361a`: 12 calculation lines, 14 candidate-setting lines, and 96 added/46 removed shared lines. The reversal-specific validation, dispatch, metadata and reporting needed generalization. | Focused proof within 10 minutes of 17:36 CET on 2026-11-15, under the four-hour cap. Same budget charge per rule and fold. No market data or separate campaign path. `SUPPORTED` on public cases, `PERSEVERE` to the owner's hidden synthetic files. See the [risk screen](RISK_REGISTER.md#second-synthetic-next-bar-rule). |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](MILESTONE_ARCHIVE.md#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
 | AQRS-B01 | 2026-11-11 | WAITING | [Reassess the fixed blind-search benchmark](MILESTONE_ARCHIVE.md#aqrs-b01-capability-benchmark-deferral) once a new discovery path has credible end-to-end evidence. | Review M2-E21 before deciding whether to retain or replace the benchmark. Before any external B01 execution, close [AQRS-A10-F1](RISK_REGISTER.md#open-execution-path-quality-debt) independently and satisfy the existing delivery, dataset-scoped 24-trial exception and start gates. |
 | AQRS-SC01 | 2026-11-10 | DEFERRED | [Read completed ACSIL bars in AQRS and display the AQRS result in Sierra Chart.](MILESTONE_ARCHIVE.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) | Deferred by the owner. Resume when the owner reprioritizes it, with a verified local Windows SDK and isolated replay workspace. |
 | M4-E01 | 2026-11-11 | WAITING | Select the smallest claim-appropriate validation method under [ADR-052](DECISIONS.md). Compare its decision value with the existing chronological/matched-control baseline; qualify any selected implementation on known-answer/null cases before research use. | Future consideration only. Quant Research reviews at authorized M4 planning when a fixed claim, candidate family, benchmark, aligned series, exposure history and dependence/precision assumptions exist. Complete a bounded Test Card and resource estimate first; implementation and data/run approvals remain separate. Default until then: existing workflow, no extra computations. |
 | AQRS-H01 | 2026-11-14 | DEFERRED | [Research Harness Enforcement Review](MILESTONE_ARCHIVE.md#aqrs-h01-research-harness-enforcement-review): the three-work-item observation trigger is now met through E22. | Owner-directed follow-up retained. The current owner instruction excludes a separate audit in this policy-and-study task; no new audit is dispatched here. Research-first governance freeze remains binding. |
+
+## FR-005-P01: detectability before a synthetic study
+
+Owner authorization, 2026-11-16: replace the fixed sentence with required question,
+rule, minimum accuracy advantage over the stronger constant control, and actions
+for advantage/no advantage/inconclusive. Keep legacy entries blocked; remove old
+worktree-booking imports. The five-part prerequisite plan and mandatory human
+reviewer were rejected. Runtime question-meaning assessment is a later step.
+
+- **Baseline/external evidence:** the owner reports a blind check of `dfe907c`,
+  94 volume-rule files: null 0/60 false advantages, reversed 5/5 correct, short
+  4/4 inconclusive, small effect 2/15 detected, medium 5/10; HAC agreed with
+  statsmodels in 18/18 comparisons. Files and reference outcomes were not seen
+  here. A training-fixed threshold let a constant control reach about 55% in
+  volatile periods. This is external evidence, not a rerun by Codex.
+- **Hypothesis/minimum proof:** a bounded simulation of the actual paired daily
+  scorer, including persistent quiet/volatile phases, can reject low-detectability
+  plans before input access and let adequate plans reach the existing execution.
+  Keep the score definition; do not substitute absolute 53% for a 3-point gap.
+- **Predetermined criterion:** require detection in at least 80% of 256 simulated
+  series. Four chances in five is the declared engineering tolerance for missing
+  the smallest worthwhile effect; 256 draws give about 2.5 percentage points of
+  Monte Carlo standard error at 80%, reported alongside the finite-sample interval.
+  This is a conditional synthetic operating characteristic, not universal power.
+- **Proof:** missing-field and weak-plan rejection before CSV access; strong-plan
+  execution; shared scorer parity, planted population gap, both regimes and
+  persistence; finite extent guidance; resource timeout; existing admission,
+  causality, ledger and Windows/non-root Linux regressions plus fixed-diff review.
+- **Resource/budget:** started 2026-11-15 23:43:47 UTC (2026-11-16 local); hard
+  four-hour task cap. No sources or market data. Simulations run sequentially in
+  the existing supervised worker under trial/campaign wall and RAM limits, with
+  explicit replicate/evaluation counts; no fitted predictive model or new dependency.
+  At most four prospective doubled validation scopes are assessed for guidance;
+  guidance never silently extends the requested study. Stop on exhausted guards.
+- **Risk screen:** critical admission/statistical control changes; see the existing
+  FR-005 fault tree. Preserve request/source binding, replay protection, deadlines
+  and blocked legacy entries; remove obsolete sentence/design/prerequisite checks.
+- **Disposition:** pending measured outcomes; unknown question meaning is not
+  judged by this step. No human expert is assumed or required for the product.
 
 ## Research and backtesting learning
 

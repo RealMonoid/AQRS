@@ -132,6 +132,18 @@ def run(directory: Path, evaluate) -> None:
 
 def evaluate(request: dict, directory: Path) -> dict:
     require_worker()
+    if request.get("stage") == "detectability":
+        from aqrs.detectability import check
+        from aqrs.study_admission import reject
+
+        try:
+            return check(request["config"])
+        except ValueError as error:
+            raise reject(
+                "DETECTABILITY_UNAVAILABLE",
+                str(error),
+                "Correct or park the unsupported simulation assumptions.",
+            ) from error
     if request.get("stage") == "prepare":
         from aqrs.research import prepare_data
 

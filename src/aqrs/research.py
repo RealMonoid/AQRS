@@ -169,6 +169,7 @@ def run(
         "required_action": report["plan"].get("required_action"),
         "resumption_condition": report["plan"].get("resumption_condition"),
         "variant_ledger_created": report["variant_ledger_created"],
+        "detectability": report.get("detectability"),
     }, {"COMPLETED": 0, "REJECTED_PREFLIGHT": 2, "CANCELLED": 130}.get(status, 1)
 
 
@@ -283,6 +284,37 @@ def execute(
     deadline = started + limits["max_wall_seconds_per_campaign"]
     prepared = None
     if plan["preflight_status"] == "ADMITTED":
+        detection = supervise(
+            output,
+            {"stage": "detectability", "config": config},
+            limits["max_wall_seconds_per_trial"],
+            deadline,
+            limits["max_peak_rss_mb_per_trial"],
+        )
+        report["detectability_execution"] = {
+            k: v for k, v in detection.items() if k != "result"
+        }
+        if detection["execution_status"] == "COMPLETED":
+            report["detectability"] = detection["result"]
+            journal.finish_campaign(db, run_id, "RUNNING", report)
+            if not detection["result"]["admitted"]:
+                plan.update(
+                    preflight_status="REJECTED_PREFLIGHT",
+                    reason_code="INSUFFICIENT_DETECTABILITY",
+                    stop_reason="The planned study detects its minimum effect below the fixed threshold.",
+                    required_action=detection["result"]["guidance"],
+                    resumption_condition="A prospectively revised plan reaches the detection threshold within its guards.",
+                )
+        else:
+            plan.update(
+                preflight_status="REJECTED_PREFLIGHT",
+                admission_execution_status=detection["execution_status"],
+                reason_code=detection.get("reason_code", "DETECTABILITY_RESOURCE_STOP"),
+                stop_reason=detection["stop_reason"],
+                required_action="Resolve the bounded detectability failure; no study input was accessed.",
+                resumption_condition="A new attempt completes the detectability check within the existing limits.",
+            )
+    if plan["preflight_status"] == "ADMITTED":
         database_path = (base / config["journal"]["sqlite_path"]).resolve()
         reserve_campaign_variants(config, db, database_path, report, plan)
     if plan["preflight_status"] == "ADMITTED":
@@ -319,8 +351,9 @@ def execute(
                 if preparation.get(key):
                     plan[key] = preparation[key]
     plan.update(run_id=run_id, config_fingerprint=report["config_fingerprint"])
-    if report.get("preparation"):
-        usage = report["preparation"]
+    for usage in (report.get("detectability_execution"), report.get("preparation")):
+        if not usage:
+            continue
         plan["peak_rss_mb"] = (
             max(plan["peak_rss_mb"] or 0, usage.get("peak_rss_mb") or 0) or None
         )
@@ -654,6 +687,18 @@ def run_candidate(
     }
     if metrics:
         trial["metrics"] = metrics
+        if rule:
+            decision = metrics[rule.result_key]["decision"]
+            action = (
+                "on_advantage"
+                if decision == f"{rule.decision_stem}_ADVANTAGE"
+                else "on_no_advantage"
+                if decision == f"NO_{rule.decision_stem}_ADVANTAGE"
+                else "on_inconclusive"
+            )
+            metadata["next_action"] = trial["next_action"] = report["configuration"][
+                "study"
+            ][action]
     if rule:
         trial["workflow_question"] = metadata["workflow_question"]
         learning = (
@@ -707,6 +752,21 @@ def write_reports(output: Path, report: dict) -> None:
         )
     if plan["stop_reason"]:
         lines.append(f"- Stop reason: {plan['stop_reason']}")
+    if detection := report.get("detectability"):
+        planned = detection["planned"]
+        lines += [
+            "",
+            "## Synthetic detectability",
+            "",
+            f"Detected {planned['detections']}/{planned['series']} series ({planned['detection_rate']:.1%}); required {detection['threshold']:.0%}.",
+            f"Minimum control-relative accuracy gap: {detection['minimum_effect']:.1%}.",
+            detection["guidance"],
+            detection["limitations"],
+        ]
+        if scope := detection["first_sufficient_tested_scope"]:
+            lines.append(
+                f"First sufficient tested scope: {scope['evaluation_days']:.2f} evaluation days, {scope['required_total_bars']} total bars at the declared cadence."
+            )
     if report["variant_ledger_created"]:
         lines.append("- Variant ledger initialized for this run.")
     lines += ["", "## Cost assumptions", ""]
@@ -726,6 +786,8 @@ def write_reports(output: Path, report: dict) -> None:
         ]
         if trial["stop_reason"]:
             lines.append(trial["stop_reason"])
+        if trial.get("next_action"):
+            lines.append(f"Declared next action: {trial['next_action']}")
         metrics = trial.get("metrics", {})
         if not metrics:
             continue

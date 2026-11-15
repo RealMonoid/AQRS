@@ -20,21 +20,24 @@ starts with workflow questions, central attempt accounting and general data lock
 
 **Repository language: English. Local target: native Windows. Required secondary target: headless Linux. Future deployments: cloud-provider neutral, CPU-first.** See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 
-**FR-005 start gate:** the common CLI requires the explicit `study` contract in
-`configs/research.yaml`. Its current qualification covers the synthetic engineering
-workflow only. Missing/unreviewed questions, unsupported designs or claims, and
-missing prerequisites stop the affected action with a journaled reason and rework.
-`plan` is declarative and no longer runs a timing fit. Each actual worker receives
-a single-use, source/configuration-bound admission and rechecks current conditions.
-See the [execution contract](docs/CONTRACTS.md#f4-fr-005-study-admission).
+**FR-005 start gate:** the common command accepts structured synthetic study
+requests for `bar_reversal` and `volume_movement`. See the six required `study`
+fields in `configs/research.yaml`: a question, matching rule, minimum accuracy
+advantage over the stronger control, and actions for all three outcomes.
+Before reading submitted data, `research run` checks 256 synthetic series with
+quiet/volatile phases using the actual study scorer; at least 80% must detect
+the minimum effect. A rejection reports the observed rate and prospective
+extent guidance. It never silently extends the requested study. `research plan`
+remains declarative. See the [contract](docs/CONTRACTS.md#f4-fr-005-study-admission).
 
+The simulation runs under existing resource limits and evaluates detectability
+conditional on its stated assumptions. It does not judge the meaning of the
+question or authorize market research. Declared outcome actions are reported;
+they do not authorize automatic follow-on experiments or arbitrary commands.
 Legacy E14/E18, E19, E22, supervised/Isolation Forest pilots, E15, blind-search
-registration/execution/replay and Spot acquisition entries are
-`BLOCKED_FR005_QUALIFICATION`, including their legacy synthetic launch modes.
-Their algorithms and historical evidence remain preserved; historical commands
-below describe past workflows and do not grant current execution permission.
-General scientific review still requires independent qualification. The common
-synthetic workflow is the currently admitted engineering entry.
+and Spot acquisition/replay entries remain `BLOCKED_FR005_QUALIFICATION`.
+Their algorithms and historical evidence remain preserved. Existing global
+variant bookings stay in place; old checkout/worktree journals are not imported.
 
 ## Target product at v1.0
 

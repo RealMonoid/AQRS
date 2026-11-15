@@ -289,14 +289,24 @@ def evaluate_bar_rule(request: dict, directory: Path, rule: BarRule) -> dict:
         request["symbol"],
         request["bar_minutes"],
     )
-    folds = request["folds"]
+
+    def counted(fit_count):
+        reserve_fit(request, directory, len(request["folds"]))
+        write_json(directory / "fits.json", fit_count)
+
+    return score_bar_rule(bars, request["folds"], rule, counted)
+
+
+def score_bar_rule(bars: Bars, folds: list, rule: BarRule, on_fold=None) -> dict:
+    """One decision implementation for simulation and the actual study."""
     calendar_days = (bars.values[:, 0] // 86400).astype(int)
     first_day = calendar_days[folds[0][2]]
     last_day = calendar_days[folds[-1][3] - 1]
     day_counts = np.zeros(last_day - first_day + 1, dtype=int)
     daily_hits = np.zeros((3, len(day_counts)))
     for fit_count, (tr_start, tr_end, va_start, va_end) in enumerate(folds, 1):
-        reserve_fit(request, directory, len(folds))
+        if on_fold is not None:
+            on_fold(fit_count)
         _, pred, truth = rule.predictions(
             bars, slice(tr_start, tr_end), slice(va_start, va_end)
         )
@@ -304,7 +314,6 @@ def evaluate_bar_rule(request: dict, directory: Path, rule: BarRule) -> dict:
         np.add.at(day_counts, days, 1)
         for daily, guess in zip(daily_hits, (pred, 1, -1), strict=True):
             np.add.at(daily, days, np.where(truth == 0, 0.5, guess == truth))
-        write_json(directory / "fits.json", fit_count)
 
     observations = int(day_counts.sum())
     accuracy, *control_accuracies = (daily_hits.sum(axis=1) / observations).tolist()

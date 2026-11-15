@@ -1,9 +1,11 @@
 # Default configuration for the v0.1 synthetic research campaign.
 study:
-  question: Can the configured synthetic workflow execute and report its declared measurements within its guards?
-  design: common_synthetic_workflow_v1
-  claim: engineering
-  prerequisites: []
+  question: Does next-bar reversal outperform both constant directions on this synthetic plan?
+  rule: bar_reversal
+  minimum_effect: 0.20  # Accuracy fraction above the stronger constant control.
+  on_advantage: Retain the synthetic predictive result for the next registered question.
+  on_no_advantage: Stop this hypothesis under the declared plan.
+  on_inconclusive: Park the question and record the unresolved uncertainty.
 
 project:
   name: AQRS
@@ -15,23 +17,19 @@ market:
   source: synthetic
   symbol: SYNTH_BTC_LIKE
   scenario: "null"  # "null" | planted_weak_signal (optional)
-  bar_minutes: 5
+  bar_minutes: 30
   n_bars: 12000
   timezone: UTC
 
 research:
-  horizon_bars: 3
+  horizon_bars: 1
   train_bars: 4000
   validation_bars: 1000
   walk_forward_folds: 3
   final_holdout_fraction: 0.20
   candidates:
-    - id: C_LAG
-      model: ridge
-      features: [past_return]
-    - id: C_LAG_VOL
-      model: ridge
-      features: [past_return, relative_volume, rolling_volatility]
+    - id: REVERSAL
+      model: bar_reversal
 
 # CENTRAL COMPUTE LIMITS for the local v0.1 walking skeleton.
 # These are technical defaults, not guaranteed performance on every machine.

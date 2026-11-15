@@ -1,7 +1,7 @@
 """FR-005 admission at the application boundary, not a general scientific judge.
 
-The only automatically qualified contract is the public synthetic engineering
-workflow. A caller cannot qualify a new scientific question by supplying PASS.
+Structured requests cover only the two synthetic bar rules. A caller cannot
+replace the supervised detectability check by supplying PASS.
 The local journal and installed application are trusted; arbitrary Python or
 an operator rewriting either is outside this application-interface boundary.
 """
@@ -14,6 +14,7 @@ from contextvars import ContextVar
 from dataclasses import dataclass
 from functools import wraps
 from hashlib import sha256
+from math import isfinite
 from pathlib import Path
 from secrets import compare_digest, token_bytes
 from time import monotonic
@@ -25,9 +26,7 @@ from aqrs import journal
 from aqrs.admission import AdmissionRejected
 from aqrs.storage import fingerprint
 
-QUESTION = "Can the configured synthetic workflow execute and report its declared measurements within its guards?"
-DESIGN = "common_synthetic_workflow_v1"
-POLICY = "FR005_ENGINEERING_V1"
+POLICY = "FR005_SYNTHETIC_DETECTABILITY_V1"
 _parent = ContextVar("study_parent_admission", default=None)
 _worker = ContextVar("study_worker_admission", default=None)
 
@@ -64,48 +63,44 @@ def assess(config: dict, base: Path) -> dict:
             "No operational research question was supplied.",
             "Specify the intended question, measurement and decision; do not invent a substitute.",
         )
-    if study["question"] != QUESTION:
-        raise reject(
-            "QUESTION_UNREVIEWED",
-            "This question has no qualified review in the installed procedure contract.",
-            "Clarify and independently qualify the intended question and design; retain the original objective.",
-        )
-    if (
-        set(study) != {"question", "design", "claim", "prerequisites"}
-        or study.get("design") != DESIGN
-        or study.get("claim") != "engineering"
+    keys = {
+        "question",
+        "rule",
+        "minimum_effect",
+        "on_advantage",
+        "on_no_advantage",
+        "on_inconclusive",
+    }
+    if set(study) != keys or any(
+        not isinstance(study[k], str) or not study[k].strip()
+        for k in keys - {"minimum_effect"}
     ):
         raise reject(
-            "DESIGN_UNQUALIFIED",
-            "The design or claim is not supported by this reviewed engineering procedure.",
-            "Provide a qualified method/design for the intended claim. A PASS field or synthetic label is not a scientific review.",
+            "STUDY_FIELDS_REQUIRED",
+            "Specify question, rule, minimum_effect and all three outcome actions.",
+            "Complete the structured study request.",
+        )
+    effect = study["minimum_effect"]
+    if type(effect) not in (int, float) or not isfinite(effect) or not 0 < effect < 0.5:
+        raise reject(
+            "INVALID_EFFECT",
+            "minimum_effect must be an accuracy gap strictly between 0 and 0.5.",
+            "State the smallest relevant advantage over the stronger constant control as a fraction.",
+        )
+    if study["rule"] not in {"bar_reversal", "volume_movement"} or any(
+        c["model"] != study["rule"] for c in config["research"]["candidates"]
+    ):
+        raise reject(
+            "RULE_MISMATCH",
+            "The requested study rule must match every candidate and be bar_reversal or volume_movement.",
+            "Use one of the two supported synthetic rules consistently.",
         )
     if config["market"]["source"] not in {"synthetic", "synthetic_csv"}:
         raise reject(
-            "SCIENTIFIC_REVIEW_REQUIRED",
-            "The engineering procedure cannot admit a market study.",
-            "Qualify the scientific review and satisfy the existing market authorization before research.",
+            "SOURCE_NOT_ALLOWED",
+            "This study procedure only admits synthetic data.",
+            "Retain the market-research stop.",
         )
-    prerequisites = study["prerequisites"]
-    if not isinstance(prerequisites, list) or any(
-        not isinstance(p, str) or not p.strip() for p in prerequisites
-    ):
-        raise reject(
-            "PREREQUISITES_UNCLEAR",
-            "Prerequisites must be explicit file references.",
-            "Declare the files required for this action, or an empty list when none are required.",
-        )
-    stamps = {}
-    for name in prerequisites:
-        path = (base / name).resolve()
-        if not path.is_file():
-            raise reject(
-                "PREREQUISITE_MISSING",
-                f"Required prerequisite is unavailable: {name}",
-                "Establish the named prerequisite or park this dependent action.",
-            )
-        stat = path.stat()
-        stamps[name] = [stat.st_size, stat.st_mtime_ns]
     input_file = None
     if config["market"]["source"] == "synthetic_csv":
         path = (base / config["market"]["csv_path"]).resolve()
@@ -114,13 +109,11 @@ def assess(config: dict, base: Path) -> dict:
             input_file = [str(path), stat.st_size, stat.st_mtime_ns]
     return {
         "policy": POLICY,
-        "decision": "ADMITTED_ENGINEERING_ONLY",
-        "question": QUESTION,
-        "design": DESIGN,
-        "review_basis": "Installed deterministic engineering contract and public behavioral qualification; not scientific-review qualification.",
+        "decision": "STRUCTURED_SYNTHETIC_REQUEST",
+        "study": study.copy(),
+        "review_basis": "Required fields only; question meaning is not judged. Detectability must pass before study work.",
         "configuration": fingerprint(config),
         "source": source_identity(),
-        "prerequisites": stamps,
         "input_file": input_file,
         "supports_market_claim": False,
     }
@@ -136,7 +129,7 @@ class _Run:
     owner_process: tuple[int, float]
     deadline: float
 
-    def check(self) -> None:
+    def check(self, *, ready: bool = False) -> None:
         if monotonic() >= self.deadline:
             raise reject(
                 "ADMISSION_EXPIRED",
@@ -185,6 +178,16 @@ class _Run:
                 "Current durable campaign admission is missing, changed or revoked.",
                 "Restore valid current admission through a new checked attempt.",
             )
+        if ready and not (
+            manifest.get("detectability", {}).get("admitted") is True
+            and manifest["detectability"].get("configuration")
+            == current["configuration"]
+        ):
+            raise reject(
+                "DETECTABILITY_REQUIRED",
+                "No successful detectability check is bound to this study.",
+                "Run the bounded detectability check before accessing study inputs.",
+            )
 
 
 @contextmanager
@@ -223,6 +226,19 @@ def require_parent(*, validate: bool = True) -> _Run:
 
 def authorize_worker(request: dict) -> tuple[dict, bytes]:
     context = require_parent()
+    context.check(ready=request.get("stage") != "detectability")
+    if "config" in request and request["config"] != context.config:
+        raise reject(
+            "ADMISSION_CHANGED",
+            "Worker configuration differs from the study.",
+            "Use the admitted configuration.",
+        )
+    if "model" in request and request["model"] != context.config["study"]["rule"]:
+        raise reject(
+            "RULE_MISMATCH",
+            "Worker rule differs from the study.",
+            "Use the admitted rule.",
+        )
     if "prefix" in request and not request.get("prefix_sha256"):
         raise reject(
             "DATA_IDENTITY_REQUIRED",
@@ -329,7 +345,7 @@ def admitted_worker(request: dict, read_release):
                 tuple(payload["owner_process"]),
                 payload["deadline"],
             )
-            context.check()
+            context.check(ready=request.get("stage") != "detectability")
             # The one-time proof travels only over the supervisor-owned pipe.
             # A copied journal receipt cannot supply this in-memory capability.
             secret = read_release()
@@ -355,7 +371,7 @@ def admitted_worker(request: dict, read_release):
                     "Worker admission was already consumed.",
                     "Issue a new checked attempt.",
                 )
-    token = _worker.set(context)
+    token = _worker.set((context, request.get("stage")))
     try:
         yield
     finally:
@@ -372,7 +388,7 @@ def require_worker() -> None:
         )
         record_stopped("common.worker", error)
         raise error
-    context.check()
+    context[0].check(ready=context[1] != "detectability")
 
 
 def record_stopped(entry: str, error: AdmissionRejected, request=None) -> None:

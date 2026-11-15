@@ -4899,3 +4899,9 @@ legacy study merely because its technical launcher exists.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | FR-005 | 2026-11-15 | DONE | Implement actual question/design/prerequisite admission, prove rejected and valid starts on native Windows and Linux, and independently review the diff. | Owner authorization in chat `01a1e020-aa73-7120-a42c-bd3d16a153ba`: implement the start gate now. Requirements-only scope is superseded for this bounded engineering item. Market studies remain stopped. Engineering enforcement verified; see the archived card. Scientific qualification remains open. |
+
+## AQRS-W01-P05 owner blind-check closeout, 2026-11-16
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| AQRS-W01-P05 | 2026-11-14 | DONE | Owner-reported blind check of dfe907c on 94 files: 0/60 null false advantages, 5/5 reversed correct, 4/4 short inconclusive, 2/15 small and 5/10 medium effects detected; 18/18 statsmodels comparisons agree. | Numerical/common-path behavior supported by external evidence; low 60-day detectability motivates authorized FR-005-P01. Hidden files remain unseen. |
