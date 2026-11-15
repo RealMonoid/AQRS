@@ -200,8 +200,9 @@ The `plan` action can itself call a bounded synthetic fit pilot through
 `preflight`; the launch-path inventory must distinguish that computation from
 purely declarative planning instead of trusting an action's name.
 
-Separate launchers must also be considered: [E22](../../src/aqrs/predictive_spot.py)
-requires frozen published registration for a market run, while
+Separate launchers must also be considered: the [E22 CLI](../../src/aqrs/predictive_spot.py)
+verifies frozen published registration before calling its campaign; the campaign
+itself checks the supplied registration's study definition. In contrast,
 [E14](../../src/aqrs/m2_e14.py) checks a study-specific authorization/review
 receipt. These are existing partial controls, not evidence of universal FR-005
 enforcement. This bounded source inspection is not a complete launch-path audit
