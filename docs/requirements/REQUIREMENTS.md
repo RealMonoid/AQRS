@@ -99,6 +99,11 @@ alternative launch paths. A CLI check alone is insufficient if a supported
 campaign or worker entry can bypass it. Purely declarative planning may remain
 available; a data-based feasibility study or pilot needs its own justified
 question, admission and authorization under the cases above.
+Apply prerequisites to the requested action: authorized work to establish a
+missing prerequisite can proceed under its own bounded purpose and applicable
+guards. For example, missing data prevents analysis but need not prevent an
+admitted acquisition whose purpose is to obtain those data. This does not
+admit the dependent effect study or weaken its required evidence.
 
 Admission combines **scientific readiness** (the question, literature/method
 basis, design and evidence sufficiency) with **execution readiness** (required
@@ -143,7 +148,7 @@ scientific qualification data, when needed, are supplied by the owner.
 |---|---|
 | Missing, contradictory or insufficiently operationalized question | Specific rework; zero study-data/outcome accesses, study workers and fits. |
 | Fully populated plan with an unsuitable method or unjustified information sufficiency | Scientific rejection or unresolved review blocks the test despite complete fields. Correcting the design permits a fresh assessment. |
-| Missing data/capability/permission, exhausted budget or unavailable required guard | A parked prerequisite with exact reason and restart condition; zero study work. |
+| Missing data/capability/permission, exhausted budget or unavailable required guard for the requested action | Park that dependent action with exact reason and restart condition; zero blocked study work. Separately admitted prerequisite work may proceed. |
 | Missing/failed review, unresolved material finding, forged or mismatched approval, or record-storage failure | No launch; explicit failure, never a default approval or invented audit record. |
 | Plan, data scope, relevant code or permission changes after review | Old approval cannot launch the changed work; the actual executed inputs match the admitted version. |
 | Repeat/resume, alternate command or direct supported campaign/worker entry | The same admission conditions hold; an uncovered path is not enabled for research. |
