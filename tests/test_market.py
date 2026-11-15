@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 import csv
 import io
 from dataclasses import replace
@@ -108,9 +109,9 @@ def test_binance_spot_pilot_requires_intact_utc_day(tmp_path, damage, error):
 
     if error:
         with pytest.raises(ValueError, match=error):
-            import_day(archive, checksum, day)
+            import_day.__wrapped__(archive, checksum, day)
         return
-    bars, actual_digest = import_day(archive, checksum, day)
+    bars, actual_digest = import_day.__wrapped__(archive, checksum, day)
     assert actual_digest == digest
     assert len(bars.values) == 1440
     assert bars.time(0) == "2026-01-05T00:00:00+00:00"

@@ -180,47 +180,29 @@ are authorized; binding adoption is pending this product-scope choice.
 
 ## FR-005 execution-enforcement gap
 
-**Open implementation/qualification gap, 2026-11-15; requirements work only.**
-The owner requires actual pre-run stops under
-[FR-005](REQUIREMENTS.md#fr-005-execution-enforcement-and-verification).
-This is not a request to reconfirm that stop requirement. The required behavior
-is specified; its complete implementation and scientific-review qualification
-have not been demonstrated.
-
-**Inspected baseline:** `cae45c91641c085c7f098a74bd13b60d8ef5b0de`.
-The [common CLI](../../src/aqrs/__main__.py) calls `research.run`, which checks
-data admission; `research.execute` checks preflight and reserves variants
-before supervised preparation and trials. The [configuration contract](../../src/aqrs/config.py)
-has no question/design review input. The inspected
-[preflight](../../src/aqrs/planning.py) checks counts, estimates, folds and
-required platform capability, not general scientific question/design adequacy.
-[Trial metadata](../../src/aqrs/research.py) includes a hypothesis or a fixed
-workflow question; recording that text is not a pre-run scientific review.
-The `plan` action can itself call a bounded synthetic fit pilot through
-`preflight`; the launch-path inventory must distinguish that computation from
-purely declarative planning instead of trusting an action's name.
-
-Separate launchers must also be considered: the [E22 CLI](../../src/aqrs/predictive_spot.py)
-verifies frozen published registration before calling its campaign; the campaign
-itself checks the supplied registration's study definition. In contrast,
-[E14](../../src/aqrs/m2_e14.py) checks a study-specific authorization/review
-receipt. These are existing partial controls, not evidence of universal FR-005
-enforcement. This bounded source inspection is not a complete launch-path audit
-or a runtime test; no research run or market-data read was performed.
-
-**Closure evidence required:** enumerate supported launch paths and demonstrate
-the FR-005 negative and valid cases through their real execution boundaries on
-Windows and Linux. Qualify the scientific review separately on independently
-assessed cases; a correct gate can still enforce a scientifically wrong review.
-Do not represent separate agent context as independent empirical evidence.
-The review's acceptable error criteria and escalation rules must be specified
-and justified before automatic use; no numerical threshold is invented here.
-Record unsupported paths explicitly and prevent their research use until they
-meet the same conditions. This does not require rewriting historical artifacts.
-
-**Implementation authorized, 2026-11-15, same owner chat:** implement the FR-005
-start gate and verify negative/valid cases on Windows and Linux. The active
+**Implementation authorized, 2026-11-15, owner chat
+`01a1e020-aa73-7120-a42c-bd3d16a153ba`.** The owner requested the runtime start
+barrier and actual Windows/Linux negative and valid cases. The
 [FR-005 card](../MILESTONE_STATUS.md#fr-005-test-card-enforced-study-admission)
-supersedes the requirements-only boundary for this engineering item. Retain the
-market-research stop; this does not dispatch broader AQRS-H01 work. Runtime
-coverage and scientific-review qualification remain open until evidenced.
+records current implementation evidence and limits. This supersedes the earlier
+requirements-only boundary for this bounded engineering item, without resuming
+market research or the general AQRS-H01 audit.
+
+The baseline `cae45c9` checked data, resources and some study-specific receipts;
+it had no universal question/design admission. The new
+[execution contract](../CONTRACTS.md#f4-fr-005-study-admission) admits only the
+explicit common synthetic engineering workflow, records actionable stops and
+blocks unqualified legacy entries. Pure planning no longer launches a timing fit.
+The card must establish real parent/worker behavior on both platforms before
+engineering enforcement is reported complete.
+
+**Remaining scientific qualification:** no general scientific reviewer is
+qualified by these public engineering tests. Independently assessed clear,
+ambiguous and unsuitable cases, a reasoned method and justified error/escalation
+criteria are still required before scientific decisions can be relied on
+automatically. The owner supplies independent qualification cases when needed;
+separate agent context is not independent empirical evidence. No universal
+numerical threshold is invented here. Until this prerequisite is satisfied,
+scientific studies and unsupported legacy entries stay blocked. Historical
+artifacts remain unchanged; a successful software gate cannot establish the
+scientific validity or economic value of a strategy.

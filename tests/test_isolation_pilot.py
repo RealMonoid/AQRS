@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 """Verify the registered M2-E10 boundaries without fitting any estimator."""
 
 from dataclasses import replace
@@ -73,9 +74,9 @@ def test_fit_and_both_cutoffs_use_training_only(bars, tmp_path, monkeypatch):
     control_dir, challenger_dir = tmp_path / "control", tmp_path / "challenger"
     control_dir.mkdir()
     challenger_dir.mkdir()
-    control = pilot.evaluate_worker(request | {"phase": pilot.CONTROL}, control_dir)
+    control = pilot.evaluate_worker.__wrapped__(request | {"phase": pilot.CONTROL}, control_dir)
     assert fits == []
-    challenger = pilot.evaluate_worker(
+    challenger = pilot.evaluate_worker.__wrapped__(
         request
         | {
             "phase": pilot.CHALLENGER,
@@ -172,7 +173,7 @@ def test_governor_and_archive_checks_precede_timing_fit(tmp_path, monkeypatch):
 
     monkeypatch.setattr(pilot, "supervise", unexpected)
     with pytest.raises(ValueError, match="max_model_fits_per_campaign"):
-        pilot.compare(tmp_path, {}, None, 0)
+        pilot.compare.__wrapped__(tmp_path, {}, None, 0)
 
     limits.write_text(configuration, encoding="utf-8")
 
@@ -181,4 +182,4 @@ def test_governor_and_archive_checks_precede_timing_fit(tmp_path, monkeypatch):
 
     monkeypatch.setattr(pilot.prior, "read_window", foreign_archive)
     with pytest.raises(ValueError, match="Planted foreign archive"):
-        pilot.compare(tmp_path, {}, None, 0)
+        pilot.compare.__wrapped__(tmp_path, {}, None, 0)

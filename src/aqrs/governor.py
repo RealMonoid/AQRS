@@ -11,10 +11,14 @@ from traceback import extract_tb
 
 import psutil
 
-from aqrs.admission import AdmissionRejected
 from aqrs.platform_guard import WindowsJob, stop_tree, tree_usage
 from aqrs.storage import write_json
-from aqrs.study_admission import authorize_worker, require_parent
+from aqrs.study_admission import (
+    authorize_worker,
+    record_stopped,
+    reject,
+    require_parent,
+)
 
 
 class _AdmissionWatch:
@@ -62,10 +66,13 @@ def supervise(
     """Dispatch research only after durable, current study admission."""
     try:
         if command is not None:
-            raise AdmissionRejected(
+            error = reject(
                 "ENTRY_UNQUALIFIED",
                 "Custom research worker commands require a qualified admission contract.",
+                "Qualify the requested entry before dispatch; use the common admitted entry.",
             )
+            record_stopped("common.custom_command", error, {"command": command})
+            raise error
         context = require_parent()
         admitted = authorize_worker(request)
     except (ValueError, OSError, sqlite3.Error, TypeError, KeyError) as error:

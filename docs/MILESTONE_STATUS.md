@@ -141,6 +141,22 @@ completion. It does not resume market research or the broader H01 audit.
   or missing qualification. Preserve existing evidence and valid controls; do
   not resume market studies or weaken requirements to make a test pass.
 
+**Implementation checkpoint, 2026-11-15:** work began at 18:49:36 UTC. The red
+baseline demonstrated an unclear question reaching dispatch (1 failed test,
+no actual worker). The first qualified positive/negative slice passed 10 tests.
+Independent review of `db1457d..34e46af` found the direct acquisition callback
+and orphaned unused grants; both were corrected, including an actual worker
+rejection after abrupt issuer exit. The expanded control/OS suite passed 54
+tests on native Windows in 26.69 s. Regression migration exposed legacy tests
+that expected now-unqualified launches: current tests assert their stop, while
+explicit inner-layer tests retain calculations, costs, causality and historical
+evidence checks. The next full pass had 438 passes and six fixture/expectation
+failures; all six targeted corrections passed in 7.42 s. Final full Windows,
+non-root Linux and corrected-diff review are still pending at this checkpoint.
+No market data, hidden benchmark or scientific reviewer was evaluated. The
+language audit/self-test, whitespace/lint, 295 archived-file verification and
+exposure verification (97 attempts, 17 variants, 1,461 diagnostic views) passed.
+
 ## Research and backtesting learning
 
 One row per run under the [closeout rule](RESEARCH_PROTOCOL.md#research-and-backtesting-improvement-loop); older rows move with their cards into the archive.

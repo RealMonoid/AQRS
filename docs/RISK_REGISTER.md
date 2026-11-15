@@ -28,6 +28,14 @@ historical artifacts and pure calculation unit tests are not admission evidence.
 This is an application-interface control, not isolation against arbitrary Python
 or an operator who rewrites executable code or the trusted local journal.
 
+Independent review found two concrete missed paths in the first implementation:
+the direct Spot acquisition callback and unused grants surviving abrupt issuer
+death. Guard the callback and bind grants to live PID plus process creation time,
+worker ancestry and finite campaign validity. Test an actual orphan-grant worker.
+The running admission check uses a separate thread with a one-second freshness
+limit; delayed metadata I/O must not delay the external wall watchdog. Reuse
+the original process-tree/parent-loss tests and verify no next dependent trial.
+
 ## Second synthetic next-bar rule
 
 **AQRS-W01-P05, 2026-11-15.** The top event is an invalid comparison that appears

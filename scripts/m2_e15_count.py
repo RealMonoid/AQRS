@@ -19,7 +19,7 @@ from aqrs.market import Bars, build_folds, validate
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json
-from aqrs.study_admission import unqualified_entry
+from aqrs.study_admission import block_unqualified, unqualified_entry
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/research.yaml"
@@ -336,6 +336,8 @@ def main():
     parser.add_argument("action", choices=("plan", "run"))
     action = parser.parse_args().action
     try:
+        if action == "run":
+            block_unqualified("scripts.m2_e15_count.execute", {"action": action})
         config, _ = load(CONFIG)
         archives = archive_scope(json.loads(D01.read_text(encoding="utf-8")))
         plan = build_plan(config["resource_governor"])

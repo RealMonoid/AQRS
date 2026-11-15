@@ -269,7 +269,10 @@ an existing output directory is never overwritten. More than one symbol is not
 automatically independent evidence. See [AQRS-D01](docs/MILESTONE_ARCHIVE.md#aqrs-d01-test-card-free-spot-data-expansion)
 for the fixed acquisition budget and verification status.
 
-## M1 pilot: run the BTCUSDT spot campaign
+## Historical M1 pilot: BTCUSDT spot campaign
+
+FR-005 currently blocks this market entry pending scientific qualification.
+The following configuration and evidence describe the completed historical run.
 
 Place the verified January 5 archive and its checksum in `artifacts/m1-e02/`.
 Run the original M1-E04 15-minute economic screen from the project root with a fresh output location or pilot journal:
@@ -283,7 +286,7 @@ workflow's analysis and watchdog. The M1 campaign admits only January 5. The Jan
 The run writes `data_manifest.json`, `plan.json`, `report.json`, `report.md` and,
 when admitted, `dataset.csv` under its run ID in `artifacts/m1-e04/`. Attempts
 are stored in the pilot's SQLite journal. Use the run command alone for this
-budget because `research plan` performs a separate synthetic preflight fit.
+budget. Current `research plan` is declarative and performs no fit.
 See the [M1-E04 Test Card](docs/MILESTONE_ARCHIVE.md#m1-e04-test-card-first-real-data-campaign-2026-11-08)
 for the cost assumptions and evidence boundary. The archived 15-minute screen skipped candidate fits and simulation. The current CLI reports this outcome as `evaluation_status=SCREENED_OUT`. For the accepted 30-minute workflow use the [M1-E11 replay record and its frozen configuration](docs/MILESTONE_ARCHIVE.md#m1-e11-learning-card-and-m1-acceptance-2026-11-09).
 
@@ -320,8 +323,10 @@ The watchdog uses Windows Job Objects or Linux process groups for worker-tree te
 The default `observed_rss` mode stops on sampled memory usage. Requests for `strict` memory
 containment fail preflight. See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 
-`research plan` writes `plan.json` and normally fits one supervised pilot on synthetic matrix
-inputs. `research run` writes `dataset.csv`, `plan.json`, `report.json` and `report.md` in a unique
+`research plan` writes `plan.json` without study-data access or a timing fit;
+its estimates do not authorize execution. An admitted `research run` performs
+its bounded timing pilot when configured, writes `dataset.csv`, `plan.json`,
+`report.json` and `report.md` in a unique
 run directory and keeps attempts in SQLite. Reports for preflight rejections contain no dataset or
 research metrics. Exit codes are 0 for a completed run or admitted plan, 2 for an invalid config or
 preflight rejection, 130 for cancellation and 1 for other execution failures.

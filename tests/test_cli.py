@@ -638,7 +638,7 @@ def test_cli_reports_ledger_creation_after_deletion(tmp_path):
         result = cli("run", path)
         assert result.returncode == 2, result.stderr or result.stdout
         summary = json.loads(result.stdout)
-        assert summary["reason_code"] == "INVALID_SYNTHETIC_CSV"
+        assert summary["reason_code"] == "PREREQUISITE_MISSING"
         assert summary["variant_ledger_created"] is expected
         output = Path(summary["output_dir"])
         report = json.loads((output / "report.json").read_text(encoding="utf-8"))
@@ -876,7 +876,7 @@ def read_report(result):
 
 
 @pytest.mark.parametrize("variant", ["evaluated", "foreign_day", "screened_out"])
-def test_binance_campaign_isolates_day_and_preserves_spot_policy(tmp_path, variant):
+def test_common_market_entry_requires_scientific_qualification(tmp_path, variant):
     foreign_day = variant == "foreign_day"
     path = config_at(tmp_path)
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -917,48 +917,11 @@ def test_binance_campaign_isolates_day_and_preserves_spot_policy(tmp_path, varia
     )
 
     result = cli("run", path)
-    assert result.returncode == (2 if foreign_day else 0), (
-        result.stderr or result.stdout
-    )
+    assert result.returncode == 2
     summary = json.loads(result.stdout)
-    output = Path(summary["output_dir"])
-    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
-    assert report["holdout"]["start_at"] == "2026-01-06T00:00:00+00:00"
-    assert report["holdout"]["authorized_reads"] == 0
-    if foreign_day:
-        assert report["plan"]["completed_fits"] == report["plan"]["started_trials"] == 0
-        assert "Invalid UTC minute cadence" in report["plan"]["stop_reason"]
-        assert not (output / "dataset.csv").exists()
-        return
-    if variant == "screened_out":
-        assert summary["execution_status"] == "COMPLETED"
-        assert (
-            summary["evaluation_status"]
-            == report["evaluation_status"]
-            == "SCREENED_OUT"
-        )
-        assert report["plan"]["completed_fits"] == 0
-        assert "simulation were skipped" in (output / "report.md").read_text(
-            encoding="utf-8"
-        )
-        return
-    assert summary["evaluation_status"] == report["evaluation_status"] == "COMPLETED"
-    assert report["data_manifest"]["archive_sha256"] == digest
-    assert report["stage_wall_seconds"]["import"] >= 0
-    metrics = report["trials"][0]["metrics"]
-    assert metrics["stage_wall_seconds"]["features"] >= 0
-    assert metrics["stage_wall_seconds"]["simulation"] >= 0
-    trades = metrics["trading"]["momentum"]["trades"]
-    assert trades
-    for trade in trades:
-        assert trade["decision"] == "long"
-        assert trade["entry_index"] == trade["signal_index"] + 1
-        assert trade["exit_index"] == trade["signal_index"] + 16
-        assert trade["exit_index"] < (1080 if trade["signal_index"] < 1080 else 1440)
-        assert trade["fees"] == pytest.approx(0.0020)
-        assert trade["spread"] == pytest.approx(0.0001)
-        assert trade["slippage"] == pytest.approx(0.0004)
-        assert trade["gross_pnl"] - trade["net_pnl"] == pytest.approx(0.0025)
+    assert summary["reason_code"] == "SCIENTIFIC_REVIEW_REQUIRED"
+    assert summary["output_dir"] is None
+    assert summary["study_data_accesses"] == summary["started_workers"] == summary["started_fits"] == 0
 
 
 def test_reserved_spot_day_is_rejected_before_io(tmp_path):
@@ -980,67 +943,26 @@ def test_reserved_spot_day_is_rejected_before_io(tmp_path):
     }
 
     with pytest.raises(ValueError, match="reserved"):
-        import_day(
+        import_day.__wrapped__(
             tmp_path / "missing.zip", tmp_path / "missing.checksum", date(2026, 1, 6)
         )
     with pytest.raises(ValueError, match="reserved"):
-        import_day(
+        import_day.__wrapped__(
             tmp_path / "BTCUSDT-1m-2026-01-06.zip",
             tmp_path / "missing.checksum",
             date(2026, 1, 5),
         )
 
 
-def test_supervised_pilot_receipt_binds_recoverable_source(tmp_path, monkeypatch):
+def test_legacy_supervised_entry_cannot_snapshot_or_launch_without_admission(tmp_path, monkeypatch):
     import runpy
-    from importlib.metadata import version
 
-    from aqrs import journal
-
-    pilot = ROOT / "scripts/m2_supervised_pilot.py"
-    main = runpy.run_path(str(pilot))["main"]
-    monkeypatch.setitem(main.__globals__, "compare", lambda *args: "REJECTED_PREFLIGHT")
-    output = tmp_path / "receipt"
-    assert main(output) == 2
-
-    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
-    provenance = report["provenance"]
-    files = provenance["files"]
-    assert files["source/pilot.py"] == sha256(pilot.read_bytes()).hexdigest()
-    assert (
-        files["source/aqrs/journal.py"]
-        == sha256(Path(journal.__file__).read_bytes()).hexdigest()
-    )
-    assert all(
-        sha256((output / name).read_bytes()).hexdigest() == digest
-        for name, digest in files.items()
-    )
-    assert provenance["dependencies"]["scikit-learn"] == version("scikit-learn")
-    with sqlite3.connect(output / "research.sqlite3") as db:
-        (manifest,) = db.execute("SELECT manifest_json FROM campaigns").fetchone()
-    assert json.loads(manifest)["provenance"] == provenance
-
-    monkeypatch.setenv("PYTHONSAFEPATH", "1")
-    worker = tmp_path / "worker"
-    worker.mkdir()
-    restored = subprocess.run(
-        [
-            sys.executable,
-            "-B",
-            "-E",
-            str(output / "source/pilot.py"),
-            "--worker",
-            str(worker),
-        ],
-        cwd=tmp_path,
-        input="",
-        capture_output=True,
-        text=True,
-        timeout=15,
-    )
-    assert restored.returncode == 0, restored.stderr
-    assert (worker / "ready.json").is_file()
-    assert not (worker / "result.json").exists()
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
+    entry = runpy.run_path(str(ROOT / "scripts/m2_supervised_pilot.py"))["main"]
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        entry(tmp_path / "blocked")
+    assert not (tmp_path / "blocked").exists()
 
 
 def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypatch):
@@ -1124,7 +1046,7 @@ def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monke
 
     from aqrs import research
     from aqrs.config import load
-    from aqrs.governor import supervise
+    from aqrs.governor import _supervise_process, supervise
 
     config, base = load(config_at(tmp_path))
     config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
@@ -1135,7 +1057,7 @@ def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monke
             return supervise(directory, request, trial_seconds, deadline, rss)
         calls.append(request["features"])
         if len(calls) == 1:
-            return supervise(
+            return _supervise_process(
                 directory,
                 request,
                 0.8,
@@ -1254,6 +1176,11 @@ def test_holdout_changes_do_not_affect_research_metrics_or_priority(
 
     original_supervise = research.supervise
 
+    def admitted_preparation(request):
+        from aqrs.study_admission import admitted_worker, authorize_worker
+        with admitted_worker(authorize_worker(request)):
+            return research.prepare_data(request)
+
     def changed_preparation(directory, request, *args):
         if request.get("stage") == "prepare":
             return {
@@ -1262,7 +1189,7 @@ def test_holdout_changes_do_not_affect_research_metrics_or_priority(
                 "started": True,
                 "completed_fits": 0,
                 "peak_rss_mb": None,
-                "result": research.prepare_data(request),
+                "result": admitted_preparation(request),
             }
         return original_supervise(directory, request, *args)
 

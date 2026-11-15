@@ -1,4 +1,9 @@
-"""Regression checks for audit admission, status and persistence boundaries."""
+"""Regression checks for audit admission, status and persistence boundaries.
+
+Explicit __wrapped__ calls exercise preserved legacy calculations with mocked
+workers, not current launch permission. test_study_admission covers their real
+fail-closed entries; no production bypass is provided.
+"""
 
 import json
 import sqlite3
@@ -238,7 +243,7 @@ def test_preflight_accounts_for_elapsed_setup_without_timing_fit(
         {"memory_mode": "strict"},
     ],
 )
-def test_supervised_actual_entry_rejects_limits_before_archive_or_fit(
+def test_legacy_supervised_limit_check_precedes_archive_or_fit(
     tmp_path, monkeypatch, limits
 ):
     archived_limits(tmp_path, **limits)
@@ -250,12 +255,12 @@ def test_supervised_actual_entry_rejects_limits_before_archive_or_fit(
     monkeypatch.setattr(supervised, "supervise", forbidden)
     report = {"preflight": {}, "trials": {}, "per_day": {}}
     with pytest.raises(ValueError):
-        supervised.compare(
+        supervised.compare.__wrapped__(
             tmp_path, report, None, "negative", {"costs": supervised.COSTS}
         )
 
 
-def test_supervised_actual_entry_rejects_duplicate_governor_keys(tmp_path, monkeypatch):
+def test_legacy_supervised_config_check_rejects_duplicate_keys(tmp_path, monkeypatch):
     archived_limits(tmp_path)
     path = tmp_path / "source/research.yaml"
     text = path.read_text(encoding="utf-8")
@@ -271,7 +276,7 @@ def test_supervised_actual_entry_rejects_duplicate_governor_keys(tmp_path, monke
     monkeypatch.setattr(supervised, "read_window", forbidden)
     monkeypatch.setattr(supervised, "supervise", forbidden)
     with pytest.raises(ValueError, match="Duplicate"):
-        supervised.compare(tmp_path, {}, None, "duplicate", {"costs": supervised.COSTS})
+        supervised.compare.__wrapped__(tmp_path, {}, None, "duplicate", {"costs": supervised.COSTS})
 
 
 def test_supervised_screen_is_evaluation_state_and_keeps_frozen_costs(
@@ -303,7 +308,7 @@ def test_supervised_screen_is_evaluation_state_and_keeps_frozen_costs(
     }
     with closing(journal.connect(tmp_path / "journal.sqlite3")) as db:
         journal.begin(db, "screen", "synthetic-config", config, report)
-        status = supervised.compare(tmp_path, report, db, "screen", config)
+        status = supervised.compare.__wrapped__(tmp_path, report, db, "screen", config)
         assert status == "COMPLETED"
         assert report["evaluation_status"] == "SCREENED_OUT"
         statuses = {
@@ -368,7 +373,7 @@ def test_isolation_screen_and_positive_branch_keep_contract_statuses(
         journal.begin(
             db, report["run_id"], report["config_id"], isolation.CONFIG, report
         )
-        status = isolation.compare(tmp_path, report, db, monotonic() + 300)
+        status = isolation.compare.__wrapped__(tmp_path, report, db, monotonic() + 300)
         assert status == "COMPLETED"
         assert report["evidence_status"] in EVIDENCE_STATUSES
         if positive:
@@ -427,7 +432,7 @@ def test_fit_ceiling_rejects_before_estimator_call(tmp_path):
 def test_preparation_timeout_is_terminal_without_candidate_start(tmp_path, monkeypatch):
     from test_governor import probe
 
-    from aqrs.governor import supervise
+    from aqrs.governor import _supervise_process as supervise
 
     monkeypatch.setattr(
         "aqrs.journal.project_ledger_path", lambda: tmp_path / "variant-ledger.sqlite3"
@@ -868,20 +873,20 @@ def test_exposure_rejects_changed_archived_variant_definition(variant_id):
         verify_exposure(ROOT, index)
 
 
-def test_real_lightgbm_comparison_uses_archived_workers(tmp_path, monkeypatch):
+def test_legacy_lightgbm_calculation_remains_available_but_launch_is_blocked(tmp_path):
     from importlib.metadata import version
 
+    from aqrs.admission import AdmissionRejected
+
     assert version("lightgbm") == "4.6.0"
-    bars = generate(42, 5760, 1, "BTCUSDT")
-    monkeypatch.setattr(supervised, "read_window", lambda _: bars)
-    output = tmp_path / "synthetic supervised integration"
-    assert supervised.main(output) == 0
-    report = json.loads((output / "report.json").read_text())
-    assert report["execution_status"] == report["evaluation_status"] == "COMPLETED"
-    assert set(report["trials"]) == {"ridge", "lightgbm"}
-    assert sum(t["completed_fits"] for t in report["preflight"].values()) == 2
-    assert sum(t["completed_fits"] for t in report["trials"].values()) == 4
-    assert report["configuration"]["costs"] == supervised.COSTS
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        supervised.main(tmp_path / "blocked")
+    # Preserve an actual estimator check as a numerical unit test, not admission.
+    result = supervised.evaluate_worker.__wrapped__(
+        {"model": "lightgbm", "pilot_rows": 80, "pilot_columns": 3, "fit_limit": 1}, tmp_path
+    )
+    assert result["rows"] == 80 and result["fit_wall_seconds"] >= 0
+    assert json.loads((tmp_path / "fits.json").read_text()) == 1
 
 
 @pytest.mark.parametrize(

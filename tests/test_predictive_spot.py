@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 """Known-answer and guarded execution checks; no market data or network."""
 
 import csv
@@ -131,7 +132,7 @@ def test_legacy_import_rejects_protected_name_before_open(named_day, monkeypatch
     monkeypatch.setattr(Path, "open", forbidden)
     stem = f"BTCUSDT-1m-{named_day}.zip"
     with pytest.raises(ValueError, match="filename|reserved"):
-        import_day(Path(stem), Path(stem + ".CHECKSUM"), date(2026, 8, 31))
+        import_day.__wrapped__(Path(stem), Path(stem + ".CHECKSUM"), date(2026, 8, 31))
 
 
 @pytest.mark.parametrize("month", ["2026-01", "2026-09", "2026-10", "2025-12"])
@@ -141,7 +142,7 @@ def test_forbidden_month_rejected_before_fetch(month, monkeypatch, tmp_path):
 
     monkeypatch.setattr(study, "fetch", forbidden)
     with pytest.raises(ValueError):
-        study.acquire_month(month, tmp_path)
+        study.acquire_month.__wrapped__(month, tmp_path)
     assert not list(tmp_path.iterdir())
 
 
@@ -252,30 +253,14 @@ def test_flat_economic_baseline_keeps_all_predictive_targets():
     assert result["costs"]["training_majority"]["trades"] == 0
 
 
-def test_changed_staged_data_fails_with_persistent_journal(tmp_path, monkeypatch):
-    config, _ = load(Path("configs/research.yaml"))
-    original = study.supervise
 
-    def tamper_after_acquisition(output, request, *args, **kwargs):
-        outcome = original(output, request, *args, **kwargs)
-        if request["stage"] == "acquire":
-            with (output / "bars.npy").open("ab") as staged:
-                staged.write(b"changed")
-        return outcome
-
-    monkeypatch.setattr(study, "supervise", tamper_after_acquisition)
-    output = tmp_path / "failed-worker"
-    report = study.campaign(output, config["resource_governor"], synthetic=True)
-    assert report["execution_status"] == "FAILED"
-    assert report["workers"]["analysis"]["started_fits"] == 0
-    with sqlite3.connect(output / "research.sqlite3") as db:
-        assert (
-            db.execute(
-                "select execution_status from experiments where candidate_id = ?",
-                (study.VARIANT,),
-            ).fetchone()[0]
-            == "FAILED"
-        )
+def test_legacy_campaign_cannot_acquire_before_qualification(tmp_path, monkeypatch):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(study, "supervise", lambda *a, **k: pytest.fail("Unqualified dispatch"))
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        study.campaign(tmp_path / "blocked", {}, synthetic=True)
+    assert not (tmp_path / "blocked").exists()
 
 
 @pytest.mark.parametrize("failed_month", ["2024-09", "2024-10"])
@@ -298,7 +283,7 @@ def test_acquisition_failure_keeps_attempted_month_and_reason(
         "synthetic": False,
         "trial_seconds": 120,
     }
-    result = study.worker(request, tmp_path)
+    result = study.worker.__wrapped__(request, tmp_path)
     assert result["status"] == "FAILED"
     receipt = json.loads((tmp_path / "acquisition.json").read_text())
     assert receipt["archives"][-1]["month"] == failed_month
@@ -321,32 +306,14 @@ def test_plan_respects_tighter_limits():
             study.preflight(bad)
 
 
-def test_supervised_synthetic_completion_failure_and_duplicate(tmp_path):
-    config, _ = load(Path("configs/research.yaml"))
-    output = tmp_path / "run"
-    report = study.campaign(output, config["resource_governor"], synthetic=True)
-    assert report["execution_status"] == "COMPLETED"
-    assert report["workers"]["analysis"]["started_fits"] == 1
-    assert report["workers"]["analysis"]["completed_fits"] == 1
-    assert report["results"]["prediction"]["decision"] == "PREDICTIVE_PASS"
-    with sqlite3.connect(output / "research.sqlite3") as db:
-        assert db.execute("select count(*) from experiments").fetchone()[0] == 2
-        assert (
-            db.execute(
-                "select evidence_status from experiments where candidate_id = ?",
-                (study.VARIANT,),
-            ).fetchone()[0]
-            == "INSUFFICIENT_EVIDENCE"
-        )
-        assert db.execute(
-            "select distinct execution_status from experiments"
-        ).fetchall() == [("COMPLETED",)]
-    with pytest.raises(FileExistsError):
-        study.campaign(output, config["resource_governor"], synthetic=True)
-    bad = deepcopy(config["resource_governor"])
-    bad["max_model_fits_per_campaign"] = 0
-    failed = tmp_path / "failed"
-    rejected = study.campaign(failed, bad, synthetic=True)
-    assert rejected["execution_status"] == "REJECTED_PREFLIGHT"
-    assert rejected["workers"] == {}
-    assert json.loads((failed / "report.json").read_text())["journal_integrity"] == "ok"
+
+def test_legacy_repeats_record_distinct_rejected_attempts(tmp_path, monkeypatch):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
+    for _ in range(2):
+        with pytest.raises(AdmissionRejected, match="not qualified"):
+            study.campaign(tmp_path / "run", {}, synthetic=True)
+    with sqlite3.connect(tmp_path / "artifacts/research.sqlite3") as db:
+        rows = db.execute("SELECT run_id, execution_status FROM campaigns").fetchall()
+    assert len(rows) == 2 and rows[0][0] != rows[1][0]
+    assert all(row[1] == "REJECTED_PREFLIGHT" for row in rows)

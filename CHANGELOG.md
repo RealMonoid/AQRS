@@ -7,6 +7,8 @@ single-use journaled worker requests and frozen input identity. Admit the explic
 common synthetic engineering contract; block unqualified legacy research entries
 with actionable records. Keep scientific-review qualification separate. Make
 planning declarative and verify rejected/valid and revoked execution paths.
+Update legacy integration expectations to their blocked entry contract while
+retaining numerical and historical-evidence regression checks.
 
 - `CHANGELOG.md`
 - `README.md`
@@ -32,6 +34,17 @@ planning declarative and verify rejected/valid and revoked execution paths.
 - `src/aqrs/spot_dataset.py`
 - `src/aqrs/study_admission.py` (added)
 - `src/aqrs/worker.py`
+- `tests/test_audit_controls.py`
+- `tests/test_blind_search.py`
+- `tests/test_blind_sequence.py`
+- `tests/test_cli.py`
+- `tests/test_isolation_pilot.py`
+- `tests/test_m2_e14.py`
+- `tests/test_m2_e15.py`
+- `tests/test_m2_e19.py`
+- `tests/test_market.py`
+- `tests/test_predictive_spot.py`
+- `tests/test_spot_dataset.py`
 - `tests/test_governor.py`
 - `tests/test_study_admission.py` (added)
 

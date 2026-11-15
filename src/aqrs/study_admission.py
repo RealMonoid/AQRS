@@ -7,13 +7,17 @@ an operator rewriting either is outside this application-interface boundary.
 """
 
 import json
+import os
 import sqlite3
 from contextlib import closing, contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
 from functools import wraps
 from pathlib import Path
+from time import monotonic
 from uuid import uuid4
+
+import psutil
 
 from aqrs import journal
 from aqrs.admission import AdmissionRejected
@@ -126,8 +130,31 @@ class _Run:
     config: dict
     base: Path
     decision: dict
+    owner_process: tuple[int, float]
+    deadline: float
 
     def check(self) -> None:
+        if monotonic() >= self.deadline:
+            raise reject(
+                "ADMISSION_EXPIRED",
+                "The admitted campaign validity has expired.",
+                "Register a new checked attempt within the authorized budget.",
+            )
+        try:
+            owner = psutil.Process(self.owner_process[0])
+            alive = (
+                owner.is_running()
+                and owner.create_time() == self.owner_process[1]
+                and owner.status() != psutil.STATUS_ZOMBIE
+            )
+        except psutil.Error:
+            alive = False
+        if not alive:
+            raise reject(
+                "ADMISSION_PARENT_LOST",
+                "The admission issuer is no longer alive.",
+                "Start a new checked attempt; stale RUNNING records cannot resume a study.",
+            )
         current = assess(self.config, self.base)
         if current != self.decision:
             raise reject(
@@ -159,7 +186,15 @@ class _Run:
 
 @contextmanager
 def admitted_run(database: Path, run_id: str, config: dict, base: Path, decision: dict):
-    context = _Run(database.resolve(), run_id, config, base.resolve(), decision)
+    context = _Run(
+        database.resolve(),
+        run_id,
+        config,
+        base.resolve(),
+        decision,
+        (os.getpid(), psutil.Process().create_time()),
+        monotonic() + config["resource_governor"]["max_wall_seconds_per_campaign"],
+    )
     context.check()
     token = _parent.set(context)
     try:
@@ -171,11 +206,13 @@ def admitted_run(database: Path, run_id: str, config: dict, base: Path, decision
 def require_parent(*, validate: bool = True) -> _Run:
     context = _parent.get()
     if context is None:
-        raise reject(
+        error = reject(
             "ADMISSION_REQUIRED",
             "No checked parent study admission is active.",
             "Use the admitted common research entry; direct execution is not approved.",
         )
+        record_stopped("common.parent", error)
+        raise error
     if validate:
         context.check()
     return context
@@ -219,6 +256,8 @@ def authorize_worker(request: dict) -> dict:
         "decision": context.decision,
         "base": str(context.base),
         "configuration": context.config,
+        "owner_process": context.owner_process,
+        "deadline": context.deadline,
     }
     with closing(journal.connect(context.database)) as db, db:
         db.execute(
@@ -281,8 +320,21 @@ def admitted_worker(request: dict):
                 payload["configuration"],
                 Path(payload["base"]),
                 payload["decision"],
+                tuple(payload["owner_process"]),
+                payload["deadline"],
             )
             context.check()
+            # The current process is allowed for isolated context checks; a real
+            # worker must descend from the original issuer, including Windows launchers.
+            ancestry = [psutil.Process(), *psutil.Process().parents()]
+            if not any(
+                (p.pid, p.create_time()) == context.owner_process for p in ancestry
+            ):
+                raise reject(
+                    "ADMISSION_PARENT_MISMATCH",
+                    "The worker is not supervised by its admission issuer.",
+                    "Use a fresh dispatch from the admitted parent.",
+                )
             cursor = db.execute(
                 "UPDATE study_launches SET consumed = 1 WHERE launch_id = ? AND consumed = 0",
                 (reference["launch_id"],),
@@ -303,12 +355,51 @@ def admitted_worker(request: dict):
 def require_worker() -> None:
     context = _worker.get()
     if context is None:
-        raise reject(
+        error = reject(
             "ADMISSION_REQUIRED",
             "No checked worker admission is active.",
             "Use the supervised admitted worker entry.",
         )
+        record_stopped("common.worker", error)
+        raise error
     context.check()
+
+
+def record_stopped(entry: str, error: AdmissionRejected, request=None) -> None:
+    """Record a rejected direct entry without touching its study input."""
+    config = {"entry": entry, "request": request, "research": {"candidates": []}}
+    record = {
+        "reason_code": error.code,
+        "stop_reason": str(error),
+        "required_action": error.required_action,
+        "resumption_condition": error.resumption_condition,
+        "study_data_accesses": 0,
+        "started_workers": 0,
+        "started_fits": 0,
+    }
+    try:
+        with closing(
+            journal.connect(Path.cwd() / "artifacts" / "research.sqlite3")
+        ) as db:
+            journal.begin(
+                db, uuid4().hex, fingerprint(config), config, record, rejection=record
+            )
+    except (OSError, sqlite3.Error) as failure:
+        raise reject(
+            "ADMISSION_STORAGE_FAILED",
+            "The entry is blocked and its rejection record could not be saved.",
+            "Restore journal storage before requesting execution.",
+        ) from failure
+
+
+def block_unqualified(entry: str, request=None) -> None:
+    error = reject(
+        "ENTRY_UNQUALIFIED",
+        f"FR-005 admission is not qualified for {entry}.",
+        "Qualify this entry and its study contract before execution; use the admitted common synthetic workflow for engineering checks.",
+    )
+    record_stopped(entry, error, request)
+    raise error
 
 
 def unqualified_entry(entry: str):
@@ -317,41 +408,18 @@ def unqualified_entry(entry: str):
     def decorate(function):
         @wraps(function)
         def stopped(*args, **kwargs):
-            error = reject(
-                "ENTRY_UNQUALIFIED",
-                f"FR-005 admission is not qualified for {entry}.",
-                "Qualify this entry and its study contract before execution; use the admitted common synthetic workflow for engineering checks.",
+            # Preserve declared arguments, never inspect referenced files/arrays.
+            request = json.loads(
+                json.dumps(
+                    {"args": args, "kwargs": kwargs},
+                    default=lambda value: (
+                        str(value)
+                        if isinstance(value, Path)
+                        else {"type": type(value).__name__}
+                    ),
+                )
             )
-            run_id = uuid4().hex
-            config = {"entry": entry, "research": {"candidates": []}}
-            record = {
-                "reason_code": error.code,
-                "stop_reason": str(error),
-                "required_action": error.required_action,
-                "resumption_condition": error.resumption_condition,
-                "study_data_accesses": 0,
-                "started_workers": 0,
-                "started_fits": 0,
-            }
-            try:
-                with closing(
-                    journal.connect(Path.cwd() / "artifacts" / "research.sqlite3")
-                ) as db:
-                    journal.begin(
-                        db,
-                        run_id,
-                        fingerprint(config),
-                        config,
-                        record,
-                        rejection=record,
-                    )
-            except (OSError, sqlite3.Error) as failure:
-                raise reject(
-                    "ADMISSION_STORAGE_FAILED",
-                    "The entry is blocked and its rejection record could not be saved.",
-                    "Restore journal storage before requesting execution.",
-                ) from failure
-            raise error
+            block_unqualified(entry, request)
 
         return stopped
 

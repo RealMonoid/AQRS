@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 from datetime import UTC, datetime
 from types import SimpleNamespace
 
@@ -140,5 +141,5 @@ def test_bad_admission_stops_before_launch(tmp_path, monkeypatch):
         m2_e19, "supervise", lambda *a, **kw: pytest.fail("Worker started")
     )
     with pytest.raises(ValueError, match="clean reviewed revision"):
-        m2_e19.run_pilot(tmp_path, tmp_path / "output", admission)
+        m2_e19.run_pilot.__wrapped__(tmp_path, tmp_path / "output", admission)
     assert not (tmp_path / "output").exists()

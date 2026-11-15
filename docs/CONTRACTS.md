@@ -695,8 +695,10 @@ same bytes it verifies against that admitted digest. An available input's file
 metadata is monitored; this is not a tamper-proof data vault.
 
 SQLite campaign records hold the decision; `study_launches` issues one nonce per
-exact worker request. Workers atomically consume it after containment and before
-study access. Missing/changed/replayed admissions and custom commands fail closed.
+exact worker request, bound to the live issuing process instance and finite
+campaign validity. Workers verify ancestry and atomically consume it after
+containment and before study access. An orphaned `RUNNING` row cannot authorize
+resumption. Missing/changed/replayed admissions and custom commands fail closed.
 The installed application and local journal are trusted: this is an application
 boundary, not a sandbox against an operator rewriting trusted code/database or
 calling numerical library internals from arbitrary Python. Direct supported
@@ -709,8 +711,11 @@ is an engineering freshness bound, not scientific sufficiency. Metadata I/O does
 not run on the wall-time watchdog thread. No later dependent trial starts after
 an admission stop. New attempts receive new decisions; no automatic retry.
 
-Unsupported legacy entries listed in the README stop before study work and record
+Unsupported legacy entries listed in the README, including direct acquisition
+worker callbacks, stop before study work and record
 `ENTRY_UNQUALIFIED` under the current directory's `artifacts/research.sqlite3`.
+The record preserves declared arguments, the reason, correction and resumption
+condition. Missing direct common-entry admission is also recorded there.
 They require entry-specific qualification, not merely adding a `PASS` field.
 This status does not reject a model family or rewrite historical evidence.
 Acquisition can eventually be admitted for its own bounded purpose without

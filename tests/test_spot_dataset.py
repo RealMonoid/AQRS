@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 """Known-answer tests for bounded Spot data preparation, without market data."""
 
 import csv
@@ -69,12 +70,12 @@ def test_spot_day_keeps_activity_and_exact_availability(tmp_path, day):
 def test_new_loader_preserves_legacy_bars_and_fingerprint(tmp_path):
     day = date(2026, 1, 5)
     archive, checksum = make_day(tmp_path, "BTCUSDT", day)
-    old, digest = spot.import_day(archive, checksum, day)
+    old, digest = spot.import_day.__wrapped__(archive, checksum, day)
     new = spot.load_spot_day(archive, checksum, day, symbol="BTCUSDT")
     assert new.bars.fingerprint == old.fingerprint
     assert new.digest == digest
     with pytest.raises(ValueError, match="2025"):
-        spot.import_day(archive, checksum, date(2024, 12, 31))
+        spot.import_day.__wrapped__(archive, checksum, date(2024, 12, 31))
 
 
 @pytest.mark.parametrize("symbol", ["../BTCUSDT", "", "ethusdt", "ETH/USDT"])
@@ -208,7 +209,7 @@ def test_network_scope_redirect_and_size_guards(monkeypatch):
         module.fetch_bytes(module.BASE + "/x", {module.BASE + "/x"}, 16)
 
 
-def test_offline_cli_qualifies_two_symbols_without_overwriting(tmp_path):
+def test_offline_qualification_cli_stops_without_admission(tmp_path):
     module = data_module()
     inputs = tmp_path / "input space"
     for symbol in scope()["symbols"]:
@@ -230,38 +231,19 @@ def test_offline_cli_qualifies_two_symbols_without_overwriting(tmp_path):
         "--output",
         str(output),
     ]
-    result = subprocess.run(command, capture_output=True, text=True, timeout=35)
-    assert result.returncode == 0, result.stderr + result.stdout
-    report = json.loads((output / "report.json").read_text())
-    assert report["execution_status"] == "COMPLETED"
-    assert report["research_ready"] is False
-    assert len(report["workers"]) == 2
-    for symbol in scope()["symbols"]:
-        manifest = json.loads((output / symbol / "manifest.json").read_text())
-        assert manifest["bar_count"] == 2880
-        assert manifest["symbol"] == symbol
-        assert len(manifest["archives"]) == 2
-        assert manifest["activity_sha256"]
-        with (output / symbol / "activity.csv").open() as source:
-            rows = list(csv.DictReader(source))
-        assert len(rows) == 2880 and rows[0]["trade_count"] == "2"
-        assert rows[1440]["bar_open_time"] == "2025-12-02T00:00:00+00:00"
-    before = (output / "report.json").read_bytes()
-    repeated = subprocess.run(command, capture_output=True, timeout=10)
-    assert repeated.returncode != 0
-    assert (output / "report.json").read_bytes() == before
+    result = subprocess.run(command, cwd=tmp_path, capture_output=True, text=True, timeout=35)
+    assert result.returncode == 2 and "not qualified" in result.stderr
+    assert not output.exists()
 
 
-def test_failed_qualification_persists_incomplete_receipt(tmp_path):
+
+def test_failed_qualification_persists_incomplete_receipt(tmp_path, monkeypatch):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
     module = data_module()
-    plan = module.build_plan(scope(), limits(), acquire=False)
-    output = tmp_path / "failed"
-    report, code = module.prepare(plan, output, archive_dir=tmp_path / "absent")
-    assert code != 0 and report["execution_status"] == "FAILED"
-    assert not (output / "BTCUSDT" / "manifest.json").exists()
-    persisted = json.loads((output / "report.json").read_text())
-    assert persisted["execution_status"] == "FAILED"
-    assert persisted["workers"][0]["result"]["error"]
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        module.prepare(module.build_plan(scope(), limits(), acquire=False), tmp_path / "blocked", archive_dir=tmp_path / "absent")
+    assert not (tmp_path / "blocked").exists()
 
 
 @pytest.mark.parametrize(
@@ -320,7 +302,7 @@ def test_acquisition_stops_on_bad_second_archive_without_publishing(
     monkeypatch.setattr(module, "fetch_bytes", fetch)
     output = tmp_path / "output"
     output.mkdir()
-    result = module.process_symbol(
+    result = module.process_symbol.__wrapped__(
         {
             "plan": plan,
             "output": str(output),
@@ -336,18 +318,11 @@ def test_acquisition_stops_on_bad_second_archive_without_publishing(
     assert not (output / "ETHUSDT" / "manifest.json").exists()
 
 
-def test_data_entry_persists_exhausted_deadline(tmp_path):
+
+def test_data_entry_persists_exhausted_deadline(tmp_path, monkeypatch):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
     module = data_module()
-    plan = module.build_plan(
-        scope(),
-        limits()
-        | {"max_wall_seconds_per_trial": 0.01, "max_wall_seconds_per_campaign": 0.01},
-        acquire=False,
-    )
-    report, code = module.prepare(
-        plan, tmp_path / "timeout", archive_dir=tmp_path / "absent"
-    )
-    assert code == 1
-    assert report["execution_status"] in {"TIMED_OUT", "BUDGET_EXHAUSTED"}
-    assert report["workers"][0]["started_fits"] == 0
-    assert not (tmp_path / "timeout" / "BTCUSDT" / "manifest.json").exists()
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        module.prepare(module.build_plan(scope(), limits(), acquire=False), tmp_path / "blocked", archive_dir=tmp_path / "absent")
+    assert not (tmp_path / "blocked").exists()

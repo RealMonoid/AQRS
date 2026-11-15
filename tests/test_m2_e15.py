@@ -1,3 +1,4 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 import json
 import sys
 from datetime import UTC, datetime
@@ -126,7 +127,7 @@ def test_exact_worker_rejects_changed_scope_before_market_io(tmp_path, monkeypat
         pytest.fail("Market importer was called.")
 
     monkeypatch.setattr(count, "load_spot_day", forbidden)
-    result = count.count_worker({"archives": [{"day": "2026-01-06"}]}, tmp_path)
+    result = count.count_worker.__wrapped__({"archives": [{"day": "2026-01-06"}]}, tmp_path)
     assert result["input_status"] == "REJECTED"
 
 
@@ -139,8 +140,8 @@ def test_existing_watchdog_runs_actual_worker_with_rejected_scope(tmp_path):
         512,
         command=[sys.executable, "-B", "-m", "scripts.m2_e15_count", "--worker"],
     )
-    assert outcome["started"] and outcome["execution_status"] == "COMPLETED"
-    assert outcome["result"]["input_status"] == "REJECTED"
+    assert not outcome["started"] and outcome["execution_status"] == "REJECTED_PREFLIGHT"
+    assert outcome["reason_code"] == "ENTRY_UNQUALIFIED"
     assert outcome["started_fits"] == 0
 
 
@@ -168,94 +169,12 @@ def test_changed_archive_or_sidecar_is_rejected_before_parsing(tmp_path, monkeyp
             count.read_day(source, row | {field: "0" * 64}, tmp_path)
 
 
-def test_real_entry_reserved_once_with_synthetic_archives(tmp_path):
+
+def test_real_count_entry_cannot_launch_unqualified_worker(tmp_path):
     import sqlite3
     import subprocess
-    from contextlib import closing
-    from datetime import date
-    from shutil import copyfile
-
-    from test_spot_dataset import make_day
-
-    from aqrs.storage import fingerprint
-
-    input_root = tmp_path / count.INPUT.relative_to(ROOT)
-    archives = []
-    for label in count.DAYS:
-        archive, sidecar = make_day(input_root, count.SYMBOL, date.fromisoformat(label))
-        archives.append(
-            {
-                "day": label,
-                "name": archive.name,
-                "sha256": sha256(archive.read_bytes()).hexdigest(),
-                "checksum_sha256": sha256(sidecar.read_bytes()).hexdigest(),
-            }
-        )
-    scratch = tmp_path / "scratch"
-    scratch.mkdir()
-    values = [count.read_day(input_root, row, scratch) for row in archives]
-    dataset_id = Bars(np.concatenate(values), count.SYMBOL, 1).fingerprint
-    manifest = {
-        "symbol": count.SYMBOL,
-        "bar_minutes": 1,
-        "qualified": True,
-        "archives": archives,
-    }
-    receipt = tmp_path / count.D01.relative_to(ROOT)
-    receipt.parent.mkdir()
-    receipt.write_text(
-        json.dumps({"acquisition": {"workers": [{"result": {"manifest": manifest}}]}}),
-        encoding="utf-8",
-    )
-    config = tmp_path / count.CONFIG.relative_to(ROOT)
-    config.parent.mkdir()
-    copyfile(count.CONFIG, config)
-    original = Path(count.__file__)
-    entry = tmp_path / original.relative_to(ROOT)
-    entry.parent.mkdir()
-    entry.write_text(
-        original.read_text(encoding="utf-8")
-        .replace(count.ARCHIVE_SCOPE_ID, fingerprint(archives))
-        .replace(count.DATASET_ID, dataset_id),
-        encoding="utf-8",
-    )
-    registration = tmp_path / count.EXPOSURE.relative_to(ROOT)
-    command = [sys.executable, "-B", str(entry), "run"]
-    missing_registration = subprocess.run(
-        command, capture_output=True, text=True, timeout=25
-    )
-    assert missing_registration.returncode == 1
-    assert not (tmp_path / count.OUTPUT.relative_to(ROOT)).exists()
-    registration.write_text(
-        json.dumps(
-            {
-                "manual_screens": [
-                    count.registration()
-                    | {
-                        "input_scope_id": fingerprint(archives),
-                        "dataset_id": dataset_id,
-                        "entry_sha256": sha256(entry.read_bytes()).hexdigest(),
-                    }
-                ]
-            }
-        ),
-        encoding="utf-8",
-    )
-    completed = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    assert completed.returncode == 0, completed.stderr + completed.stdout
-    output = tmp_path / count.OUTPUT.relative_to(ROOT)
-    report_path = output / "report.json"
-    before = report_path.read_bytes()
-    report = json.loads(before)
-    assert report["coverage_decision"] == "MISS"
-    assert report["worker"]["result"]["dataset_id"] == dataset_id
-    assert report["worker"]["started_fits"] == 0
-    assert report["worker"]["result"]["disagreements"] == []
-    with closing(sqlite3.connect(output / "research.sqlite3")) as db:
-        assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
-        status, payload = db.execute(
-            "SELECT execution_status, manifest_json FROM campaigns"
-        ).fetchone()
-        assert status == "COMPLETED" and json.loads(payload) == report
-    duplicate = subprocess.run(command, capture_output=True, text=True, timeout=25)
-    assert duplicate.returncode == 1 and report_path.read_bytes() == before
+    result = subprocess.run([sys.executable, "-B", str(Path(count.__file__)), "run"],
+                            cwd=tmp_path, capture_output=True, text=True, timeout=20)
+    assert result.returncode == 1 and "not qualified" in result.stderr
+    with sqlite3.connect(tmp_path / "artifacts/research.sqlite3") as db:
+        assert db.execute("SELECT execution_status FROM campaigns").fetchone() == ("REJECTED_PREFLIGHT",)

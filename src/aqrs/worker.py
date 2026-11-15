@@ -5,6 +5,8 @@ import sys
 from contextlib import ExitStack
 from pathlib import Path
 
+import psutil
+
 from aqrs.admission import AdmissionRejected
 from aqrs.platform_guard import arm_parent_loss_guard
 from aqrs.storage import write_json
@@ -59,7 +61,14 @@ def run(directory: Path, evaluate) -> None:
                 {"reason_code": error.code, "stop_reason": str(error)},
             )
             raise SystemExit(4)
-        except (OSError, sqlite3.Error, ValueError, TypeError, KeyError) as error:
+        except (
+            OSError,
+            sqlite3.Error,
+            ValueError,
+            TypeError,
+            KeyError,
+            psutil.Error,
+        ) as error:
             write_json(
                 directory / "admission_stop.json",
                 {

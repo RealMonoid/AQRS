@@ -5,6 +5,7 @@ import sqlite3
 import threading
 import time
 from contextlib import closing
+from importlib import import_module
 from pathlib import Path
 
 import pytest
@@ -294,3 +295,226 @@ def test_slow_admission_io_cannot_delay_the_wall_watchdog(tmp_path):
         release.set()
     assert result["execution_status"] == "TIMED_OUT"
     assert time.monotonic() - begin < 3
+
+
+LEGACY_ENTRIES = [
+    ("aqrs.m2_e14", "run_campaign"),
+    ("aqrs.m2_e14", "worker"),
+    ("aqrs.m2_e19", "run_pilot"),
+    ("aqrs.m2_e19", "worker"),
+    ("aqrs.predictive_spot", "campaign"),
+    ("aqrs.predictive_spot", "worker"),
+    ("aqrs.predictive_spot", "acquire_month"),
+    ("aqrs.blind_search", "register"),
+    ("aqrs.blind_search", "execute"),
+    ("aqrs.blind_search", "replay_evidence"),
+    ("aqrs.blind_search", "evaluate_worker"),
+    ("aqrs.spot_dataset", "prepare"),
+    ("aqrs.binance_spot_pilot", "import_day"),
+    ("aqrs.spot_dataset", "process_symbol"),
+    ("scripts.m2_supervised_pilot", "main"),
+    ("scripts.m2_supervised_pilot", "compare"),
+    ("scripts.m2_supervised_pilot", "evaluate_worker"),
+    ("scripts.m2_isolation_forest_pilot", "main"),
+    ("scripts.m2_isolation_forest_pilot", "compare"),
+    ("scripts.m2_isolation_forest_pilot", "evaluate_worker"),
+    ("scripts.m2_e15_count", "execute"),
+    ("scripts.m2_e15_count", "count_worker"),
+]
+
+
+@pytest.mark.parametrize("module,entry", LEGACY_ENTRIES)
+def test_unqualified_legacy_entry_is_durably_blocked_before_its_body(
+    tmp_path, monkeypatch, module, entry
+):
+    from aqrs.admission import AdmissionRejected
+
+    function = getattr(import_module(module), entry)
+    monkeypatch.chdir(tmp_path)
+    # No body arguments are supplied: even argument-dependent I/O cannot run.
+    with pytest.raises(AdmissionRejected) as stopped:
+        function()
+    assert stopped.value.code == "ENTRY_UNQUALIFIED"
+    with sqlite3.connect(tmp_path / "artifacts/research.sqlite3") as db:
+        row = db.execute(
+            "SELECT execution_status, manifest_json FROM campaigns"
+        ).fetchone()
+    assert row[0] == "REJECTED_PREFLIGHT"
+    record = json.loads(row[1])
+    assert (
+        record["study_data_accesses"]
+        == record["started_workers"]
+        == record["started_fits"]
+        == 0
+    )
+    assert record["required_action"] and record["resumption_condition"]
+
+
+@pytest.mark.parametrize(
+    "study,reason",
+    [
+        ({"question": ""}, "QUESTION_UNCLEAR"),
+        ({"design": "unqualified-method"}, "DESIGN_UNQUALIFIED"),
+        ({"prerequisites": ["absent-proof"]}, "PREREQUISITE_MISSING"),
+    ],
+)
+def test_real_cli_rejects_bad_study(study_config, tmp_path, study, reason):
+    import os
+    import subprocess
+    import sys
+
+    study_config["study"].update(study)
+    path = tmp_path / "research.yaml"
+    path.write_text(yaml.safe_dump(study_config), encoding="utf-8")
+    env = dict(os.environ, PYTHONPATH=str(ROOT / "src"))
+    result = subprocess.run(
+        [sys.executable, "-m", "aqrs", "research", "run", "--config", str(path)],
+        cwd=tmp_path,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+    assert result.returncode == 2, result.stderr
+    record = json.loads(result.stdout)
+    assert record["reason_code"] == reason
+    assert (
+        record["study_data_accesses"]
+        == record["started_workers"]
+        == record["started_fits"]
+        == 0
+    )
+
+
+@pytest.mark.parametrize(
+    "reference", [None, {"journal": "absent", "run_id": "fake", "launch_id": "fake"}]
+)
+def test_real_worker_rejects_missing_or_forged_admission(tmp_path, reference):
+    from aqrs.governor import _supervise_process
+
+    request = {"stage": "prepare", "config": {}}
+    if reference:
+        request["_admission"] = reference
+    result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
+    assert result["execution_status"] == "REJECTED_PREFLIGHT"
+    assert result["reason_code"] in {"ADMISSION_REQUIRED", "ADMISSION_UNVERIFIABLE"}
+    assert result["completed_fits"] == result["started_fits"] == 0
+
+
+def test_real_worker_rejects_changed_input_before_parsing(admitted_context, tmp_path):
+    from aqrs.governor import supervise
+
+    path = tmp_path / "changed.npy"
+    path.write_bytes(b"This would fail parsing if reached.")
+    result = supervise(
+        tmp_path,
+        {"prefix": str(path), "prefix_sha256": "0" * 64},
+        8,
+        time.monotonic() + 10,
+        512,
+    )
+    assert result["reason_code"] == "DATA_CHANGED"
+    assert result["execution_status"] == "REJECTED_PREFLIGHT"
+    assert result["started_fits"] == result["completed_fits"] == 0
+
+
+def test_changed_source_stops_before_dispatch(admitted_context, tmp_path, monkeypatch):
+    from aqrs.governor import supervise
+
+    monkeypatch.setattr(
+        "aqrs.study_admission.source_identity", lambda: "changed-source"
+    )
+    result = supervise(tmp_path, {}, 8, time.monotonic() + 10, 512)
+    assert not result["started"] and result["reason_code"] == "ADMISSION_CHANGED"
+
+
+def test_repeat_is_a_new_attempt_and_correction_reaches_assessment(
+    study_config, tmp_path
+):
+    study_config["study"]["question"] = ""
+    first, first_code = research.run(study_config, tmp_path, plan_only=False)
+    second, second_code = research.run(study_config, tmp_path, plan_only=False)
+    assert first_code == second_code == 2 and first["run_id"] != second["run_id"]
+    with sqlite3.connect(tmp_path / "results/journal.sqlite3") as db:
+        assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone()[0] == 2
+    study_config["study"]["question"] = QUESTION
+    plan, code = research.run(study_config, tmp_path, plan_only=True)
+    assert code == 0 and plan["preflight_status"] == "ADMITTED"
+
+
+def test_lost_prerequisite_prevents_next_dependent_trial(
+    study_config, tmp_path, monkeypatch
+):
+    prerequisite = tmp_path / "review-evidence"
+    prerequisite.touch()
+    study_config["study"]["prerequisites"] = [prerequisite.name]
+    actual_supervise = research.supervise
+    dispatched = []
+
+    def supervised(*args, **kwargs):
+        outcome = actual_supervise(*args, **kwargs)
+        dispatched.append(outcome)
+        if (
+            len(dispatched) == 2
+        ):  # Preparation, then first candidate; timing is in planning.
+            prerequisite.unlink()
+        return outcome
+
+    monkeypatch.setattr(research, "supervise", supervised)
+    result, code = research.run(study_config, tmp_path, plan_only=False)
+    assert code == 2 and result["reason_code"] == "PREREQUISITE_MISSING"
+    report = json.loads((Path(result["output_dir"]) / "report.json").read_text())
+    assert report["trials"][0]["execution_status"] == "COMPLETED"
+    assert report["trials"][1]["started"] is False
+    assert result["required_action"] and result["resumption_condition"]
+
+
+def test_real_worker_rejects_grant_from_abruptly_exited_parent(study_config, tmp_path):
+    import os
+    import subprocess
+    import sys
+
+    from aqrs.governor import _supervise_process
+
+    config_path = tmp_path / "config.json"
+    config_path.write_text(json.dumps(study_config), encoding="utf-8")
+    code = """
+import json, os, sys
+from pathlib import Path
+from contextlib import closing
+from aqrs import journal
+from aqrs.storage import fingerprint
+from aqrs.study_admission import assess, admitted_run, authorize_worker
+root=Path(sys.argv[1]); config=json.loads((root/'config.json').read_text())
+decision=assess(config,root); database=root/'orphan.sqlite3'
+with closing(journal.connect(database)) as db:
+    journal.begin(db,'orphan',fingerprint(config),config,{'study_admission':decision})
+with admitted_run(database,'orphan',config,root,decision):
+    request=authorize_worker({'pilot_rows':40,'pilot_columns':1,'fit_limit':1})
+    (root/'grant.json').write_text(json.dumps(request))
+    os._exit(0)
+"""
+    parent = subprocess.run(
+        [sys.executable, "-c", code, str(tmp_path)],
+        env=dict(os.environ, PYTHONPATH=str(ROOT / "src")),
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert parent.returncode == 0, parent.stderr
+    request = json.loads((tmp_path / "grant.json").read_text())
+    result = _supervise_process(tmp_path, request, 8, time.monotonic() + 10, 512)
+    assert result["execution_status"] == "REJECTED_PREFLIGHT"
+    assert result["reason_code"] == "ADMISSION_PARENT_LOST"
+    assert result["started_fits"] == result["completed_fits"] == 0
+    with sqlite3.connect(tmp_path / "orphan.sqlite3") as db:
+        assert db.execute("SELECT consumed FROM study_launches").fetchone() == (0,)
+
+
+def test_expired_grant_stops_before_dispatch(admitted_context, tmp_path, monkeypatch):
+    from aqrs import study_admission
+    from aqrs.governor import supervise
+
+    monkeypatch.setattr(study_admission, "monotonic", lambda: float("inf"))
+    result = supervise(tmp_path, {}, 8, time.monotonic() + 10, 512)
+    assert not result["started"] and result["reason_code"] == "ADMISSION_EXPIRED"

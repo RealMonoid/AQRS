@@ -26,12 +26,10 @@ from aqrs.market import Bars, validate, write_dataset
 from aqrs.platform_guard import capability
 from aqrs.provenance import snapshot
 from aqrs.storage import fingerprint, write_json
-from aqrs.study_admission import unqualified_entry
+from aqrs.study_admission import block_unqualified, unqualified_entry
 
 BASE = "https://data.binance.vision/data/spot/daily/klines"
 MAX_STORAGE = 128 * 1024 * 1024
-
-
 
 
 def build_plan(scope: dict, limits: dict, *, acquire: bool) -> dict:
@@ -139,6 +137,7 @@ def storage_size(root: Path) -> int:
     return sum(p.stat().st_size for p in root.rglob("*") if p.is_file())
 
 
+@unqualified_entry("aqrs.spot_dataset.process_symbol")
 def process_symbol(request: dict, directory: Path) -> dict:
     """Run all archive reads and derived writes inside the external supervisor."""
     plan = request["plan"]
@@ -343,6 +342,15 @@ def main() -> int:
     parser.add_argument("--archive-dir", type=Path)
     args = parser.parse_args()
     try:
+        if args.action != "plan":
+            block_unqualified(
+                "aqrs.spot_dataset.prepare",
+                {
+                    "action": args.action,
+                    "scope": str(args.scope),
+                    "output": str(args.output),
+                },
+            )
         with args.scope.open("rb") as source:
             payload = source.read(65537)
         if len(payload) > 65536:

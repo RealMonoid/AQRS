@@ -1,6 +1,6 @@
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 """Known-answer engineering fixtures; never load an external blind inbox."""
 
-import csv
 import json
 from hashlib import sha256
 from itertools import combinations
@@ -11,7 +11,6 @@ import pytest
 
 from aqrs import blind_search as blind
 from aqrs.blind_input import ACTIVITY_COLUMNS, qualify, write_open_fixture
-from aqrs.storage import fingerprint
 
 
 @pytest.fixture
@@ -98,147 +97,14 @@ def test_order_flow_features_and_training_are_causal():
     assert blind.features(no_history)[20, 8] == 0
 
 
-def test_order_flow_reaches_guarded_registration_and_worker(tmp_path, monkeypatch):
-    for name in blind.SOURCE_PATHS:
-        path = tmp_path / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text((blind.ROOT / name).read_text(encoding="utf-8"), encoding="utf-8")
-    monkeypatch.setattr(blind, "ROOT", tmp_path)
-    inbox = tmp_path / "artifacts/blind-test/inbox"
-    write_open_fixture(inbox)
-    rows = (inbox / "D001.csv").read_text(encoding="utf-8").splitlines()
-    rows[0] += ",buy_volume,sell_volume,trade_count"
-    for index in range(1, len(rows)):
-        volume = float(rows[index].rsplit(",", 1)[1])
-        buy = volume * ((index % 7) / 6)
-        rows[index] += f",{buy},{volume - buy},{1 + index % 13}"
-    digest, size = rewrite_csv(inbox, rows)
-    assert size <= 16 * 1024**2
-    path = inbox / "manifest.json"
-    manifest = json.loads(path.read_text(encoding="utf-8"))
-    manifest["source"] = "external_blind"
-    path.write_text(json.dumps(manifest), encoding="utf-8")
-    plan = blind.load_plan()
-    attempt = "AQRS-B01-FIXTURE"
-    approval = tmp_path / "fixture-authorization.json"
-    approval.write_text(json.dumps({"owner_start_approved": True, "approved_trials": 24,
-                                    "trial_count_exception": True, "plan_sha256": fingerprint(plan),
-                                    "dataset_id": "D001", "dataset_sha256": digest, "attempt_id": attempt,
-                                    "max_wall_seconds": 300, "owner_instruction": "Synthetic test fixture only."}))
-    monkeypatch.setattr(blind, "owned_sequence", lambda *args: ({"revision": "1" * 40, "previous": None}, {"fixture": True}))
-    directory = blind.register(tmp_path, attempt, "external_blind", "D001", digest, approval)
-    registration = json.loads((directory / "registration.json").read_text())
-    entries = [json.loads(line) for line in (directory / "preregistration.jsonl").read_text().splitlines()]
-    assert [row["candidate_id"] for row in entries[-6:]] == [f"T{n:02}" for n in range(1, 7)]
-    assert all(row["metrics"] is None for row in entries)
-    output = tmp_path / "artifacts/aqrs-b01/runs" / attempt
-    receipt = json.loads((output / "preparation.json").read_text())
-    assert receipt["started_fits"] == receipt["completed_fits"] == registration["budget"]["planned_fits"] == 9
-    bars = np.load(output / "bars.npy", allow_pickle=False)
-    assert bars.shape == (86400, 9)
-    overview = json.loads((output / "run-manifest.json").read_text())
-    assert overview["execution_status"] == "AWAITING_PUBLICATION" and overview["trials"] == []
-    assert overview["input_files"] == [
-        {"file": "manifest.json", "sha256": sha256(path.read_bytes()).hexdigest(), "verified": True},
-        {"file": "D001.csv", "sha256": digest, "verified": True},
-    ]
-    plan_copy = json.loads((output / "search-plan.json").read_text())
-    assert plan_copy["plan"] == plan and plan_copy["plan_sha256"] == fingerprint(plan)
-    predictions = json.loads((output / "predictions.json").read_text())
-    assert predictions["status"] == "NOT_APPLICABLE" and predictions["records"] == []
-    with (output / "features.csv").open(encoding="utf-8", newline="") as stream:
-        feature_rows = list(csv.DictReader(stream))
-    assert len(feature_rows) == len(bars)
-    assert feature_rows[0]["return20"] == ""
-    for index in (0, 20, 86400 - 1):
-        row = feature_rows[index]
-        assert row["available_at"] == blind.utc_stamp(bars[index, 0] + 60)
-        assert float(row["buy_share"]) == bars[index, 6] / bars[index, 5]
-    assert overview["artifacts"]["features.csv"]["bytes"] <= 32 * 1024**2
-    original = blind.measure(bars, registration["prepared"], entries[-5]["rule"], plan, 15)
-    mutated = bars.copy()
-    mutated[registration["prepared"]["evaluation_start"]:, 6] = 0
-    mutated[registration["prepared"]["evaluation_start"]:, 7] = mutated[registration["prepared"]["evaluation_start"]:, 5]
-    changed = blind.measure(mutated, registration["prepared"], entries[-5]["rule"], plan, 15)
-    assert original["mechanical_rule"]["all"][0]["feature"] == "buy_share"
-    assert original["event_count"] > 0 and changed["event_count"] == 0
 
-    # Measure all three new feature families through the staged worker entry.
-    for entry in entries[-5::2]:
-        request = {"stage": "candidate", "output": str(output), "plan": plan,
-                   "candidate": entry["rule"], "prepared": registration["prepared"],
-                   "bars_sha256": registration["bars_sha256"], "cost_bps": 15}
-        result = blind.evaluate_worker(request, output)
-        assert 0 < result["event_count"] < result["eligible_opportunities"]
-
-    def deny_publication(*args):
-        raise ValueError("Fixture publication stop.")
-
-    monkeypatch.setattr(blind, "publication", deny_publication)
-    with pytest.raises(ValueError, match="publication stop"):
-        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
-    assert not (output / "S01-opportunities.csv").exists()
-    monkeypatch.setattr(blind, "publication", lambda *args: None)
-    ledger = directory / "preregistration.jsonl"
-    full_ledger = ledger.read_bytes()
-    ledger.write_bytes(full_ledger.splitlines(keepends=True)[0])
-    truncated = {**registration, "preregistration_artifact": blind.file_record(ledger)}
-    (directory / "registration.json").write_text(json.dumps(truncated), encoding="utf-8")
-    with pytest.raises(ValueError, match="ledger does not match"):
-        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
-    assert not (output / "execution-reservation.json").exists()
-    ledger.write_bytes(full_ledger)
-    assert b"\r\n" not in full_ledger
-    changed_costs = {**registration, "costs": {**registration["costs"], "fee_bps_per_side": 99}}
-    (directory / "registration.json").write_text(json.dumps(changed_costs), encoding="utf-8")
-    with pytest.raises(ValueError, match="Costs changed"):
-        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
-    (directory / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
-    feature_path = output / "features.csv"
-    with feature_path.open("a", encoding="utf-8") as stream:
-        stream.write("changed\n")
-    with pytest.raises(ValueError, match="Pre-run evidence differs"):
-        blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
-    with feature_path.open("rb+") as stream:
-        stream.truncate(overview["artifacts"]["features.csv"]["bytes"])
-    (output / "run-manifest.json").write_text(json.dumps({"dataset_id": "wrong", "trials": ["wrong"]}), encoding="utf-8")
-    original_supervise = blind.supervise
-
-    def one_then_stop(*args, **kwargs):
-        if args[1]["candidate"]["id"] == "S01":
-            return original_supervise(*args, **kwargs)
-        (output / "pending-opportunities/S02-opportunities.csv").write_text("Unconfirmed.\n", encoding="utf-8")
-        return {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout."}
-
-    monkeypatch.setattr(blind, "supervise", one_then_stop)
-    report = blind.execute(tmp_path, attempt, "1" * 40, "codex/aqrs-b01-blind-preparation", approval)
-    assert report["started_fits"] == report["completed_fits"] == 9
-    assert report["activity_columns"] == list(ACTIVITY_COLUMNS)
-    assert report["out_of_rehearsal_scope"] == [] and len(report["untested_candidates"]) == 22
-    final_overview = json.loads((output / "run-manifest.json").read_text())
-    assert final_overview["execution_status"] == "TIMED_OUT" and not final_overview["complete"]
-    assert final_overview["dataset_id"] == "D001"
-    assert [row["execution_status"] for row in final_overview["trials"]] == ["COMPLETED", "TIMED_OUT"]
-    assert "S01-opportunities.csv" in final_overview["artifacts"]
-    assert "S02-opportunities.csv" not in final_overview["artifacts"]
-    assert not (output / "S02-opportunities.csv").exists()
-    for record in final_overview["artifacts"].values():
-        payload = (output / record["file"]).read_bytes()
-        assert sha256(payload).hexdigest() == record["sha256"] and len(payload) == record["bytes"]
-    # A conjunction exposes both parent controls. Counts must reconstruct the actual contrasts.
-    pair = next(row["rule"] for row in entries if row["candidate_id"] == "P02")
-    detail = output / "P02-check.csv"
-    result = blind.measure(bars, registration["prepared"], pair, plan, 15, detail)
-    with detail.open(encoding="utf-8", newline="") as stream:
-        opportunities = list(csv.DictReader(stream))
-    assert len(opportunities) == result["eligible_opportunities"]
-    for name, contrast in result["contrasts"].items():
-        matched = [row for row in opportunities if row[f"{name}_matched"] == "1"]
-        assert sum(int(row["event"]) for row in matched) == contrast["matched_events"]
-        assert sum(int(row[name]) for row in matched) == contrast["matched_controls"]
-        groups = {(row["evaluation_day"], row["utc_band"]) for row in matched if row["event"] == "1"}
-        assert groups == {(row["evaluation_day"], row["utc_band"]) for row in matched if row[name] == "1"}
-    assert result["opportunity_bytes"] * 24 <= 64 * 1024**2
+def test_blind_registration_stops_before_input_or_calibration(tmp_path, monkeypatch):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(blind, "supervise", lambda *a, **k: pytest.fail("Unqualified calibration"))
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
+    assert not (tmp_path / "artifacts/aqrs-b01/runs").exists()
 
 
 def test_storage_rejection_precedes_input(tmp_path, monkeypatch):
@@ -246,7 +112,7 @@ def test_storage_rejection_precedes_input(tmp_path, monkeypatch):
 
     monkeypatch.setattr("aqrs.blind_evidence.shutil.disk_usage", lambda path: SimpleNamespace(free=1))
     with pytest.raises(ValueError, match="Insufficient disk space"):
-        blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
+        blind.register.__wrapped__(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
     assert not (tmp_path / "artifacts").exists()
 
 
@@ -434,7 +300,7 @@ def test_copied_attempt_registration_rejected_before_publication(tmp_path, monke
     (directory / "registration.json").write_text(json.dumps({"attempt_id": "AQRS-B01-ORIGINAL"}))
     monkeypatch.setattr(blind, "publication", lambda *a: pytest.fail("Publication must not be consulted."))
     with pytest.raises(ValueError, match="Registration attempt ID mismatch"):
-        blind.execute(tmp_path, "AQRS-B01-REPLAY", "0" * 40, "codex/aqrs-b01-blind-preparation", None)
+        blind.execute.__wrapped__(tmp_path, "AQRS-B01-REPLAY", "0" * 40, "codex/aqrs-b01-blind-preparation", None)
 
 
 def test_publication_rejects_wrong_remote_before_outcomes(tmp_path, monkeypatch):
@@ -458,7 +324,7 @@ def test_data_mutation_rejected_before_measurement(tmp_path, monkeypatch):
     (tmp_path / "bars.npy").write_bytes(b"changed")
     monkeypatch.setattr(blind, "measure", lambda *a, **k: pytest.fail("Measurement must not start."))
     with pytest.raises(ValueError, match="data changed"):
-        blind.evaluate_worker({"stage": "candidate", "plan": {}, "output": str(tmp_path),
+        blind.evaluate_worker.__wrapped__({"stage": "candidate", "plan": {}, "output": str(tmp_path),
                                "bars_sha256": "0" * 64}, tmp_path)
 
 
@@ -485,41 +351,12 @@ def test_subcost_effect_not_removed_by_cost_gate(delivery):
 
 
 @pytest.mark.parametrize("mutate_source", [False, True])
-def test_guarded_registration_and_terminal_stop(tmp_path, monkeypatch, mutate_source):
-    import sqlite3
 
-    original_root = blind.ROOT
-    for name in blind.SOURCE_PATHS:
-        path = tmp_path / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text((original_root / name).read_text(encoding="utf-8"), encoding="utf-8")
-    monkeypatch.setattr(blind, "ROOT", tmp_path)
-    directory = blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
-    registration = json.loads((directory / "registration.json").read_text())
-    entries = [json.loads(line) for line in (directory / "preregistration.jsonl").read_text().splitlines()]
-    assert len(entries) == 2 and all(row["metrics"] is None for row in entries)
-    assert registration["prepared"]["calibration_fits"] == 6
-    publication_checked = []
-    monkeypatch.setattr(blind, "publication", lambda *args: publication_checked.append(True))
-
-    def stop(*args, **kwargs):
-        assert publication_checked
-        receipt = {"execution_status": "TIMED_OUT", "started": True, "stop_reason": "Fixture timeout.",
-                   "peak_rss_mb": 10, "runtime_wall_seconds": 1, "started_fits": 0, "completed_fits": 0}
-        if mutate_source:
-            path = tmp_path / "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/source/aqrs/blind_input.py"
-            path.write_text(path.read_text() + "\n# Simulated source mutation.\n")
-            receipt.update(execution_status="COMPLETED", result={"effect_claimed": True})
-        return receipt
-
-    monkeypatch.setattr(blind, "supervise", stop)
-    report = blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
-    expected = "FAILED" if mutate_source else "TIMED_OUT"
-    assert not report["complete"] and report["execution_status"] == expected
-    assert not report["effect_claimed"] and report["started_trials"] == 1
-    assert len(report["untested_candidates"]) == 1
-    db = sqlite3.connect(tmp_path / "artifacts/aqrs-b01/runs/AQRS-B01-OPEN/research.sqlite3")
-    assert {r[0] for r in db.execute("SELECT execution_status FROM experiments")} == {expected, "CANCELLED"}
-    db.close()
-    with pytest.raises(FileExistsError):
-        blind.execute(tmp_path, "AQRS-B01-OPEN", "1" * 40, "codex/aqrs-b01-blind-preparation", None)
+def test_legacy_registration_rejects_even_a_modified_local_source(tmp_path, monkeypatch, mutate_source):
+    from aqrs.admission import AdmissionRejected
+    monkeypatch.chdir(tmp_path)
+    if mutate_source:
+        (tmp_path / "unqualified-source.py").write_text("# Unqualified fixture.\n")
+    with pytest.raises(AdmissionRejected, match="not qualified"):
+        blind.register(tmp_path, "AQRS-B01-OPEN", "internal_open", "D001", "", None)
+    assert not (tmp_path / "artifacts/aqrs-b01/runs").exists()

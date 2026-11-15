@@ -418,6 +418,17 @@ def execute(
         for key in ("reason_code", "required_action", "resumption_condition"):
             if failed.get(key):
                 plan[key] = report[key] = failed[key]
+        plan.setdefault(
+            "required_action",
+            f"Resolve the reported prerequisite or park this study: {plan['stop_reason']}",
+        )
+        plan.setdefault(
+            "resumption_condition",
+            "A fresh admission satisfies the declared design, input, capability and authorized resource limits.",
+        )
+        report.update(
+            {key: plan[key] for key in ("required_action", "resumption_condition")}
+        )
         if plan.get("reason_code"):
             report["reason_code"] = plan["reason_code"]
     if report["execution_status"] == "COMPLETED":

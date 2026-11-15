@@ -1,6 +1,5 @@
-import json
+# Explicit __wrapped__ calls below test preserved inner algorithms; FR-005 entry tests use the guarded functions.
 import os
-import runpy
 import shutil
 import sqlite3
 import subprocess
@@ -175,7 +174,7 @@ def test_market_entry_rejects_missing_authorization_before_any_work(
     monkeypatch.setattr(m2_e14, "supervise", forbidden)
     monkeypatch.setattr(m2_e14, "load_spot_day", forbidden)
     with pytest.raises(ValueError, match="authorization"):
-        m2_e14.run_campaign(
+        m2_e14.run_campaign.__wrapped__(
             tmp_path / "out",
             ROOT / "configs/research.yaml",
             market_root=tmp_path,
@@ -198,7 +197,7 @@ def test_market_entry_rejects_tight_fit_limit(tmp_path, monkeypatch):
 
     monkeypatch.setattr(m2_e14, "supervise", forbidden)
     with pytest.raises(ValueError, match="fit count"):
-        m2_e14.run_campaign(tmp_path / "out", config)
+        m2_e14.run_campaign.__wrapped__(tmp_path / "out", config)
 
 
 def test_reserved_scope_and_wrong_digest_reject_before_evaluation(
@@ -420,14 +419,9 @@ def test_ubuntu_replay_requires_exact_complete_windows_report(tmp_path, monkeypa
 
 
 @pytest.mark.parametrize("campaign", ["M2-E14", "M2-E18"])
-def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(
+def test_legacy_synthetic_cli_is_blocked_before_trials(
     tmp_path, campaign, registration_root
 ):
-    volume_id, ridge_id = (
-        m2_e14.CANDIDATES
-        if campaign == "M2-E14"
-        else ("VOL_CONFIRM_E18_V1", "RIDGE_INCREMENT_E18_V1")
-    )
     output = tmp_path / "artifacts/open"
     completed = subprocess.run(
         [
@@ -449,55 +443,11 @@ def test_synthetic_cli_persists_both_trials_and_bound_diagnostics(
         timeout=90,
         check=False,
     )
-    assert completed.returncode == 0, completed.stdout + completed.stderr
-    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
-    assert report["execution_status"] == "COMPLETED"
-    assert report["configuration"]["campaign_id"] == campaign
-    assert report["plan"]["planned_fits"] == 7
-    assert report["plan"]["started_fits"] == report["plan"]["completed_fits"] == 7
-    assert report["dataset_scope"] == ["synthetic"]
-    assert report["trials"][volume_id]["result"]["evaluation_status"] == "COMPLETED"
-    ridge = report["trials"][ridge_id]["result"]
-    assert ridge["comparison"]["aggregate"]["eligible_count"] == 8578
-    views = [v for v in ridge["diagnostic_exposure"] if v["kind"] == "forecast_metric"]
-    assert len(views) == 30
-    assert {view["role"] for view in views} == {
-        "three_feature_ridge",
-        "one_feature_ridge",
-    }
-    assert {view["attempt_id"] for view in views} == {f"{report['run_id']}:{ridge_id}"}
-    assert {view["source_id"] for view in views} == {report["provenance"]["source_id"]}
-    with sqlite3.connect(output / "research.sqlite3") as db:
-        assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
-        rows = db.execute(
-            "SELECT candidate_id, execution_status, evidence_status, metrics_json "
-            "FROM experiments ORDER BY candidate_id"
-        ).fetchall()
-    assert [row[:3] for row in rows] == [
-        (ridge_id, "COMPLETED", "INSUFFICIENT_EVIDENCE"),
-        (volume_id, "COMPLETED", "INSUFFICIENT_EVIDENCE"),
-    ]
-    assert json.loads(rows[0][3])["diagnostic_exposure"] == ridge["diagnostic_exposure"]
-    build_archive = runpy.run_path(str(ROOT / "scripts/evidence_archive.py"))["build"]
-    assert build_archive(tmp_path) > 0
-    consolidated = json.loads(
-        (tmp_path / "evidence/exposure.json").read_text(encoding="utf-8")
-    )
-    recorded = next(
-        a for a in consolidated["attempts"] if a["candidate_id"] == ridge_id
-    )
-    assert recorded["kind"] == "synthetic_engineering"
-    assert recorded["diagnostic_exposure"] == ridge["diagnostic_exposure"]
-    assert recorded["experiment_id"] == views[0]["attempt_id"]
-    assert recorded["source_id"] == views[0]["source_id"]
-    if campaign == "M2-E18":
-        with sqlite3.connect(output / "research.sqlite3") as db:
-            db.execute(
-                "UPDATE experiments SET candidate_id = ? WHERE candidate_id = ?",
-                ("VOL_CONFIRM_V1", volume_id),
-            )
-        with pytest.raises(ValueError, match="scope or candidate registration"):
-            build_archive(tmp_path)
+    assert completed.returncode == 2
+    assert "not qualified" in completed.stderr
+    assert not output.exists()
+    with sqlite3.connect(registration_root / "artifacts/research.sqlite3") as db:
+        assert db.execute("SELECT execution_status FROM campaigns").fetchone() == ("REJECTED_PREFLIGHT",)
 
 
 def test_e18_pins_the_d01_dates_and_registered_training_prefix(registration_root):
