@@ -193,8 +193,10 @@ it had no universal question/design admission. The new
 [execution contract](../CONTRACTS.md#f4-fr-005-study-admission) admits only the
 explicit common synthetic engineering workflow, records actionable stops and
 blocks unqualified legacy entries. Pure planning no longer launches a timing fit.
-The card must establish real parent/worker behavior on both platforms before
-engineering enforcement is reported complete.
+The card records verified parent/worker behavior on native Windows and non-root
+Ubuntu: 449 tests per environment, plus independent fixed-diff review. Engineering
+enforcement is supported for the stated contract; the qualification gap below
+remains open.
 
 **Remaining scientific qualification:** no general scientific reviewer is
 qualified by these public engineering tests. Independently assessed clear,

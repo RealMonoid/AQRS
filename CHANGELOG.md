@@ -3,7 +3,7 @@
 ## 2026-11-15 - Enforce FR-005 study admission before execution
 
 Add a fail-closed parent/worker admission boundary, current-condition monitoring,
-single-use journaled worker requests and frozen input identity. Admit the explicit
+single-use journaled worker requests and frozen input identity. Release each
 worker only with a one-time proof sent over its supervisor control pipe. Admit the
 common synthetic engineering contract; block unqualified legacy research entries
 with actionable records. Keep scientific-review qualification separate. Make
@@ -16,6 +16,7 @@ retaining numerical and historical-evidence regression checks.
 - `configs/research.yaml`
 - `docs/CONTRACTS.md`
 - `docs/DECISIONS.md`
+- `docs/MILESTONE_ARCHIVE.md`
 - `docs/MILESTONE_STATUS.md`
 - `docs/RISK_REGISTER.md`
 - `docs/requirements/OPEN_QUESTIONS.md`

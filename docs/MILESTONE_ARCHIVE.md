@@ -4751,3 +4751,151 @@ across 35 CLI calls and closed the admission safeguards.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | AQRS-W01-P02/P03 | 2026-11-14 | WAITING | The owner's 36-call review of `9ba03c9` confirmed the four prior fixes and found silent ledger creation, separate checkout ledgers, and symbol padding. Three baseline cases failed. Six focused CLI checks passed with a shared user ledger, one initialization signal in a race, padded and blank symbols covered, and both old reservation formats imported. Imported counts survived removal of the old fixture files. | Six minutes from test card to focused proof on 2026-11-15 within the two-hour cap. Tests use isolated homes and read-only legacy inputs. No added fits per campaign or market data access. `SUPPORTED` on public cases, `PERSEVERE` to independent recheck of the published revision. |
+
+## FR-005 Test Card: enforced study admission
+
+**Owner authorization, 2026-11-15:** implement FR-005 and verify real rejected
+and admitted paths on Windows and Linux. Base: `db1457d`. This covers directly
+necessary implementation, tests, independent review, CI, evidence and Git
+completion. It does not resume market research or the broader H01 audit.
+
+- **Assumption/mechanism:** a shared admission decision, enforced before parent
+  study access and again at worker dispatch/entry, can stop unreviewed or changed
+  work without preventing a valid bounded synthetic workflow. A validator that
+  merely accepts caller-authored `PASS` would falsify the intended mechanism.
+- **Riskiest uncertainty:** alternate launch paths, stale requests and missing
+  prerequisites can bypass a CLI-only check. The source inventory includes
+  common run/plan, direct campaign/worker calls, legacy campaigns, acquisition,
+  blind registration and direct replay. Pure declarative arithmetic stays usable.
+- **Backward proof/minimum slice:** real common run rejects missing/unreviewed
+  questions, incompatible/unqualified designs and unavailable prerequisites
+  before input access or worker creation; a qualified public engineering case
+  executes. Extend that proof to every supported entry or explicitly block the
+  unqualified entry before work. Do not claim general scientific-review quality.
+- **Baseline:** common preflight checks resources, folds and data scope; E14/E22
+  have partial study-specific receipts. None establishes universal FR-005.
+  Reuse SQLite attempt records, source snapshots, fingerprints, native worker
+  containment and current data/variant/resource checks. Preserve research math.
+- **Pass:** all declared negative cases have zero blocked study reads/workers/
+  fits and actionable persistent failures where storage works; valid cases run;
+  stale/forged/missing admission and repeat/direct calls fail closed; loss of a
+  required condition stops affected work. The same assertions pass under native
+  Windows and non-root Ubuntu, with independent review of the fixed final diff.
+  These exact safety outcomes come from FR-005, not a statistical cutoff.
+- **Fail/inconclusive:** any bypass or blanket rejection fails. Missing Linux
+  evidence, untested entry coverage or absent scientific qualification remains
+  explicit and cannot be replaced by a language-check pass.
+- **Scientific boundary:** automate only a concretely reviewed engineering
+  contract for the existing synthetic workflow. Unqualified scientific methods
+  and legacy research entries remain blocked; arbitrary free-text meaning is
+  not certified by a syntax check. No new effect, duration or power threshold.
+- **Risk/FTA:** admission, journal and worker boundaries trigger the linked
+  [FR-005 fault tree](RISK_REGISTER.md#fta-fr-005-study-admission).
+  Prior partial controls and the A02/A10 execution debt were checked for reuse;
+  no blind-search defect is silently declared repaired by this gate.
+- **Evidence:** failing baseline case, focused pytest results, actual CLI
+  rejection/valid artifacts, launch counters, independent review, full existing
+  acceptance matrix and language/lint checks. No market data or private benchmark.
+- **Value/budget:** this closes the owner's immediate execution-safety gap ahead
+  of further research. Estimate 90-180 minutes including review/CI; prior related
+  requirements work is retained in RD-002. All public synthetic runs retain the
+  existing trial/campaign/fit/RAM limits; no retry or budget escalation. Tests
+  and CI use their existing finite timeouts. Admission adds metadata validation,
+  not model fits or dependencies; measure its representative overhead.
+- **Stop/rollback:** block the affected path on any unresolved admission defect
+  or missing qualification. Preserve existing evidence and valid controls; do
+  not resume market studies or weaken requirements to make a test pass.
+
+**Implementation checkpoint, 2026-11-15:** work began at 18:49:36 UTC. The red
+baseline demonstrated an unclear question reaching dispatch (1 failed test,
+no actual worker). The first qualified positive/negative slice passed 10 tests.
+Independent review of `db1457d..34e46af` found the direct acquisition callback
+and orphaned unused grants; both were corrected, including an actual worker
+rejection after abrupt issuer exit. The expanded control/OS suite passed 54
+tests on native Windows in 26.69 s. Regression migration exposed legacy tests
+that expected now-unqualified launches: current tests assert their stop, while
+explicit inner-layer tests retain calculations, costs, causality and historical
+evidence checks. The next full pass had 438 passes and six fixture/expectation
+failures; all six targeted corrections passed in 7.42 s. Final full Windows,
+non-root Linux and corrected-diff review are still pending at this checkpoint.
+No market data, hidden benchmark or scientific reviewer was evaluated. The
+language audit/self-test, whitespace/lint, 295 archived-file verification and
+exposure verification (97 attempts, 17 variants, 1,461 diagnostic views) passed.
+
+**Platform/review correction checkpoint:** `49e544d` passed 444 local Windows
+tests in 275.64 s and both non-root Ubuntu jobs (Python 3.11/3.12) in
+[CI 43755004739](https://github.com/RealMonoid/AQRS/actions/runs/43755004739).
+Both hosted Windows jobs had 443 passes and one cancellation: the initial
+one-second background-check freshness bound was too short under hosted load.
+Use a five-second engineering bound, checked by an actual stalled-monitor stop,
+while the independent hard trial/campaign deadline remains unchanged. This does
+not change statistical sufficiency or fit/runtime budgets. Review also found a
+prerequisite/input field-name collision; its red test reached trapped Popen,
+and the corrected separate binding rejects before dispatch. Added real rejection
+for a live unrelated issuer. All 60 focused control/OS and affected CLI cases
+passed in 56.03 s; the corrected full platform matrix remains pending.
+One hundred local `assess` metadata checks averaged 5.51 ms (maximum 7.42 ms),
+with zero study reads/fits; this is not a measurement of the entire campaign
+or scientific-review cost. Admission adds one monitoring thread per active
+worker and byte verification inside the existing memory/time guards.
+
+**Channel correction checkpoint:** `be14e46` passed all four Windows/Ubuntu
+jobs in [CI 43756045496](https://github.com/RealMonoid/AQRS/actions/runs/43756045496),
+including 447 tests in each Linux job. A separate local Windows run had 446
+passes and one false `ADMISSION_PARENT_MISMATCH` on a valid preparation worker.
+Its precise process-graph cause was not captured; do not dismiss it as flaky.
+Replace ancestry inference with a one-time, 32-byte supervisor-pipe proof;
+retain live issuer identity, expiry, current-condition checks and single-use
+request binding. The first corrected control/OS/affected-CLI set passed 58
+tests in 71.06 s. Add real EOF/truncation rejection and a dead issuer with an
+otherwise correct proof before fresh full-platform verification. No scientific
+qualification or market-study authorization follows from this correction.
+
+### FR-005 Learning Card: enforced engineering boundary
+
+**2026-11-15, SUPPORTED / PERSEVERE within the qualified engineering contract.**
+Fixed source `78500ba972ace166a37c2eea804a9828b0bc48c5` passes the predefined
+negative and positive cases. Missing/unreviewed questions, unqualified designs,
+missing prerequisites and unsupported entry paths stop; an admitted synthetic
+campaign executes. Changed/replayed/copied grants, lost issuers, expired or
+revoked conditions and changed prepared input reject. The independent wall
+watchdog and parent-loss tests pass, and no next dependent trial follows a stop.
+
+| Observed verification | Result |
+|---|---|
+| Native Windows 11, Python 3.12.12, `python -m pytest -q --tb=short` | 449 passed in 278.89 s; exit 0 |
+| Hosted Windows, Python 3.11 / 3.12 | 449 passed in 246.80 / 222.25 s; both jobs successful |
+| Headless Ubuntu 24.04, Python 3.11 / 3.12 | 449 passed in 93.55 / 96.15 s; both jobs successful; actual non-root assertion passed |
+| [CI 43757690986](https://github.com/RealMonoid/AQRS/actions/runs/43757690986) | Four jobs passed: actual CLI plan/run, full tests, Ruff, language/self-test and preserved evidence/exposure |
+| Independent read-only review | All reported defects resolved; final `be14e46..78500ba` review found no blocking issue. Reviewer did not execute tests. |
+| Final test-harness hardening | Direct incomplete-proof worker uses its own POSIX session, so a future guard regression cannot kill pytest's process group. Two focused Windows cases passed in 1.14 s; no production source changed. |
+| `python scripts/evidence_archive.py --verify` / `--verify-exposure` | 295 preserved files verified; 97 attempts, 17 variants, 1,461 diagnostic views, 85 attempts without diagnostic records; exit 0 |
+| `python -m ruff check .`, language audit and `--self-test`, `git diff --check` | Passed; manual English review completed. Documentation checks do not prove runtime or scientific validity. |
+
+The actual control flow and tests support engineering enforcement, including a
+valid start; they do not qualify academic methods, study power or arbitrary
+scientific question assessment. No market, hidden benchmark or protected data
+was evaluated. Existing numerical and historical-evidence tests remain distinct
+from now-blocked legacy launchers. The software is not a tamper-proof sandbox.
+
+**Effort:** measured 18:49:36–20:28:22 UTC, 98m 46s through the final source
+verification checkpoint; documentation, integration and publication follow this
+endpoint. The 90–180-minute estimate remains sufficient. Previous requirements
+work was not remeasured; no scope or compute budget was increased.
+Local verification logs and the measured overhead are retained under
+`artifacts/fr005/`; the completion report records resulting-main checks and fresh
+remote synchronization after publication, not merely a branch CI pass.
+
+**Next dispatch:** no further eligible READY item is covered by this request.
+AQRS-W01-P05 waits for the owner's independent synthetic assessment; scientific
+FR-005 qualification needs independently assessed cases and a justified review
+procedure. New market studies remain stopped. Recommend that bounded scientific
+qualification as a separate objective when its independent cases are available;
+do not generate substitutes for owner-supplied independent cases or resume a
+legacy study merely because its technical launcher exists.
+
+### FR-005 completed queue row
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| FR-005 | 2026-11-15 | DONE | Implement actual question/design/prerequisite admission, prove rejected and valid starts on native Windows and Linux, and independently review the diff. | Owner authorization in chat `01a1e020-aa73-7120-a42c-bd3d16a153ba`: implement the start gate now. Requirements-only scope is superseded for this bounded engineering item. Market studies remain stopped. Engineering enforcement verified; see the archived card. Scientific qualification remains open. |

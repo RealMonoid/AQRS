@@ -212,6 +212,7 @@ def test_real_worker_rejects_missing_or_truncated_channel_proof(
         env=dict(os.environ, PYTHONPATH=str(ROOT / "src")),
         input=b"1" + secret[:proof_length],
         capture_output=True,
+        start_new_session=os.name == "posix",
         timeout=10,
     )
     assert result.returncode == 4, result.stderr

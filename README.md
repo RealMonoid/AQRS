@@ -2,7 +2,7 @@
 
 **English-only repository policy (permanent):** All AQRS documentation and future Codex additions or revisions must be written in English. See [`docs/LANGUAGE_POLICY.md`](docs/LANGUAGE_POLICY.md).
 
-**Current status:** M0/v0.1 and M1/v0.2 are accepted. The offline CLI supports the synthetic baseline and the bounded Binance BTCUSDT spot workflow for local, personal, non-production research. A separate [Spot data preparation entry](#prepare-broader-spot-datasets) now qualifies bounded multi-day inputs for two symbols and retains activity fields. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
+**Current status:** M0/v0.1 and M1/v0.2 retain their historical acceptance. The offline CLI currently admits the common synthetic engineering workflow. FR-005 blocks the older Binance Spot research and [data preparation entries](#prepare-broader-spot-datasets) pending their own study-admission qualification. Their implementation and evidence remain preserved. See the [milestone status](docs/MILESTONE_STATUS.md) for the verified scope and platform evidence.
 
 AQRS's product is a reproducible, automated quant research workflow that learns
 about its own procedures and generalizes justified improvements. Bitcoin and

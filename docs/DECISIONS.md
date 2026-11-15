@@ -4,7 +4,7 @@ This file is **normative**. Add each new architectural decision as a numbered AD
 
 ### ADR-056: enforce study admission at parent and worker boundaries
 
-**Status: experimental implementation, 2026-11-15.** FR-005's owner-authorized
+**Status: accepted for engineering enforcement, 2026-11-15.** FR-005's owner-authorized
 increment reuses the common journal, source snapshots and native supervisor.
 An installed deterministic contract qualifies only the current synthetic
 engineering workflow. Unknown questions, scientific claims and unqualified legacy
@@ -18,7 +18,9 @@ This avoids inventing a scientific reviewer or unsupported power threshold.
 Historical algorithms and records remain, but their old launch receipts no longer
 suffice. See the [contract](CONTRACTS.md#f4-fr-005-study-admission) and
 [Test Card](MILESTONE_STATUS.md#fr-005-test-card-enforced-study-admission).
-Adoption requires observed negative and valid cases on both platforms and review.
+The corrected source passed 449 tests locally and in each of four Windows/Ubuntu
+jobs, plus independent fixed-diff review. This supports the execution boundary,
+not a general scientific-review procedure.
 Revisit the limited qualification when independent scientific assessment cases
 and a justified review procedure exist; extending the installed contract requires
 its own evidence. Do not relax the gate to recover an unsupported launch path.
