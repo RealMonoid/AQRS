@@ -28,6 +28,12 @@ effect sizes, uncertainty, limitations and a separately explained research
 decision. Qualify the method under M4 and its cost/risk uses under M5. Preserve
 [FR-001](REQUIREMENTS.md#functional-requirements), the prediction-before-costs
 sequence, and the existing [candidate admission gates](../MILESTONE_DOD.md#10-candidate-gates-independent-of-software-releases).
+The subsequently confirmed [FR-005](REQUIREMENTS.md#fr-005-acceptance-cases)
+also applies: probability outputs do not make an uninformative study useful
+or justify repeated inadequate tests. An unclear, ill-posed or insufficiently
+operationalized question first requires a stop and specific rework. Establish
+the missing prerequisites for a clarified question, or stop and park the study
+with its question, gaps and resumption condition.
 
 ### Four output groups
 

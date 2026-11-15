@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-15 - Require question-led, informative research studies
+
+Record the owner's FR-005/RD-002 requirement: stop and require specific rework
+for unclear, ill-posed or insufficiently operationalized questions; establish
+decision-relevant evidence needs before adopting technical limits; reject
+known uninformative effect-study designs; and either establish feasibility or stop and park the
+test with its missing prerequisites and resumption condition. Preserve the
+original question instead of running inadequate substitutes. Link this to the
+proposed probability assessment. Runtime enforcement remains unverified by this
+documentation-only change; existing research stops and budgets are unchanged.
+
+- `CHANGELOG.md`
+- `docs/requirements/REQUIREMENTS.md`
+- `docs/requirements/DECISIONS.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+
 ## 2026-11-15 - Draft probabilistic strategy-assessment requirements
 
 Record RQ-001 for owner review: four probability output groups, their distinct
