@@ -33,6 +33,20 @@ the question itself is unclear, incorrectly framed or insufficiently
 operationalized. A dependent test cannot begin on an invented interpretation.
 Question clarification remains valid preparation; it is not a research result.
 
+**Evidence/design clarification, 2026-11-15, same owner chat.** Determining
+which observations could answer the clarified question explicitly includes
+the appropriate statistical procedures, relevant existing academic research,
+and the test design needed to support the intended inference. FR-005 requires
+a justified connection from question to observations, method, assumptions and
+decision, using the existing decision-linked literature review and Test Card.
+Method/design defects require specific rework; an unresolved prerequisite
+stops and parks the dependent test with its reason and resumption condition.
+The absence of a directly matching paper alone is not such a prerequisite.
+Acceptance covers missing measurement rules, a method that cannot support the
+claim, critical unjustified assumptions, and a corrected design reaching the
+feasibility assessment. No statistical family, test window or numerical
+threshold is selected by this clarification.
+
 [FR-005](REQUIREMENTS.md#fr-005-acceptance-cases) records this requirement and
 its observable admission/closeout cases. It makes the existing
 [question-led sufficiency rule](../SEQUENCE_PREFLIGHT.md#research-evidence-sufficiency)
@@ -56,7 +70,23 @@ Reuse the current Test Card, preflight and Governor. If a runtime enforcement
 gap is found in separately authorized work, estimate its smallest correction
 before implementation. Documentation alone is not proof of enforcement.
 
+The evidence/design clarification adds an estimated 10-15 minutes of
+requirements recording, focused checks and publication, with zero additional
+research trials, fits, data access or recurring computation. Risk screen:
+requirements wording only; no runtime, data boundary, resource enforcement or
+operative research contract is changed. A new fault tree is not triggered.
+Documentation acceptance is a traceable methods/literature/design obligation,
+actionable failure cases and consistent links, language and changelog paths.
+
 **Preparation checkpoint, 2026-11-15:** recording and review from 17:30:04 to
 17:35:02 UTC (4m 58s), including both subsequent owner clarifications, before
 publication. Reuse the unchanged source checks from `dceae89`; fresh language,
 link, changelog and whitespace checks qualify these documentation changes.
+
+**Clarification checkpoint, 2026-11-15:** measured recording/review after
+resumption from 18:12:59 to 18:15:56 UTC (2m 57s), excluding earlier dialogue
+and subsequent publication. Documentation criteria are supported: manual
+review, 22 local link/anchor checks, exact three-path changelog coverage,
+language audit/self-test and whitespace checks passed. Non-documentation
+source matches `dceae89`; its accepted Windows/Linux checks remain applicable.
+Full runtime enforcement remains unverified; no research run is dispatched.

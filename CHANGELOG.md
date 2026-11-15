@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-15 - Include methods, academic evidence and test design in FR-005
+
+Extend the accepted research-planning requirement with the owner's clarification:
+justify the statistical approach, assess relevant academic findings and their
+applicability, and specify a prospective test design capable of answering the
+question. Require specific rework for unsupported methods or material design
+gaps. Reuse the existing literature review and Test Card; this documentation
+change selects no statistical method and demonstrates no runtime enforcement.
+
+- `CHANGELOG.md`
+- `docs/requirements/REQUIREMENTS.md`
+- `docs/requirements/DECISIONS.md`
+
 ## 2026-11-15 - Require question-led, informative research studies
 
 Record the owner's FR-005/RD-002 requirement: stop and require specific rework

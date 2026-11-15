@@ -10,7 +10,7 @@ This register is the central source of truth for confirmed AQRS requirements. En
 | FR-002 | M2 | AQRS evaluates a LightGBM supervised challenger and an Isolation Forest unsupervised hypothesis generator. | Each pilot is reproducible, runs within its declared budget, and includes a comparison with a simple baseline. An evidenced blocker leaves the gate blocked. | [M2 acceptance criteria](../MILESTONE_DOD.md#m2--v03-alpha-discovery-with-genuine-controls) |
 | FR-003 | By v1.0 | AQRS supports two-way, research-only interoperability with Sierra Chart and ACSIL. AQRS evaluates completed chart data exported by an ACSIL Study, and Sierra Chart displays a versioned AQRS signal on its intended bar through an ACSIL Study. | A native Windows Sierra Chart replay matches the AQRS reference for bar identity, UTC availability and signal placement through incremental updates and full recalculation. Invalid timing and identity are rejected. The same interchange fixture is reproducible in headless AQRS on Linux. FR-001 applies. | [Product vision](../PRODUCT_VISION.md#2-the-experience-from-a-users-perspective), [AQRS-SC01](../MILESTONE_ARCHIVE.md#aqrs-sc01-test-card-sierra-chart-and-acsil-round-trip-2026-11-10) |
 | FR-004 | By v1.0 | AQRS helps users start research from their own observation or from a selected market alone. | **Observation:** Given a concrete user observation, AQRS returns a testable hypothesis, a fair comparison and an observable criterion tied to the observation. **Market:** Given a market with eligible development data and no user-supplied hypothesis, AQRS proposes a testable research idea linked to evidence in those data. On a predefined case with insufficient evidence, AQRS abstains and explains the gap. FR-001 and existing data and research admission rules apply. | [RD-001](DECISIONS.md#rd-001-two-entry-points-for-research) |
-| FR-005 | All research stages | AQRS stops the affected test and requires rework when its question is unclear, ill-posed or insufficiently operationalized. It derives study scope from a testable question and its required evidence, and does not launch an effect study whose planned information has no credibly justified ability to inform that question or its registered decision. Technical capacity does not establish scientific sufficiency. | The admission and closeout cases below pass. An inconclusive outcome remains possible after an adequate design; an unclear question or known uninformative design is not admitted as an effect study. | [RD-002](DECISIONS.md#rd-002-question-led-evidence-and-decisive-study-planning), [evidence sufficiency](../SEQUENCE_PREFLIGHT.md#research-evidence-sufficiency), [claim admission](../RESEARCH_PROTOCOL.md#precision-and-claim-admission) |
+| FR-005 | All research stages | AQRS stops the affected test and requires rework when its question is unclear, ill-posed or insufficiently operationalized. It derives study scope from a testable question and its required evidence, including justified statistical methods, relevant academic research and a prospective test design. It does not launch an effect study whose planned information has no credibly justified ability to inform that question or its registered decision. Technical capacity does not establish scientific sufficiency. | The admission and closeout cases below pass. An inconclusive outcome remains possible after an adequate design; an unclear question or known uninformative design is not admitted as an effect study. | [RD-002](DECISIONS.md#rd-002-question-led-evidence-and-decisive-study-planning), [evidence sufficiency](../SEQUENCE_PREFLIGHT.md#research-evidence-sufficiency), [claim admission](../RESEARCH_PROTOCOL.md#precision-and-claim-admission) |
 
 ### FR-005 acceptance cases
 
@@ -27,24 +27,52 @@ This register is the central source of truth for confirmed AQRS requirements. En
    corrected question is recorded and readiness is rechecked. Known ambiguous,
    contradictory and undefined-measure cases must stop with actionable rework;
    their corrected versions must reach the evidence/feasibility assessment.
-2. **Question before capacity.** Before outcome access, the study identifies
+2. **Evidence and methods before capacity.** Before outcome access, the study identifies
    its question, intended decision, target population/comparison, relevant
-   effect or descriptive quantity, required precision and the assumptions
-   needed to assess information sufficiency. It explains what positive,
-   negative and inconclusive findings would change. Record the origin of
-   each binding limit: scientific rationale, owner choice, data availability,
-   implementation capability or provisional technical default.
-3. **Reject an uninformative design.** A known-answer case in which the
+   effect or descriptive quantity, and which observations could answer it.
+   It justifies applicable statistical methods, required precision or detection
+   ability, and assumptions connecting observations to the intended claim. Address
+   dependence, selection and multiple testing where relevant; compare plausible
+   alternatives sufficiently to explain the choice. Follow the existing
+   [literature checks](../RESEARCH_PROTOCOL.md#decision-linked-literature-checks):
+   identify relevant primary academic evidence, counterfindings and limitations,
+   explain their applicability to this question, and record how they inform
+   the hypothesis, method, baseline or design. State what existing evidence
+   already answers and the remaining AQRS-specific gap, if any. Reuse applicable
+   prior reviews.
+   Published support for a method does not establish an AQRS market effect.
+   No directly matching paper is required when a defensible methodological
+   basis exists; missing or inaccessible evidence remains explicit.
+3. **Prospective test design.** In the existing Test Card or linked artifact,
+   specify the observations and measurement/availability rules, eligible
+   population and sampling, comparison/control, observation and analysis units,
+   and justified data scope. Specify relevant chronological splits, leakage and
+   overlap controls, metrics, estimator, uncertainty procedure, effect/precision
+   targets, and the sufficiency assessment under plausible dependence and
+   dispersion assumptions. Include applicable selection/exposure accounting,
+   stopping rules and the interpretation of positive, negative and inconclusive
+   results. Explain how those results would answer the question or change its
+   intended decision. Economic claims retain matched execution/cost assumptions;
+   protected confirmation retains its existing separation and authorization.
+   Use the elements applicable to the study's claim and stage; explain material
+   omissions. Record the origin of each binding limit: scientific rationale,
+   owner choice, data availability, implementation capability or provisional
+   technical default. A method that cannot support the intended claim, missing
+   measurement rules or a critical unjustified design assumption must trigger
+   specific rework before the dependent test. A corrected, justified case must
+   reach the feasibility assessment. Do not rescue outcomes by changing the
+   design retrospectively; changed questions or designs follow registration rules.
+4. **Reject an uninformative design.** A known-answer case in which the
    feasible data cannot distinguish the decision-relevant effects under the
    stated assumptions is not admitted as an adequate effect study. A shorter
    runtime or an LLM-selected default window cannot override that result.
    No universal sample minimum or probability cutoff is introduced here.
-4. **Admit a justified design.** A feasible case with justified precision,
+5. **Admit a justified design.** A feasible case with justified precision,
    dependence treatment and a realistic prospect of informing its question
    can proceed when its existing permissions and guards pass. Requiring
    final-confirmation evidence prematurely must not block a separately
    justified exploratory question. Success is not guaranteed significance.
-5. **Establish feasibility or stop and park.** When required evidence exceeds
+6. **Establish feasibility or stop and park.** When required evidence exceeds
    current capability, either establish and verify the missing prerequisites
    within authorized scope/budgets, or stop the affected test and retain it as
    parked work. Preserve its original question and required evidence. The
@@ -56,7 +84,7 @@ This register is the central source of truth for confirmed AQRS requirements. En
    and readiness is rechecked. Do not silently shorten the study, weaken its
    criteria, repeatedly run an inadequate substitute or classify inability to
    test as evidence of no edge. Parking with a stated reason is a valid outcome.
-6. **Keep pilot claims honest.** A technical test or preliminary study is
+7. **Keep pilot claims honest.** A technical test or preliminary study is
    allowed only for its own declared, decision-relevant question and acceptance
    criterion. A completed effect study cannot be relabelled as a pilot after
    an unhelpful result. Narrowing the question or changing the population must
