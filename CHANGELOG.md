@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-15 - Specify enforceable admission for every research execution
+
+Clarify FR-005 with scientific and execution readiness, study-bound admission,
+safe stops, actionable records and negative/valid execution acceptance cases.
+Record the bounded source-inspection gap: common preflight and study-specific
+receipts do not demonstrate universal question/design enforcement. Require
+separate qualification of scientific review; implementation, broader audit and
+research execution remain outside this requirements-only change.
+
+- `CHANGELOG.md`
+- `docs/requirements/REQUIREMENTS.md`
+- `docs/requirements/DECISIONS.md`
+- `docs/requirements/OPEN_QUESTIONS.md`
+
 ## 2026-11-15 - Include methods, academic evidence and test design in FR-005
 
 Extend the accepted research-planning requirement with the owner's clarification:

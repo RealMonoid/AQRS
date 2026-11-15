@@ -177,3 +177,49 @@ Method selection and study-specific inputs come later under M4/M5; this draft
 does not authorize immediate adoption or resumption of market research.
 Current default: existing evaluation rules. Draft preparation and publication
 are authorized; binding adoption is pending this product-scope choice.
+
+## FR-005 execution-enforcement gap
+
+**Open implementation/qualification gap, 2026-11-15; requirements work only.**
+The owner requires actual pre-run stops under
+[FR-005](REQUIREMENTS.md#fr-005-execution-enforcement-and-verification).
+This is not a request to reconfirm that stop requirement. The required behavior
+is specified; its complete implementation and scientific-review qualification
+have not been demonstrated.
+
+**Inspected baseline:** `cae45c91641c085c7f098a74bd13b60d8ef5b0de`.
+The [common CLI](../../src/aqrs/__main__.py) calls `research.run`, which checks
+data admission; `research.execute` checks preflight and reserves variants
+before supervised preparation and trials. The [configuration contract](../../src/aqrs/config.py)
+has no question/design review input. The inspected
+[preflight](../../src/aqrs/planning.py) checks counts, estimates, folds and
+required platform capability, not general scientific question/design adequacy.
+[Trial metadata](../../src/aqrs/research.py) includes a hypothesis or a fixed
+workflow question; recording that text is not a pre-run scientific review.
+The `plan` action can itself call a bounded synthetic fit pilot through
+`preflight`; the launch-path inventory must distinguish that computation from
+purely declarative planning instead of trusting an action's name.
+
+Separate launchers must also be considered: [E22](../../src/aqrs/predictive_spot.py)
+requires frozen published registration for a market run, while
+[E14](../../src/aqrs/m2_e14.py) checks a study-specific authorization/review
+receipt. These are existing partial controls, not evidence of universal FR-005
+enforcement. This bounded source inspection is not a complete launch-path audit
+or a runtime test; no research run or market-data read was performed.
+
+**Closure evidence required:** enumerate supported launch paths and demonstrate
+the FR-005 negative and valid cases through their real execution boundaries on
+Windows and Linux. Qualify the scientific review separately on independently
+assessed cases; a correct gate can still enforce a scientifically wrong review.
+Do not represent separate agent context as independent empirical evidence.
+The review's acceptable error criteria and escalation rules must be specified
+and justified before automatic use; no numerical threshold is invented here.
+Record unsupported paths explicitly and prevent their research use until they
+meet the same conditions. This does not require rewriting historical artifacts.
+
+**Current boundary:** retain the market-research stop. Requirements work may
+prepare the handoff; production implementation remains separately authorized
+under the [requirements role](AGENTS.md#scope-and-authority). This focused gap
+does not dispatch the broader AQRS-H01 audit or other queued research. No new
+owner approval is requested for this documentation; future implementation
+scope and any missing scientific qualification evidence must be concrete first.

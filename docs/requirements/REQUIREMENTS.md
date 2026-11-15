@@ -90,10 +90,71 @@ This register is the central source of truth for confirmed AQRS requirements. En
    an unhelpful result. Narrowing the question or changing the population must
    be explicit and prospective, with the original objective retained.
 
-These cases apply to study planning now. This requirements change does not
-establish that every runtime entry already enforces them; verification of
-implementation coverage remains a separate authorized task. Existing market
-stops, protected-data controls and Resource Governor limits remain binding.
+### FR-005 execution enforcement and verification
+
+Every supported research execution attempt must have a current, recorded
+admission decision before acquiring study data, accessing study outcomes or
+starting its study computation. This includes repeat/resume attempts and
+alternative launch paths. A CLI check alone is insufficient if a supported
+campaign or worker entry can bypass it. Purely declarative planning may remain
+available; a data-based feasibility study or pilot needs its own justified
+question, admission and authorization under the cases above.
+
+Admission combines **scientific readiness** (the question, literature/method
+basis, design and evidence sufficiency) with **execution readiness** (required
+data scope, implementation capability, permissions, exposure, protected-data
+controls and resource guards). Satisfying one does not establish the other.
+Mechanical completeness checks cannot establish scientific adequacy. Require
+a reasoned scientific review with attributable provenance and resolved material
+findings, assessed separately from the plan author's assertion. A bare `PASS`,
+filled fields or a confident LLM response is insufficient. A review procedure
+must be qualified on independently assessed clear, ambiguous and unsuitable
+cases before its decisions are relied on automatically. Unresolved uncertainty
+about a required admission condition stops the dependent test; expected
+statistical uncertainty does not itself prohibit a justified study.
+The review mechanism is an implementation choice, not a claim
+that software or an LLM can guarantee scientific correctness.
+
+Bind admission to the reviewed question/design revision, relevant code and
+configuration, data identity/scope, evidence and applicable authorization.
+Check that binding and current prerequisites on every launch. Changes affecting
+the claim, method, comparison, data scope or execution invalidate affected
+checks. Unchanged, applicable scientific evidence may be reused with a recorded
+reason; prior approval does not waive current resource, exposure or permission
+checks. Existing valid owner authorizations do not require renewed approval
+for every run. Missing, rejected, unverifiable or stale admission stops launch.
+
+Record the requested attempt, decision, evidence/review references, exact
+reason, required correction or missing prerequisite, and observable resumption
+condition in existing run/journal records. A failed admission check must not
+fall through to execution. If durable recording fails, do not launch; return
+an explicit failure without claiming that a record was saved. If a required
+condition fails during execution, stop affected work safely and prevent further
+dependent trials. Preserve incurred exposure and distinguish this stop from a
+scientific finding. Resume only after relevant rework and renewed admission;
+do not automatically retry an unchanged rejected request.
+
+Implementation acceptance must exercise the real supported launch paths on
+native Windows and headless Linux, with observable data-access and worker/fit
+counters. Public engineering fixtures verify control behavior; independent
+scientific qualification data, when needed, are supplied by the owner.
+
+| Case | Required observable result |
+|---|---|
+| Missing, contradictory or insufficiently operationalized question | Specific rework; zero study-data/outcome accesses, study workers and fits. |
+| Fully populated plan with an unsuitable method or unjustified information sufficiency | Scientific rejection or unresolved review blocks the test despite complete fields. Correcting the design permits a fresh assessment. |
+| Missing data/capability/permission, exhausted budget or unavailable required guard | A parked prerequisite with exact reason and restart condition; zero study work. |
+| Missing/failed review, unresolved material finding, forged or mismatched approval, or record-storage failure | No launch; explicit failure, never a default approval or invented audit record. |
+| Plan, data scope, relevant code or permission changes after review | Old approval cannot launch the changed work; the actual executed inputs match the admitted version. |
+| Repeat/resume, alternate command or direct supported campaign/worker entry | The same admission conditions hold; an uncovered path is not enabled for research. |
+| Valid reviewed public engineering case with all current prerequisites | One authorized bounded execution starts, and its admission references and actual work are recorded. Blanket rejection does not pass acceptance. |
+| Required execution condition is lost during a run | Safe stop, no next dependent trial, retained exposure and an explicit non-scientific stop reason. |
+
+These criteria specify intended enforcement. The current
+[implementation gap](OPEN_QUESTIONS.md#fr-005-execution-enforcement-gap)
+remains open; documentation review does not demonstrate runtime enforcement
+or validate a scientific reviewer. Existing market stops, protected-data
+controls and Resource Governor limits remain binding.
 
 ## Nonfunctional requirements
 

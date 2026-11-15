@@ -47,6 +47,19 @@ claim, critical unjustified assumptions, and a corrected design reaching the
 feasibility assessment. No statistical family, test window or numerical
 threshold is selected by this clarification.
 
+**Enforcement clarification, 2026-11-15, same owner chat.** The owner asked
+how AQRS will actually check these requirements before every research run and
+stop for unclear questions, unsuitable designs or missing prerequisites.
+[FR-005 execution criteria](REQUIREMENTS.md#fr-005-execution-enforcement-and-verification)
+make the required behavior observable: current scientific and execution
+readiness, a decision bound to the actual study, fail-closed launch behavior,
+actionable recorded stops and coverage of every supported execution path.
+The implementation must distinguish qualified scientific judgment from form
+validation. This specifies the existing stop requirement; it does not select
+a review provider, mandate repeated owner approvals, implement a gate or lift
+the market-research stop. The source-inspection gap and qualification limits
+are retained in [Open Questions](OPEN_QUESTIONS.md#fr-005-execution-enforcement-gap).
+
 [FR-005](REQUIREMENTS.md#fr-005-acceptance-cases) records this requirement and
 its observable admission/closeout cases. It makes the existing
 [question-led sufficiency rule](../SEQUENCE_PREFLIGHT.md#research-evidence-sufficiency)
@@ -90,3 +103,17 @@ review, 22 local link/anchor checks, exact three-path changelog coverage,
 language audit/self-test and whitespace checks passed. Non-documentation
 source matches `dceae89`; its accepted Windows/Linux checks remain applicable.
 Full runtime enforcement remains unverified; no research run is dispatched.
+
+**Enforcement resource assessment.** Requirements clarification, bounded source
+inspection, independent review and documentation checks are estimated at
+15-30 minutes. They add zero research trials, fits, market-data reads or new
+runtime dependencies. Implementation effort and recurring scientific-review
+latency, model/API cost and memory use are not yet measured; no budget fit is
+claimed. Reuse an applicable review of an unchanged design, while checking
+current launch conditions every time. The smallest later qualification must
+prove rejection before data/worker access and a valid bounded synthetic start;
+it is not an authorization to run it here. Retain current Governor limits;
+budget any review or calibration explicitly rather than hiding it outside
+the campaign. Any implementation touching launch, journal or protected-data
+boundaries requires the existing risk assessment before coding. This increment
+changes requirements documentation only and does not modify those mechanisms.
