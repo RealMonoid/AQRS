@@ -4905,3 +4905,110 @@ legacy study merely because its technical launcher exists.
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
 | AQRS-W01-P05 | 2026-11-14 | DONE | Owner-reported blind check of dfe907c on 94 files: 0/60 null false advantages, 5/5 reversed correct, 4/4 short inconclusive, 2/15 small and 5/10 medium effects detected; 18/18 statsmodels comparisons agree. | Numerical/common-path behavior supported by external evidence; low 60-day detectability motivates authorized FR-005-P01. Hidden files remain unseen. |
+
+## FR-005-P01: detectability before a synthetic study
+
+Owner authorization, 2026-11-16: replace the fixed sentence with required question,
+rule, minimum accuracy advantage over the stronger constant control, and actions
+for advantage/no advantage/inconclusive. Keep legacy entries blocked; remove old
+worktree-booking imports. The five-part prerequisite plan and mandatory human
+reviewer were rejected. Runtime question-meaning assessment is a later step.
+
+- **Baseline/external evidence:** the owner reports a blind check of `dfe907c`,
+  94 volume-rule files: null 0/60 false advantages, reversed 5/5 correct, short
+  4/4 inconclusive, small effect 2/15 detected, medium 5/10; HAC agreed with
+  statsmodels in 18/18 comparisons. Files and reference outcomes were not seen
+  here. A training-fixed threshold let a constant control reach about 55% in
+  volatile periods. This is external evidence, not a rerun by Codex.
+- **Hypothesis/minimum proof:** a bounded simulation of the actual paired daily
+  scorer, including persistent quiet/volatile phases, can reject low-detectability
+  plans before input access and let adequate plans reach the existing execution.
+  Keep the score definition; do not substitute absolute 53% for a 3-point gap.
+- **Predetermined criterion:** require detection in at least 80% of 256 simulated
+  series. Four chances in five is the declared engineering tolerance for missing
+  the smallest worthwhile effect; 256 draws give about 2.5 percentage points of
+  Monte Carlo standard error at 80%, reported alongside the finite-sample interval.
+  This is a conditional synthetic operating characteristic, not universal power.
+- **Proof:** missing-field and weak-plan rejection before CSV access; strong-plan
+  execution; shared scorer parity, planted population gap, both regimes and
+  persistence; finite extent guidance; resource timeout; existing admission,
+  causality, ledger and Windows/non-root Linux regressions plus fixed-diff review.
+- **Resource/budget:** started 2026-11-15 23:43:47 UTC (2026-11-16 local); hard
+  four-hour task cap. No sources or market data. Simulations run sequentially in
+  the existing supervised worker under trial/campaign wall and RAM limits, with
+  explicit replicate/evaluation counts; no fitted predictive model or new dependency.
+  At most four prospective doubled validation scopes are assessed for guidance;
+  guidance never silently extends the requested study. Stop on exhausted guards.
+- **Risk screen:** critical admission/statistical control changes; see the existing
+  FR-005 fault tree. Preserve request/source binding, replay protection, deadlines
+  and blocked legacy entries; remove obsolete sentence/design/prerequisite checks.
+- **Disposition: SUPPORTED / PERSEVERE for the bounded engineering step.**
+  Required fields and conditional detectability are enforced for both bar rules.
+  Question meaning is not judged; no human expert is assumed or required.
+
+### Measured results and bounded diagnosis
+
+- Source `6a1b265` passed native Windows `python -m pytest -q --tb=short`:
+  **474 passed in 374.53s**, exit 0. `python -m ruff check .`,
+  `python scripts/check_language_policy.py`, its `--self-test`, and
+  `git diff --check` passed (exit 0); the language audit covered 61 files.
+- Independent fixed-diff review of `dfe907c..be2e813` found a completed-fold
+  counter written before scoring and an unlabelled configuration-cap boundary.
+  `6a1b265` corrects both. Re-review found no new material issue; injected first-
+  and second-fold failures showed 1 started/0 completed and 2 started/1 completed.
+  Two local regression cases cover these outcomes. Runtime guards were retained.
+- Public volume illustration, `artifacts/fr-005-p01/volume-60-final.json`, run
+  `afc4a9fba7654b8cb8080350b545ed98`: 30-minute bars, 30 training days,
+  two folds with **60 scored days**, minimum advantage **0.03 over the stronger
+  constant control**. **77/256 = 30.078125%** detected, Monte Carlo interval
+  **24.79%-35.96%**; exit **2**, `INSUFFICIENT_DETECTABILITY`, no preparation,
+  candidate trial or fit. The expected control accuracy was 54.67%, not 50%.
+  First sufficient tested scope: **961.25 scored days / 59,481 total bars**,
+  243/256 detected. This is conditional planning guidance, not a minimal duration
+  or authorization to cross protected dates. Five scopes/1,280 series took
+  5.656 worker wall seconds, 5.4375 sampled CPU seconds, 126.77 MiB peak RSS.
+- Initial fixture failures reflected the removed fixed contract, retired Ridge
+  entry and obsolete ledger imports; they were migrated without bypassing the
+  real detectability check. A preliminary scope-guidance calculation incorrectly
+  applied actual acquisition date locks to hypothetical simulation dates; only
+  simulated calendar construction changed, while actual run locks remain intact.
+- Hosted run [43779089212](https://github.com/RealMonoid/AQRS/actions/runs/43779089212)
+  passed both non-root Ubuntu versions and Windows/Python 3.11 (474 tests each).
+  Windows/Python 3.12 had 473 passes and one valid ledger-copy CLI case returning
+  cancellation (130). Its assertion omitted the stop reason, so the cause is
+  **unknown**; no platform cause is inferred. The case passed locally in 8.71s.
+  `756235a` adds diagnostic output only; no product code, simulation parameter,
+  threshold or safety limit changed. One bounded hosted diagnostic repeat passed.
+  A recurrence with a recorded reason is the trigger for a targeted correction;
+  an unexplained cancellation is not scientific evidence or a resolved defect.
+
+- Hosted diagnostic repeat [43779918128](https://github.com/RealMonoid/AQRS/actions/runs/43779918128),
+  source/test revision `756235a`: all four Windows/Ubuntu x Python 3.11/3.12
+  jobs passed, **474 tests each**, including real CLI plan/run, non-root Linux,
+  preserved-evidence and exposure verification, Ruff and language checks.
+  The cancellation did not recur; its cause remains unproven. Product source
+  is unchanged from independently reviewed `6a1b265`; only test diagnostics
+  changed afterwards. Documentation closeout reuses those runtime checks.
+- Cleanup removed **71 lines** of old booking-import code in `journal.py` and
+  **48 old lines** in `study_admission.py`; required structured fields and the
+  detectability binding replace the latter. Existing global bookings, actual
+  input binding and legacy-entry stops remain. This is a gross removal count,
+  not a claim that the admission module became shorter overall.
+- Preserved and hash-verified 107 local files (1,341,295 bytes) under
+  `artifacts/fr-005-p01/`; failed/partial attempts remain available.
+  Every changed repository path appears in the single `CHANGELOG.md` entry.
+- **Time:** 2026-11-16 local; **47m 03s** measured from
+  2026-11-15 23:43:47 UTC through 2026-11-16 00:30:50 UTC.
+  This endpoint includes implementation, corrections, review and native/hosted
+  verification; subsequent documentation/publication waiting is outside this
+  measurement. The owner's four-hour cap remains binding through closeout.
+- **Next dispatch:** FR-005-P02 waits for the owner's unseen-plan results.
+  No hidden plan, reference answer or independent claim was accessed here.
+  General question-meaning assessment is a later separately scoped step;
+  no market study or general five-part review programme follows automatically.
+
+Closed queue record:
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| FR-005-P01 | 2026-11-16 | COMPLETED | Structured synthetic study request and regime-aware detectability before study access, for the two existing bar rules only. | Owner's four-hour implementation order in chat `01a1e020-aa73-7120-a42c-bd3d16a153ba`; see the bounded card below. No market data, external research, new documents or runtime LLM judgment. |

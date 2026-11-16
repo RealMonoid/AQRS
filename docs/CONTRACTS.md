@@ -692,6 +692,8 @@ volume control prevalence 0.50/0.60 relative to each fold's training medians
 and symmetric weekly accuracy shocks up to 0.04/0.16. The planted population
 accuracy gap is exact in expectation; individual realizations fluctuate.
 These are explicit stress assumptions, not fitted claims about unseen data.
+The minimum effect is the planning alternative; the existing advantage decision
+still tests improvement over zero, not proof that the gap exceeds that minimum.
 
 Four doubled validation scopes may be simulated for rejected-plan guidance.
 The first sufficient tested scope is not a proven minimum and never changes

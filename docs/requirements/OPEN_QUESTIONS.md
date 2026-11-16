@@ -191,7 +191,7 @@ market research or the general AQRS-H01 audit.
 **Owner correction, 2026-11-16:** the five-part prerequisite plan was rejected;
 automated research is the goal and no human expert is assumed. Other LLMs are
 allowed under the revised FR-005 known-answer accuracy requirement; the question
-author does not supply its reference judgment. Question-meaning assessment is
+author does not provide its admission judgment or benchmark reference answer. Question-meaning assessment is
 a later step, with no runtime LLM judgment in the current increment.
 
 [FR-005-P01](../MILESTONE_STATUS.md#fr-005-p01-detectability-before-a-synthetic-study)

@@ -10,6 +10,10 @@ stale receipt must not bypass detection. Bound all simulations and extent guidan
 by the existing supervisor; never read the submitted CSV to tune the simulation.
 Negative/positive cases and held-back owner plans test these claims. Mathematical
 question sense and general scientific adequacy remain outside this bounded step.
+Independent review corrected premature completed-fold accounting and unlabelled
+row-cap guidance. One hosted Windows cancellation lacked its reason; improved
+test diagnostics and a bounded repeat passed, but its cause remains unknown.
+See the [FR-005-P01 result](MILESTONE_ARCHIVE.md#fr-005-p01-detectability-before-a-synthetic-study).
 
 **2026-11-15, Engineering owns implementation; independent review verifies it.**
 Top event: an unclear, unsuitable, unqualified or unauthorized study accesses

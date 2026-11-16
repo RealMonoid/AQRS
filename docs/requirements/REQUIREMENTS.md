@@ -113,7 +113,7 @@ Mechanical completeness checks cannot establish scientific adequacy. Require
 a reasoned scientific review with attributable provenance and resolved material
 findings, assessed separately from the plan author's assertion. A bare `PASS`,
 filled fields or a confident LLM response is insufficient. A language model may perform scientific review once its accuracy on known-answer cases has been measured.
-The author of a question must not supply its reference judgment.
+The question author must not also provide its scientific admission judgment or the reference answer used to evaluate that judgment.
 Record the measured results, applicable scope and unresolved findings; a human reviewer is not required.
 Material unresolved admission conditions stop dependent work; ordinary statistical uncertainty alone does not.
 Measured review accuracy does not guarantee scientific correctness.

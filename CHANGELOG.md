@@ -8,7 +8,9 @@ minimum-effect detectability and prospective scope guidance, and bind a pass
 before study access. Remove old-worktree booking imports while retaining current
 ledger entries and execution guards. Record the owner blind result and revised
 LLM-review requirement; no human expert or runtime LLM is assumed. Verification
-is in the existing FR-005-P01 card; no new documentation file is introduced.
+is in the archived FR-005-P01 card, including a non-reproduced Windows
+cancellation and the successful diagnostic repeat; no new documentation file
+is introduced.
 
 - `CHANGELOG.md`
 - `README.md`

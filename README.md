@@ -11,12 +11,13 @@ research scope remains short-horizon systematic trading, with separate predictiv
 economic and independent evidence. A useful workflow improvement does not require
 a profitable market finding.
 
-**Current owner instruction:** new research runs remain stopped. The first
+**Current owner instruction:** new market research runs remain stopped. The first
 [structured selection format](docs/CONTRACTS.md#f3-structured-next-question-selection-format-only)
 and [five public examples](examples/research_selection_cases.json) specify the
 next-question interface only. There is no selector implementation or independent
-selection-quality result. The [authorized implementation sequence](docs/MILESTONE_STATUS.md#experiment-queue)
-starts with workflow questions, central attempt accounting and general data locks.
+selection-quality result. The [current increment](docs/MILESTONE_STATUS.md#experiment-queue)
+checks conditional detectability for synthetic study plans; unseen owner plans
+remain the next independent check.
 
 **Repository language: English. Local target: native Windows. Required secondary target: headless Linux. Future deployments: cloud-provider neutral, CPU-first.** See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 

@@ -4,25 +4,29 @@ This file is **normative**. Add each new architectural decision as a numbered AD
 
 ### ADR-057: bounded synthetic detectability, not a general review layer
 
-**Experimental, 2026-11-16; owner-authorized four-hour increment.** Replace the
+**Accepted for the bounded synthetic engineering scope, 2026-11-16.** Replace the
 fixed sentence contract with explicit study fields for the two existing synthetic
 bar rules. Reuse the same scorer and native supervisor for 256 conditional
 simulations; require 80% detection of the declared control-relative minimum effect.
 The owner rejected the preceding five-part plan and a mandatory human reviewer.
 Known-answer evaluation may qualify an LLM; the question author does not supply
-its reference judgment. No runtime LLM, new documents, external literature or
+its admission judgment or benchmark reference answer. No runtime LLM, new documents, external literature or
 market data are in this step. Remove old-worktree ledger import and artificial
 sentence/design/prerequisite checks; retain actual launch, source, input, resource
 and replay protections. Revisit the simulation assumptions on independent
 known-answer failures, not by tuning against submitted study outcomes.
+The [FR-005-P01 result](MILESTONE_ARCHIVE.md#fr-005-p01-detectability-before-a-synthetic-study)
+records independent code review and Windows/Linux verification; owner-held
+study plans and general scientific qualification remain open.
 
 ### ADR-056: enforce study admission at parent and worker boundaries
 
 **Status: accepted for engineering enforcement, 2026-11-15.** FR-005's owner-authorized
 increment reuses the common journal, source snapshots and native supervisor.
 An installed deterministic contract qualifies only the current synthetic
-engineering workflow. Unknown questions, scientific claims and unqualified legacy
-entries stop; caller-written review flags cannot grant authority. A durable
+engineering workflow. ADR-057 supersedes its fixed-question qualification;
+market claims and unqualified legacy entries remain blocked. Caller-written
+review flags cannot grant authority. A durable
 single-use worker receipt binds the actual request to current campaign admission.
 An in-memory one-time proof sent through the supervisor's control pipe prevents
 a copied receipt from granting execution; only its digest is persisted.
