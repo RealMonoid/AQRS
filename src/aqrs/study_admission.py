@@ -14,7 +14,6 @@ from contextvars import ContextVar
 from dataclasses import dataclass
 from functools import wraps
 from hashlib import sha256
-from math import isfinite
 from pathlib import Path
 from secrets import compare_digest, token_bytes
 from time import monotonic
@@ -69,7 +68,6 @@ def effect_variation(study: dict) -> dict:
         or value["decision_case"] not in ("constant", "fluctuating")
         or any(
             type(value[k]) not in (int, float)
-            or not isfinite(value[k])
             or not 0 <= value[k] <= 1
             for k in ("quiet", "volatile")
         )
@@ -113,7 +111,7 @@ def assess(config: dict, base: Path) -> dict:
             "Complete the structured study request.",
         )
     effect = study["minimum_effect"]
-    if type(effect) not in (int, float) or not isfinite(effect) or not 0 < effect < 0.5:
+    if type(effect) not in (int, float) or not 0 < effect < 0.5:
         raise reject(
             "INVALID_EFFECT",
             "minimum_effect must be an accuracy gap strictly between 0 and 0.5.",

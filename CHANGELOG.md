@@ -6,6 +6,7 @@ Respond to the independent blind-plan result: report constant and configurable
 fluctuating detectability, bind the chosen case, restore Ridge with a visible
 unsupported-check notice, and remove duplicate admission checks and unused
 legacy argument capture. Preserve tested execution boundaries and existing limits.
+Reject non-finite and oversized numeric assumptions with durable failure records.
 Update existing canonical records only; no new documentation file is introduced.
 
 - `CHANGELOG.md`

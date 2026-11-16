@@ -69,6 +69,8 @@ def test_question_is_not_a_fixed_sentence_or_an_llm_judgment(config, tmp_path):
         {"decision_case": "constant", "quiet": -1, "volatile": 0.16},
         {"decision_case": "constant", "quiet": True, "volatile": 0.16},
         {"decision_case": "fluctuating", "quiet": 0.04, "volatile": float("nan")},
+        {"decision_case": "constant", "quiet": 10**400, "volatile": 0.16},
+        {"decision_case": "fluctuating", "quiet": 0.04, "volatile": float("inf")},
     ],
 )
 def test_invalid_variation_rejected_before_dispatch(
@@ -122,7 +124,9 @@ def test_zero_configured_shocks_match_constant_case(config):
     assert estimate(config, 1, "constant") == estimate(config, 1, "fluctuating")
 
 
-@pytest.mark.parametrize("effect", [0, -0.1, 0.5, True, "0.03", float("nan")])
+@pytest.mark.parametrize(
+    "effect", [0, -0.1, 0.5, True, "0.03", float("nan"), 10**400, float("inf")]
+)
 def test_invalid_effect_rejected(config, tmp_path, effect):
     config["study"]["minimum_effect"] = effect
     with pytest.raises(AdmissionRejected, match="accuracy gap"):
