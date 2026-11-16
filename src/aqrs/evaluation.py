@@ -290,14 +290,18 @@ def evaluate_bar_rule(request: dict, directory: Path, rule: BarRule) -> dict:
         request["bar_minutes"],
     )
 
-    def counted(fit_count):
+    def starting(_):
         reserve_fit(request, directory, len(request["folds"]))
+
+    def completed(fit_count):
         write_json(directory / "fits.json", fit_count)
 
-    return score_bar_rule(bars, request["folds"], rule, counted)
+    return score_bar_rule(bars, request["folds"], rule, starting, completed)
 
 
-def score_bar_rule(bars: Bars, folds: list, rule: BarRule, on_fold=None) -> dict:
+def score_bar_rule(
+    bars: Bars, folds: list, rule: BarRule, on_fold=None, on_completed=None
+) -> dict:
     """One decision implementation for simulation and the actual study."""
     calendar_days = (bars.values[:, 0] // 86400).astype(int)
     first_day = calendar_days[folds[0][2]]
@@ -314,6 +318,8 @@ def score_bar_rule(bars: Bars, folds: list, rule: BarRule, on_fold=None) -> dict
         np.add.at(day_counts, days, 1)
         for daily, guess in zip(daily_hits, (pred, 1, -1), strict=True):
             np.add.at(daily, days, np.where(truth == 0, 0.5, guess == truth))
+        if on_completed is not None:
+            on_completed(fit_count)
 
     observations = int(day_counts.sum())
     accuracy, *control_accuracies = (daily_hits.sum(axis=1) / observations).tolist()

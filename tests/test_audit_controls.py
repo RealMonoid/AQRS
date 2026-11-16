@@ -276,7 +276,9 @@ def test_legacy_supervised_config_check_rejects_duplicate_keys(tmp_path, monkeyp
     monkeypatch.setattr(supervised, "read_window", forbidden)
     monkeypatch.setattr(supervised, "supervise", forbidden)
     with pytest.raises(ValueError, match="Duplicate"):
-        supervised.compare.__wrapped__(tmp_path, {}, None, "duplicate", {"costs": supervised.COSTS})
+        supervised.compare.__wrapped__(
+            tmp_path, {}, None, "duplicate", {"costs": supervised.COSTS}
+        )
 
 
 def test_supervised_screen_is_evaluation_state_and_keeps_frozen_costs(
@@ -445,6 +447,10 @@ def test_preparation_timeout_is_terminal_without_candidate_start(tmp_path, monke
     calls = []
 
     def blocked(directory, request, seconds, deadline, rss):
+        if request.get("stage") == "detectability":
+            from aqrs.governor import supervise as admitted_supervise
+
+            return admitted_supervise(directory, request, seconds, deadline, rss)
         calls.append(request)
         assert request["stage"] == "prepare"
         return supervise(
@@ -882,7 +888,8 @@ def test_legacy_lightgbm_calculation_remains_available_but_launch_is_blocked(tmp
         supervised.main(tmp_path / "blocked")
     # Preserve an actual estimator check as a numerical unit test, not admission.
     result = supervised.evaluate_worker.__wrapped__(
-        {"model": "lightgbm", "pilot_rows": 80, "pilot_columns": 3, "fit_limit": 1}, tmp_path
+        {"model": "lightgbm", "pilot_rows": 80, "pilot_columns": 3, "fit_limit": 1},
+        tmp_path,
     )
     assert result["rows"] == 80 and result["fit_wall_seconds"] >= 0
     assert json.loads((tmp_path / "fits.json").read_text()) == 1

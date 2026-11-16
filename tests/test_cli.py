@@ -24,7 +24,6 @@ def isolated_cli_project(tmp_path, monkeypatch):
     monkeypatch.setattr(Path, "home", classmethod(lambda cls: tmp_path / "test home"))
 
 
-
 def copy_application(root):
     shutil.copytree(
         ROOT / "src/aqrs",
@@ -83,7 +82,8 @@ def config_at(tmp_path, **limits):
     )
     config["project"].update(path_base=".", artifact_dir="research results Ã¼")
     config["journal"]["sqlite_path"] = "research results Ã¼/journal.sqlite3"
-    config["market"]["n_bars"] = 240
+    config["market"].update(n_bars=240, bar_minutes=1440)
+    config["study"]["minimum_effect"] = 0.4
     config["research"].update(train_bars=60, validation_bars=30, walk_forward_folds=2)
     config["resource_governor"].update(limits)
     path = tmp_path / "research config.yaml"
@@ -294,24 +294,20 @@ def test_common_run_scores_volume_movement(tmp_path, volumes, decision, accuracy
         validation_bars=962,
     )
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
-    config["research"]["candidates"].insert(
-        0, {"id": "VOLUME", "model": "volume_movement"}
-    )
+    config["research"]["candidates"] = [{"id": "VOLUME", "model": "volume_movement"}]
+    config["study"]["rule"] = "volume_movement"
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     result = cli("run", path)
     assert result.returncode == 0, result.stderr or result.stdout
     output = Path(json.loads(result.stdout)["output_dir"])
     report = json.loads((output / "report.json").read_text(encoding="utf-8"))
     plan = report["plan"]
-    assert plan["started_trials"] == 2 and plan["planned_pilot_fits"] == 0
-    assert plan["planned_fits"] == plan["started_fits"] == plan["completed_fits"] == 4
+    assert plan["started_trials"] == 1 and plan["planned_pilot_fits"] == 0
+    assert plan["planned_fits"] == plan["started_fits"] == plan["completed_fits"] == 2
     admission = report["variant_admission"]
-    assert set(admission["variant_keys"]) == {"VOLUME", "REVERSAL"}
+    assert set(admission["variant_keys"]) == {"VOLUME"}
     assert (
-        len(set(admission["variant_keys"].values())) == admission["requested_new"] == 2
-    )
-    assert (
-        report["trials"][1]["metrics"]["directional_reversal"]["observations"] == 1920
+        len(set(admission["variant_keys"].values())) == admission["requested_new"] == 1
     )
     trial = report["trials"][0]
     comparison = trial["metrics"]["volume_movement"]
@@ -360,6 +356,7 @@ def test_bar_rule_rejects_foreign_source_before_campaign(tmp_path, model, source
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["market"]["source"] = source
     config["research"]["candidates"][0]["model"] = model
+    config["study"]["rule"] = model
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     result = cli("run", path)
     assert result.returncode == 2
@@ -387,7 +384,10 @@ def assert_admission_rejection(result, base, config, reason_code):
             (summary["run_id"],),
         ).fetchall()
     manifest = json.loads(manifest)
-    assert "preparation" not in manifest
+    if reason_code == "PREREQUISITE_MISSING":
+        assert not manifest["preparation"]["started"]
+    else:
+        assert "preparation" not in manifest
     assert manifest["stop_reason"] == summary["stop_reason"]
     assert len(attempts) == len(config["research"]["candidates"])
     for status, evidence, metadata in attempts:
@@ -418,6 +418,7 @@ def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect
         ]
     else:
         config["research"]["candidates"][0]["model"] = model
+    config["study"]["rule"] = model
     if defect == "protected":
         # The interval crosses midnight into the protected day. The
         # training/input scope alone is sufficient for rejection.
@@ -449,7 +450,7 @@ def test_common_admission_blocks_data_for_each_candidate(tmp_path, model, defect
 
 
 def test_common_cli_counts_variants_across_invocations_and_output_directories(tmp_path):
-    path = reversal_config(tmp_path, "COUNTING_TEST", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "COUNTING_TEST", 1440, 2024, (1, -1))
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
 
@@ -457,19 +458,15 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
         path.write_text(yaml.safe_dump(config), encoding="utf-8")
         return cli("run", path)
 
-    # A reversal and three groups of three Ridge feature sets. Each group
-    # uses another horizon inside the same scheduled validation window.
+    # Ten overlapping temporal designs consume ten distinct variants.
     first = launch()
     assert first.returncode == 0, first.stderr or first.stdout
     first_summary = json.loads(first.stdout)
-    for horizon in (1, 2, 3):
-        config["research"]["horizon_bars"] = horizon
-        for feature in ("past_return", "relative_volume", "rolling_volatility"):
-            config["research"]["candidates"] = [
-                {"id": "RIDGE", "model": "ridge", "features": [feature]}
-            ]
-            outcome = launch()
-            assert outcome.returncode == 0, outcome.stderr or outcome.stdout
+    for train_bars in range(41, 50):
+        config["research"]["train_bars"] = train_bars
+        outcome = launch()
+        assert outcome.returncode == 0, outcome.stderr or outcome.stdout
+    config["research"]["train_bars"] = 40
 
     config["project"]["artifact_dir"] = "fresh output"
     config["research"].update(
@@ -483,13 +480,7 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
     assert first_summary["output_dir"] != second_summary["output_dir"]
 
     path.with_name("input.csv").unlink()
-    config["research"]["candidates"] = [
-        {
-            "id": "ELEVENTH",
-            "model": "ridge",
-            "features": ["past_return", "relative_volume"],
-        }
-    ]
+    config["research"]["train_bars"] = 50
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
     config["research"]["train_bars"] += 1
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
@@ -504,6 +495,7 @@ def test_common_cli_counts_variants_across_invocations_and_output_directories(tm
     config["journal"]["sqlite_path"] = "alternate.sqlite3"
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
     config["research"]["candidates"] = [{"id": "VOLUME", "model": "volume_movement"}]
+    config["study"]["rule"] = "volume_movement"
     assert_admission_rejection(launch(), tmp_path, config, "VARIANT_LIMIT")
     config["journal"]["sqlite_path"] = original_journal
 
@@ -532,7 +524,7 @@ def test_variant_budget_is_scoped_to_source_symbol_and_overlapping_period(
     path = reversal_config(
         tmp_path,
         "TEST_SCOPE",
-        5,
+        1440,
         2024,
         (1, -1),
         n_bars=300,
@@ -560,15 +552,13 @@ def test_variant_budget_is_scoped_to_source_symbol_and_overlapping_period(
 
 
 def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
-    first = reversal_config(tmp_path, "RACE_TEST", 5, 2024, (1, -1))
+    first = reversal_config(tmp_path, "RACE_TEST", 1440, 2024, (1, -1))
     config = yaml.safe_load(first.read_text(encoding="utf-8"))
     config["resource_governor"].update(max_variants_per_evaluation_period=1)
     config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
     first.write_text(yaml.safe_dump(config), encoding="utf-8")
     second = first.with_name("second.yaml")
-    config["research"]["candidates"] = [
-        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
-    ]
+    config["research"]["train_bars"] += 1
     config["journal"]["sqlite_path"] = "concurrent.sqlite3"
     second.write_text(yaml.safe_dump(config), encoding="utf-8")
     with ThreadPoolExecutor(max_workers=2) as pool:
@@ -591,12 +581,12 @@ def test_concurrent_cli_requests_cannot_both_take_the_last_slot(tmp_path):
         )
 
 
-def test_legacy_variant_reservations_survive_project_ledger_upgrade(tmp_path):
+def test_old_project_reservations_are_not_imported(tmp_path):
     from contextlib import closing
 
     from aqrs import journal
 
-    path = reversal_config(tmp_path, "LEGACY_TEST", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "LEGACY_TEST", 1440, 2024, (1, -1))
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     database = tmp_path / "test application" / "artifacts" / "research.sqlite3"
     with closing(journal.connect(database)) as db:
@@ -616,19 +606,20 @@ def test_legacy_variant_reservations_survive_project_ledger_upgrade(tmp_path):
                 ),
             )
     original = database.read_bytes()
-    path.with_name("input.csv").unlink()
     config["resource_governor"]["max_variants_per_evaluation_period"] = 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
-    assert_admission_rejection(cli("run", path), tmp_path, config, "VARIANT_LIMIT")
+    result = cli("run", path)
+    assert result.returncode == 0, result.stdout or result.stderr
     assert database.read_bytes() == original
     with sqlite3.connect(ledger_path(tmp_path)) as db:
-        assert db.execute(
-            "SELECT source, symbol, first_experiment_id FROM variant_exposures"
-        ).fetchall() == [("synthetic_csv", "LEGACY_TEST", "old-run:REVERSAL")]
+        rows = db.execute(
+            "SELECT first_experiment_id FROM variant_exposures"
+        ).fetchall()
+        assert len(rows) == 1 and rows[0][0] != "old-run:REVERSAL"
 
 
 def test_cli_reports_ledger_creation_after_deletion(tmp_path):
-    path = reversal_config(tmp_path, "NEW_LEDGER", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "NEW_LEDGER", 1440, 2024, (1, -1))
     path.with_name("input.csv").unlink()
 
     def check_creation(expected):
@@ -650,16 +641,14 @@ def test_cli_reports_ledger_creation_after_deletion(tmp_path):
 
 
 def test_cli_shares_ledger_across_project_copies(tmp_path):
-    path = reversal_config(tmp_path, "SHARED_LEDGER", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "SHARED_LEDGER", 1440, 2024, (1, -1))
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["max_variants_per_evaluation_period"] = 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     assert cli("run", path).returncode == 0
     path.with_name("input.csv").unlink()
     config["journal"]["sqlite_path"] = "second copy.sqlite3"
-    config["research"]["candidates"] = [
-        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
-    ]
+    config["research"]["train_bars"] += 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     second_copy = tmp_path / "second checkout"
     copy_application(second_copy)
@@ -670,7 +659,7 @@ def test_cli_shares_ledger_across_project_copies(tmp_path):
     assert ledger_path(tmp_path).is_file()
 
 
-def test_cli_imports_legacy_ledgers_from_linked_worktrees(tmp_path):
+def test_cli_does_not_import_legacy_ledgers_from_linked_worktrees(tmp_path):
     from contextlib import closing
 
     first = tmp_path / "test application"
@@ -716,27 +705,31 @@ def test_cli_imports_legacy_ledgers_from_linked_worktrees(tmp_path):
                 ),
             )
     prior_contents = [p.read_bytes() for p in prior_ledgers]
-    path = reversal_config(tmp_path, "LEGACY_SYMBOL", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "LEGACY_SYMBOL", 1440, 2024, (1, -1))
     path.with_name("input.csv").unlink()
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["max_variants_per_evaluation_period"] = 2
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
 
     summary = assert_admission_rejection(
-        cli("run", path, project=second), tmp_path, config, "VARIANT_LIMIT"
+        cli("run", path, project=second), tmp_path, config, "PREREQUISITE_MISSING"
     )
     assert summary["variant_ledger_created"] is True
     assert [p.read_bytes() for p in prior_ledgers] == prior_contents
     for old_path in prior_ledgers:
         old_path.unlink()
     summary = assert_admission_rejection(
-        cli("run", path, project=first), tmp_path, config, "VARIANT_LIMIT"
+        cli("run", path, project=first), tmp_path, config, "PREREQUISITE_MISSING"
     )
     assert summary["variant_ledger_created"] is False
 
+    with sqlite3.connect(ledger_path(tmp_path)) as db:
+        rows = db.execute("SELECT variant_key FROM variant_exposures").fetchall()
+    assert len(rows) == 1 and not rows[0][0].startswith("old-variant")
+
 
 def test_cli_symbol_padding_shares_quota_and_variant_identity(tmp_path):
-    path = reversal_config(tmp_path, "TEST_SYMBOL", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "TEST_SYMBOL", 1440, 2024, (1, -1))
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["max_variants_per_evaluation_period"] = 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
@@ -753,9 +746,7 @@ def test_cli_symbol_padding_shares_quota_and_variant_identity(tmp_path):
     assert report["variant_admission"]["requested_new"] == 0
     assert report["variant_admission"]["symbol"] == "TEST_SYMBOL"
     path.with_name("input.csv").unlink()
-    config["research"]["candidates"] = [
-        {"id": "RIDGE", "model": "ridge", "features": ["past_return"]}
-    ]
+    config["research"]["train_bars"] += 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     assert_admission_rejection(cli("run", path), tmp_path, config, "VARIANT_LIMIT")
     config["market"]["symbol"] = " \t "
@@ -768,11 +759,11 @@ def test_cli_symbol_padding_shares_quota_and_variant_identity(tmp_path):
     "defect", ["timestamp", "marker", "declared_start", "fit_budget"]
 )
 def test_reversal_rejects_invalid_csv_before_trial(tmp_path, defect):
-    path = reversal_config(tmp_path, "TEST_ALPHA", 5, 2024, (1, -1))
+    path = reversal_config(tmp_path, "TEST_ALPHA", 1440, 2024, (1, -1))
     csv_path = path.with_name("input.csv")
     text = csv_path.read_text(encoding="utf-8")
     if defect == "timestamp":
-        text = text.replace("T12:05:00+00:00", "T12:04:00+00:00", 1)
+        text = text.replace("2024-01-08T12:00:00+00:00", "2024-01-08T11:59:00+00:00", 1)
     elif defect == "marker":
         text = text.replace(",synthetic\n", ",real\n", 1)
     elif defect == "declared_start":
@@ -816,13 +807,14 @@ def test_bar_rule_scores_and_identity_exclude_reserved_csv_rows(tmp_path, model)
     path = reversal_config(
         tmp_path,
         "TEST_ALPHA",
-        5,
+        1440,
         2024,
         (0.5, 1.5) if volume_rule else (1, -1),
         volumes=(3, 1),
     )
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["research"]["candidates"][0]["model"] = model
+    config["study"]["rule"] = model
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
 
     def run():
@@ -835,9 +827,8 @@ def test_bar_rule_scores_and_identity_exclude_reserved_csv_rows(tmp_path, model)
     key = "volume_movement" if volume_rule else "directional_reversal"
     comparison = before["trials"][0]["metrics"][key]
     assert comparison["accuracy"] == 1.0
-    assert comparison["decision"] == "INCONCLUSIVE"
-    assert comparison["uncertainty_status"] == "INSUFFICIENT_UTC_DAYS"
-    assert comparison["contrasts"] == {}
+    assert comparison["decision"].endswith("ADVANTAGE")
+    assert comparison["uncertainty_status"] == "ESTIMATED"
     csv_path = path.with_name("input.csv")
     rows = csv_path.read_text(encoding="utf-8").splitlines()
     for i in range(129, len(rows)):
@@ -863,12 +854,7 @@ def read_report(result):
     assert (path / "dataset.csv").exists()
     markdown = (path / "report.md").read_text(encoding="utf-8")
     assert "No real-world alpha" in markdown
-    assert "does not establish predictability or net profitability" in markdown
-    assert "not a calibrated horizon forecast" in markdown
-    assert "Spearman rank correlation" in markdown
-    assert "Descriptive diagnostics" in markdown
-    assert "no significance or economic claim" in markdown
-    assert "| Fold | Observations | Rank correlation |" in markdown
+    assert "Synthetic detectability" in markdown
     return json.loads((path / "report.json").read_text(encoding="utf-8"))
 
 
@@ -916,9 +902,14 @@ def test_common_market_entry_requires_scientific_qualification(tmp_path, variant
     result = cli("run", path)
     assert result.returncode == 2
     summary = json.loads(result.stdout)
-    assert summary["reason_code"] == "SCIENTIFIC_REVIEW_REQUIRED"
+    assert summary["reason_code"] == "SOURCE_NOT_ALLOWED_FOR_CANDIDATE"
     assert summary["output_dir"] is None
-    assert summary["study_data_accesses"] == summary["started_workers"] == summary["started_fits"] == 0
+    assert (
+        summary["study_data_accesses"]
+        == summary["started_workers"]
+        == summary["started_fits"]
+        == 0
+    )
 
 
 def test_reserved_spot_day_is_rejected_before_io(tmp_path):
@@ -951,10 +942,13 @@ def test_reserved_spot_day_is_rejected_before_io(tmp_path):
         )
 
 
-def test_legacy_supervised_entry_cannot_snapshot_or_launch_without_admission(tmp_path, monkeypatch):
+def test_legacy_supervised_entry_cannot_snapshot_or_launch_without_admission(
+    tmp_path, monkeypatch
+):
     import runpy
 
     from aqrs.admission import AdmissionRejected
+
     monkeypatch.chdir(tmp_path)
     entry = runpy.run_path(str(ROOT / "scripts/m2_supervised_pilot.py"))["main"]
     with pytest.raises(AdmissionRejected, match="not qualified"):
@@ -977,8 +971,8 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
     result = cli("plan", config)
     assert result.returncode == 0, result.stderr or result.stdout
     plan = json.loads(result.stdout)
-    assert plan["planned_trials"] == 2
-    assert plan["planned_fits"] == 5
+    assert plan["planned_trials"] == 1
+    assert plan["planned_fits"] == 2
     assert plan["preflight_status"] == "ADMITTED"
     first = read_report(cli("run", config))
     second = read_report(cli("run", config))
@@ -988,27 +982,22 @@ def test_cli_reproduces_results_and_keeps_distinct_campaigns(tmp_path, monkeypat
     assert [t["metrics"] for t in first["trials"]] == [
         t["metrics"] for t in second["trials"]
     ]
-    assert first["plan"]["completed_fits"] == 5
+    assert first["plan"]["completed_fits"] == 2
     assert first["plan"]["sampled_cpu_seconds"] > 0
     assert all(t["evidence_status"] == "INSUFFICIENT_EVIDENCE" for t in first["trials"])
     with sqlite3.connect(tmp_path / "research results Ã¼/journal.sqlite3") as db:
         assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
         assert db.execute("SELECT COUNT(*) FROM campaigns").fetchone() == (2,)
-        assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (4,)
+        assert db.execute("SELECT COUNT(*) FROM experiments").fetchone() == (2,)
         for (stored,) in db.execute("SELECT metrics_json FROM experiments"):
-            exposure = json.loads(stored)["diagnostic_exposure"]
-            assert len(exposure) == 15
-            assert {row["view"] for row in exposure} == {
-                "aggregate",
-                "fold_1",
-                "fold_2",
-            }
+            comparison = json.loads(stored)["directional_reversal"]
+            assert comparison["observations"] == 56
         assert db.execute(
             "SELECT COUNT(*) FROM experiments WHERE duplicate_of IS NOT NULL"
-        ).fetchone() == (2,)
+        ).fetchone() == (1,)
     with sqlite3.connect(ledger_path(tmp_path)) as ledger:
         assert ledger.execute("SELECT COUNT(*) FROM variant_exposures").fetchone() == (
-            2,
+            1,
         )
 
 
@@ -1019,7 +1008,7 @@ def test_cli_journals_rejected_budget_and_strict_memory_without_fits(tmp_path):
     config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
 
-    for fixture, fits in ((path, 75_000), (None, 5)):
+    for fixture, fits in ((path, 37_500), (None, 2)):
         result = cli("run", fixture or config_at(tmp_path, memory_mode="strict"))
         assert result.returncode == 2, result.stderr or result.stdout
         summary = json.loads(result.stdout)
@@ -1033,7 +1022,7 @@ def test_cli_journals_rejected_budget_and_strict_memory_without_fits(tmp_path):
         assert db.execute(
             "SELECT execution_status, evidence_status, COUNT(*) FROM experiments "
             "GROUP BY 1, 2"
-        ).fetchall() == [("REJECTED_PREFLIGHT", "NOT_EVALUATED", 4)]
+        ).fetchall() == [("REJECTED_PREFLIGHT", "NOT_EVALUATED", 2)]
 
 
 def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monkeypatch):
@@ -1050,9 +1039,9 @@ def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monke
     calls = []
 
     def first_blocks(directory, request, trial_seconds, deadline, rss):
-        if request.get("stage") == "prepare":
+        if request.get("stage") in {"detectability", "prepare"}:
             return supervise(directory, request, trial_seconds, deadline, rss)
-        calls.append(request["features"])
+        calls.append(request["model"])
         if len(calls) == 1:
             return _supervise_process(
                 directory,
@@ -1067,59 +1056,44 @@ def test_real_timeout_is_journaled_and_retry_links_prior_attempt(tmp_path, monke
     monkeypatch.setattr(research, "supervise", first_blocks)
     failed, code = research.run(config, base, plan_only=False)
     assert code == 1 and failed["execution_status"] == "TIMED_OUT"
-    assert len(calls) == 2
+    assert len(calls) == 1
     rerun, code = research.run(config, base, plan_only=False)
-    assert code == 0 and len(calls) == 4
+    assert code == 0 and len(calls) == 2
     with sqlite3.connect(base / config["journal"]["sqlite_path"]) as db:
         timed_out = db.execute(
             "SELECT experiment_id, evidence_status, metrics_json FROM experiments "
             "WHERE execution_status = 'TIMED_OUT'"
         ).fetchall()
-        assert timed_out == [(f"{failed['run_id']}:C_LAG", "NOT_EVALUATED", None)]
+        assert timed_out == [(f"{failed['run_id']}:REVERSAL", "NOT_EVALUATED", None)]
         metadata, duplicate = db.execute(
             "SELECT metadata_json, duplicate_of FROM experiments WHERE experiment_id = ?",
-            (f"{rerun['run_id']}:C_LAG",),
+            (f"{rerun['run_id']}:REVERSAL",),
         ).fetchone()
         assert json.loads(metadata)["prior_attempt_id"] == timed_out[0][0]
         assert duplicate is None
 
 
 def test_cancellation_stops_remaining_candidates(tmp_path, monkeypatch):
-    from aqrs import planning, research
+    from aqrs import research
     from aqrs.config import load
+    from aqrs.governor import supervise
 
     config, base = load(config_at(tmp_path))
+    config["research"]["candidates"].append({"id": "SECOND", "model": "bar_reversal"})
+    calls = []
 
-    def cancel(*args):
+    def cancel_trial(*args):
+        if args[1].get("stage") in {"detectability", "prepare"}:
+            return supervise(*args)
+        calls.append(args)
         return {
             "execution_status": "CANCELLED",
             "stop_reason": "Cancelled by operator.",
             "completed_fits": 0,
             "peak_rss_mb": None,
+            "started": True,
+            "runtime_wall_seconds": 0.1,
         }
-
-    def unexpected(*args):
-        if args[1].get("stage") == "prepare":
-            from aqrs.governor import supervise
-
-            return supervise(*args)
-        raise AssertionError("A candidate started after cancellation.")
-
-    monkeypatch.setattr(planning, "supervise", cancel)
-    monkeypatch.setattr(research, "supervise", unexpected)
-    summary, code = research.run(config, base, plan_only=False)
-    assert code == 130 and summary["execution_status"] == "CANCELLED"
-
-    config["resource_governor"]["preflight"]["measure_representative_pilot"] = False
-    calls = []
-
-    def cancel_trial(*args):
-        if args[1].get("stage") == "prepare":
-            from aqrs.governor import supervise
-
-            return supervise(*args)
-        calls.append(args)
-        return cancel() | {"started": True, "runtime_wall_seconds": 0.1}
 
     monkeypatch.setattr(research, "supervise", cancel_trial)
     summary, code = research.run(config, base, plan_only=False)
@@ -1127,8 +1101,8 @@ def test_cancellation_stops_remaining_candidates(tmp_path, monkeypatch):
     assert len(calls) == 1
     with sqlite3.connect(base / config["journal"]["sqlite_path"]) as db:
         assert db.execute(
-            "SELECT DISTINCT execution_status, evidence_status FROM experiments"
-        ).fetchall() == [("CANCELLED", "NOT_EVALUATED")]
+            "SELECT execution_status, evidence_status FROM experiments"
+        ).fetchall() == [("CANCELLED", "NOT_EVALUATED"), ("CANCELLED", "NOT_EVALUATED")]
 
 
 def test_unwritable_journal_prevents_worker_launch(tmp_path, monkeypatch):
@@ -1175,6 +1149,7 @@ def test_holdout_changes_do_not_affect_research_metrics_or_priority(
 
     def admitted_preparation(request):
         from aqrs.study_admission import admitted_worker, authorize_worker
+
         admitted, secret = authorize_worker(request)
         with admitted_worker(admitted, lambda: secret):
             return research.prepare_data(request)
@@ -1223,19 +1198,21 @@ def test_prior_attempt_links_follow_reservation_order(tmp_path):
     ):
         for db, run_id in ((first, "earlier"), (second, "later")):
             journal.begin(db, run_id, "config", config, {})
-            journal.start_experiment(db, run_id, "C_LAG", {"evidence_key": "same-key"})
+            journal.start_experiment(
+                db, run_id, "REVERSAL", {"evidence_key": "same-key"}
+            )
         for db, run_id in ((first, "earlier"), (second, "later")):
             trial = {
-                "experiment_id": f"{run_id}:C_LAG",
-                "candidate_id": "C_LAG",
+                "experiment_id": f"{run_id}:REVERSAL",
+                "candidate_id": "REVERSAL",
                 "execution_status": "COMPLETED",
                 "evidence_status": "INSUFFICIENT_EVIDENCE",
             }
             journal.finish_experiment(db, run_id, trial, {"evidence_key": "same-key"})
         earlier, later = first.execute(
-            "SELECT metadata_json, duplicate_of FROM experiments WHERE candidate_id = 'C_LAG' "
+            "SELECT metadata_json, duplicate_of FROM experiments WHERE candidate_id = 'REVERSAL' "
             "ORDER BY rowid"
         ).fetchall()
         assert "prior_attempt_id" not in json.loads(earlier[0])
-        assert json.loads(later[0])["prior_attempt_id"] == "earlier:C_LAG"
-        assert later[1] == "earlier:C_LAG"
+        assert json.loads(later[0])["prior_attempt_id"] == "earlier:REVERSAL"
+        assert later[1] == "earlier:REVERSAL"

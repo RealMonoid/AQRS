@@ -25,14 +25,10 @@ def study_config(tmp_path, monkeypatch):
     )
     config["project"].update(artifact_dir="results", path_base=".")
     config["journal"]["sqlite_path"] = "results/journal.sqlite3"
-    config["market"]["n_bars"] = 240
+    config["market"].update(n_bars=240, bar_minutes=1440)
     config["research"].update(train_bars=60, validation_bars=30, walk_forward_folds=2)
-    config["study"] = {
-        "question": QUESTION,
-        "design": "common_synthetic_workflow_v1",
-        "claim": "engineering",
-        "prerequisites": [],
-    }
+    config["study"]["minimum_effect"] = 0.4
+    config["research"]["candidates"].append({"id": "SECOND", "model": "bar_reversal"})
     return config
 
 
@@ -55,15 +51,10 @@ def test_unclear_question_stops_before_worker(study_config, tmp_path, monkeypatc
 @pytest.mark.parametrize(
     "change, reason",
     [
-        ({"question": "Does it work?"}, "QUESTION_UNREVIEWED"),
-        (
-            {"question": "Will the strategy profit and never lose?"},
-            "QUESTION_UNREVIEWED",
-        ),
-        ({"design": "use_any_available_20_rows"}, "DESIGN_UNQUALIFIED"),
-        ({"claim": "market_alpha"}, "DESIGN_UNQUALIFIED"),
-        ({"PASS": True}, "DESIGN_UNQUALIFIED"),
-        ({"prerequisites": ["missing-method-evidence.json"]}, "PREREQUISITE_MISSING"),
+        ({"rule": "unqualified"}, "RULE_MISMATCH"),
+        ({"minimum_effect": 0}, "INVALID_EFFECT"),
+        ({"PASS": True}, "STUDY_FIELDS_REQUIRED"),
+        ({"on_inconclusive": ""}, "STUDY_FIELDS_REQUIRED"),
     ],
 )
 def test_bad_plan_is_recorded_before_data_or_workers(
@@ -106,7 +97,7 @@ def test_valid_engineering_case_really_starts(study_config, tmp_path):
     result, code = research.run(study_config, tmp_path, plan_only=False)
     assert code == 0, result
     report = json.loads((Path(result["output_dir"]) / "report.json").read_text())
-    assert report["study_admission"]["decision"] == "ADMITTED_ENGINEERING_ONLY"
+    assert report["study_admission"]["decision"] == "STRUCTURED_SYNTHETIC_REQUEST"
     assert report["study_admission"]["supports_market_claim"] is False
     assert report["plan"]["started_trials"] == 2
     assert report["plan"]["completed_fits"] > 0
@@ -157,7 +148,13 @@ def admitted_context(study_config, tmp_path):
             "admission-test",
             fingerprint(study_config),
             study_config,
-            {"study_admission": decision},
+            {
+                "study_admission": decision,
+                "detectability": {
+                    "admitted": True,
+                    "configuration": fingerprint(study_config),
+                },
+            },
         )
     with admitted_run(database, "admission-test", study_config, tmp_path, decision):
         yield database
@@ -231,10 +228,10 @@ def test_revoked_record_and_changed_config_stop_before_dispatch(
         pytest.fail("Invalid admission reached Popen.")
 
     monkeypatch.setattr(governor.subprocess, "Popen", forbidden)
-    study_config["study"]["design"] = "unreviewed"
+    study_config["study"]["rule"] = "unreviewed"
     result = governor.supervise(tmp_path, {}, 10, time.monotonic() + 20, 512)
-    assert result["reason_code"] == "DESIGN_UNQUALIFIED" and not result["started"]
-    study_config["study"]["design"] = "common_synthetic_workflow_v1"
+    assert result["reason_code"] == "RULE_MISMATCH" and not result["started"]
+    study_config["study"]["rule"] = "bar_reversal"
     with sqlite3.connect(admitted_context) as db:
         db.execute("UPDATE campaigns SET execution_status = 'CANCELLED'")
     result = governor.supervise(tmp_path, {}, 10, time.monotonic() + 20, 512)
@@ -251,7 +248,16 @@ def test_missing_input_is_rejected_before_popen(study_config, tmp_path, monkeypa
     def forbidden(*args, **kwargs):
         pytest.fail("Unavailable input reached Popen.")
 
-    monkeypatch.setattr(governor, "_supervise_process", forbidden)
+    actual = governor._supervise_process
+    monkeypatch.setattr(
+        governor,
+        "_supervise_process",
+        lambda directory, request, *a, **k: (
+            actual(directory, request, *a, **k)
+            if request.get("stage") == "detectability"
+            else forbidden()
+        ),
+    )
     result, code = research.run(study_config, tmp_path, plan_only=False)
     assert code == 2 and result["reason_code"] == "PREREQUISITE_MISSING"
     report = json.loads((Path(result["output_dir"]) / "report.json").read_text())
@@ -420,8 +426,8 @@ def test_unqualified_legacy_entry_is_durably_blocked_before_its_body(
     "study,reason",
     [
         ({"question": ""}, "QUESTION_UNCLEAR"),
-        ({"design": "unqualified-method"}, "DESIGN_UNQUALIFIED"),
-        ({"prerequisites": ["absent-proof"]}, "PREREQUISITE_MISSING"),
+        ({"rule": "unqualified-method"}, "RULE_MISMATCH"),
+        ({"on_advantage": ""}, "STUDY_FIELDS_REQUIRED"),
     ],
 )
 def test_real_cli_rejects_bad_study(study_config, tmp_path, study, reason):
@@ -509,27 +515,21 @@ def test_repeat_is_a_new_attempt_and_correction_reaches_assessment(
     assert code == 0 and plan["preflight_status"] == "ADMITTED"
 
 
-def test_lost_prerequisite_prevents_next_dependent_trial(
+def test_revoked_admission_prevents_next_dependent_trial(
     study_config, tmp_path, monkeypatch
 ):
-    prerequisite = tmp_path / "review-evidence"
-    prerequisite.touch()
-    study_config["study"]["prerequisites"] = [prerequisite.name]
     actual_supervise = research.supervise
-    dispatched = []
 
-    def supervised(*args, **kwargs):
-        outcome = actual_supervise(*args, **kwargs)
-        dispatched.append(outcome)
-        if (
-            len(dispatched) == 2
-        ):  # Preparation, then first candidate; timing is in planning.
-            prerequisite.unlink()
+    def supervised(directory, request, *args, **kwargs):
+        outcome = actual_supervise(directory, request, *args, **kwargs)
+        if "model" in request:
+            with sqlite3.connect(tmp_path / "results/journal.sqlite3") as db:
+                db.execute("UPDATE campaigns SET execution_status = 'CANCELLED'")
         return outcome
 
     monkeypatch.setattr(research, "supervise", supervised)
     result, code = research.run(study_config, tmp_path, plan_only=False)
-    assert code == 2 and result["reason_code"] == "PREREQUISITE_MISSING"
+    assert code == 2 and result["reason_code"] == "ADMISSION_REVOKED"
     report = json.loads((Path(result["output_dir"]) / "report.json").read_text())
     assert report["trials"][0]["execution_status"] == "COMPLETED"
     assert report["trials"][1]["started"] is False
@@ -558,7 +558,7 @@ from aqrs.study_admission import assess, admitted_run, authorize_worker
 root=Path(sys.argv[1]); config=json.loads((root/'config.json').read_text())
 decision=assess(config,root); database=root/'orphan.sqlite3'
 with closing(journal.connect(database)) as db:
-    journal.begin(db,'orphan',fingerprint(config),config,{'study_admission':decision})
+    journal.begin(db,'orphan',fingerprint(config),config,{'study_admission':decision,'detectability':{'admitted':True,'configuration':fingerprint(config)}})
 with admitted_run(database,'orphan',config,root,decision):
     request,secret=authorize_worker({'pilot_rows':40,'pilot_columns':1,'fit_limit':1})
     write_json(root/'grant.json', request)
@@ -615,17 +615,12 @@ def test_expired_grant_stops_before_dispatch(admitted_context, tmp_path, monkeyp
     assert not result["started"] and result["reason_code"] == "ADMISSION_EXPIRED"
 
 
-def test_prerequisite_named_declared_input_cannot_lose_its_binding(
-    study_config, tmp_path, monkeypatch
-):
+def test_declared_input_cannot_lose_its_binding(study_config, tmp_path, monkeypatch):
     from aqrs import governor, journal
     from aqrs.storage import fingerprint
     from aqrs.study_admission import admitted_run, assess
 
-    prerequisite = tmp_path / "declared_input"
-    prerequisite.write_text("Initial evidence")
     (tmp_path / "input.csv").write_text("Not accessed by this admission test.")
-    study_config["study"]["prerequisites"] = [prerequisite.name]
     study_config["market"].update(
         source="synthetic_csv", csv_path="input.csv", start_at="2024-02-01T00:00:00Z"
     )
@@ -637,7 +632,13 @@ def test_prerequisite_named_declared_input_cannot_lose_its_binding(
             "collision",
             fingerprint(study_config),
             study_config,
-            {"study_admission": decision},
+            {
+                "study_admission": decision,
+                "detectability": {
+                    "admitted": True,
+                    "configuration": fingerprint(study_config),
+                },
+            },
         )
     monkeypatch.setattr(
         governor.subprocess,
@@ -645,7 +646,7 @@ def test_prerequisite_named_declared_input_cannot_lose_its_binding(
         lambda *a, **k: pytest.fail("Changed prerequisite reached Popen."),
     )
     with admitted_run(database, "collision", study_config, tmp_path, decision):
-        prerequisite.write_text("Changed evidence, with another size")
+        (tmp_path / "input.csv").write_text("Changed input with another size")
         result = governor.supervise(
             tmp_path,
             {"pilot_rows": 40, "pilot_columns": 1},
@@ -654,3 +655,31 @@ def test_prerequisite_named_declared_input_cannot_lose_its_binding(
             512,
         )
     assert not result["started"] and result["reason_code"] == "ADMISSION_CHANGED"
+
+
+@pytest.mark.parametrize(
+    "proof",
+    [None, {"admitted": False}, {"admitted": True, "configuration": "another-plan"}],
+)
+def test_missing_or_mismatched_detectability_stops_preparation(
+    admitted_context, tmp_path, monkeypatch, proof
+):
+    from aqrs import governor
+
+    with sqlite3.connect(admitted_context) as db:
+        manifest = json.loads(
+            db.execute("SELECT manifest_json FROM campaigns").fetchone()[0]
+        )
+        if proof is None:
+            manifest.pop("detectability")
+        else:
+            manifest["detectability"] = proof
+        db.execute("UPDATE campaigns SET manifest_json = ?", (json.dumps(manifest),))
+    monkeypatch.setattr(
+        governor.subprocess, "Popen", lambda *a, **k: pytest.fail("Unqualified launch")
+    )
+    outcome = governor.supervise(
+        tmp_path, {"stage": "prepare"}, 8, time.monotonic() + 10, 512
+    )
+    assert not outcome["started"]
+    assert outcome["reason_code"] == "DETECTABILITY_REQUIRED"

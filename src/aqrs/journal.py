@@ -119,8 +119,6 @@ def has_table(db: sqlite3.Connection, name: str) -> bool:
 
 
 def reserve_variants(
-    db: sqlite3.Connection,
-    journal_path: Path,
     run_id: str,
     scope: tuple[str, str],
     period: tuple[str, str],

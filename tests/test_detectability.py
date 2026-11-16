@@ -136,7 +136,7 @@ def test_detectability_runs_under_existing_wall_guard(config, tmp_path):
     config["resource_governor"]["max_wall_seconds_per_trial"] = 5
     config["market"].update(n_bars=100000, bar_minutes=1)
     config["research"].update(train_bars=25000, validation_bars=25000)
-    config["study"]["minimum_effect"] = .00001
+    config["study"]["minimum_effect"] = 0.00001
     # This fits the preflight memory/fit estimate, but the simulation and guidance
     # must still obey the actual external deadline.
     summary, code = research.run(config, tmp_path, plan_only=False)
@@ -152,3 +152,59 @@ def test_very_short_design_remains_undecidable(config):
     config["study"]["minimum_effect"] = 0.2
     result = estimate(config, 1)
     assert result["detections"] == 0
+
+
+@pytest.mark.parametrize("completed_before_failure", [0, 1])
+def test_failed_fold_is_started_but_not_completed(
+    config, tmp_path, monkeypatch, completed_before_failure
+):
+    from dataclasses import replace
+
+    from aqrs import evaluation
+    from aqrs.storage import write_json
+
+    folds = layout(config)
+    bars, _, _ = simulated_series(config, folds, np.random.default_rng(52))
+    monkeypatch.setattr(evaluation, "load_prefix", lambda request: bars.values)
+    started = []
+
+    def reserve(*args):
+        started.append(1)
+        write_json(tmp_path / "started_fits.json", len(started))
+
+    monkeypatch.setattr(evaluation, "reserve_fit", reserve)
+    rule = BAR_RULES["volume_movement"]
+    original = rule.predictions
+    calls = []
+
+    def failing(*args):
+        calls.append(1)
+        if len(calls) > completed_before_failure:
+            raise RuntimeError("Injected failure during fold scoring")
+        return original(*args)
+
+    with pytest.raises(RuntimeError, match="Injected failure"):
+        evaluation.evaluate_bar_rule(
+            {"folds": folds, "symbol": bars.symbol, "bar_minutes": bars.bar_minutes},
+            tmp_path,
+            replace(rule, predictions=failing),
+        )
+    assert (
+        json.loads((tmp_path / "started_fits.json").read_text())
+        == completed_before_failure + 1
+    )
+    complete = tmp_path / "fits.json"
+    assert (
+        json.loads(complete.read_text()) if complete.exists() else 0
+    ) == completed_before_failure
+
+
+def test_hypothetical_guidance_identifies_unsupported_row_extent(config, monkeypatch):
+    from aqrs import detectability
+
+    monkeypatch.setattr(detectability, "REPETITIONS", 1)
+    config["market"].update(n_bars=201821, bar_minutes=5)
+    config["research"]["validation_bars"] = 80008
+    result = estimate(config, 4)
+    assert result["required_total_bars"] == 201821
+    assert not result["within_configuration_row_limits"]

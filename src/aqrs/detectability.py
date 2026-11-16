@@ -139,6 +139,10 @@ def estimate(config, multiplier):
         "evaluation_days": evaluated_bars * config["market"]["bar_minutes"] / 1440,
         "validation_bars_per_fold": config["research"]["validation_bars"],
         "required_total_bars": config["market"]["n_bars"],
+        "within_configuration_row_limits": max(
+            config["market"]["n_bars"], config["research"]["validation_bars"]
+        )
+        <= 100_000,
         "expected_control_accuracy": expected_control,
         "expected_rule_accuracy": expected_accuracy,
         "mean_realized_rule_accuracy": float(np.mean(accuracies)),
@@ -182,7 +186,12 @@ def check(config):
         "guidance": (
             "The requested scope reaches the conditional detection target."
             if admitted
-            else "Use the first sufficient tested scope as prospective planning guidance; it is not a proven minimum or permission to extend this study."
+            else (
+                "The first sufficient tested scope exceeds the current 100000-row configuration limit; implementation capacity must change before that scope can run. "
+                if not assessments[-1]["within_configuration_row_limits"]
+                else ""
+            )
+            + "Use the first sufficient tested scope as prospective planning guidance; it is not a proven minimum or permission to extend this study."
             if sufficient
             else "No sufficient scope found through the largest assessed scope; the necessary extent remains unresolved."
         ),

@@ -209,7 +209,7 @@ def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRe
     return manifest, 2
 
 
-def reserve_campaign_variants(config, db, database_path, report, plan):
+def reserve_campaign_variants(config, report, plan):
     """Bind the scheduled evaluation window and variants from config alone."""
     start, step = data_scope(config["market"])
     research = config["research"]
@@ -253,7 +253,7 @@ def reserve_campaign_variants(config, db, database_path, report, plan):
     limit = variant_limit(config["resource_governor"])
     scope = (market["source"], market["symbol"].upper())
     admission = journal.reserve_variants(
-        db, database_path, report["run_id"], scope, period, variants, limit
+        report["run_id"], scope, period, variants, limit
     )
     report["variant_ledger_created"] = admission.pop("ledger_created")
     report["variant_admission"] = {
@@ -315,8 +315,7 @@ def execute(
                 resumption_condition="A new attempt completes the detectability check within the existing limits.",
             )
     if plan["preflight_status"] == "ADMITTED":
-        database_path = (base / config["journal"]["sqlite_path"]).resolve()
-        reserve_campaign_variants(config, db, database_path, report, plan)
+        reserve_campaign_variants(config, report, plan)
     if plan["preflight_status"] == "ADMITTED":
         preparation = supervise(
             output,

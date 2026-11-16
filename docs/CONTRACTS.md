@@ -711,6 +711,8 @@ recorded in the report and journal, not executed as arbitrary commands.
 
 Old study/acquisition/replay modules remain blocked. The global variant ledger
 retains existing bookings, but no old journal/worktree bookings are imported.
+Prospective extent guidance identifies scopes beyond the current configuration
+row limits; such a scope requires implementation capacity before it can run.
 The installed application and local journal remain trusted; this is not a
 sandbox against arbitrary code or database rewriting. General scientific
 question review is a later step under the revised FR-005 known-answer rule;
