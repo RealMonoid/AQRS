@@ -645,7 +645,8 @@ def test_cli_shares_ledger_across_project_copies(tmp_path):
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["max_variants_per_evaluation_period"] = 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
-    assert cli("run", path).returncode == 0
+    first = cli("run", path)
+    assert first.returncode == 0, first.stdout or first.stderr
     path.with_name("input.csv").unlink()
     config["journal"]["sqlite_path"] = "second copy.sqlite3"
     config["research"]["train_bars"] += 1
@@ -733,7 +734,8 @@ def test_cli_symbol_padding_shares_quota_and_variant_identity(tmp_path):
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     config["resource_governor"]["max_variants_per_evaluation_period"] = 1
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
-    assert cli("run", path).returncode == 0
+    first = cli("run", path)
+    assert first.returncode == 0, first.stdout or first.stderr
     config["market"]["symbol"] = "  TEST_SYMBOL \t"
     path.write_text(yaml.safe_dump(config), encoding="utf-8")
     rerun = cli("run", path)
