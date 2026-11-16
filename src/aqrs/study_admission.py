@@ -1,7 +1,7 @@
 """FR-005 admission at the application boundary, not a general scientific judge.
 
-Structured requests cover only the two synthetic bar rules. A caller cannot
-replace the supervised detectability check by supplying PASS.
+Structured requests cover synthetic bar rules and Ridge. A caller cannot
+replace a required supervised detectability check by supplying PASS.
 The local journal and installed application are trusted; arbitrary Python or
 an operator rewriting either is outside this application-interface boundary.
 """
@@ -26,12 +26,16 @@ from aqrs import journal
 from aqrs.admission import AdmissionRejected
 from aqrs.storage import fingerprint
 
-POLICY = "FR005_SYNTHETIC_DETECTABILITY_V1"
+POLICY = "FR005_SYNTHETIC_STUDY_V2"
 _parent = ContextVar("study_parent_admission", default=None)
 _worker = ContextVar("study_worker_admission", default=None)
 
 
-def reject(code: str, reason: str, action: str) -> AdmissionRejected:
+def reject(
+    code: str,
+    reason: str,
+    action: str = "Correct the reported condition and start a fresh checked attempt.",
+) -> AdmissionRejected:
     error = AdmissionRejected(code, reason)
     error.required_action = action
     error.resumption_condition = (
@@ -48,6 +52,34 @@ def source_identity() -> str:
             for p in sorted(Path(__file__).parent.glob("*.py"))
         }
     )
+
+
+def effect_variation(study: dict) -> dict:
+    value = study.get(
+        "effect_variation",
+        {
+            "decision_case": "fluctuating",
+            "quiet": 0.04,
+            "volatile": 0.16,
+        },
+    )
+    if (
+        not isinstance(value, dict)
+        or set(value) != {"decision_case", "quiet", "volatile"}
+        or value["decision_case"] not in ("constant", "fluctuating")
+        or any(
+            type(value[k]) not in (int, float)
+            or not isfinite(value[k])
+            or not 0 <= value[k] <= 1
+            for k in ("quiet", "volatile")
+        )
+    ):
+        raise reject(
+            "INVALID_VARIATION",
+            "Invalid effect_variation assumption.",
+            "Specify decision_case constant/fluctuating and quiet/volatile amplitudes from 0 to 1.",
+        )
+    return value.copy()
 
 
 def assess(config: dict, base: Path) -> dict:
@@ -71,7 +103,7 @@ def assess(config: dict, base: Path) -> dict:
         "on_no_advantage",
         "on_inconclusive",
     }
-    if set(study) != keys or any(
+    if not keys <= set(study) <= keys | {"effect_variation"} or any(
         not isinstance(study[k], str) or not study[k].strip()
         for k in keys - {"minimum_effect"}
     ):
@@ -87,13 +119,14 @@ def assess(config: dict, base: Path) -> dict:
             "minimum_effect must be an accuracy gap strictly between 0 and 0.5.",
             "State the smallest relevant advantage over the stronger constant control as a fraction.",
         )
-    if study["rule"] not in {"bar_reversal", "volume_movement"} or any(
+    effect_variation(study)
+    if study["rule"] not in {"bar_reversal", "volume_movement", "ridge"} or any(
         c["model"] != study["rule"] for c in config["research"]["candidates"]
     ):
         raise reject(
             "RULE_MISMATCH",
-            "The requested study rule must match every candidate and be bar_reversal or volume_movement.",
-            "Use one of the two supported synthetic rules consistently.",
+            "The study rule must match every candidate: bar_reversal, volume_movement or ridge.",
+            "Use one supported synthetic rule consistently.",
         )
     if config["market"]["source"] not in {"synthetic", "synthetic_csv"}:
         raise reject(
@@ -111,7 +144,7 @@ def assess(config: dict, base: Path) -> dict:
         "policy": POLICY,
         "decision": "STRUCTURED_SYNTHETIC_REQUEST",
         "study": study.copy(),
-        "review_basis": "Required fields only; question meaning is not judged. Detectability must pass before study work.",
+        "review_basis": "Required fields only; question meaning is not judged. Bar-rule detectability is checked; Ridge detectability is unsupported.",
         "configuration": fingerprint(config),
         "source": source_identity(),
         "input_file": input_file,
@@ -134,7 +167,6 @@ class _Run:
             raise reject(
                 "ADMISSION_EXPIRED",
                 "The admitted campaign validity has expired.",
-                "Register a new checked attempt within the authorized budget.",
             )
         try:
             owner = psutil.Process(self.owner_process[0])
@@ -149,14 +181,12 @@ class _Run:
             raise reject(
                 "ADMISSION_PARENT_LOST",
                 "The admission issuer is no longer alive.",
-                "Start a new checked attempt; stale RUNNING records cannot resume a study.",
             )
         current = assess(self.config, self.base)
         if current != self.decision:
             raise reject(
                 "ADMISSION_CHANGED",
                 "The admitted source, configuration or prerequisite changed.",
-                "Reassess the changed study before resuming.",
             )
         with closing(
             sqlite3.connect(self.database.as_uri() + "?mode=ro", uri=True, timeout=1)
@@ -176,12 +206,15 @@ class _Run:
             raise reject(
                 "ADMISSION_REVOKED",
                 "Current durable campaign admission is missing, changed or revoked.",
-                "Restore valid current admission through a new checked attempt.",
             )
-        if ready and not (
-            manifest.get("detectability", {}).get("admitted") is True
-            and manifest["detectability"].get("configuration")
-            == current["configuration"]
+        if (
+            ready
+            and self.config["study"]["rule"] != "ridge"
+            and not (
+                manifest.get("detectability", {}).get("admitted") is True
+                and manifest["detectability"].get("configuration")
+                == current["configuration"]
+            )
         ):
             raise reject(
                 "DETECTABILITY_REQUIRED",
@@ -201,7 +234,6 @@ def admitted_run(database: Path, run_id: str, config: dict, base: Path, decision
         (os.getpid(), psutil.Process().create_time()),
         monotonic() + config["resource_governor"]["max_wall_seconds_per_campaign"],
     )
-    context.check()
     token = _parent.set(context)
     try:
         yield
@@ -225,20 +257,8 @@ def require_parent(*, validate: bool = True) -> _Run:
 
 
 def authorize_worker(request: dict) -> tuple[dict, bytes]:
-    context = require_parent()
+    context = require_parent(validate=False)
     context.check(ready=request.get("stage") != "detectability")
-    if "config" in request and request["config"] != context.config:
-        raise reject(
-            "ADMISSION_CHANGED",
-            "Worker configuration differs from the study.",
-            "Use the admitted configuration.",
-        )
-    if "model" in request and request["model"] != context.config["study"]["rule"]:
-        raise reject(
-            "RULE_MISMATCH",
-            "Worker rule differs from the study.",
-            "Use the admitted rule.",
-        )
     if "prefix" in request and not request.get("prefix_sha256"):
         raise reject(
             "DATA_IDENTITY_REQUIRED",
@@ -259,16 +279,6 @@ def authorize_worker(request: dict) -> tuple[dict, bytes]:
         raise reject(
             "FORGED_ADMISSION",
             "A caller cannot supply a worker admission record.",
-            "Dispatch a fresh request through the checked parent entry.",
-        )
-    entry = request.get("_worker_entry")
-    if entry and Path(entry).read_text(encoding="utf-8") != Path(__file__).with_name(
-        "worker.py"
-    ).read_text(encoding="utf-8"):
-        raise reject(
-            "ENTRY_UNQUALIFIED",
-            "The requested worker differs from the qualified common entry.",
-            "Qualify the changed worker before execution.",
         )
     launch_id = uuid4().hex
     release_secret = token_bytes(32)
@@ -301,7 +311,6 @@ def admitted_worker(request: dict, read_release):
         raise reject(
             "ADMISSION_REQUIRED",
             "Worker request must be an admitted object.",
-            "Use the checked common entry.",
         )
     reference = request.get("_admission")
     if not isinstance(reference, dict) or set(reference) != {
@@ -312,7 +321,6 @@ def admitted_worker(request: dict, read_release):
         raise reject(
             "ADMISSION_REQUIRED",
             "Worker admission is missing or malformed.",
-            "Use a fresh checked parent dispatch.",
         )
     database = Path(reference["journal"]).resolve()
     clean = {k: v for k, v in request.items() if k != "_admission"}
@@ -333,7 +341,6 @@ def admitted_worker(request: dict, read_release):
                 raise reject(
                     "WORKER_ADMISSION_INVALID",
                     "Worker request is changed, unregistered or already consumed.",
-                    "Issue a new checked attempt; never replay a launch record.",
                 )
             payload = json.loads(row[2])
             context = _Run(
@@ -359,7 +366,6 @@ def admitted_worker(request: dict, read_release):
                 raise reject(
                     "WORKER_CHANNEL_INVALID",
                     "The worker has no valid one-time supervisor-channel proof.",
-                    "Use a fresh dispatch from the admitted parent.",
                 )
             cursor = db.execute(
                 "UPDATE study_launches SET consumed = 1 WHERE launch_id = ? AND consumed = 0",
@@ -369,9 +375,8 @@ def admitted_worker(request: dict, read_release):
                 raise reject(
                     "WORKER_ADMISSION_INVALID",
                     "Worker admission was already consumed.",
-                    "Issue a new checked attempt.",
                 )
-    token = _worker.set((context, request.get("stage")))
+    token = _worker.set(True)
     try:
         yield
     finally:
@@ -388,7 +393,6 @@ def require_worker() -> None:
         )
         record_stopped("common.worker", error)
         raise error
-    context[0].check(ready=context[1] != "detectability")
 
 
 def record_stopped(entry: str, error: AdmissionRejected, request=None) -> None:
@@ -434,18 +438,7 @@ def unqualified_entry(entry: str):
     def decorate(function):
         @wraps(function)
         def stopped(*args, **kwargs):
-            # Preserve declared arguments, never inspect referenced files/arrays.
-            request = json.loads(
-                json.dumps(
-                    {"args": args, "kwargs": kwargs},
-                    default=lambda value: (
-                        str(value)
-                        if isinstance(value, Path)
-                        else {"type": type(value).__name__}
-                    ),
-                )
-            )
-            block_unqualified(entry, request)
+            block_unqualified(entry)
 
         return stopped
 

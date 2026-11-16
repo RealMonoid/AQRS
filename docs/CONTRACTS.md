@@ -682,32 +682,44 @@ The shared command requires `study.question`, `rule`, `minimum_effect`,
 be nonempty; question meaning is not judged in this step. `minimum_effect` is
 an accuracy fraction above the stronger constant control, strictly between
 zero and 0.5. The rule must match all configured candidates and be
-`bar_reversal` or `volume_movement`, with synthetic inputs and one-bar horizon.
+`bar_reversal`, `volume_movement` or `ridge`, with synthetic inputs. The two bar
+rules retain their one-bar horizon. Ridge retains its existing forecast horizon.
+Optional `study.effect_variation` has exactly `decision_case` (`constant` or
+`fluctuating`), `quiet` and `volatile` (finite accuracy amplitudes from 0 to 1).
+Omission preserves the default `fluctuating`, 0.04/0.16; partial objects reject.
 
-Before submitted data access, a supervised worker generates 256 known-effect
-series at the planned cadence and fold layout and uses the same daily HAC
-scorer as the study. At least 80% must report advantage; the finite Monte Carlo
-interval is reported. Alternating seven-day quiet/volatile phases include
+For bar rules, before submitted data access, a supervised worker generates 256
+known-effect series per case at the planned cadence and fold layout and uses
+the same daily HAC scorer as the study. Reports show both cases and the chosen
+`decision_case`; only that case decides against the unchanged 80% criterion.
+Finite Monte Carlo intervals are reported. Seven-day quiet/volatile phases include
 volume control prevalence 0.50/0.60 relative to each fold's training medians
-and symmetric weekly accuracy shocks up to 0.04/0.16. The planted population
+and, in the fluctuating case, the declared symmetric weekly accuracy shocks,
+capped to keep joint probabilities feasible. The constant case has no accuracy
+shocks, but retains the market regimes. The planted population
 accuracy gap is exact in expectation; individual realizations fluctuate.
 These are explicit stress assumptions, not fitted claims about unseen data.
 The minimum effect is the planning alternative; the existing advantage decision
 still tests improvement over zero, not proof that the gap exceeds that minimum.
 
-Four doubled validation scopes may be simulated for rejected-plan guidance.
+Four doubled validation scopes in the deciding case may be simulated for guidance.
 The first sufficient tested scope is not a proven minimum and never changes
 or authorizes the requested run. Simulated calendar geometry is not access to
 protected data. Actual acquisition/run scope retains all data locks. All draws
 are sequential within the existing trial/campaign watchdog and RSS guard;
-replicate and rule-evaluation counts are recorded separately from model fits.
+At most 1,536 series are generated; replicate and rule-evaluation counts are
+recorded separately from model fits. Assumptions are fixed before outcomes.
 `plan` remains declarative and does not establish detectability admission.
 
 The journal records the check bound to the configuration. Parent dispatch,
 worker entry and ongoing checks preserve source/configuration identity, the
 one-time control-pipe proof, live issuer, finite validity and prepared-input
-byte identity. No preparation or study worker is admitted without a successful
-bound detectability result. Failure stops with an explicit reason; resource
+byte identity. Bar-rule preparation/study workers require a successful bound
+detectability result. Ridge skips this unsupported check with visible
+`NOT_APPLICABLE` and an explicit lack-of-sufficiency warning in JSON/Markdown;
+its mandatory study fields, pilot/fit budgets and other guards remain. Ridge's
+minimum effect is recorded metadata, not a qualified accuracy/power target.
+Failure stops with an explicit reason; resource
 failure is not evidence against the research hypothesis. Outcome actions are
 recorded in the report and journal, not executed as arbitrary commands.
 
@@ -719,6 +731,16 @@ The installed application and local journal remain trusted; this is not a
 sandbox against arbitrary code or database rewriting. General scientific
 question review is a later step under the revised FR-005 known-answer rule;
 no human expert or runtime LLM decision is required for this increment.
+
+Retained safeguards have real negative tests: field/request/receipt binding
+blocks missing fields, mutated cases and replay; process/channel checks block
+orphaned, copied, truncated and expired grants; input/legacy tests block missing
+or changed data and unqualified entry bodies. Removed duplicate parent/worker
+rechecks, pre-issue internal request/entry equality checks and unused legacy
+argument serialization add no supported CLI guarantee. The common parent builds
+worker requests; arbitrary Python, custom executable replacement and rewriting
+the trusted journal remain outside this boundary. Post-issue request binding,
+installed-source binding and ongoing parent monitoring remain enforced.
 
 ## G. Reporting contract
 

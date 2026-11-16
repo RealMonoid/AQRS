@@ -4,6 +4,14 @@ This file is **normative**. Add each new architectural decision as a numbered AD
 
 ### ADR-057: bounded synthetic detectability, not a general review layer
 
+**Owner correction, 2026-11-16 (FR-005-P03):** independent constant-effect plans
+exposed unnecessary rejection from treating fixed 0.04/0.16 weekly shocks as
+universal. Keep them as the default configurable `effect_variation`, report
+constant and fluctuating cases, and bind the declared deciding case prospectively.
+Restore synthetic Ridge with study fields and explicit unsupported-detectability
+notice. Remove redundant internal guards; retain concrete tested boundary checks.
+The original source/series remain historical evidence; no unseen plan was read.
+
 **Accepted for the bounded synthetic engineering scope, 2026-11-16.** Replace the
 fixed sentence contract with explicit study fields for the two existing synthetic
 bar rules. Reuse the same scorer and native supervisor for 256 conditional

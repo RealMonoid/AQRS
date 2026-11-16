@@ -75,7 +75,7 @@ def supervise(
             )
             record_stopped("common.custom_command", error, {"command": command})
             raise error
-        context = require_parent()
+        context = require_parent(validate=False)
         admitted, release_secret = authorize_worker(request)
     except (ValueError, OSError, sqlite3.Error, TypeError, KeyError) as error:
         return {

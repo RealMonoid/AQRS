@@ -1,6 +1,7 @@
 """Public engineering cases; owner blind plans remain unseen."""
 
 import json
+import sqlite3
 from pathlib import Path
 
 import numpy as np
@@ -12,7 +13,7 @@ from aqrs.admission import AdmissionRejected
 from aqrs.detectability import check, estimate, layout, simulated_series
 from aqrs.evaluation import score_bar_rule
 from aqrs.market import BAR_RULES
-from aqrs.study_admission import assess
+from aqrs.study_admission import assess, effect_variation
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -57,6 +58,68 @@ def test_missing_field_stops_before_dispatch(config, tmp_path, monkeypatch, fiel
 def test_question_is_not_a_fixed_sentence_or_an_llm_judgment(config, tmp_path):
     config["study"]["question"] = "My separate prospective synthetic question"
     assert assess(config, tmp_path)["study"]["question"] == config["study"]["question"]
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        None,
+        {},
+        {"decision_case": "unknown", "quiet": 0.04, "volatile": 0.16},
+        {"decision_case": "constant", "quiet": -1, "volatile": 0.16},
+        {"decision_case": "constant", "quiet": True, "volatile": 0.16},
+        {"decision_case": "fluctuating", "quiet": 0.04, "volatile": float("nan")},
+    ],
+)
+def test_invalid_variation_rejected_before_dispatch(
+    config, tmp_path, monkeypatch, value
+):
+    config["study"]["effect_variation"] = value
+    monkeypatch.setattr(
+        research,
+        "supervise",
+        lambda *a, **k: pytest.fail("Invalid assumption reached dispatch"),
+    )
+    summary, code = research.run(config, tmp_path, plan_only=False)
+    assert code == 2 and summary["reason_code"] == "INVALID_VARIATION"
+    with sqlite3.connect(tmp_path / config["journal"]["sqlite_path"]) as db:
+        status, recorded = db.execute(
+            "SELECT execution_status, config_json FROM campaigns"
+        ).fetchone()
+    assert status == "REJECTED_PREFLIGHT"
+    json.loads(
+        recorded,
+        parse_constant=lambda value: pytest.fail("Invalid JSON in rejection record"),
+    )
+
+
+def test_default_variation_preserves_the_previous_stress_assumption(config):
+    config["study"].pop("effect_variation", None)
+    assert effect_variation(config["study"]) == {
+        "decision_case": "fluctuating",
+        "quiet": 0.04,
+        "volatile": 0.16,
+    }
+
+
+def test_constant_case_can_decide_while_both_rates_remain_visible(config):
+    config["study"].update(rule="bar_reversal", minimum_effect=0.027)
+    config["research"]["candidates"][0]["model"] = "bar_reversal"
+    config["research"]["validation_bars"] = 5762
+    config["market"]["n_bars"] = 16206
+    config["study"]["effect_variation"]["decision_case"] = "constant"
+    result = check(config)
+    assert result["admitted"] and result["decision_case"] == "constant"
+    assert result["cases"]["constant"]["evaluation_days"] == 240
+    assert result["cases"]["constant"]["detection_rate"] >= 0.8
+    assert result["cases"]["fluctuating"]["detection_rate"] < 0.8
+    assert result["planned"] == result["cases"]["constant"]
+    assert result["simulation_series"] == 512
+
+
+def test_zero_configured_shocks_match_constant_case(config):
+    config["study"]["effect_variation"].update(quiet=0, volatile=0)
+    assert estimate(config, 1, "constant") == estimate(config, 1, "fluctuating")
 
 
 @pytest.mark.parametrize("effect", [0, -0.1, 0.5, True, "0.03", float("nan")])

@@ -1,5 +1,11 @@
 # Milestone history archive
 
+## FR-005-P02 owner blind-plan result, 2026-11-16
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| FR-005-P02 | 2026-11-16 | COMPLETED | Owner reports ten independent plans with 100 constant-effect series each: no inadequate admission; volume 6/6 correct, reversal 3/4 wrongly rejected. | Hidden plans remain unseen. Fixed weekly accuracy shocks caused conservative rejections; owner authorized bounded FR-005-P03 correction. |
+
 Lookup only: use a specific ID, question or evidence reference. These are
 historical records, not current instructions or start approvals; the
 [current status and queue](MILESTONE_STATUS.md) govern current work.

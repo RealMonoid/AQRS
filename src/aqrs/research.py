@@ -1,4 +1,5 @@
 import csv
+import json
 import os
 from contextlib import closing
 from copy import deepcopy
@@ -197,12 +198,16 @@ def reject_data_request(config, database: Path, run_id: str, denial: AdmissionRe
         "started_workers": 0,
         "started_fits": 0,
     }
+    # Preserve invalid numeric tokens in rejected requests without emitting invalid JSON.
+    recorded_config = json.loads(
+        json.dumps(config), parse_constant=lambda value: f"INVALID_NUMBER:{value}"
+    )
     with closing(journal.connect(database)) as db:
         journal.begin(
             db,
             run_id,
-            fingerprint(config),
-            config,
+            fingerprint(recorded_config),
+            recorded_config,
             manifest,
             rejection={"reason_code": denial.code, "stop_reason": str(denial)},
         )
@@ -283,7 +288,14 @@ def execute(
     limits = config["resource_governor"]
     deadline = started + limits["max_wall_seconds_per_campaign"]
     prepared = None
-    if plan["preflight_status"] == "ADMITTED":
+    ridge = config["study"]["rule"] == "ridge"
+    if ridge:
+        report["detectability"] = {
+            "status": "NOT_APPLICABLE",
+            "rule": "ridge",
+            "reason": "Detectability is not evaluated for Ridge. Study fields and execution guards apply; scientific sufficiency is not established.",
+        }
+    if plan["preflight_status"] == "ADMITTED" and not ridge:
         detection = supervise(
             output,
             {"stage": "detectability", "config": config},
@@ -698,6 +710,10 @@ def run_candidate(
             metadata["next_action"] = trial["next_action"] = report["configuration"][
                 "study"
             ][action]
+        else:
+            metadata["next_action"] = trial["next_action"] = report["configuration"][
+                "study"
+            ]["on_inconclusive"]
     if rule:
         trial["workflow_question"] = metadata["workflow_question"]
         learning = (
@@ -751,7 +767,11 @@ def write_reports(output: Path, report: dict) -> None:
         )
     if plan["stop_reason"]:
         lines.append(f"- Stop reason: {plan['stop_reason']}")
-    if detection := report.get("detectability"):
+    if (detection := report.get("detectability")) and detection.get(
+        "status"
+    ) == "NOT_APPLICABLE":
+        lines += ["", "## Synthetic detectability", "", detection["reason"]]
+    elif detection:
         planned = detection["planned"]
         lines += [
             "",
@@ -762,6 +782,13 @@ def write_reports(output: Path, report: dict) -> None:
             detection["guidance"],
             detection["limitations"],
         ]
+        lines.append(
+            f"Decision case: {detection['decision_case']}; effect_variation: {detection['effect_variation']}."
+        )
+        for case, result in detection["cases"].items():
+            lines.append(
+                f"{case}: {result['detections']}/{result['series']} detected ({result['detection_rate']:.1%})."
+            )
         if scope := detection["first_sufficient_tested_scope"]:
             lines.append(
                 f"First sufficient tested scope: {scope['evaluation_days']:.2f} evaluation days, {scope['required_total_bars']} total bars at the declared cadence."

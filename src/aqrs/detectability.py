@@ -9,6 +9,7 @@ from aqrs.admission import SYNTHETIC_START, utc_timestamp
 from aqrs.evaluation import score_bar_rule
 from aqrs.market import BAR_RULES, Bars, build_folds
 from aqrs.storage import fingerprint
+from aqrs.study_admission import effect_variation
 
 REPETITIONS = 256
 MIN_DETECTION = 0.80
@@ -30,7 +31,7 @@ def layout(config):
     ]
 
 
-def simulated_series(config, folds, rng):
+def simulated_series(config, folds, rng, case=None):
     """Plant a population accuracy gap; individual realizations remain random.
 
     Volume labels and predictions both drift relative to fold training medians.
@@ -38,6 +39,8 @@ def simulated_series(config, folds, rng):
     Their declared amplitudes are stress assumptions, not estimates from a CSV.
     """
     market, study = config["market"], config["study"]
+    variation = effect_variation(study)
+    case = case or variation["decision_case"]
     n = folds[-1][3] + 1
     # Preserve calendar geometry for simulated scope guidance. This does not
     # authorize acquisition/access at the prospective dates; run admission does.
@@ -62,7 +65,10 @@ def simulated_series(config, folds, rng):
         )
     # Symmetric, persistent random effects preserve the planted expected gap.
     amplitude = np.minimum(
-        np.where(turbulent, 0.16, 0.04), min(accuracy - 0.2, 1 - accuracy) * 0.99
+        np.where(turbulent, variation["volatile"], variation["quiet"])
+        if case == "fluctuating"
+        else 0.0,
+        min(accuracy - 0.2, 1 - accuracy) * 0.99,
     )
     shocks = rng.choice([-1.0, 1.0], int(week.max()) + 1)
     probability = accuracy + amplitude * shocks[week]
@@ -117,14 +123,16 @@ def binomial_interval(successes, count):
     return [max(0.0, center - radius), min(1.0, center + radius)]
 
 
-def estimate(config, multiplier):
+def estimate(config, multiplier, case=None):
     folds = layout(config)
     rng = np.random.default_rng(np.random.SeedSequence([SIMULATION_SEED, multiplier]))
     rule = BAR_RULES[config["study"]["rule"]]
     detections = 0
     accuracies, controls = [], []
     for _ in range(REPETITIONS):
-        bars, expected_control, expected_accuracy = simulated_series(config, folds, rng)
+        bars, expected_control, expected_accuracy = simulated_series(
+            config, folds, rng, case
+        )
         scores = score_bar_rule(bars, folds, rule)[rule.result_key]
         detections += scores["decision"] == f"{rule.decision_stem}_ADVANTAGE"
         accuracies.append(scores["accuracy"])
@@ -152,6 +160,9 @@ def estimate(config, multiplier):
 
 def check(config):
     """Run only in a resource-contained worker; never inspect submitted outcomes."""
+    variation = effect_variation(config["study"])
+    decision_case = variation["decision_case"]
+    cases = {case: estimate(config, 1, case) for case in ("constant", "fluctuating")}
     assessments = []
     for multiplier in (1, 2, 4, 8, 16):
         prospective = deepcopy(config)
@@ -168,7 +179,11 @@ def check(config):
                 )
                 + 1
             )
-        result = estimate(prospective, multiplier)
+        result = (
+            cases[decision_case]
+            if multiplier == 1
+            else estimate(prospective, multiplier)
+        )
         assessments.append(result)
         if result["detection_rate"] >= MIN_DETECTION:
             break
@@ -177,6 +192,9 @@ def check(config):
     return {
         "configuration": fingerprint(config),
         "admitted": admitted,
+        "decision_case": decision_case,
+        "effect_variation": variation,
+        "cases": cases,
         "threshold": MIN_DETECTION,
         "minimum_effect": config["study"]["minimum_effect"],
         "effect_units": "accuracy fraction above the stronger constant control",
@@ -195,11 +213,11 @@ def check(config):
             if sufficient
             else "No sufficient scope found through the largest assessed scope; the necessary extent remains unresolved."
         ),
-        "simulation_series": len(assessments) * REPETITIONS,
-        "simulation_rule_evaluations": len(assessments)
+        "simulation_series": (len(assessments) + 1) * REPETITIONS,
+        "simulation_rule_evaluations": (len(assessments) + 1)
         * REPETITIONS
         * config["research"]["walk_forward_folds"],
         "model_fits": 0,
-        "assumptions": "Alternating seven-day quiet/volatile phases; volume label/control prevalence 0.50/0.60 relative to fold training medians; symmetric weekly accuracy shocks of up to 0.04/0.16. No submitted outcomes are used. Population gap is exact in expectation, not forced in each realization.",
+        "assumptions": "Both cases retain alternating seven-day quiet/volatile market phases and volume control prevalence 0.50/0.60. The constant case has no weekly accuracy shocks; the fluctuating case uses the declared quiet/volatile amplitudes, capped to keep joint probabilities feasible. No submitted outcomes are used. Population gap is exact in expectation, not forced in each realization.",
         "limitations": "Conditional on this synthetic process; no judgment of question meaning, universal power guarantee or market admission.",
     }

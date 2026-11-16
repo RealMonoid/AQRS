@@ -2,6 +2,12 @@
 
 ## FTA-FR-005: study admission
 
+**FR-005-P03, 2026-11-16:** a fixed stress model can reject a useful constant-effect
+plan; an unbound case switch can admit the wrong study. Report both cases and
+bind explicit assumptions/decision case to the existing request receipt. Ridge
+skips only unsupported detectability, never study fields or execution guards.
+Keep adversarial worker/data/legacy tests while removing duplicate checks.
+
 **FR-005-P01, 2026-11-16:** false power admission can follow iid-only simulation,
 an absolute accuracy mistaken for a control-relative gap, a different simulated
 scorer, or finite-simulation error. Use the same daily HAC decision, known-effect

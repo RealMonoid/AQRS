@@ -22,14 +22,21 @@ remain the next independent check.
 **Repository language: English. Local target: native Windows. Required secondary target: headless Linux. Future deployments: cloud-provider neutral, CPU-first.** See [`docs/PLATFORM_COMPATIBILITY.md`](docs/PLATFORM_COMPATIBILITY.md).
 
 **FR-005 start gate:** the common command accepts structured synthetic study
-requests for `bar_reversal` and `volume_movement`. See the six required `study`
+requests for `bar_reversal`, `volume_movement` and `ridge`. See the six required `study`
 fields in `configs/research.yaml`: a question, matching rule, minimum accuracy
 advantage over the stronger control, and actions for all three outcomes.
-Before reading submitted data, `research run` checks 256 synthetic series with
-quiet/volatile phases using the actual study scorer; at least 80% must detect
-the minimum effect. A rejection reports the observed rate and prospective
+For either bar rule, `study.effect_variation` names the deciding case
+(`constant` or `fluctuating`) and weekly `quiet`/`volatile` accuracy-shock
+amplitudes. Its default remains `fluctuating`, 0.04/0.16. Before submitted data
+access, the command reports 256-series detectability for each case, using the
+actual scorer; at least 80% in the declared deciding case must detect the
+minimum effect. Both cases retain quiet/volatile market phases. A rejection reports prospective
 extent guidance. It never silently extends the requested study. `research plan`
 remains declarative. See the [contract](docs/CONTRACTS.md#f4-fr-005-study-admission).
+
+Ridge uses the same required study fields and execution guards. Its report says
+`NOT_APPLICABLE`: detectability is not evaluated for Ridge. Its existing metrics
+remain descriptive, and the declared inconclusive action is reported.
 
 The simulation runs under existing resource limits and evaluates detectability
 conditional on its stated assumptions. It does not judge the meaning of the

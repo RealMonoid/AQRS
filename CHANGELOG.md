@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-11-16 - Expose effect assumptions and restore synthetic Ridge
+
+Respond to the independent blind-plan result: report constant and configurable
+fluctuating detectability, bind the chosen case, restore Ridge with a visible
+unsupported-check notice, and remove duplicate admission checks and unused
+legacy argument capture. Preserve tested execution boundaries and existing limits.
+Update existing canonical records only; no new documentation file is introduced.
+
+- `CHANGELOG.md`
+- `README.md`
+- `configs/research.yaml`
+- `docs/CONTRACTS.md`
+- `docs/DECISIONS.md`
+- `docs/MILESTONE_ARCHIVE.md`
+- `docs/MILESTONE_STATUS.md`
+- `docs/RISK_REGISTER.md`
+- `src/aqrs/detectability.py`
+- `src/aqrs/governor.py`
+- `src/aqrs/research.py`
+- `src/aqrs/study_admission.py`
+- `tests/test_cli.py`
+- `tests/test_detectability.py`
+- `tests/test_study_admission.py`
+
 ## 2026-11-16 - Check conditional detectability before synthetic studies
 
 Replace the fixed sentence with required study fields for the two bar rules.

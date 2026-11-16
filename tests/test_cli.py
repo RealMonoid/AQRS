@@ -91,6 +91,65 @@ def config_at(tmp_path, **limits):
     return path
 
 
+@pytest.mark.parametrize(
+    "missing_field",
+    [
+        None,
+        "question",
+        "rule",
+        "minimum_effect",
+        "on_advantage",
+        "on_no_advantage",
+        "on_inconclusive",
+    ],
+)
+def test_ridge_cli_restores_real_work_and_requires_study_fields(
+    tmp_path, missing_field
+):
+    path = config_at(tmp_path)
+    config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    config["study"]["rule"] = "ridge"
+    config["market"]["bar_minutes"] = 5
+    config["research"].update(
+        horizon_bars=3,
+        candidates=[
+            {"id": "C_LAG", "model": "ridge", "features": ["past_return"]},
+            {
+                "id": "C_VOLUME",
+                "model": "ridge",
+                "features": ["past_return", "relative_volume"],
+            },
+        ],
+    )
+    config["costs"] = dict.fromkeys(
+        config["costs"], 0
+    )  # Public execution fixture, not economic evidence.
+    if missing_field:
+        del config["study"][missing_field]
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    outcome = cli("run", path)
+    summary = json.loads(outcome.stdout)
+    if missing_field:
+        assert outcome.returncode == 2, outcome.stdout or outcome.stderr
+        assert summary["started_workers"] == summary["started_fits"] == 0
+        return
+    assert outcome.returncode == 0, outcome.stdout or outcome.stderr
+    output = Path(summary["output_dir"])
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    assert report["detectability"]["status"] == "NOT_APPLICABLE"
+    assert "detectability_execution" not in report
+    assert report["plan"]["completed_fits"] == report["plan"]["planned_fits"] == 5
+    assert report["plan"]["started_trials"] == 2
+    assert all("prediction" in trial["metrics"] for trial in report["trials"])
+    assert all(
+        trial["next_action"] == config["study"]["on_inconclusive"]
+        for trial in report["trials"]
+    )
+    assert "Detectability is not evaluated for Ridge" in (
+        output / "report.md"
+    ).read_text(encoding="utf-8")
+
+
 def cli(action, path, *, project=None):
     source = (project or path.parent / "test application") / "src"
     entry = (

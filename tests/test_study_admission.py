@@ -116,6 +116,16 @@ def test_plan_has_no_timing_worker(study_config, tmp_path, monkeypatch):
     assert result["started_fits"] == result["started_trials"] == 0
 
 
+def test_changing_selected_case_revokes_existing_admission(
+    admitted_context, study_config, tmp_path
+):
+    from aqrs.governor import supervise
+
+    study_config["study"]["effect_variation"]["decision_case"] = "constant"
+    outcome = supervise(tmp_path, {"stage": "prepare"}, 8, time.monotonic() + 10, 512)
+    assert not outcome["started"] and outcome["reason_code"] == "ADMISSION_CHANGED"
+
+
 def test_direct_paths_and_unapproved_supervisor_stop(tmp_path, monkeypatch):
     from aqrs import governor, worker
     from aqrs.admission import AdmissionRejected

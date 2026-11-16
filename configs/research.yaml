@@ -3,6 +3,10 @@ study:
   question: Does next-bar reversal outperform both constant directions on this synthetic plan?
   rule: bar_reversal
   minimum_effect: 0.20  # Accuracy fraction above the stronger constant control.
+  effect_variation:
+    decision_case: fluctuating  # constant | fluctuating; both rates are reported.
+    quiet: 0.04  # Symmetric weekly accuracy-shock amplitude, in accuracy fractions.
+    volatile: 0.16
   on_advantage: Retain the synthetic predictive result for the next registered question.
   on_no_advantage: Stop this hypothesis under the declared plan.
   on_inconclusive: Park the question and record the unresolved uncertainty.
