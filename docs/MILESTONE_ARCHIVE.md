@@ -1,5 +1,100 @@
 # Milestone history archive
 
+## FR-005-P03: explicit assumptions and Ridge restoration
+
+- **Baseline/external evidence:** owner-reported blind evaluation of `706c9fa`,
+  ten plans and 100 constant-effect series per plan: no inadequate admission;
+  volume 6/6 decisions correct, reversal 3/4 wrongly rejected despite 100/100
+  detections (60 days/0.075, 240 days/0.027, 960 days/0.018). Old simulation
+  predictions were 54%, 36%, 46%. Hidden plans/series were not supplied here.
+- **Hypothesis/minimum proof:** explicit choice of constant or fluctuating
+  accuracy can retain the old stress case without forcing it on every study.
+  Report both rates and bind the selected case before any submitted outcomes.
+  Restore two-candidate Ridge execution with mandatory study fields and an
+  explicit NOT_APPLICABLE detectability report; retain market/legacy stops.
+- **Predetermined criteria:** existing 80%/256 criterion unchanged. Default
+  fluctuating amplitudes remain 0.04/0.16; chosen constant case must pass the
+  public 240-scored-day, 0.027 reversal example while both rates remain visible.
+  Invalid assumptions and fields reject before work. Ridge must produce actual
+  metrics with normal pilot/fit limits, not a fabricated detectability pass.
+  Existing real admission/worker/data/legacy negative tests must still pass.
+- **Risk/cleanup:** false admission through an unbound scenario or Ridge bypass;
+  see FTA-FR-005. Keep tested request/replay/process/input/legacy controls;
+  remove repeated checks and unsupported-interface checks, not their observed
+  safety outcomes. No removal is justified solely by line-count targets.
+- **Resources/timebox:** started 2026-11-16 01:09:58 UTC; hard two-hour cap.
+  Sequential 512 planned-scope series, at most 1,536 including four guidance
+  scopes; no predictive model fits in simulation. Existing 120s trial/300s
+  campaign/4096 MiB observed-RSS limits remain. Ridge uses its prior fit budget.
+  Expected simulation overhead is up to 2x for admitted plans, 1.2x worst-case
+  guidance; actual timeout/resource cases and Windows/non-root Linux verify it.
+- **Verification/decision:** targeted tests, public CLI example, full native and
+  hosted matrix, isolated fixed-diff review; stop affected execution on failures.
+  No new literature, market data, runtime LLM judgment or general review layer.
+
+### FR-005-P03 measurements
+
+- `effect_variation` binds the deciding case and configurable 0.04/0.16 defaults;
+  both case rates remain visible. Ridge runs its real pilot/candidates with the
+  six mandatory fields and a visible unsupported-detectability notice.
+- Public reversal example at `26f826b`: 30-minute bars, 30 training days,
+  two folds, **240 scored days**, minimum advantage **0.027**. Constant:
+  **254/256 (99.21875%)**; fluctuating: **78/256 (30.46875%)**. Choosing constant
+  starts the study (exit 0); choosing fluctuating rejects before preparation
+  (exit 2). Both reports show identical paired rates and the deciding case.
+  Under the fluctuating assumption, the first sufficient tested scope was
+  960.25 days (208/256), not a universal minimum or an authorized extension.
+- Both planned cases took 2.453 worker seconds and 118.46 MiB peak RSS;
+  fluctuating-case guidance took 5.25 seconds and 126.19 MiB. Ridge completed
+  two trials/five fits including its pilot in 6.093 campaign seconds, exit 0.
+  Local configs, JSON/Markdown reports and logs: `artifacts/fr-005-p03/`.
+- `python -m pytest -q --tb=short`: **491 passed in 404.72s**, native Windows,
+  exit 0. Prototype [CI 43786223114](https://github.com/RealMonoid/AQRS/actions/runs/43786223114)
+  passed all four Windows/non-root Ubuntu 24.04 x Python 3.11/3.12 jobs,
+  491 tests each, real CLI plan/run, evidence checks, Ruff and language checks.
+- Fixed-diff independent review found no P1/P2 issue and one P3: oversized
+  integer assumptions raised OverflowError. New regression: 2 failed/14 passed
+  before correction. Removing redundant float conversion fixed it; reviewer
+  rechecked 26 invalid and eight valid inputs without a remaining finding.
+  Final focused command: `python -m pytest tests/test_detectability.py
+  tests/test_study_admission.py
+  tests/test_cli.py::test_ridge_cli_restores_real_work_and_requires_study_fields
+  -q --tb=short`: **100 passed in 67.87s**, exit 0, revision `0e67db5`.
+- Earlier new negative tests exposed invalid NaN journal serialization (1 failed,
+  95 passed), then the missing `json` import in that correction (15 failed,
+  47 passed). Both were corrected before the accepted prototype/100-test run;
+  invalid assumptions now persist a rejection before any worker dispatch.
+- Cleanup in `study_admission.py`: **53 added / 62 removed, net nine fewer
+  lines**. Retained request/replay, process/channel and input/legacy guards
+  have negative tests; removed repeated checks, unused legacy argument capture
+  and internal pre-issue equality checks add no supported CLI guarantee.
+- Correction [CI 43787016286](https://github.com/RealMonoid/AQRS/actions/runs/43787016286)
+  at `0e67db5` passed all four environments, **495 tests each**, including real
+  CLI plan/run, non-root Linux, evidence checks, Ruff and language checks.
+  No hidden owner plans, scientific question-meaning judgment, market data or
+  Ridge detectability qualification were performed. The previous isolated
+  Windows cancellation's cause remains unknown; this change makes no causal claim.
+
+- **Decision:** PERSEVERE / SUPPORTED for this bounded synthetic correction.
+  Scientific question meaning, actual-market power and Ridge detectability are
+  not established. The 80% criterion and execution limits are unchanged.
+- **Documentation:** `git diff --check`, `python -m ruff check .`,
+  `python scripts/check_language_policy.py` and its `--self-test` pass, exit 0;
+  all 15 changed paths are listed in `CHANGELOG.md`. No new tracked files.
+- **Time:** 2026-11-16; 32m 00s measured from 01:09:58 through final source
+  CI at 01:41:58 UTC, including implementation, review and verification.
+  Routine documentation/publication closeout follows within the two-hour cap.
+- **Next dispatch:** FR-005-P04 waits for independent unknown-plan results;
+  no substitute development fixture is labeled independent evidence. General
+  question review needs its own authorized scope and known-answer qualification.
+  No additional development or market research is dispatched by this correction.
+
+Closed queue record:
+
+| ID | Added | Status | Decision and minimum test | Start condition / origin |
+|---|---|---|---|---|
+| FR-005-P03 | 2026-11-16 | COMPLETED | Explicit effect-variation assumptions, both scenario results, Ridge restoration and evidence-led admission cleanup. | Owner's two-hour correction order; synthetic engineering only, no new documentation files. |
+
 ## FR-005-P02 owner blind-plan result, 2026-11-16
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |

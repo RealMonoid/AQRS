@@ -75,11 +75,12 @@ synthetic reversal trial ahead of central counting and general data locks.
 The [selection contract](CONTRACTS.md#f3-structured-next-question-selection-format-only)
 is retained for later use. New market studies remain stopped. Public engineering
 checks are authorized. FR-005-P01 implemented pre-run conditional detectability;
-FR-005-P02 supplied independent results; FR-005-P03 addresses its bounded corrections.
+FR-005-P02 supplied independent results; FR-005-P03 implemented its bounded corrections.
+FR-005-P04 awaits new independent results; no further executable item is authorized here.
 
 | ID | Added | Status | Decision and minimum test | Start condition / origin |
 |---|---|---|---|---|
-| FR-005-P03 | 2026-11-16 | ACTIVE | Explicit effect-variation assumptions, both scenario results, Ridge restoration and evidence-led admission cleanup. | Owner's two-hour correction order; synthetic engineering only, no new documentation files. |
+| FR-005-P04 | 2026-11-16 | WAITING | Independent unknown plans compare both declared effect assumptions, admission decisions and Ridge reporting. | Owner-supplied independent results; no hidden answer access, new market run or substitute self-certification. |
 | AQRS-W01-P04 | 2026-11-14 | DEFERRED | Bounded selector and independent comparison. | Revisit when multiple admissible procedure questions compete for the same budget. |
 | M2-E21 | 2026-11-12 | WAITING | [Scout pilot](MILESTONE_ARCHIVE.md#m2-e21-scout-pilot-feature-preflight): test whether one agent can derive an executable event from development data and refrain from claiming a signal in a null case. | ADR-053 covers design and queue placement. The [entry review](MILESTONE_ARCHIVE.md#scout-preparation-and-remaining-start-conditions) identifies the reuse boundary. Confirm implementation and execution scope, obtain an independent synthetic benchmark and scoring commitment, and verify the isolated handoff and runtime bounds. |
 | M2-E20 | 2026-11-12 | DEFERRED | [P06](MILESTONE_ARCHIVE.md#m2-e20-p06-learning-card-local-expansion-deferred) completed: no observed-SD sensitivity cell fits local capacity. Keep the fixed local outcome expansion deferred; independent information remains unknown. | Revisit when authorized candidate evidence supplies a named mechanism or independently supported change in dispersion/dependence/yield that makes a bounded comparison decision-changing. No larger data request or unchanged retest follows automatically. |
@@ -90,37 +91,7 @@ FR-005-P02 supplied independent results; FR-005-P03 addresses its bounded correc
 
 <a id="fr-005-p01-detectability-before-a-synthetic-study"></a>[FR-005-P01: detectability before a synthetic study](MILESTONE_ARCHIVE.md#fr-005-p01-detectability-before-a-synthetic-study) - implemented; 474 tests passed locally and in each Windows/Linux CI environment. Unseen plans and semantic scientific review remain open.
 
-## FR-005-P03: explicit assumptions and Ridge restoration
-
-- **Baseline/external evidence:** owner-reported blind evaluation of `706c9fa`,
-  ten plans and 100 constant-effect series per plan: no inadequate admission;
-  volume 6/6 decisions correct, reversal 3/4 wrongly rejected despite 100/100
-  detections (60 days/0.075, 240 days/0.027, 960 days/0.018). Old simulation
-  predictions were 54%, 36%, 46%. Hidden plans/series were not supplied here.
-- **Hypothesis/minimum proof:** explicit choice of constant or fluctuating
-  accuracy can retain the old stress case without forcing it on every study.
-  Report both rates and bind the selected case before any submitted outcomes.
-  Restore two-candidate Ridge execution with mandatory study fields and an
-  explicit NOT_APPLICABLE detectability report; retain market/legacy stops.
-- **Predetermined criteria:** existing 80%/256 criterion unchanged. Default
-  fluctuating amplitudes remain 0.04/0.16; chosen constant case must pass the
-  public 240-scored-day, 0.027 reversal example while both rates remain visible.
-  Invalid assumptions and fields reject before work. Ridge must produce actual
-  metrics with normal pilot/fit limits, not a fabricated detectability pass.
-  Existing real admission/worker/data/legacy negative tests must still pass.
-- **Risk/cleanup:** false admission through an unbound scenario or Ridge bypass;
-  see FTA-FR-005. Keep tested request/replay/process/input/legacy controls;
-  remove repeated checks and unsupported-interface checks, not their observed
-  safety outcomes. No removal is justified solely by line-count targets.
-- **Resources/timebox:** started 2026-11-16 01:09:58 UTC; hard two-hour cap.
-  Sequential 512 planned-scope series, at most 1,536 including four guidance
-  scopes; no predictive model fits in simulation. Existing 120s trial/300s
-  campaign/4096 MiB observed-RSS limits remain. Ridge uses its prior fit budget.
-  Expected simulation overhead is up to 2x for admitted plans, 1.2x worst-case
-  guidance; actual timeout/resource cases and Windows/non-root Linux verify it.
-- **Verification/decision:** targeted tests, public CLI example, full native and
-  hosted matrix, isolated fixed-diff review; stop affected execution on failures.
-  No new literature, market data, runtime LLM judgment or general review layer.
+<a id="fr-005-p03-explicit-assumptions-and-ridge-restoration"></a>[FR-005-P03: explicit assumptions and Ridge restoration](MILESTONE_ARCHIVE.md#fr-005-p03-explicit-assumptions-and-ridge-restoration) - implemented; 495 tests in each final Windows/Linux CI environment. Conditional assumptions and Ridge limitations remain explicit.
 
 ## Research and backtesting learning
 
