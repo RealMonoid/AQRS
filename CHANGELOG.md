@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-17 - Use plain language first in owner updates
+
+State the topic and status in plain language before the recorded ID in owner
+messages, decision reminders, and suggested chat titles.
+
+- `AGENTS.md`
+- `CHANGELOG.md`
+
 ## 2026-11-16 - Expose effect assumptions and restore synthetic Ridge
 
 Respond to the independent blind-plan result: report constant and configurable
